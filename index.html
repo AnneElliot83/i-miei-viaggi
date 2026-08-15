@@ -135,6 +135,20 @@
     transform:translateY(-1px);
     border-color:#d8d2c5;
   }
+  .card.not-ready{
+    cursor:default;
+    opacity:0.55;
+  }
+  .card.not-ready:hover{
+    transform:none;
+    border-color:var(--line);
+  }
+  .card .soon{
+    font-size:0.68rem;
+    font-style:italic;
+    color:var(--text-soft);
+    margin-top:3px;
+  }
   .card .eyebrow{
     font-size:0.7rem;
     text-transform:uppercase;
@@ -205,7 +219,7 @@ const data = [
       {name:"Arte e Architettura", greek:"", eyebrow:"Arte"},
       {name:"Meteora", greek:"", eyebrow:"Guida città"},
       {name:"Delfi", greek:"Δελφοί", eyebrow:"Guida città"},
-      {name:"Atene", greek:"Ἀθῆναι", eyebrow:"Guida città"},
+      {name:"Atene", greek:"Ἀθῆναι", eyebrow:"Guida città", file:"atene.html"},
       {name:"Corinto", greek:"Κόρινθος", eyebrow:"Guida città"},
       {name:"Micene", greek:"Μυκῆναι", eyebrow:"Guida città"},
       {name:"Tirinto", greek:"Τίρυνς", eyebrow:"Guida città"},
@@ -265,12 +279,16 @@ function buildCards(items){
   cardsWrap.className = 'cards';
   items.forEach(it => {
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'card' + (it.file ? '' : ' not-ready');
     card.innerHTML = `
       <div class="eyebrow">${it.eyebrow}</div>
       <div class="name">${it.name}</div>
       ${it.greek ? `<div class="greek">${it.greek}</div>` : ''}
+      ${it.file ? '' : '<div class="soon">contenuto in arrivo</div>'}
     `;
+    if (it.file){
+      card.addEventListener('click', () => { window.location.href = it.file; });
+    }
     cardsWrap.appendChild(card);
   });
   return cardsWrap;
