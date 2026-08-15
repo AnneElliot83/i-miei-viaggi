@@ -225,7 +225,7 @@ const data = [
     subsections: [
       {
         name: "Scozia",
-        flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+        flag: "svg:scozia",
         items: [
           {name:"Itinerario", greek:"", eyebrow:"Panoramica"},
           {name:"Edimburgo", greek:"", eyebrow:"Guida città"},
@@ -312,7 +312,10 @@ function render(filter=""){
         subDiv.className = 'subsection';
         const subTitle = document.createElement('div');
         subTitle.className = 'subsection-title';
-        subTitle.innerHTML = `${sub.flag ? `<span class="flag-small">${sub.flag}</span>` : ''}${sub.name}`;
+        const flagHtml = sub.flag === 'svg:scozia'
+          ? `<svg width="18" height="14" viewBox="0 0 18 14" style="flex-shrink:0;"><rect width="18" height="14" fill="#0065bf"/><path d="M0,0 L18,14 M18,0 L0,14" stroke="white" stroke-width="2.4"/></svg>`
+          : (sub.flag ? `<span class="flag-small">${sub.flag}</span>` : '');
+        subTitle.innerHTML = `${flagHtml}${sub.name}`;
         subDiv.appendChild(subTitle);
         subDiv.appendChild(buildCards(matching));
         section.appendChild(subDiv);
