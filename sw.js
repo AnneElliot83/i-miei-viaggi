@@ -1,6 +1,6 @@
 // Service worker: salva una copia del sito sul telefono
 // così si apre anche senza connessione internet.
-const CACHE_NAME = "i-miei-viaggi-v1";
+const CACHE_NAME = "i-miei-viaggi-v2";
 const FILES_TO_CACHE = [
   "./index.html",
   "./manifest.json",
@@ -26,20 +26,16 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// Prova sempre prima la versione online (così vedi subito gli aggiornamenti).
+// Usa la copia salvata SOLO se non c'è connessione.
 self.addEventListener("fetch", (event) => {
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return (
-        cached ||
-        fetch(event.request)
-          .then((response) => {
-            // salva anche le pagine nuove visitate (es. le guide città future)
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-            return response;
-          })
-          .catch(() => cached)
-      );
-    })
+    fetch(event.request)
+      .then((response) => {
+        const clone = response.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(event.request))
   );
 });
