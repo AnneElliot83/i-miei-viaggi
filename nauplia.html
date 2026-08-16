@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nauplia — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Nauplia</h1>
+  <div class="greek-title">Ναύπλιον</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Nauplia — o Nafplio nel greco moderno — è un caso ben diverso dalle tappe precedenti: non è un sito archeologico da leggere in chiave antica, ma una città viva, dal fascino profondamente veneziano e ottomano, che ha avuto un ruolo cruciale nella storia più recente della Grecia.</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Fu la <strong>prima capitale della Grecia indipendente</strong>: dal 1823 sede del governo rivoluzionario provvisorio, e ufficialmente capitale dal 1827/1829 al 1834, quando il titolo passò ad Atene.</li>
+  <li>Qui <strong>Ioannis Capodistria</strong>, primo governatore della Grecia moderna, si insediò e gettò le basi dello stato greco — e qui fu <strong>assassinato nel 1831</strong> davanti alla chiesa di Agios Spyridonas.</li>
+  <li>Nel 1833 vi giunse il primo re di Grecia, <strong>Ottone di Baviera</strong>, che vi risiedette fino al trasferimento della capitale ad Atene.</li>
+  <li>Conserva tre livelli di fortificazione sovrapposti: l'<strong>Acronauplia</strong> (bizantina, poi franca, veneziana e ottomana), il <strong>Bourtzi</strong> (fortezza-isolotto nel porto) e l'imponente <strong>Palamidi</strong>, costruito dai Veneziani nel primo Settecento.</li>
+  <li>Il centro storico è oggi uno dei meglio conservati di tutta la Grecia continentale.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> una città portuale fortificata su tre livelli, con un centro storico compatto e pedonale, che racconta la storia più recente e ancora "calda" della nazione greca.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Nauplio.</strong> Nauplia deve il proprio nome e la propria fondazione mitica a <strong>Nauplio</strong>, figlio di Poseidone e della ninfa Amimone, celebre navigatore che secondo la tradizione fondò la città e insegnò ai Greci l'arte di orientarsi con le stelle.</p>
+<p><strong>Palamede.</strong> Suo figlio fu <strong>Palamede</strong>, uno degli eroi della guerra di Troia — inventore, secondo il mito, di numeri, lettere dell'alfabeto, dadi e persino del gioco degli scacchi — che fu ingiustamente accusato di tradimento da Ulisse (geloso della sua intelligenza) e lapidato dai Greci sotto Troia. Per vendicare il figlio, Nauplio, al ritorno della flotta greca, accese falsi fuochi sugli scogli di Capo Cafareo per farla naufragare — un mito di vendetta che i marinai greci raccontavano ancora secoli dopo come monito contro le false luci costiere.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="fortezza di palamidi" data-greek="φρούριο παλαμηδίου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Fortezza di Palamidi<span class="site-greek">Φρούριο Παλαμηδίου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Palamidi è la più imponente fortificazione di Nauplia, costruita dai <strong>Veneziani tra il 1711 e il 1714</strong>, come baluardo difensivo contro un possibile ritorno ottomano. Nonostante lo sforzo, cadde comunque in mano turca già nel <strong>1715</strong>. Durante l'occupazione ottomana (1715-1822) fu ampliata con due bastioni aggiuntivi.</p>
+      <p>Il 29-30 novembre 1822, un gruppo di circa 350 ribelli greci guidati da <strong>Staikos Staikopoulos</strong> conquistò la fortezza con un attacco a sorpresa, liberando Nauplia. Tra il 1840 e il 1920 funzionò anche come prigione di stato: qui fu rinchiuso, tra il 1833 e il 1834, <strong>Teodoro Kolokotronis</strong>, eroe della guerra d'indipendenza, accusato ingiustamente di alto tradimento.</p></div><div class="tab-panel"><p>La fortezza è composta da <strong>otto bastioni indipendenti</strong>, collegati da un'unica cinta ma difendibili separatamente. I Veneziani li battezzarono con nomi di eroi dell'antica Grecia (Achille, Milziade, Temistocle, Leonida). Il bastione centrale, in stile barocco, ospita la cappella di <strong>Agios Andreas</strong>.</p>
+      <p>Si accede tramite un'imponente scalinata scavata nella roccia — la tradizione parla di 999 gradini, il conteggio reale si aggira attorno agli 857.</p></div><div class="tab-panel"><p>Il nome "Palamidi" richiama <strong>Palamede</strong>, il figlio di Nauplio — un legame etimologico e simbolico che conferma quanto il mito del fondatore e di suo figlio siano rimasti intrecciati all'identità della città.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="acronauplia" data-greek="ακροναυπλία">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Acronauplia<span class="site-greek">Ακροναυπλία</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La fortificazione più antica di Nauplia, sulla penisola rocciosa accanto al porto. Le prime fortificazioni risalgono all'epoca <strong>bizantina</strong>, rafforzate poi da Franchi (XIII secolo), Veneziani in due fasi, e Ottomani. Con la costruzione di Palamidi perse progressivamente importanza strategica.</p></div><div class="tab-panel"><p>Si presenta come un complesso di <strong>tre castelli distinti</strong>, costruiti in epoche diverse man mano che ciascuna potenza ampliava le difese esistenti — dalla muratura bizantina, alle torri franche quadrate, ai bastioni veneziani adattati all'artiglieria. Dalla sommità si gode una vista diretta sul Bourtzi.</p></div><div class="tab-panel"><p>Non ci sono miti specificamente legati ad Acronauplia, ma la sua posizione all'imboccatura del porto richiama la vocazione marinara della città raccontata dal mito di <strong>Nauplio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bourtzi" data-greek="μπούρτζι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bourtzi<span class="site-greek">Μπούρτζι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Piccola fortezza costruita dai Veneziani sull'isolotto di Agioi Theodoroi, attorno al <strong>1471-1473</strong>. Una catena poteva essere tesa dal castello alla terraferma per sbarrare l'accesso al porto. Dal 1865 al 1935 fu la <strong>residenza degli esecutori</strong> delle condanne capitali; dagli anni '30 fino al 1970 funzionò come albergo di lusso.</p></div><div class="tab-panel"><p>Esempio compatto di architettura militare veneziana in miniatura: una struttura fortificata a più piani, con torrette angolari e feritoie per l'artiglieria. Un recente restauro (2023) ha restituito gran parte della sua leggibilità storica.</p></div><div class="tab-panel"><p>Non ci sono miti specificamente legati al Bourtzi, ma la sua funzione di sentinella richiama la vocazione marinara di Nauplia narrata dal mito di <strong>Nauplio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="città vecchia e piazza syntagma" data-greek="παλιά πόλη και πλατεία συντάγματος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Città vecchia e Piazza Syntagma<span class="site-greek">Παλιά Πόλη και Πλατεία Συντάγματος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il centro storico è uno dei meglio conservati di tutta la Grecia continentale. Cuore pulsante è <strong>Piazza Syntagma</strong>, dove si affaccia il <strong>Vouleftiko</strong>, ex moschea ottomana trasformata nella sede del primo Parlamento greco (dal 1825). Poco distante, la chiesa di <strong>Agios Spyridon</strong>, dove nel 1831 fu assassinato Capodistria, e la chiesa di <strong>Agios Georgios</strong>, dove nel 1833 fu incoronato re Ottone.</p></div><div class="tab-panel"><p>Il tessuto urbano alterna case <strong>neoclassiche</strong> ottocentesche a edifici veneziani e ottomani, tra cui il <strong>Trianon</strong>, l'antica moschea più vecchia della città (XVI secolo), oggi teatro comunale. Sul lungomare si affaccia l'antico Magazzino Veneziano della Flotta, oggi Museo Archeologico.</p></div><div class="tab-panel"><p>La tradizione locale vuole che uno degli architravi del Vouleftiko provenga dalla Tomba di Agamennone a Micene — un legame leggendario che ricorda come mito e storia moderna si intreccino anche qui.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
