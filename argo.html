@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Argo — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Argo</h1>
+  <div class="greek-title">Ἄργος</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Argo rivendica il titolo di città più antica d'Europa ininterrottamente abitata: gli scavi documentano insediamenti continuativi da almeno il 7000 a.C. fino a oggi. Si trova nella pianura argolica, a pochi chilometri sia da Micene che da Tirinto, ed era il centro urbano e politico di riferimento di tutta la regione, che infatti prende il nome proprio da lei: <strong>Argolide</strong>.</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Fu una delle grandi potenze del mondo miceneo e poi della Grecia arcaica e classica, spesso in <strong>rivalità diretta con Sparta</strong> per il controllo del Peloponneso orientale.</li>
+  <li>Ospita il <strong>teatro antico più grande di tutta la Grecia</strong> per capienza (circa 20.000 spettatori), a testimonianza dell'importanza e della ricchezza della città in epoca ellenistica e romana.</li>
+  <li>Nella tradizione mitica è la patria della più antica dinastia regale greca, quella fondata da <strong>Danao</strong>, da cui discende — attraverso <strong>Perseo</strong> — la stirpe che porterà fino a Eracle stesso (il legame diretto con Tirinto: Euristeo era anch'egli parte di questa stessa discendenza).</li>
+  <li>A differenza di Micene e Tirinto, Argo non fu mai completamente abbandonata: rimase abitata ininterrottamente fino ai giorni nostri, motivo per cui il sito archeologico convive letteralmente con la città moderna.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un sito articolato, con l'Aspis (l'antica acropoli) su un'altura che domina la pianura, il grande teatro ellenistico-romano scavato nel pendio, i resti dell'agorà e delle terme romane nel cuore della città moderna, e il museo che raccoglie i reperti di un arco cronologico eccezionalmente lungo.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Danao e le Danaidi.</strong> Danao era re di Libia, con cinquanta figlie, le Danaidi, mentre suo fratello gemello Egitto ebbe cinquanta figli maschi. Egitto propose che i suoi figli sposassero le figlie di Danao, che rifiutò, fuggendo via mare fino ad Argo. I figli di Egitto li raggiunsero e li costrinsero alle nozze. Ma Danao diede a ciascuna figlia un pugnale, ordinando di uccidere i mariti nella notte di nozze. Quarantanove obbedirono; solo <strong>Ipermestra</strong> risparmiò il marito Linceo, da cui discese la dinastia regale di Argo fino a Perseo. Per la loro colpa, le quarantanove Danaidi furono condannate nell'oltretomba a riempire d'acqua una giara forata, per l'eternità.</p>
+<p><strong>Perseo e la profezia di Acrisio.</strong> Acrisio, re di Argo, ricevette la profezia di essere ucciso da un figlio nato da sua figlia Danae. La rinchiuse in una torre di bronzo, ma Zeus si trasformò in pioggia d'oro e generò <strong>Perseo</strong>. Acrisio chiuse madre e figlio in una cassa gettata in mare; approdarono a Serifo, dove Perseo crebbe e fu inviato a decapitare <strong>Medusa</strong>. Anni dopo, partecipando a giochi funebri, lanciò un disco che deviò e colpì a morte uno spettatore: era Acrisio, suo nonno — la profezia si compì proprio nel modo che si era cercato di evitare.</p>
+<p><strong>Io.</strong> Io era sacerdotessa di Era ad Argo, amata da Zeus, che la trasformò in giovenca bianca per proteggerla dalla gelosia della moglie. Era pretese l'animale e lo affidò al gigante <strong>Argo Panoptes</strong>, dai cento occhi. Zeus inviò Ermes, che addormentò Argo e lo uccise, liberando Io — ma Era le inviò un tafano che la perseguitò per il mondo intero. Da qui l'espressione "occhi d'Argo" per una sorveglianza continua e inevitabile.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="aspis — l'acropoli" data-greek="ασπίδα (ακρόπολη)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Aspis — l'acropoli<span class="site-greek">Ασπίδα (Ακρόπολη)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'Aspis è la più bassa e antica delle due alture su cui sorgeva Argo (l'altra, la Larissa, più alta, ospita oggi la fortezza medievale). Il nome deriva dal greco <em>aspis</em>, "scudo", per la forma tondeggiante della collina. È qui che si è insediato il nucleo abitativo più antico di Argo, con occupazione continua fin dal <strong>III millennio a.C.</strong> e un importante insediamento dell'Elladico Medio (2000-1600 a.C.).</p>
+      <p>Durante l'epoca micenea il centro dell'insediamento si spostò verso la Larissa, più alta, dove oggi sorge il castello franco. L'Aspis restò comunque un'area sacra e cerimoniale di primissima importanza fino a epoca classica.</p></div><div class="tab-panel"><p>Sulla sommità si trovano resti di un insediamento fortificato dell'età del Bronzo Medio, con tratti di mura nel settore nord-est. Più significativi sono i resti di due piccoli <strong>santuari di epoca classica</strong>: quello dedicato ad <strong>Apollo Deiradiotes</strong> ("della cresta") e quello ad <strong>Atena Oxyderkes</strong> ("dallo sguardo acuto") — epiteti legati alla vista lontana e alla vigilanza, coerenti con la posizione panoramica del luogo.</p>
+      <p>Si conserva inoltre un passaggio sotterraneo scavato nella roccia sul lato nord-est, e tratti di una cisterna sotterranea di epoca più tarda (IV secolo d.C.).</p></div><div class="tab-panel"><p>L'Aspis è tradizionalmente legata alla figura di <strong>Foroneo</strong>, il primo re mitico di Argo, considerato dagli Argivi il capostipite dell'umanità nella regione — un mito parallelo a quello, più noto, di Deucalione.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="teatro antico" data-greek="αρχαίο θέατρο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teatro antico<span class="site-greek">Αρχαίο Θέατρο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il teatro fu costruito nell'ultimo terzo del <strong>IV secolo a.C.</strong>, addossato al versante occidentale della Larissa. È considerato il teatro più grande di tutta la Grecia per capienza: circa <strong>20.000 spettatori</strong> su 81 file di gradini — un numero che supera perfino quello di Epidauro.</p>
+      <p>Ospitava i <strong>Giochi Nemei</strong> e giochi in onore di <strong>Era</strong>. In epoca romana, sotto Adriano (circa 120 d.C.), fu profondamente rinnovato, con un fronte scenico monumentale e adattamenti per gli spettacoli romani, incluse le lotte tra gladiatori.</p></div><div class="tab-panel"><p>In gran parte scavato nella roccia del pendio. La cavea, larga 77 metri e profonda 100, è divisa in tre settori separati da diazomata, con un'orchestra circolare di quasi 27 metri di diametro, circondata da un canale per lo smaltimento delle acque.</p>
+      <p>L'edificio scenico raggiunse la forma monumentale in epoca romana: facciata con tre ingressi, logeion rialzato con nicchie aggiunte sotto Adriano, colonnato dorico del II secolo a.C. Fori nella cavea suggeriscono l'uso di un velum per proteggere gli spettatori dal sole.</p></div><div class="tab-panel"><p>I Giochi Nemei erano tradizionalmente collegati al mito di <strong>Eracle</strong> e alla prima delle sue dodici fatiche, l'uccisione del <strong>Leone di Nemea</strong> — un filo che lega idealmente Argo a Tirinto.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="agorà e terme romane" data-greek="αγορά και ρωμαϊκά λουτρά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Agorà e Terme romane<span class="site-greek">Αγορά και Ρωμαϊκά Λουτρά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'agorà si estendeva di fronte al teatro, ai piedi della Larissa, cuore amministrativo, commerciale e religioso della città fin da epoca arcaica, con continuità d'uso fino alla tarda antichità. Le <strong>Terme romane</strong> (note anche come Serapeion-Asklepieion) testimoniano il benessere della Argo di epoca imperiale.</p></div><div class="tab-panel"><p>L'area comprendeva un piccolo teatro-odeion più recente, officine e magazzini di IV secolo a.C., e un edificio semicircolare del I secolo a.C. con colonne corinzie, identificato come monumento-fontana dedicato alle Ninfe.</p>
+      <p>Le terme si distinguono per mosaici pavimentali elaborati e statue, tipiche dell'architettura termale romana (calidarium, tepidarium, frigidarium). Nelle vicinanze si trovano i resti dell'Acquedotto di Adriano.</p></div><div class="tab-panel"><p>Non ci sono miti specificamente legati a questi spazi civili e termali — ma l'area, dedicata a culti curativi come quello di Asclepio, richiama il tema della salute, ben diverso dal registro eroico dei grandi miti argivi legati alle origini più antiche della città.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di argo" data-greek="αρχαιολογικό μουσείο άργους">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Argo<span class="site-greek">Αρχαιολογικό Μουσείο Άργους</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il museo raccoglie i reperti emersi dagli scavi della Scuola Archeologica Francese (a cui si devono anche gli scavi di Delfi) e, per Lerna, della Scuola Archeologica Americana. La collezione copre un arco cronologico eccezionale, dall'Elladico Medio (circa 2000 a.C.) fino alla tarda antichità (600 d.C.).</p></div><div class="tab-panel"><p><strong>Cosa vedrete — collegamenti diretti con le tappe già viste:</strong></p>
+      <ul>
+        <li><strong>La "Panoplia di Argo"</strong> — armatura in bronzo completa (corazza ed elmo) dell'VIII secolo a.C., tra le testimonianze più antiche di armatura oplitica in Grecia.</li>
+        <li><strong>Ceramica geometrica argiva</strong> — meandri, scacchiere, uccelli e cavalli stilizzati, da affiancare alla produzione corinzia già vista.</li>
+        <li><strong>Il cratere con l'accecamento di Polifemo</strong> — frammento del VII secolo a.C.</li>
+        <li><strong>Mosaici romani</strong>, incluso uno con le quattro stagioni.</li>
+        <li><strong>Reperti dalla necropoli micenea di Deiras</strong> — vasi e corredi funerari.</li>
+      </ul></div><div class="tab-panel"><p>Il cratere con Polifemo riporta alla mente, sebbene in una tradizione diversa da quella dei Ciclopi "costruttori" di Tirinto, la famiglia di giganti monocoli così centrale nell'immaginario di questa regione.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
