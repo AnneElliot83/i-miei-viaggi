@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Corinto — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Corinto</h1>
+  <div class="greek-title">Κόρινθος</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così famosa.</strong> Corinto occupava una posizione unica nel mondo greco: era situata sull'istmo che collega la Grecia continentale al Peloponneso, con <strong>due porti</strong> — Lechaion sul Golfo di Corinto e Cencrea sul Golfo Saronico. Questo la rendeva uno snodo commerciale strategico senza pari: le merci potevano essere trasportate via terra tra i due golfi (sul <strong>Diolkos</strong>, una via lastricata per il trasbordo delle navi) evitando la pericolosa circumnavigazione del Peloponneso.</p>
+<p><strong>Perché era così importante:</strong></p>
+<ul>
+  <li>Fu una delle città-stato più ricche e potenti della Grecia arcaica e classica, rivale di Atene e Sparta, fondatrice di colonie importanti come <strong>Siracusa</strong> e <strong>Corcira</strong> (Corfù).</li>
+  <li>Ospitava i <strong>Giochi Istmici</strong>, altra grande competizione panellenica, in onore di Poseidone.</li>
+  <li>Fu <strong>distrutta dai Romani nel 146 a.C.</strong> e poi <strong>rifondata da Giulio Cesare nel 44 a.C.</strong> come colonia romana — gran parte di ciò che si visita oggi è Corinto romana, costruita sopra la città greca.</li>
+  <li>Divenne un centro cristiano primitivo di grande importanza: <strong>San Paolo</strong> vi soggiornò 18 mesi, e le sue due Lettere ai Corinzi sono tra i testi più noti del Nuovo Testamento.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un sito archeologico che mescola strati greci e romani, dominato dal Tempio arcaico di Apollo, con l'agorà romana, la Via di Lechaion, il luogo del processo a San Paolo (il Bema), e sopra tutto — su un'altura a parte — la fortezza dell'Acrocorinto.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Sisifo.</strong> Sisifo era il leggendario fondatore e re di Corinto, celebre per la sua astuzia al limite dell'inganno verso gli stessi dèi. Quando Zeus rapì la ninfa Egina, Sisifo rivelò il fatto al padre di lei in cambio di una fonte d'acqua per la sua città. Per punirlo, Zeus mandò Thanatos, la Morte, a prenderlo — ma Sisifo riuscì a incatenare la Morte stessa, impedendo che chiunque al mondo potesse morire, finché Ares non intervenne a liberarla. Quando finalmente morì, convinse Ade e Persefone a lasciarlo tornare brevemente sulla terra — e semplicemente non tornò più, vivendo fino a tarda età. Per questa doppia beffa alla Morte, gli dèi lo condannarono al supplizio eterno più celebre della mitologia: spingere un masso fino in cima a un colle, vedendolo rotolare giù ogni volta appena prima di arrivare.</p>
+<p><strong>Bellerofonte e Pegaso.</strong> Bellerofonte, eroe corinzio, desiderava catturare Pegaso, il cavallo alato nato dal sangue di Medusa. Fu proprio presso la fonte di Peirene che riuscì nell'impresa, con l'aiuto di Atena, che gli donò in sogno delle briglie d'oro. Con Pegaso compì la sua impresa più famosa: l'uccisione della Chimera. Più tardi, però, tentò di volare fino all'Olimpo per unirsi agli dèi, e Zeus, offeso, mandò un tafano a pungere Pegaso, facendo precipitare Bellerofonte sulla terra.</p>
+<p><strong>Medea.</strong> Dopo le vicende degli Argonauti, Giasone e Medea si stabilirono a Corinto, dove Giasone decise di abbandonarla per sposare la figlia del re Creonte. Medea reagì con una vendetta atroce: uccise la nuova sposa con un dono avvelenato, uccise Creonte, e infine uccise i propri stessi figli per infliggere a Giasone il dolore più totale, prima di fuggire su un carro alato donatole dal Sole. È la tragedia di Euripide che ha reso questo mito immortale, e Corinto ne è il palcoscenico definitivo.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Apollo<span class="site-greek">Ναός του Απόλλωνα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tempio di Apollo è il monumento più iconico e riconoscibile di tutta Corinto antica: le sue colonne, ancora in piedi, dominano il sito e sono diventate l'immagine simbolo della città archeologica. Fu costruito attorno al <strong>540 a.C.</strong>, in epoca arcaica, su un colle che domina l'agorà e permette una vista che spazia fino al Golfo di Corinto.</p>
+      <p>Ciò che lo rende straordinario è la sua <strong>sopravvivenza</strong>: mentre gran parte della Corinto greca fu rasa al suolo dai Romani nel 146 a.C. e poi ricostruita sotto Giulio Cesare, il tempio — già allora antichissimo — rimase in piedi e fu rispettato anche nella ricostruzione romana.</p></div><div class="tab-panel"><p>È un tempio <strong>periptero dorico</strong>, con 6 colonne sulla fronte e 15 sui lati lunghi — dimensioni e proporzioni molto simili a quelle del Tempio di Apollo a Delfi. Delle 38 colonne originarie, <strong>7 sono ancora in piedi</strong>, monolitiche (scolpite da un unico blocco di pietra, non assemblate per tamburi sovrapposti) — una tecnica costosa e relativamente rara.</p>
+      <p>Lo stile è quello del <strong>dorico arcaico</strong>: colonne tozze e possenti, con un pronunciato <em>entasis</em> (il rigonfiamento centrale del fusto), capitelli ampi e schiacciati — caratteristiche tipiche della fase più antica dell'ordine dorico, prima che nel V secolo le proporzioni si facessero più slanciate (come vedrete ad Atene, sul Partenone).</p></div><div class="tab-panel"><p>Non esiste un mito di fondazione specifico legato a questo tempio, ma la dedica ad Apollo va letta nel contesto della sua funzione di dio protettore e "civilizzatore": molte città greche gli dedicavano il tempio più prominente del proprio centro urbano.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="fontana di peirene" data-greek="πηγή πειρήνης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Fontana di Peirene<span class="site-greek">Πηγή Πειρήνης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Fontana di Peirene era la principale sorgente d'acqua di Corinto, situata nell'angolo sud-est dell'agorà, e rimase in uso ininterrottamente dall'epoca greca fino a quella romana e oltre. La struttura visibile oggi è in gran parte il risultato di ristrutturazioni romane del <strong>II secolo d.C.</strong>, con una facciata monumentale a due piani, probabilmente legata al benefattore <strong>Erode Attico</strong> (lo stesso dello stadio di Delfi).</p>
+      <p>Pausania la descrisse personalmente nelle sue guide, offrendo una delle testimonianze più dettagliate sull'aspetto della Corinto romana.</p></div><div class="tab-panel"><p>La fontana è costruita su un sistema di <strong>camere sotterranee</strong> scavate nella roccia, alimentate da una sorgente naturale, con vasche di raccolta su più livelli. La facciata monumentale romana presentava arcate e nicchie rivestite di marmo colorato, con statue e absidi decorative.</p>
+      <p>Le camere interne conservano ancora tracce degli intonaci dipinti e delle vasche originarie.</p></div><div class="tab-panel"><p>Il nome deriva dal mito: <strong>Peirene</strong> era una ninfa che, disperata per la morte del figlio ucciso accidentalmente da Artemide, pianse così a lungo da trasformarsi essa stessa in sorgente. È qui che <strong>Bellerofonte</strong> catturò <strong>Pegaso</strong>, venuto ad abbeverarsi alla fonte, con le briglie d'oro donategli in sogno da Atena.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="agorà e via di lechaion" data-greek="αγορά και οδός λεχαίου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Agorà e Via di Lechaion<span class="site-greek">Αγορά και Οδός Λεχαίου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'agorà romana era il centro pulsante della vita pubblica, commerciale e politica della colonia rifondata da Giulio Cesare nel 44 a.C., organizzata su due livelli e circondata da portici e negozi. Fu qui che pulsava la vita quotidiana della Corinto che conobbe <strong>San Paolo</strong>.</p>
+      <p>La <strong>Via di Lechaion</strong> collegava l'agorà al porto di Lechaion sul Golfo di Corinto, percorsa quotidianamente da mercanti e pellegrini in arrivo dal mare.</p></div><div class="tab-panel"><p>L'agorà seguiva i canoni tipici dell'urbanistica imperiale: portici colonnati su più lati, negozi con soglie ancora visibili, una tribuna per i discorsi pubblici, resti di templi minori.</p>
+      <p>La Via di Lechaion conserva ancora il <strong>basolato originale</strong> in ampi blocchi di pietra, con i solchi lasciati dal passaggio dei carri visibili in alcuni tratti.</p></div><div class="tab-panel"><p>Non ci sono miti specifici legati a questi spazi civili e commerciali — ma l'intera prosperità di Corinto, celebrata anche nel mito di Sisifo, nasceva esattamente da questa posizione: doppio porto, doppio mare, doppio flusso di merci e genti.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bema di corinto" data-greek="βήμα κορίνθου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bema di Corinto<span class="site-greek">Βήμα Κορίνθου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Bema era la piattaforma elevata dell'agorà romana da cui i magistrati si rivolgevano ai cittadini. È uno dei luoghi più significativi per la storia del cristianesimo primitivo: secondo gli <strong>Atti degli Apostoli (18, 12-17)</strong>, fu qui che <strong>San Paolo</strong> fu condotto davanti al proconsole romano <strong>Gallio</strong>, che rifiutò di processarlo giudicando la questione una disputa religiosa interna.</p>
+      <p>Un'iscrizione ritrovata a Delfi che cita Gallio come proconsole permette di datare il soggiorno di Paolo a Corinto attorno al <strong>51-52 d.C.</strong></p></div><div class="tab-panel"><p>Il Bema si presentava come una struttura rialzata rivestita di marmo, con una scalinata di accesso, posta in posizione centrale nell'agorà. Architettonicamente è un elemento funzionale più che monumentale, ma la sua posizione ne sottolineava l'autorità simbolica.</p>
+      <p>Oggi ne restano le fondamenta e parte della struttura in muratura.</p></div><div class="tab-panel"><p>Qui non ci sono miti dell'antichità pagana da segnalare — è il punto in cui il racconto di Corinto si intreccia direttamente con le origini del cristianesimo, e con le due Lettere ai Corinzi che Paolo scrisse proprio a partire da questa esperienza.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di corinto" data-greek="αρχαιολογικό μουσείο κορίνθου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Corinto<span class="site-greek">Αρχαιολογικό Μουσείο Κορίνθου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il museo si trova all'interno del sito archeologico, vicino all'agorà, e raccoglie i reperti emersi dagli scavi condotti principalmente dalla Scuola Archeologica Americana di Atene dalla fine dell'Ottocento. La collezione copre un arco temporale amplissimo, dalla preistoria fino all'epoca bizantina.</p></div><div class="tab-panel"><p><strong>Cosa vedrete — collegamenti diretti con le tappe già viste:</strong></p>
+      <ul>
+        <li><strong>Ceramica corinzia arcaica</strong> — Corinto fu uno dei principali centri di produzione ceramica del mondo greco (VIII-VI sec. a.C.), celebre per lo stile "orientalizzante", esportato in tutto il Mediterraneo.</li>
+        <li><strong>Mosaici e sculture romane</strong> — dalle domus e dagli edifici pubblici della colonia cesariana.</li>
+        <li><strong>Iscrizioni latine e greche</strong> — utili per comprendere la vita amministrativa e religiosa della città.</li>
+        <li><strong>Reperti dal Tempio di Apollo</strong> — elementi architettonici e votivi legati al santuario.</li>
+      </ul>
+      <p>È l'occasione per osservare da vicino l'evoluzione della ceramica corinzia e la raffinatezza della Corinto romana nei mosaici e nella scultura decorativa.</p></div><div class="tab-panel"><p>Il museo non introduce nuovi miti, ma è qui che il fasto commerciale evocato dai racconti su Sisifo prende forma concreta, attraverso gli oggetti — in particolare la ceramica — che quella ricchezza l'hanno effettivamente generata e diffusa nel Mediterraneo.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="acrocorinto" data-greek="ακροκόρινθος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Acrocorinto<span class="site-greek">Ακροκόρινθος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'Acrocorinto è l'imponente altura calcarea (oltre 575 metri) che domina la città, fortificata e utilizzata come acropoli e roccaforte ininterrottamente dall'epoca greca fino a quella ottomana. La sua posizione strategica la rese un possesso ambitissimo per ogni potenza della regione: greci, romani, bizantini, franchi (dopo la Quarta Crociata), veneziani e infine ottomani.</p>
+      <p>Oggi si presenta come un palinsesto di epoche sovrapposte, più che come un singolo monumento databile con precisione.</p></div><div class="tab-panel"><p>Le fortificazioni attuali sono in gran parte di epoca <strong>bizantina, franca e veneziana</strong>, con una sequenza di <strong>tre cinte murarie concentriche</strong> e porte fortificate. Si riconoscono torri quadrate franche, bastioni veneziani adattati all'artiglieria, e tratti di muratura ellenistica riutilizzata come base delle costruzioni successive.</p>
+      <p>Sulla sommità si trovavano i resti di un tempio dedicato ad Afrodite, di cui oggi rimane pochissimo.</p></div><div class="tab-panel"><p>Sull'Acrocorinto sorgeva un santuario dedicato ad <strong>Afrodite</strong>, protettrice della città insieme ad Apollo e Poseidone. Fonti antiche (Strabone) raccontano — con probabile esagerazione retorica — che il tempio impiegasse un migliaio di <em>ierodule</em>, sacerdotesse-cortigiane dedite al culto della dea, rendendo Corinto proverbiale nel mondo greco per il lusso: da qui l'espressione "non è per tutti navigare fino a Corinto".</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
