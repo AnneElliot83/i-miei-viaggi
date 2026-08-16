@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meteora — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Meteora</h1>
+  <div class="greek-title">Μετέωρα</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<nav class="pills">
+    <a href="#rocce-e-monasteri" class="pill">Rocce e Monasteri</a>
+    <a href="#borghi" class="pill">Borghi</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p>Meteora — il cui nome significa letteralmente "sospesi nell'aria" — rappresenta uno dei rarissimi casi al mondo in cui il Patrimonio UNESCO è riconosciuto contemporaneamente per motivi naturali e culturali: le straordinarie formazioni rocciose e i monasteri bizantini costruiti sulla loro sommità sono inseparabili.</p>
+<p><strong>La geologia.</strong> Le rocce sono pinnacoli di arenaria e conglomerato, formatisi circa 60 milioni di anni fa dal deposito di sedimenti di un antico fiume, poi sollevati da movimenti tettonici ed erosi nei millenni fino alle forme verticali attuali, con altezze che superano i 300 metri.</p>
+<p><strong>Gli eremiti (XI secolo).</strong> I primi monaci-eremiti si stabilirono nelle grotte a partire dall'XI secolo. Alla fine del XII secolo fu costruita, ai piedi di una roccia, la piccola chiesa della Panaghia Doupiani, nucleo germinale della comunità.</p>
+<p><strong>La fondazione dei grandi monasteri (XIV secolo).</strong> <strong>Atanasio il Meteorita</strong>, monaco dal Monte Athos, fondò attorno al 1344 il primo grande monastero organizzato, il Grande Meteora, scegliendo un luogo inaccessibile per proteggersi dai raid turchi e dalla pressione ottomana. L'accesso avveniva tramite scale removibili o reti issate con verricelli.</p>
+<p><strong>L'apice (XV-XVI secolo).</strong> Nel periodo di massimo splendore furono attivi ben <strong>ventiquattro monasteri</strong>, secondi per importanza nel mondo ortodosso solo al Monte Athos, con donazioni imperiali e reali, incluse quelle di <strong>Giovanni Uroš</strong>, sovrano serbo ritiratosi qui a vita monastica.</p>
+<p><strong>Il declino e la rinascita.</strong> Oggi restano sei monasteri attivi: Grande Meteora, Varlaam, Rousanou, San Nicola Anapafsas, Santo Stefano e Santa Trinità. Durante l'occupazione ottomana, i monasteri funsero anche da rifugio per i ribelli greci.</p>
+<p><strong>Perché conta così tanto:</strong> Meteora racconta l'ideale eremitico bizantino nella sua forma più radicale — la ricerca della solitudine e della vicinanza a Dio tradotta letteralmente in architettura verticale, sospesa tra cielo e terra.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Leggende e Tradizioni <span class="chev">›</span></button>
+    <div class="intro-body"><p>Meteora non ha una mitologia propria: è un sito interamente bizantino, sorto tra l'XI e il XIV secolo. Ma il luogo ha generato un proprio corpus di leggende popolari.</p>
+<p><strong>Il volo di Atanasio.</strong> La leggenda narra che Atanasio il Meteorita non abbia scalato la roccia con mezzi ordinari, ma vi sarebbe stato portato in volo da un'aquila — un racconto elaborato per sottolineare la natura miracolosa della sua impresa fondativa.</p>
+<p><strong>Le reti e le scale removibili.</strong> Fino al 1920 circa, l'unico modo per raggiungere alcuni monasteri era farsi issare in una rete di corda tirata a mano. Un aneddoto ricorrente narra che la corda venisse sostituita "solo quando si spezzava" — un understatement quasi ironico sulla fiducia dei monaci nella provvidenza divina.</p>
+<p><strong>I rifugi dei ribelli.</strong> Durante la dominazione ottomana e, secoli dopo, l'occupazione nazista, la tradizione popolare narra di numerosi episodi in cui i monasteri avrebbero nascosto e protetto ribelli e resistenti greci.</p>
+<p><strong>Il "salto della fede".</strong> Una leggenda più tarda narra di un pellegrino che, disperato di non riuscire a farsi issare in tempo, si sarebbe lanciato nel vuoto invocando la protezione divina, atterrando miracolosamente illeso.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="rocce-e-monasteri">
+  <h2 class="group-title">Rocce e Monasteri<span class="group-count">7</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="le rocce di meteora (geologia e storia)" data-greek="οι βράχοι των μετεώρων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Le Rocce di Meteora (geologia e storia)<span class="site-greek">Οι Βράχοι των Μετεώρων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le rocce di Meteora sono da sempre un elemento geologico straordinario e unico in Grecia, esplorate scientificamente solo tra Ottocento e Novecento. Oggi sono meta ambita anche per l'arrampicata sportiva internazionale, con centinaia di vie aperte sulle pareti libere dai monasteri.</p></div><div class="tab-panel"><p>Le rocce si formarono circa <strong>60 milioni di anni fa</strong>, quando un fiume preistorico depositò in un delta sedimenti di ciottoli, sabbia e fango, poi compattati in arenaria e conglomerato e sollevati da movimenti tettonici. L'erosione differenziale scolpì le forme verticali attuali, alte fino a oltre 300 metri. È un paesaggio da "inselberg": rilievi isolati che emergono bruscamente dalla pianura del fiume Peneo.</p></div><div class="tab-panel"><p>Il nome "Meteora" ("sospesi nell'aria") nasce dalla percezione che i monasteri sembrino fluttuare sopra le rocce, specialmente nelle giornate di nebbia mattutina.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="grande meteora (trasfigurazione)" data-greek="μεγάλο μετέωρο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Grande Meteora (Trasfigurazione)<span class="site-greek">Μεγάλο Μετέωρο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Metamorfosis</strong> significa "trasfigurazione" — da cui l'italiano "metamorfosi", quasi identico.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il più antico e grande monastero del complesso, fondato attorno al 1344 da <strong>Atanasio il Meteorita</strong> sulla roccia "Platys Lithos". Il successore <strong>San Giòsaf</strong> (forse il sovrano serbo Giovanni Uroš, ritiratosi qui dopo l'abdicazione) ampliò il complesso. Apice nel XVI secolo con donazioni imperiali.</p></div><div class="tab-panel"><p>La chiesa della Trasfigurazione fu completata nel 1356 e ampliata nel XVI secolo, con affreschi di quel periodo. Il complesso include un antico refettorio (oggi museo), una cucina con pareti annerite dal fumo, e un ossario con i crani dei monaci.</p></div><div class="tab-panel"><p>La leggenda narra che Atanasio fu portato sulla roccia in volo da un'aquila.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="varlaam" data-greek="μονή βαρλαάμ">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Varlaam<span class="site-greek">Μονή Βαρλαάμ</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Prende nome dal primo eremita, Varlaam (XIV secolo). Abbandonato per due secoli, fu restaurato nel <strong>1517</strong> dai fratelli Teofane e Nettario Apsarà. Secondo monastero per dimensioni.</p></div><div class="tab-panel"><p>La chiesa di Tutti i Santi (1544) ha affreschi post-bizantini di scuola cretese. Il monastero conserva ancora il verricello e il cesto di corda originali usati per issare monaci e rifornimenti.</p></div><div class="tab-panel"><p>Al centro dell'aneddoto secondo cui la corda veniva sostituita "solo quando si spezzava".</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="rousanou (santa barbara)" data-greek="μονή ρουσάνου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Rousanou (Santa Barbara)<span class="site-greek">Μονή Ρουσάνου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Nome di origine incerta: forse da un antico asceta "Rousanos", forse da due monaci russi. Nome ufficiale: <strong>Santa Barbara</strong>.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato attorno al 1545/1550 dai fratelli Ioasaf e Massimo di Ioannina. Saccheggiato dai tedeschi nel 1940. Dal <strong>1988</strong> è convento femminile.</p></div><div class="tab-panel"><p>Occupa una roccia più bassa, tra le più panoramiche e fotogeniche. La chiesa (1560) ha affreschi di scuola cretese. Accesso tramite scalinata e due ponti (1930).</p></div><div class="tab-panel"><p>Servì come rifugio per famiglie povere e perseguitate durante periodi di instabilità storica.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="san nicola anapafsas" data-greek="μονή αγίου νικολάου αναπαυσά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">San Nicola Anapafsas<span class="site-greek">Μονή Αγίου Νικολάου Αναπαυσά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">"Anapafsas" forse dal verbo <strong>anapavomai</strong>, "riposarsi" — luogo di sosta per i pellegrini.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Vita monastica dal XIV secolo; rinnovato nel primo Cinquecento da San Dionisio e dal monaco Nicanore. Abbandonato a inizio Novecento, restaurato negli anni '60.</p></div><div class="tab-panel"><p>Sviluppato verticalmente su tre piani per la ridotta sommità della roccia. Affreschi del <strong>1527</strong> del pittore cretese Teofane Strelitzas, sue prime opere firmate, fondatore della Scuola Cretese.</p></div><div class="tab-panel"><p>San Nicola, patrono della Grecia e protettore dei naviganti, invocato genericamente come protettore dei viaggiatori.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="santa trinità" data-greek="μονή αγίας τριάδος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Trinità<span class="site-greek">Μονή Αγίας Τριάδος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato secondo tradizione dal monaco Dometio nel XIV secolo; costruito nella forma attuale tra il 1458 e il 1476. Nel 1925 furono scavati 140 gradini nella roccia, sostituendo le reti.</p></div><div class="tab-panel"><p>La posizione più isolata e scenografica di Meteora, su un pinnacolo quasi verticale. Chiesa del XV secolo con affreschi del 1741. Set del film di James Bond <em>Solo per i tuoi occhi</em> (1981).</p></div><div class="tab-panel"><p>Legato al tema del rifugio durante le occupazioni, ripreso ironicamente dalla scelta cinematografica di una trama di spionaggio.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="santo stefano" data-greek="μονή αγίου στεφάνου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santo Stefano<span class="site-greek">Μονή Αγίου Στεφάνου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Origini eremitiche dal 1191 (l'eremita Geremia); monastero fondato da Sant'Antonio Cantacuzeno attorno al 1400. Bombardato nella Seconda Guerra Mondiale e nella Guerra Civile greca. Dal <strong>1961</strong> convento femminile.</p></div><div class="tab-panel"><p>Unico monastero su un pianoro, non su un pinnacolo isolato — il più facile da raggiungere. Due chiese: quella vecchia (1545) e quella nuova (1798) dedicata a San Caralampo, di cui conserva il teschio come reliquia.</p></div><div class="tab-panel"><p>Il culto di San Caralampo, protettore dalla peste, richiama la fede nel potere protettivo delle reliquie sacre.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="borghi">
+  <h2 class="group-title">Borghi<span class="group-count">2</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="kalabaka" data-greek="καλαμπάκα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Kalabaka<span class="site-greek">Καλαμπάκα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> "Kalabaka" deriva dal turco, "fortezza possente".</p>
+      <p>Una delle città più antiche della Tessaglia: nota in epoca ellenistica e romana come <strong>Eginio</strong>, poi <strong>Stagoi</strong> in epoca bizantina (sede vescovile). Passò attraverso Despotato d'Epiro, Ducato di Neopatria, conquista serba di Stefano Dušan, fino alla dominazione ottomana.</p></div><div class="tab-panel"><ul>
+        <li>La <strong>Chiesa Bizantina della Dormizione della Vergine</strong> (IV-V secolo), con un raro ambone paleocristiano.</li>
+        <li>Resti epigrafici dell'antica Eginio, nel quartiere di Sopotos.</li>
+        <li>Punto di partenza ideale per l'ascesa ai monasteri.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="kastraki" data-greek="καστράκι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Kastraki<span class="site-greek">Καστράκι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> "piccolo castello", da un castello bizantino di cui restano ruderi.</p>
+      <p>Villaggio incastonato tra le torri di roccia, fondato da epiroti che unificarono piccoli insediamenti nel XVIII secolo, durante la dominazione ottomana.</p></div><div class="tab-panel"><ul>
+        <li>La chiesa di <strong>San Giorgio Mandilas</strong>, con la tradizione annuale dei fazzoletti votivi (23 aprile).</li>
+        <li>Il <strong>Museo delle Formazioni Geologiche</strong> di Meteora.</li>
+        <li>La <strong>Grotta di Theopetra</strong>, con il muro artificiale più antico del mondo (21.000 anni).</li>
+        <li>Base per l'arrampicata sportiva e le escursioni verso l'Agio Pnevma.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
