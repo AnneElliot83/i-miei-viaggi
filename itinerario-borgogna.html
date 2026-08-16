@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itinerario Borgogna — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#b09a7a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .subtitle{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.05rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:24px 20px 80px;
+  }
+
+  .days{
+    position:relative;
+    padding-left:34px;
+  }
+  .days::before{
+    content:"";
+    position:absolute;
+    left:13px;
+    top:6px;
+    bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .day{
+    position:relative;
+    margin-bottom:16px;
+  }
+  .day-num{
+    position:absolute;
+    left:-34px;
+    top:0;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--accent);
+    color:#3d3830;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:0.95rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .day-body{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 16px 14px;
+  }
+  .day-meta{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-soft);
+    margin-bottom:3px;
+  }
+  .day-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.2rem;
+    color:#3d3830;
+  }
+  .day-desc{
+    font-size:0.92rem;
+    color:var(--text-soft);
+    margin-top:4px;
+  }
+  .chips{
+    margin-top:9px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .chip{
+    font-size:0.78rem;
+    padding:4px 11px;
+    border:1px solid var(--accent);
+    border-radius:20px;
+    text-decoration:none;
+    color:#3d3830;
+    background:#f8f5f0;
+  }
+  .chip:hover{ background:var(--accent); color:#fff; }
+
+  .no-results{
+    text-align:center;
+    font-style:italic;
+    color:var(--text-soft);
+    padding:30px 0;
+    display:none;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Itinerario</h1>
+  <div class="subtitle">Borgogna · 7 giorni, base ad Autun</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un giorno o un luogo...">
+</div>
+
+<main>
+  <div class="days" id="days">
+    
+<div class="day" data-name="arrivo — autun autun è la vostra base per tutta la settimana: si torna qui ogni sera.">
+  <div class="day-num">1</div>
+  <div class="day-body">
+    <div class="day-meta">Sabato 3 ottobre</div>
+    <div class="day-title">Arrivo — Autun</div>
+    <div class="day-desc">Autun è la vostra base per tutta la settimana: si torna qui ogni sera.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#autun">Autun →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="l'alto yonne noyers-sur-serein · ancy-le-franc · tanlay · pontigny · auxerre — borghi murati, palazzi del rinascimento e la grande abbazia cistercense.">
+  <div class="day-num">2</div>
+  <div class="day-body">
+    <div class="day-meta">Domenica 4 ottobre</div>
+    <div class="day-title">L'Alto Yonne</div>
+    <div class="day-desc">Noyers-sur-Serein · Ancy-le-Franc · Tanlay · Pontigny · Auxerre — borghi murati, palazzi del Rinascimento e la grande abbazia cistercense.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#noyers-sur-serein">Noyers-sur-Serein →</a><a class="chip" href="borgogna.html#chateau-d-ancy-le-franc">Château d'Ancy-le-Franc →</a><a class="chip" href="borgogna.html#chateau-de-tanlay">Château de Tanlay →</a><a class="chip" href="borgogna.html#abbazia-di-pontigny">Abbazia di Pontigny →</a><a class="chip" href="borgogna.html#auxerre">Auxerre →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="le due capitali e la côte châteauneuf-en-auxois · digione · clos de vougeot · beaune — dalla capitale dei duchi alla capitale del vino, lungo la strada dei grandi cru.">
+  <div class="day-num">3</div>
+  <div class="day-body">
+    <div class="day-meta">Lunedì 5 ottobre</div>
+    <div class="day-title">Le due capitali e la Côte</div>
+    <div class="day-desc">Châteauneuf-en-Auxois · Digione · Clos de Vougeot · Beaune — dalla capitale dei Duchi alla capitale del vino, lungo la strada dei grandi cru.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#chateauneuf-en-auxois">Châteauneuf-en-Auxois →</a><a class="chip" href="borgogna.html#digione">Digione →</a><a class="chip" href="borgogna.html#clos-de-vougeot-la-cote-de-nuits">Clos de Vougeot & la Côte de Nuits →</a><a class="chip" href="borgogna.html#beaune">Beaune →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="cistercensi e borghi dell'auxois abbazia di fontenay · flavigny-sur-ozerain · semur-en-auxois — l'austerità di san bernardo e due borghi tra i più scenografici di francia.">
+  <div class="day-num">4</div>
+  <div class="day-body">
+    <div class="day-meta">Martedì 6 ottobre</div>
+    <div class="day-title">Cistercensi e borghi dell'Auxois</div>
+    <div class="day-desc">Abbazia di Fontenay · Flavigny-sur-Ozerain · Semur-en-Auxois — l'austerità di San Bernardo e due borghi tra i più scenografici di Francia.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#abbazia-di-fontenay">Abbazia di Fontenay →</a><a class="chip" href="borgogna.html#flavigny-sur-ozerain">Flavigny-sur-Ozerain →</a><a class="chip" href="borgogna.html#semur-en-auxois">Semur-en-Auxois →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="sulle tracce di cluny paray-le-monial · cluny · cormatin — la più grande abbazia del medioevo e il suo "modello in scala".">
+  <div class="day-num">5</div>
+  <div class="day-body">
+    <div class="day-meta">Mercoledì 7 ottobre</div>
+    <div class="day-title">Sulle tracce di Cluny</div>
+    <div class="day-desc">Paray-le-Monial · Cluny · Cormatin — la più grande abbazia del Medioevo e il suo "modello in scala".</div>
+    <div class="chips"><a class="chip" href="borgogna.html#paray-le-monial">Paray-le-Monial →</a><a class="chip" href="borgogna.html#cluny">Cluny →</a><a class="chip" href="borgogna.html#chateau-de-cormatin">Château de Cormatin →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="la collina eterna e il morvan vézelay · avallon · bazoches — un vertice del romanico, una città murata e la casa di vauban.">
+  <div class="day-num">6</div>
+  <div class="day-body">
+    <div class="day-meta">Giovedì 8 ottobre</div>
+    <div class="day-title">La collina eterna e il Morvan</div>
+    <div class="day-desc">Vézelay · Avallon · Bazoches — un vertice del romanico, una città murata e la casa di Vauban.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#vezelay">Vézelay →</a><a class="chip" href="borgogna.html#avallon">Avallon →</a><a class="chip" href="borgogna.html#chateau-de-bazoches">Château de Bazoches →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="le origini bibracte · autun gallo-romana · guédelon — dalla capitale celtica scomparsa al medioevo costruito sotto i vostri occhi.">
+  <div class="day-num">7</div>
+  <div class="day-body">
+    <div class="day-meta">Venerdì 9 ottobre</div>
+    <div class="day-title">Le origini</div>
+    <div class="day-desc">Bibracte · Autun gallo-romana · Guédelon — dalla capitale celtica scomparsa al Medioevo costruito sotto i vostri occhi.</div>
+    <div class="chips"><a class="chip" href="borgogna.html#bibracte">Bibracte →</a><a class="chip" href="borgogna.html#autun-gallo-romana">Autun gallo-romana →</a><a class="chip" href="borgogna.html#guedelon">Guédelon →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="rientro ultimo giorno: autun gallo-romana e dintorni prima della partenza.">
+  <div class="day-num">7</div>
+  <div class="day-body">
+    <div class="day-meta">Venerdì 9 ottobre</div>
+    <div class="day-title">Rientro</div>
+    <div class="day-desc">Ultimo giorno: Autun gallo-romana e dintorni prima della partenza.</div>
+    
+  </div>
+</div>
+  </div>
+
+  <p class="no-results" id="no-results">Nessun giorno trovato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const searchInput = document.getElementById('search');
+const allDays = Array.from(document.querySelectorAll('.day'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allDays.forEach(d => {
+    const match = !f || d.dataset.name.includes(f);
+    d.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
