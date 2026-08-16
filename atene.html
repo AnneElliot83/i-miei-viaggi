@@ -3,1291 +3,940 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Atene — Progetto Grecia</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Atene — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
-    --stone:#e6ddc8;
-    --stone-deep:#d8cbac;
-    --ink:#2b2a26;
-    --ink-soft:#5a564c;
-    --bronze:#8c6239;
-    --bronze-deep:#6b4a29;
-    --sky:#33586b;
-    --sky-deep:#23404e;
-    --laurel:#5c6b4c;
-    --card:#f4efe0;
-    --line: rgba(43,42,38,0.14);
-    --radius: 4px;
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
-    background:var(--stone);
-    background-image:
-      radial-gradient(ellipse at top left, rgba(51,88,107,0.10), transparent 55%),
-      radial-gradient(ellipse at bottom right, rgba(140,98,57,0.10), transparent 55%);
-    color:var(--ink);
-    font-family:'Source Sans 3', sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
     line-height:1.55;
   }
-  .wrap{max-width:920px;margin:0 auto;padding:0 24px 100px;}
-
-  /* HEADER */
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
   header{
-    padding:56px 24px 40px;
+    padding:20px 24px 26px;
     text-align:center;
     border-bottom:1px solid var(--line);
-    margin-bottom:36px;
   }
-  .eyebrow{
-    font-size:12px;
-    letter-spacing:.22em;
-    text-transform:uppercase;
-    color:var(--sky-deep);
-    font-weight:600;
-  }
-  h1{
+  header h1{
     font-family:'Cormorant Garamond', serif;
     font-weight:700;
-    font-size:clamp(40px,7vw,64px);
-    margin:8px 0 6px;
-    letter-spacing:.01em;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
   }
-  .subtitle{
+  header .greek-title{
     font-style:italic;
-    font-family:'Cormorant Garamond', serif;
-    font-size:19px;
-    color:var(--ink-soft);
+    color:var(--text-soft);
+    font-size:1.1rem;
   }
-  .meander{
-    width:180px;height:14px;margin:22px auto 0;
-    background-image:repeating-linear-gradient(
-      to right,
-      var(--bronze) 0 4px, transparent 4px 8px
-    );
-    opacity:.55;
-    -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='14'><path d='M0 0 H40 V4 H8 V8 H40 V14 H0 V10 H32 V6 H0 Z' fill='black'/></svg>");
-    mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='14'><path d='M0 0 H40 V4 H8 V8 H40 V14 H0 V10 H32 V6 H0 Z' fill='black'/></svg>");
-    -webkit-mask-repeat:repeat-x; mask-repeat:repeat-x;
-    background-color:var(--bronze);
-    background-image:none;
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
   }
-
-  /* PROGRESS */
-  .progress-bar{
-    display:flex;align-items:center;gap:14px;
-    margin:0 0 40px;
-    background:var(--card);
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
     border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:14px 18px;
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
   }
-  .progress-track{
-    flex:1;height:6px;background:var(--stone-deep);border-radius:3px;overflow:hidden;
-  }
-  .progress-fill{
-    height:100%;background:linear-gradient(90deg,var(--sky),var(--bronze));
-    width:0%;transition:width .4s ease;
-  }
-  .progress-label{font-size:13px;color:var(--ink-soft);white-space:nowrap;font-weight:600;}
+  #search:focus{border-color:#c9c3b8;}
 
-  /* SECTION GENERIC */
-  section.block{margin-bottom:20px;}
-  .block-head{
-    display:flex;align-items:center;justify-content:space-between;
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  /* intro collapsibili */
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
     cursor:pointer;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    padding:18px 20px;
-    user-select:none;
-  }
-  .block-head:hover{border-color:var(--bronze);}
-  .block-title{
-    display:flex;align-items:baseline;gap:10px;
-  }
-  .block-title h2{
     font-family:'Cormorant Garamond', serif;
-    font-size:24px;font-weight:700;margin:0;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
   }
-  .block-tag{
-    font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--sky-deep);font-weight:600;
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
   }
-  .status-pill{
-    font-size:11px;font-weight:600;padding:4px 10px;border-radius:20px;
-    border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap;
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
   }
-  .status-pill.done{background:var(--laurel);color:#fff;border-color:var(--laurel);}
-  .chevron{
-    width:10px;height:10px;border-right:2px solid var(--ink-soft);border-bottom:2px solid var(--ink-soft);
-    transform:rotate(45deg);transition:transform .25s ease;margin-left:14px;flex-shrink:0;
-  }
-  .block.open .chevron{transform:rotate(-135deg);}
-  .block-body{
-    max-height:0;overflow:hidden;transition:max-height .35s ease;
-    background:var(--card);
-    border:1px solid var(--line);border-top:none;
-    border-radius:0 0 var(--radius) var(--radius);
-  }
-  .block.open .block-body{max-height:2000px;}
-  .block-body-inner{padding:22px 24px 26px;}
-  .placeholder{
-    font-style:italic;color:var(--ink-soft);font-size:14px;
-    border-left:3px solid var(--stone-deep);padding-left:12px;
-  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .field p{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child, .field p:last-child{ margin-bottom:0; }
 
-  /* MYTH callout */
-  .myth-note{
-    display:flex;gap:12px;margin-top:16px;
-    background:rgba(92,107,76,0.08);
-    border:1px solid rgba(92,107,76,0.3);
-    border-radius:var(--radius);
-    padding:14px 16px;
-  }
-  .myth-note .ic{flex-shrink:0;color:var(--laurel);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:20px;}
-  .myth-note .txt{font-size:14px;color:var(--ink-soft);font-style:italic;}
-
-  .etym-note{
-    display:flex;gap:12px;margin-bottom:16px;
-    background:rgba(140,98,57,0.08);
-    border:1px solid rgba(140,98,57,0.3);
-    border-radius:var(--radius);
-    padding:14px 16px;
-  }
-  .etym-note .ic{flex-shrink:0;color:var(--bronze-deep);font-family:'Cormorant Garamond',serif;font-weight:700;font-size:16px;letter-spacing:.05em;text-transform:uppercase;}
-  .etym-note .txt{font-size:14px;color:var(--ink-soft);}
-
-  /* SITES */
-  .sites-intro{margin:44px 0 18px;}
-  .sites-intro h2{
-    font-family:'Cormorant Garamond', serif;font-size:28px;margin:0 0 4px;
-  }
-  .sites-intro p{color:var(--ink-soft);font-size:14px;margin:0;}
-
-  .site-card{
-    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-    margin-bottom:16px;overflow:hidden;
-  }
-  .group-header{
-    margin:32px 0 14px;
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
     padding-bottom:8px;
-    border-bottom:2px solid var(--bronze);
+    margin-bottom:12px;
   }
-  .group-header:first-child{margin-top:0;}
-  .group-header h3{
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
     font-family:'Cormorant Garamond', serif;
-    font-size:20px;font-weight:700;margin:0;
-    color:var(--bronze-deep);
-    letter-spacing:.02em;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
   }
-  .site-top{
-    display:flex;align-items:center;gap:16px;padding:18px 20px;cursor:pointer;
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
   }
-  .site-num{
-    font-family:'Cormorant Garamond',serif;font-weight:700;font-size:22px;
-    color:var(--bronze-deep);width:30px;flex-shrink:0;
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
   }
-  .site-name{flex:1;}
-  .site-name h3{margin:0;font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:600;}
-  .site-greek{font-size:12px;color:var(--sky-deep);font-style:italic;margin-top:2px;}
-  .site-name .it-day{font-size:12px;color:var(--sky-deep);font-weight:600;letter-spacing:.03em;}
-  .check{
-    width:20px;height:20px;border:2px solid var(--stone-deep);border-radius:50%;
-    flex-shrink:0;cursor:pointer;position:relative;transition:.2s;
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
   }
-  .check.checked{background:var(--laurel);border-color:var(--laurel);}
-  .check.checked::after{
-    content:'';position:absolute;left:6px;top:2px;width:4px;height:9px;
-    border-right:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(40deg);
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
   }
-  .site-detail{max-height:0;overflow:hidden;transition:max-height .35s ease;border-top:1px solid transparent;}
-  .site-card.open .site-detail{max-height:2000px;border-top:1px solid var(--line);}
-
-  .tabs{display:flex;gap:2px;padding:14px 20px 0;}
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
   .tab{
-    font-size:12px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;
-    padding:8px 14px;cursor:pointer;color:var(--ink-soft);
+    background:none;
+    border:none;
     border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
   }
-  .tab.active{color:var(--sky-deep);border-bottom-color:var(--bronze);}
-  .tab-panels{padding:14px 20px 22px;}
-  .tab-panel{display:none;}
-  .tab-panel.active{display:block;}
-
-  footer{
-    text-align:center;padding:40px 20px 10px;color:var(--ink-soft);font-size:12px;
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
   }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
 
-  @media (max-width:600px){
-    header{padding:40px 16px 30px;}
-    .site-top{padding:14px 16px;}
-    .block-body-inner{padding:18px;}
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
   }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <header>
-    <div class="eyebrow">Progetto Grecia · Attica</div>
-    <h1>Ἀθῆναι</h1>
-    <div class="subtitle">Atene, la culla della civiltà occidentale</div>
-    <div class="meander"></div>
-  </header>
+<a class="back" href="index.html">← Torna al portale</a>
 
-  <div class="progress-bar">
-    <span class="progress-label" id="progressLabel">0 / 96 sezioni completate</span>
-    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-  </div>
+<header>
+  <h1>Atene</h1>
+  <div class="greek-title">Ἀθῆναι</div>
+</header>
 
-  <!-- QUADRO STORICO -->
-  <section class="block" data-key="storico">
-    <div class="block-head" onclick="toggleBlock(this)">
-      <div class="block-title">
-        <h2>Quadro storico generale</h2>
-      </div>
-      <div style="display:flex;align-items:center;">
-        <span class="status-pill" data-status>da fare</span>
-        <div class="chevron"></div>
-      </div>
-    </div>
-    <div class="block-body">
-      <div class="block-body-inner">
-        <p>Atene non fu mai, in termini di popolazione o potenza militare, la più grande città della Grecia antica — eppure è la città che, più di ogni altra, ha plasmato il pensiero, l'arte, la politica e il linguaggio con cui ancora oggi descriviamo il mondo. Parole come "democrazia", "filosofia", "teatro", "politica" sono greche, nate o sviluppate nella loro forma matura proprio qui.</p>
-        <p><strong>Le origini.</strong> Atene è tra le città più antiche d'Europa ininterrottamente abitate: l'Acropoli era occupata già in epoca neolitica, e divenne roccaforte micenea fortificata nel XIII secolo a.C. A differenza di Micene o Tirinto, Atene non fu abbandonata dopo il collasso miceneo.</p>
-        <p><strong>L'età arcaica.</strong> Con <strong>Solone</strong> (594 a.C.) vennero poste le prime basi giuridiche per una partecipazione più ampia alla vita pubblica. Seguì la tirannide di <strong>Pisistrato</strong>, poi rovesciata nel 510 a.C.; nel <strong>508-507 a.C.</strong> il riformatore <strong>Clistene</strong> introdusse la <strong>democrazia</strong>, riorganizzando la cittadinanza in dieci tribù territoriali e istituendo il Consiglio dei Cinquecento e l'ostracismo.</p>
-        <p><strong>Le guerre persiane.</strong> Tra il 490 e il 479 a.C. Atene fu protagonista della resistenza greca: la vittoria di <strong>Maratona</strong> (490 a.C.), la distruzione della città e dell'Acropoli nel 480 a.C., la vittoria navale di <strong>Salamina</strong> guidata da Temistocle, e infine <strong>Platea</strong> (479 a.C.).</p>
-        <p><strong>Il secolo d'oro di Pericle.</strong> Atene divenne la potenza egemone del mondo greco a capo della <strong>Lega di Delo</strong>. <strong>Pericle</strong> (461-429 a.C.) finanziò la ricostruzione monumentale dell'Acropoli — Partenone, Propilei, Eretteo, Tempio di Atena Nike — sotto la supervisione artistica di <strong>Fidia</strong>. Fiorirono la tragedia di Eschilo, Sofocle ed Euripide, la commedia di Aristofane, la storiografia di Erodoto e Tucidide.</p>
-        <p><strong>La guerra del Peloponneso e il declino.</strong> Il conflitto con Sparta (431-404 a.C.) logorò Atene, colpita anche da una pestilenza devastante. Perse l'impero ma non il ruolo di centro culturale.</p>
-        <p><strong>La filosofia.</strong> <strong>Socrate</strong> fu condannato a morte nel 399 a.C.; il suo allievo <strong>Platone</strong> fondò l'<strong>Accademia</strong> (387 a.C.), e il suo allievo <strong>Aristotele</strong> fondò il <strong>Liceo</strong> (335 a.C.), prima di diventare precettore di Alessandro Magno.</p>
-        <p><strong>Ellenismo e Roma.</strong> Con l'ascesa macedone Atene perse l'indipendenza politica ma mantenne prestigio culturale: nacquero lo <strong>Stoicismo</strong> di Zenone e l'<strong>Epicureismo</strong>. Sotto Roma restò meta di pellegrinaggio culturale, beneficiando di donazioni monumentali sotto <strong>Adriano</strong>.</p>
-        <p><strong>Declino e rinascita.</strong> Con la chiusura delle scuole filosofiche pagane nel 529 d.C., Atene entrò in un lungo periodo di marginalità: bizantina, franca, ottomana dal 1458. Il Partenone divenne chiesa, poi moschea, danneggiato nel 1687. Solo nel 1834 Atene fu scelta come capitale del nuovo Regno di Grecia.</p>
-        <p><strong>Perché conta così tanto, in sintesi:</strong> Atene è il luogo dove nacquero, nella loro forma più matura, la democrazia, la filosofia sistematica, il teatro tragico e comico, e una tradizione artistica e architettonica che ha definito per secoli l'idea stessa di classicismo in Occidente.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- MITOLOGIA GENERALE -->
-  <section class="block" data-key="mito-generale">
-    <div class="block-head" onclick="toggleBlock(this)">
-      <div class="block-title">
-        <h2>Mitologia del luogo</h2>
-      </div>
-      <div style="display:flex;align-items:center;">
-        <span class="status-pill" data-status>da fare</span>
-        <div class="chevron"></div>
-      </div>
-    </div>
-    <div class="block-body">
-      <div class="block-body-inner">
-        <p><strong>La contesa tra Atena e Poseidone.</strong> Sia Atena che Poseidone desideravano diventare la divinità tutelare della città, governata dal primo re <strong>Cecrope</strong>. Poseidone colpì la roccia con il tridente, facendo scaturire acqua salata; Atena, colpendo la terra con la lancia, fece germogliare un <strong>ulivo</strong>. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, prendendo da lei il nome. Poseidone, furioso, allagò la pianura dell'Attica.</p>
-        <p><strong>Cecrope, il primo re "nato dalla terra".</strong> Cecrope era un re <strong>autoctono</strong> (*autos*, stesso, + *chthon*, terra), rappresentato per metà uomo e per metà serpente — un mito politicamente importante: gli Ateniesi si vantavano di essere discendenti diretti della propria terra.</p>
-        <p><strong>Erittonio ed Erecteo.</strong> Efesto tentò di unirsi ad Atena, che lo respinse; il suo seme fecondò Gea, che generò <strong>Erittonio</strong>. Atena lo allevò in segreto, affidandolo in una cesta chiusa alle tre figlie di Cecrope, vietandone l'apertura. Alcune disobbedirono, videro il bambino sorvegliato dai serpenti, e impazzirono gettandosi dalla rupe. Erittonio, cresciuto, divenne re e istituì il culto di Atena Poliade. Il suo nome è spesso associato a <strong>Erecteo</strong>, a cui è dedicato l'Eretteo.</p>
-        <p><strong>Teseo, l'eroe nazionale.</strong> Figlio del re <strong>Egeo</strong>, Teseo uccise il <strong>Minotauro</strong> a Creta, liberando Atene dal tributo di fanciulli. Dimenticò di cambiare le vele nere della nave: Egeo, credendolo morto, si gettò in mare, dando il nome al <strong>Mar Egeo</strong>. Teseo fu ricordato come unificatore dell'Attica e quasi precursore mitico della democrazia.</p>
-        <div class="myth-note">
-          <div class="ic">𐤠</div>
-          <div class="txt">In tutto il progetto, ogni mito collegato a un luogo o a una divinità è segnalato con questo simbolo, così potrai riconoscerlo a colpo d'occhio.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="sites-intro">
-    <h2>Cosa visitare</h2>
-    <p>Le tappe del sito, nell'ordine dell'itinerario. Apri ogni scheda per Storia, Arte &amp; Architettura e Mitologia collegata. Segna il cerchio quando una scheda è completa.</p>
-  </div>
-
-  <!-- SITES -->
-  <div id="sitesContainer"></div>
-
-  <footer>Progetto Grecia — schema da riutilizzare per le prossime città</footer>
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo: es. Partenone, Plaka...">
 </div>
 
-<script>
-const sites = [
-  // ACROPOLI
-  {key:"propilei", name:"Propilei", greek:"Προπύλαια", group:"Acropoli"},
-  {key:"tempio-atena-nike", name:"Tempio di Atena Nike", greek:"Ναός Αθηνάς Νίκης", group:"Acropoli"},
-  {key:"partenone", name:"Partenone", greek:"Παρθενώνας", group:"Acropoli"},
-  {key:"eretteo", name:"Eretteo (e Portico delle Cariatidi)", greek:"Ερέχθειον", group:"Acropoli"},
-  {key:"antico-tempio-atena", name:"Antico Tempio di Atena", greek:"Αρχαίος Ναός της Αθηνάς", group:"Acropoli"},
-  {key:"santuario-zeus-polieus", name:"Santuario di Zeus Polieus", greek:"Ιερό Διός Πολιέως", group:"Acropoli"},
-  {key:"pandroseion", name:"Pandroseion e Arreforion", greek:"Πανδρόσειον / Αρρηφόριον", group:"Acropoli"},
-  {key:"calcoteca", name:"Calcoteca", greek:"Χαλκοθήκη", group:"Acropoli"},
-  {key:"artemide-brauronia", name:"Santuario di Artemide Brauronia", greek:"Ιερό Αρτέμιδος Βραυρωνίας", group:"Acropoli"},
-  {key:"odeon-erode", name:"Odeon di Erode Attico", greek:"Ωδείο Ηρώδου Αττικού", group:"Acropoli"},
-  {key:"stoa-eumene", name:"Stoa di Eumene", greek:"Στοά Ευμένους", group:"Acropoli"},
-  {key:"asklepieion", name:"Asklepieion (Santuario di Asclepio)", greek:"Ασκληπιείον", group:"Acropoli"},
-  {key:"teatro-dioniso", name:"Teatro di Dioniso", greek:"Θέατρο Διονύσου", group:"Acropoli"},
-  {key:"museo-acropoli", name:"Museo dell'Acropoli", greek:"Μουσείο Ακρόπολης", group:"Acropoli"},
+<nav class="pills">
+    <a href="#acropoli" class="pill">Acropoli</a>
+    <a href="#agor-antica" class="pill">Agorà Antica</a>
+    <a href="#citt-bassa-e-dintorni" class="pill">Città Bassa e dintorni</a>
+    <a href="#quartieri-di-atene" class="pill">Quartieri di Atene</a>
+</nav>
 
-  // AGORÀ ANTICA
-  {key:"tempio-efesto", name:"Tempio di Efesto (Theseion)", greek:"Ναός Ηφαίστου (Θησείον)", group:"Agorà Antica"},
-  {key:"stoa-attalo", name:"Stoa di Attalo (e Museo dell'Agorà)", greek:"Στοά Αττάλου", group:"Agorà Antica"},
-  {key:"bouleuterion-agora", name:"Bouleuterion (Vecchio e Nuovo)", greek:"Βουλευτήριον", group:"Agorà Antica"},
-  {key:"tholos-agora", name:"Tholos", greek:"Θόλος", group:"Agorà Antica"},
-  {key:"metroon-agora", name:"Metroon", greek:"Μητρώον", group:"Agorà Antica"},
-  {key:"eroi-eponimi", name:"Monumento degli Eroi Eponimi", greek:"Μνημείο Επωνύμων Ηρώων", group:"Agorà Antica"},
-  {key:"altare-dodici-dei", name:"Altare dei Dodici Dei", greek:"Βωμός των Δώδεκα Θεών", group:"Agorà Antica"},
-  {key:"stoa-zeus", name:"Stoa di Zeus Eleutherios", greek:"Στοά Διός Ελευθερίου", group:"Agorà Antica"},
-  {key:"stoa-basileios", name:"Stoa Basileios (Stoa Reale)", greek:"Βασίλειος Στοά", group:"Agorà Antica"},
-  {key:"stoa-poikile", name:"Stoa Poikile (Stoa Dipinta)", greek:"Ποικίλη Στοά", group:"Agorà Antica"},
-  {key:"tempio-apollo-patroos", name:"Tempio di Apollo Patroos", greek:"Ναός Απόλλωνος Πατρώου", group:"Agorà Antica"},
-  {key:"odeon-agrippa", name:"Odeon di Agrippa", greek:"Ωδείο Αγρίππα", group:"Agorà Antica"},
-  {key:"biblioteca-pantainos", name:"Biblioteca di Pantainos", greek:"Βιβλιοθήκη Πανταίνου", group:"Agorà Antica"},
-  {key:"areopago", name:"Areopago", greek:"Άρειος Πάγος", group:"Agorà Antica"},
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  // CITTÀ BASSA E DINTORNI
-  {key:"agora-romana", name:"Agorà Romana", greek:"Ρωμαϊκή Αγορά", group:"Città Bassa e dintorni"},
-  {key:"torre-venti", name:"Torre dei Venti", greek:"Πύργος των Ανέμων (Αέρηδες)", group:"Città Bassa e dintorni"},
-  {key:"biblioteca-adriano", name:"Biblioteca di Adriano", greek:"Βιβλιοθήκη Αδριανού", group:"Città Bassa e dintorni"},
-  {key:"arco-adriano", name:"Arco di Adriano", greek:"Αψίδα του Αδριανού", group:"Città Bassa e dintorni"},
-  {key:"tempio-zeus-olimpio", name:"Tempio di Zeus Olimpio (Olympieion)", greek:"Ναός Ολυμπίου Διός", group:"Città Bassa e dintorni"},
-  {key:"monumento-lisicrate", name:"Monumento di Lisicrate", greek:"Μνημείο Λυσικράτους", group:"Città Bassa e dintorni"},
-  {key:"pnice", name:"Pnice", greek:"Πνύκα", group:"Città Bassa e dintorni"},
-  {key:"collina-filopappo", name:"Collina di Filopappo", greek:"Λόφος Φιλοπάππου", group:"Città Bassa e dintorni"},
-  {key:"kerameikos", name:"Kerameikos", greek:"Κεραμεικός", group:"Città Bassa e dintorni"},
-  {key:"museo-nazionale", name:"Museo Archeologico Nazionale", greek:"Εθνικό Αρχαιολογικό Μουσείο", group:"Città Bassa e dintorni"},
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p>Atene non fu mai, in termini di popolazione o potenza militare, la più grande città della Grecia antica — eppure è la città che, più di ogni altra, ha plasmato il pensiero, l'arte, la politica e il linguaggio con cui ancora oggi descriviamo il mondo. Parole come "democrazia", "filosofia", "teatro", "politica" sono greche, nate o sviluppate nella loro forma matura proprio qui.</p>
+<p><strong>Le origini.</strong> Atene è tra le città più antiche d'Europa ininterrottamente abitate: l'Acropoli era occupata già in epoca neolitica, e divenne roccaforte micenea fortificata nel XIII secolo a.C. A differenza di Micene o Tirinto, Atene non fu abbandonata dopo il collasso miceneo.</p>
+<p><strong>L'età arcaica.</strong> Con <strong>Solone</strong> (594 a.C.) vennero poste le prime basi giuridiche per una partecipazione più ampia alla vita pubblica. Seguì la tirannide di <strong>Pisistrato</strong>, poi rovesciata nel 510 a.C.; nel <strong>508-507 a.C.</strong> il riformatore <strong>Clistene</strong> introdusse la <strong>democrazia</strong>, riorganizzando la cittadinanza in dieci tribù territoriali e istituendo il Consiglio dei Cinquecento e l'ostracismo.</p>
+<p><strong>Le guerre persiane.</strong> Tra il 490 e il 479 a.C. Atene fu protagonista della resistenza greca: la vittoria di <strong>Maratona</strong> (490 a.C.), la distruzione della città e dell'Acropoli nel 480 a.C., la vittoria navale di <strong>Salamina</strong> guidata da Temistocle, e infine <strong>Platea</strong> (479 a.C.).</p>
+<p><strong>Il secolo d'oro di Pericle.</strong> Atene divenne la potenza egemone del mondo greco a capo della <strong>Lega di Delo</strong>. <strong>Pericle</strong> (461-429 a.C.) finanziò la ricostruzione monumentale dell'Acropoli — Partenone, Propilei, Eretteo, Tempio di Atena Nike — sotto la supervisione artistica di <strong>Fidia</strong>. Fiorirono la tragedia di Eschilo, Sofocle ed Euripide, la commedia di Aristofane, la storiografia di Erodoto e Tucidide.</p>
+<p><strong>La guerra del Peloponneso e il declino.</strong> Il conflitto con Sparta (431-404 a.C.) logorò Atene, colpita anche da una pestilenza devastante. Perse l'impero ma non il ruolo di centro culturale.</p>
+<p><strong>La filosofia.</strong> <strong>Socrate</strong> fu condannato a morte nel 399 a.C.; il suo allievo <strong>Platone</strong> fondò l'<strong>Accademia</strong> (387 a.C.), e il suo allievo <strong>Aristotele</strong> fondò il <strong>Liceo</strong> (335 a.C.), prima di diventare precettore di Alessandro Magno.</p>
+<p><strong>Ellenismo e Roma.</strong> Con l'ascesa macedone Atene perse l'indipendenza politica ma mantenne prestigio culturale: nacquero lo <strong>Stoicismo</strong> di Zenone e l'<strong>Epicureismo</strong>. Sotto Roma restò meta di pellegrinaggio culturale, beneficiando di donazioni monumentali sotto <strong>Adriano</strong>.</p>
+<p><strong>Declino e rinascita.</strong> Con la chiusura delle scuole filosofiche pagane nel 529 d.C., Atene entrò in un lungo periodo di marginalità: bizantina, franca, ottomana dal 1458. Il Partenone divenne chiesa, poi moschea, danneggiato nel 1687. Solo nel 1834 Atene fu scelta come capitale del nuovo Regno di Grecia.</p>
+<p><strong>Perché conta così tanto, in sintesi:</strong> Atene è il luogo dove nacquero, nella loro forma più matura, la democrazia, la filosofia sistematica, il teatro tragico e comico, e una tradizione artistica e architettonica che ha definito per secoli l'idea stessa di classicismo in Occidente.</p></div>
+  </div>
 
-  // QUARTIERI DI ATENE
-  {key:"plaka", name:"Plaka", greek:"Πλάκα", group:"Quartieri di Atene"},
-  {key:"anafiotika", name:"Anafiotika", greek:"Αναφιώτικα", group:"Quartieri di Atene"},
-  {key:"monastiraki", name:"Monastiraki", greek:"Μοναστηράκι", group:"Quartieri di Atene"},
-  {key:"psyrri", name:"Psyrri", greek:"Ψυρρή", group:"Quartieri di Atene"},
-  {key:"thissio", name:"Thissio", greek:"Θησείο", group:"Quartieri di Atene"},
-  {key:"koukaki", name:"Koukaki", greek:"Κουκάκι", group:"Quartieri di Atene"},
-  {key:"kolonaki", name:"Kolonaki", greek:"Κολωνάκι", group:"Quartieri di Atene"},
-  {key:"exarchia", name:"Exarchia", greek:"Εξάρχεια", group:"Quartieri di Atene"},
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>La contesa tra Atena e Poseidone.</strong> Sia Atena che Poseidone desideravano diventare la divinità tutelare della città, governata dal primo re <strong>Cecrope</strong>. Poseidone colpì la roccia con il tridente, facendo scaturire acqua salata; Atena, colpendo la terra con la lancia, fece germogliare un <strong>ulivo</strong>. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, prendendo da lei il nome. Poseidone, furioso, allagò la pianura dell'Attica.</p>
+<p><strong>Cecrope, il primo re "nato dalla terra".</strong> Cecrope era un re <strong>autoctono</strong> (<em>autos</em>, stesso, + <em>chthon</em>, terra), rappresentato per metà uomo e per metà serpente — un mito politicamente importante: gli Ateniesi si vantavano di essere discendenti diretti della propria terra.</p>
+<p><strong>Erittonio ed Erecteo.</strong> Efesto tentò di unirsi ad Atena, che lo respinse; il suo seme fecondò Gea, che generò <strong>Erittonio</strong>. Atena lo allevò in segreto, affidandolo in una cesta chiusa alle tre figlie di Cecrope, vietandone l'apertura. Alcune disobbedirono, videro il bambino sorvegliato dai serpenti, e impazzirono gettandosi dalla rupe. Erittonio, cresciuto, divenne re e istituì il culto di Atena Poliade. Il suo nome è spesso associato a <strong>Erecteo</strong>, a cui è dedicato l'Eretteo.</p>
+<p><strong>Teseo, l'eroe nazionale.</strong> Figlio del re <strong>Egeo</strong>, Teseo uccise il <strong>Minotauro</strong> a Creta, liberando Atene dal tributo di fanciulli. Dimenticò di cambiare le vele nere della nave: Egeo, credendolo morto, si gettò in mare, dando il nome al <strong>Mar Egeo</strong>. Teseo fu ricordato come unificatore dell'Attica e quasi precursore mitico della democrazia.</p></div>
+  </div>
 
-  // MITOLOGIA — DÈI
-  {key:"mito-zeus", name:"Zeus", greek:"Ζεύς", group:"Mitologia — Dèi"},
-  {key:"mito-era", name:"Era", greek:"Ήρα", group:"Mitologia — Dèi"},
-  {key:"mito-poseidone", name:"Poseidone", greek:"Ποσειδῶν", group:"Mitologia — Dèi"},
-  {key:"mito-atena", name:"Atena", greek:"Ἀθηνᾶ", group:"Mitologia — Dèi"},
-  {key:"mito-apollo", name:"Apollo", greek:"Ἀπόλλων", group:"Mitologia — Dèi"},
-  {key:"mito-artemide", name:"Artemide", greek:"Ἄρτεμις", group:"Mitologia — Dèi"},
-  {key:"mito-demetra", name:"Demetra", greek:"Δημήτηρ", group:"Mitologia — Dèi"},
-  {key:"mito-dioniso", name:"Dioniso", greek:"Διόνυσος", group:"Mitologia — Dèi"},
-  {key:"mito-afrodite", name:"Afrodite", greek:"Ἀφροδίτη", group:"Mitologia — Dèi"},
-  {key:"mito-ares", name:"Ares", greek:"Ἄρης", group:"Mitologia — Dèi"},
-  {key:"mito-efesto", name:"Efesto", greek:"Ἥφαιστος", group:"Mitologia — Dèi"},
-  {key:"mito-ermes", name:"Ermes", greek:"Ἑρμῆς", group:"Mitologia — Dèi"},
-  {key:"mito-estia", name:"Estia", greek:"Ἑστία", group:"Mitologia — Dèi"},
+  <div id="groups">
+    
+<section class="group" id="acropoli">
+  <h2 class="group-title">Acropoli<span class="group-count">14</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="propilei" data-greek="προπύλαια">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Propilei<span class="site-greek">Προπύλαια</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Propylaia</strong> da <em>pro-</em> ("davanti") + <strong>pylē</strong> ("porta") — la stessa radice delle <strong>Termopili</strong> ("porte calde") già incontrate a Sparta.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruiti tra il <strong>437 e il 432 a.C.</strong> su progetto di <strong>Mnesicle</strong>, come ingresso monumentale all'Acropoli, parte del programma di Pericle. Il progetto originario prevedeva cinque sale; i lavori si interruppero nel 431 a.C. con la Guerra del Peloponneso e non furono mai ripresi. Trasformati in palazzo dagli Acciaiuoli nel Ducato di Atene (1388-1458), danneggiati da un'esplosione nel 1656.</p></div><div class="tab-panel"><p>Combina ordine <strong>dorico</strong> esterno e <strong>ionico</strong> interno in marmo pentelico. Cinque porte nel muro centrale, quella di mezzo più ampia per il passaggio degli animali sacrificali durante le Panatenee. L'ala nord, la <strong>Pinacoteca</strong>, ospitava dipinti mitologici — una delle prime gallerie d'arte pubbliche della storia.</p></div><div class="tab-panel"><p>Rappresentano fisicamente la soglia tra il mondo profano della città e lo spazio sacro dell'Acropoli dedicato ad Atena.</p></div></div>
+    </div></div>
+  </div>
 
-  // MITOLOGIA — EROI
-  {key:"mito-eracle", name:"Eracle", greek:"Ἡρακλῆς", group:"Mitologia — Eroi"},
-  {key:"mito-teseo", name:"Teseo", greek:"Θησεύς", group:"Mitologia — Eroi"},
-  {key:"mito-perseo", name:"Perseo", greek:"Περσεύς", group:"Mitologia — Eroi"},
-  {key:"mito-pelope", name:"Pelope", greek:"Πέλοψ", group:"Mitologia — Eroi"},
-  {key:"mito-bellerofonte", name:"Bellerofonte", greek:"Βελλεροφῶν", group:"Mitologia — Eroi"},
-  {key:"mito-giasone", name:"Giasone", greek:"Ἰάσων", group:"Mitologia — Eroi"},
-  {key:"mito-achille", name:"Achille", greek:"Ἀχιλλεύς", group:"Mitologia — Eroi"},
+  <div class="site" data-name="tempio di atena nike" data-greek="ναός αθηνάς νίκης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Atena Nike<span class="site-greek">Ναός Αθηνάς Νίκης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Nike</strong> significa "vittoria" (da cui il marchio sportivo). Il tempio è <strong>anfiprostilo</strong> (<em>amphi</em> + <em>pro</em> + <em>stylos</em>, "colonne su entrambe le facciate").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Disegnato da <strong>Callicrate</strong>, completato attorno al <strong>420 a.C.</strong> sul bastione sud-ovest, sopra i resti di un tempio del VI secolo a.C. distrutto dai Persiani. Smantellato dagli Ottomani dopo il 1687, ricostruito nel 1836, negli anni '30 del Novecento, e nel 2010.</p></div><div class="tab-panel"><p>Piccolo tempio ionico anfiprostilo, 8,27 x 5,44 metri. Fregio ionico continuo con scene di Maratona. Attorno al 410 a.C. fu aggiunto un parapetto con rilievi di Nike, tra cui il celebre "Nike che si slaccia il sandalo".</p></div><div class="tab-panel"><p>Il bastione è legato al mito di <strong>Egeo</strong>, che secondo Pausania scrutò da qui il mare in attesa del ritorno di Teseo, gettandosi in mare alla vista delle vele nere.</p></div></div>
+    </div></div>
+  </div>
 
-  // MITOLOGIA — CICLI MITOLOGICI
-  {key:"ciclo-atridi", name:"Il Ciclo degli Atridi", greek:"Ἀτρεῖδαι", group:"Mitologia — Cicli"},
-  {key:"ciclo-troia", name:"La Guerra di Troia", greek:"Τρωικὸς Πόλεμος", group:"Mitologia — Cicli"},
-  {key:"ciclo-argo", name:"Il Ciclo di Argo (Danao, Perseo, Io)", greek:"Ἄργος", group:"Mitologia — Cicli"},
-  {key:"ciclo-medea", name:"Medea e Giasone", greek:"Μήδεια", group:"Mitologia — Cicli"},
-  {key:"ciclo-origini-atene", name:"Le Origini di Atene (Cecrope, Erittonio)", greek:"Κέκροψ", group:"Mitologia — Cicli"},
+  <div class="site" data-name="partenone" data-greek="παρθενώνας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Partenone<span class="site-greek">Παρθενώνας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Parthenon</strong> da <strong>parthenos</strong> ("vergine"), epiteto di Atena. Radice di "partenogenesi" e del nome "Partenope".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il <strong>447 e il 438 a.C.</strong> sotto la direzione di <strong>Fidia</strong>, architetti <strong>Ictino</strong> e <strong>Callicrate</strong>. Storia di conversioni: chiesa, cattedrale, moschea; devastato dall'esplosione veneziana del <strong>1687</strong>; sculture rimosse da Lord Elgin, oggi al British Museum. Restauro in corso dal 1975.</p></div><div class="tab-panel"><p>Tempio dorico periptero ottastilo (8x17 colonne), 69,5 x 30,9 metri. Straordinari <strong>raffinamenti ottici</strong>: entasi delle colonne, curvatura dello stilobate (11 cm al centro), colonne inclinate verso l'interno (convergerebbero a 2,4 km di altezza), contrazione angolare. Rapporto proporzionale 4:9. Fregio ionico continuo (160 m) raro in un tempio dorico. Frontoni: nascita di Atena (est), contesa con Poseidone (ovest). Metope: Gigantomachia, Amazzonomachia, Centauromachia, guerra di Troia. Statua crisoelefantina di Atena Parthenos (12 m) di Fidia.</p></div><div class="tab-panel"><p>Compendio scolpito della mitologia greca: nascita di Atena, contesa con Poseidone, Amazzoni, Centauri, guerra di Troia.</p></div></div>
+    </div></div>
+  </div>
 
-  // MITOLOGIA — CREATURE E SIMBOLI
-  {key:"crea-amazzoni", name:"Le Amazzoni", greek:"Ἀμαζόνες", group:"Mitologia — Creature"},
-  {key:"crea-centauri", name:"I Centauri", greek:"Κένταυροι", group:"Mitologia — Creature"},
-  {key:"crea-giganti", name:"I Giganti", greek:"Γίγαντες", group:"Mitologia — Creature"},
-  {key:"crea-minotauro", name:"Il Minotauro", greek:"Μινώταυρος", group:"Mitologia — Creature"},
-  {key:"crea-medusa", name:"Medusa e le Gorgoni", greek:"Μέδουσα", group:"Mitologia — Creature"},
-  {key:"crea-ciclopi", name:"I Ciclopi", greek:"Κύκλωπες", group:"Mitologia — Creature"},
+  <div class="site" data-name="eretteo (e portico delle cariatidi)" data-greek="ερέχθειον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Eretteo (e Portico delle Cariatidi)<span class="site-greek">Ερέχθειον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Da <strong>Erecteo</strong>, forse legato a una radice per "scuotere/lacerare" — collegabile a <strong>Poseidone Ennosigeo</strong> ("che scuote la terra").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Ultimo grande edificio del programma periclèo, costruito tra il <strong>421 e il 406 a.C.</strong> su progetto di Mnesicle. Il vero santuario funzionante dell'Acropoli, custode dello xoanon di Atena Poliade.</p></div><div class="tab-panel"><p>Edificio irregolare per necessità: dislivello di oltre 3 metri. Portico est esastilo ionico; portico nord con il segno del tridente di Poseidone e la sorgente salata; Pandroseion a ovest con l'ulivo sacro; <strong>Portico delle Cariatidi</strong> a sud, sei statue femminili al posto delle colonne (cinque al Museo dell'Acropoli, una al British Museum).</p></div><div class="tab-panel"><p>Il luogo dove mito e architettura coincidono fisicamente: incorpora i segni concreti della contesa Atena-Poseidone e le tombe dei re leggendari.</p></div></div>
+    </div></div>
+  </div>
 
-  // PERSONAGGI STORICI
-  {key:"pers-pericle", name:"Pericle", greek:"Περικλῆς", group:"Personaggi Storici"},
-  {key:"pers-socrate", name:"Socrate", greek:"Σωκράτης", group:"Personaggi Storici"},
-  {key:"pers-platone", name:"Platone", greek:"Πλάτων", group:"Personaggi Storici"},
-  {key:"pers-aristotele", name:"Aristotele", greek:"Ἀριστοτέλης", group:"Personaggi Storici"},
-  {key:"pers-solone", name:"Solone", greek:"Σόλων", group:"Personaggi Storici"},
-  {key:"pers-clistene", name:"Clistene", greek:"Κλεισθένης", group:"Personaggi Storici"},
-  {key:"pers-temistocle", name:"Temistocle", greek:"Θεμιστοκλῆς", group:"Personaggi Storici"},
-  {key:"pers-fidia", name:"Fidia", greek:"Φειδίας", group:"Personaggi Storici"},
-  {key:"pers-erode-attico", name:"Erode Attico", greek:"Ἡρώδης ὁ Ἀττικός", group:"Personaggi Storici"},
-  {key:"pers-adriano", name:"Adriano", greek:"Hadrianus", group:"Personaggi Storici"},
-  {key:"pers-pausania", name:"Pausania (il viaggiatore)", greek:"Παυσανίας", group:"Personaggi Storici"},
-  {key:"pers-leonida", name:"Leonida", greek:"Λεωνίδας", group:"Personaggi Storici"},
-  {key:"pers-demostene", name:"Demostene", greek:"Δημοσθένης", group:"Personaggi Storici"},
-  {key:"pers-sofocle", name:"Sofocle", greek:"Σοφοκλῆς", group:"Personaggi Storici"},
-  {key:"pers-euripide", name:"Euripide", greek:"Εὐριπίδης", group:"Personaggi Storici"},
-  {key:"pers-eschilo", name:"Eschilo", greek:"Αἰσχύλος", group:"Personaggi Storici"},
-  {key:"pers-alessandro", name:"Alessandro Magno", greek:"Ἀλέξανδρος ὁ Μέγας", group:"Personaggi Storici"},
-];
+  <div class="site" data-name="antico tempio di atena" data-greek="αρχαίος ναός της αθηνάς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Antico Tempio di Atena<span class="site-greek">Αρχαίος Ναός της Αθηνάς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito nella seconda metà del <strong>VI secolo a.C.</strong>, tra Partenone ed Eretteo. Custodiva lo xoanon di Atena Poliade. Distrutto dai Persiani nel 480 a.C. Fondamenta riscoperte nel 1885-86 da <strong>Wilhelm Dörpfeld</strong>.</p></div><div class="tab-panel"><p>Tempio dorico periptero in calcare, di cui restano solo le fondamenta. Elementi architettonici reimpiegati da Temistocle nelle mura nord dell'Acropoli, lasciati volutamente visibili come memoriale della distruzione persiana.</p></div><div class="tab-panel"><p>Custodiva lo xoanon di <strong>Atena Poliade</strong> prima che il culto si spostasse nell'Eretteo.</p></div></div>
+    </div></div>
+  </div>
 
-const content = {
-  "propilei": {
-    etym: `<strong>Propylaia</strong> da <em>pro-</em> ("davanti") + <strong>pylē</strong> ("porta") — la stessa radice delle <strong>Termopili</strong> ("porte calde") già incontrate a Sparta.`,
-    storia: `<p>Costruiti tra il <strong>437 e il 432 a.C.</strong> su progetto di <strong>Mnesicle</strong>, come ingresso monumentale all'Acropoli, parte del programma di Pericle. Il progetto originario prevedeva cinque sale; i lavori si interruppero nel 431 a.C. con la Guerra del Peloponneso e non furono mai ripresi. Trasformati in palazzo dagli Acciaiuoli nel Ducato di Atene (1388-1458), danneggiati da un'esplosione nel 1656.</p>`,
-    arte: `<p>Combina ordine <strong>dorico</strong> esterno e <strong>ionico</strong> interno in marmo pentelico. Cinque porte nel muro centrale, quella di mezzo più ampia per il passaggio degli animali sacrificali durante le Panatenee. L'ala nord, la <strong>Pinacoteca</strong>, ospitava dipinti mitologici — una delle prime gallerie d'arte pubbliche della storia.</p>`,
-    mito: `<p>Rappresentano fisicamente la soglia tra il mondo profano della città e lo spazio sacro dell'Acropoli dedicato ad Atena.</p>`
-  },
-  "tempio-atena-nike": {
-    etym: `<strong>Nike</strong> significa "vittoria" (da cui il marchio sportivo). Il tempio è <strong>anfiprostilo</strong> (<em>amphi</em> + <em>pro</em> + <em>stylos</em>, "colonne su entrambe le facciate").`,
-    storia: `<p>Disegnato da <strong>Callicrate</strong>, completato attorno al <strong>420 a.C.</strong> sul bastione sud-ovest, sopra i resti di un tempio del VI secolo a.C. distrutto dai Persiani. Smantellato dagli Ottomani dopo il 1687, ricostruito nel 1836, negli anni '30 del Novecento, e nel 2010.</p>`,
-    arte: `<p>Piccolo tempio ionico anfiprostilo, 8,27 x 5,44 metri. Fregio ionico continuo con scene di Maratona. Attorno al 410 a.C. fu aggiunto un parapetto con rilievi di Nike, tra cui il celebre "Nike che si slaccia il sandalo".</p>`,
-    mito: `<p>Il bastione è legato al mito di <strong>Egeo</strong>, che secondo Pausania scrutò da qui il mare in attesa del ritorno di Teseo, gettandosi in mare alla vista delle vele nere.</p>`
-  },
-  "partenone": {
-    etym: `<strong>Parthenon</strong> da <strong>parthenos</strong> ("vergine"), epiteto di Atena. Radice di "partenogenesi" e del nome "Partenope".`,
-    storia: `<p>Costruito tra il <strong>447 e il 438 a.C.</strong> sotto la direzione di <strong>Fidia</strong>, architetti <strong>Ictino</strong> e <strong>Callicrate</strong>. Storia di conversioni: chiesa, cattedrale, moschea; devastato dall'esplosione veneziana del <strong>1687</strong>; sculture rimosse da Lord Elgin, oggi al British Museum. Restauro in corso dal 1975.</p>`,
-    arte: `<p>Tempio dorico periptero ottastilo (8x17 colonne), 69,5 x 30,9 metri. Straordinari <strong>raffinamenti ottici</strong>: entasi delle colonne, curvatura dello stilobate (11 cm al centro), colonne inclinate verso l'interno (convergerebbero a 2,4 km di altezza), contrazione angolare. Rapporto proporzionale 4:9. Fregio ionico continuo (160 m) raro in un tempio dorico. Frontoni: nascita di Atena (est), contesa con Poseidone (ovest). Metope: Gigantomachia, Amazzonomachia, Centauromachia, guerra di Troia. Statua crisoelefantina di Atena Parthenos (12 m) di Fidia.</p>`,
-    mito: `<p>Compendio scolpito della mitologia greca: nascita di Atena, contesa con Poseidone, Amazzoni, Centauri, guerra di Troia.</p>`
-  },
-  "eretteo": {
-    etym: `Da <strong>Erecteo</strong>, forse legato a una radice per "scuotere/lacerare" — collegabile a <strong>Poseidone Ennosigeo</strong> ("che scuote la terra").`,
-    storia: `<p>Ultimo grande edificio del programma periclèo, costruito tra il <strong>421 e il 406 a.C.</strong> su progetto di Mnesicle. Il vero santuario funzionante dell'Acropoli, custode dello xoanon di Atena Poliade.</p>`,
-    arte: `<p>Edificio irregolare per necessità: dislivello di oltre 3 metri. Portico est esastilo ionico; portico nord con il segno del tridente di Poseidone e la sorgente salata; Pandroseion a ovest con l'ulivo sacro; <strong>Portico delle Cariatidi</strong> a sud, sei statue femminili al posto delle colonne (cinque al Museo dell'Acropoli, una al British Museum).</p>`,
-    mito: `<p>Il luogo dove mito e architettura coincidono fisicamente: incorpora i segni concreti della contesa Atena-Poseidone e le tombe dei re leggendari.</p>`
-  },
-  "antico-tempio-atena": {
-    storia: `<p>Costruito nella seconda metà del <strong>VI secolo a.C.</strong>, tra Partenone ed Eretteo. Custodiva lo xoanon di Atena Poliade. Distrutto dai Persiani nel 480 a.C. Fondamenta riscoperte nel 1885-86 da <strong>Wilhelm Dörpfeld</strong>.</p>`,
-    arte: `<p>Tempio dorico periptero in calcare, di cui restano solo le fondamenta. Elementi architettonici reimpiegati da Temistocle nelle mura nord dell'Acropoli, lasciati volutamente visibili come memoriale della distruzione persiana.</p>`,
-    mito: `<p>Custodiva lo xoanon di <strong>Atena Poliade</strong> prima che il culto si spostasse nell'Eretteo.</p>`
-  },
-  "santuario-zeus-polieus": {
-    etym: `<strong>Polieus</strong> da <strong>polis</strong> ("città") — radice di "politica" e "metropoli".`,
-    storia: `<p>Recinto sacro a cielo aperto allestito attorno al <strong>500 a.C.</strong>, a est dell'Eretteo. Vi si celebrava la <strong>Dipolieia (Bouphonia)</strong>, l'"uccisione del bue": un rito arcaico con tanto di processo simbolico all'ascia colpevole, gettata infine in mare.</p>`,
-    arte: `<p>Nessuna fondazione visibile: recinto trapezoidale con più ingressi, ricostruito solo da tagli nella roccia e dalle descrizioni di Pausania.</p>`,
-    mito: `<p>Il mito eziologico racconta un sacerdote che uccise d'impulso un bue sorpreso a mangiare l'offerta di grano a Zeus — il rito ripeteva ogni anno quella prima, necessaria colpa.</p>`
-  },
-  "pandroseion": {
-    etym: `<strong>Arreforos</strong> da <em>arrhēta</em> ("cose segrete") + <em>phoros</em> ("che porta"). <strong>Pandroseion</strong> da <strong>Pandroso</strong> ("tutta rugiada").`,
-    storia: `<p>Il Pandroseion, recinto dedicato a <strong>Pandroso</strong>, occupava lo spazio a ovest dell'Eretteo. L'Arreforion, residenza delle <strong>Arreforoi</strong> (due bambine al servizio di Atena), ospitava il rito notturno dell'<strong>Arreforia</strong>: le bambine portavano oggetti segreti attraverso un passaggio sotterraneo fino al Santuario di Afrodite nei Giardini.</p>`,
-    arte: `<p>Dell'Arreforion restano solo fondazioni in calcare, ricoperte nel 2006 per proteggerle. Il Pandroseion era un cortile trapezoidale con l'altare di Zeus Herkeios sotto l'ulivo sacro.</p>`,
-    mito: `<p>Il rito dell'Arreforia rispecchiava direttamente il mito delle figlie di Cecrope: la cesta chiusa, il divieto di guardare, la discesa in un luogo nascosto.</p>`
-  },
-  "calcoteca": {
-    etym: `<strong>Chalkotheke</strong> da <em>chalkos</em> ("bronzo") + <em>thēkē</em> ("deposito") — la stessa radice di "biblioteca" e "pinacoteca".`,
-    storia: `<p>Costruita poco dopo il 450 a.C., lungo il muro meridionale. Magazzino/arsenale per offerte votive in bronzo e materiale bellico. Pausania non la menziona.</p>`,
-    arte: `<p>Edificio rettangolare di circa 43 x 14-20 metri, sei colonne interne. Oggi solo fondamenta in calcare.</p>`,
-    mito: `<p>Nessun mito, ma racconta l'intreccio tra dimensione militare e sacra tipico del culto di Atena.</p>`
-  },
-  "artemide-brauronia": {
-    etym: `Le iniziate erano dette <strong>arktoi</strong> ("orse"), da <strong>arktos</strong> — radice dell'italiano "Artico" (la regione "sotto l'Orsa").`,
-    storia: `<p>Filiale urbana del santuario di Artemide a Brauron. Vi si trovava una statua attribuita a <strong>Prassitele</strong>. Ogni cinque anni le ragazze partecipavano al rito iniziatico dell'<strong>Arkteia</strong>.</p>`,
-    arte: `<p>Stoa a forma di "Pi" (Π), adattata allo spazio irregolare tra le mura e il Partenone. Oggi solo tracce nella roccia.</p>`,
-    mito: `<p>Legato a <strong>Ifigenia</strong>, che secondo Euripide fondò il santuario di Brauron dopo essere stata salvata da Artemide con la sostituzione di una cerva al sacrificio di Aulide.</p>`
-  },
-  "odeon-erode": {
-    storia: `<p>Costruito tra il 160 e il 174 d.C. da <strong>Erode Attico</strong> in memoria della moglie <strong>Regilla</strong>. Distrutto dagli Eruli nel 267 d.C., restaurato negli anni '50 del Novecento, sede del Festival di Atene dal 1955.</p>`,
-    arte: `<p>Odeon romano con cavea di 80 metri di diametro, capace di 5.000 spettatori. Edificio scenico alto 28 metri, un tempo coperto da un tetto in legno di cedro.</p>`,
-    mito: `<p>Monumento all'amore coniugale, non a un mito.</p>`
-  },
-  "stoa-eumene": {
-    storia: `<p>Donata attorno al 160 a.C. dal re <strong>Eumene II di Pergamo</strong>, tra il Teatro di Dioniso e l'area dell'Odeon. Offriva riparo agli spettatori del teatro.</p>`,
-    arte: `<p>Lunga 163 metri, alta 16, su due piani: 64 colonne doriche esterne, 32 interne (ioniche e "pergamene"). Simile alla Stoa di Attalo dell'Agorà.</p>`,
-    mito: `<p>Nessun mito, struttura puramente funzionale.</p>`
-  },
-  "asklepieion": {
-    storia: `<p>Fondato nel <strong>420/419 a.C.</strong>, forse in risposta alla peste di Atene, con culto importato da Epidauro. Fondatore: <strong>Telemaco di Acarne</strong>. Tradizione lega Sofocle all'accoglienza del serpente sacro.</p>`,
-    arte: `<p>Tempio, altare, sorgente sacra, e due stoe: una per i pasti rituali, una come abaton per l'incubazione.</p>`,
-    mito: `<p>Testimonia come il culto di <strong>Asclepio</strong>, già raccontato a Epidauro, si diffondesse fisicamente da un santuario all'altro.</p>`
-  },
-  "teatro-dioniso": {
-    etym: `<strong>Theatron</strong> da <em>theaomai</em> ("guardare") — radice di "teoria" e "teatro". <strong>Orchestra</strong> da <em>orcheomai</em> ("danzare").`,
-    storia: `<p>Il teatro più antico del mondo, origini nel VI secolo a.C. legate al culto di <strong>Dioniso Eleutereo</strong>. Qui debuttarono Eschilo, Sofocle, Euripide, Aristofane. Ricostruito in pietra nel IV secolo a.C. sotto <strong>Licurgo</strong>, capienza fino a 17.000 spettatori.</p>`,
-    arte: `<p>Cavea larga 82 metri, fino a 67 file di gradini. Trono marmoreo per il sacerdote di Dioniso. Vicino, il Monumento Coragico di Trasillo e le fondamenta di due templi di Dioniso.</p>`,
-    mito: `<p>Legato a <strong>Dioniso</strong>, dio della trasformazione — qualità che si riflette nella natura stessa del teatro come luogo di metamorfosi.</p>`
-  },
-  "museo-acropoli": {
-    storia: `<p>Inaugurato nel <strong>2009</strong> su progetto di <strong>Bernard Tschumi</strong>, sostituisce il museo ottocentesco del 1874. Costruito anche come argomento diplomatico nella disputa sugli Elgin Marbles.</p>`,
-    arte: `<p><strong>Cosa vedrete:</strong></p>
+  <div class="site" data-name="santuario di zeus polieus" data-greek="ιερό διός πολιέως">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santuario di Zeus Polieus<span class="site-greek">Ιερό Διός Πολιέως</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Polieus</strong> da <strong>polis</strong> ("città") — radice di "politica" e "metropoli".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Recinto sacro a cielo aperto allestito attorno al <strong>500 a.C.</strong>, a est dell'Eretteo. Vi si celebrava la <strong>Dipolieia (Bouphonia)</strong>, l'"uccisione del bue": un rito arcaico con tanto di processo simbolico all'ascia colpevole, gettata infine in mare.</p></div><div class="tab-panel"><p>Nessuna fondazione visibile: recinto trapezoidale con più ingressi, ricostruito solo da tagli nella roccia e dalle descrizioni di Pausania.</p></div><div class="tab-panel"><p>Il mito eziologico racconta un sacerdote che uccise d'impulso un bue sorpreso a mangiare l'offerta di grano a Zeus — il rito ripeteva ogni anno quella prima, necessaria colpa.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pandroseion e arreforion" data-greek="πανδρόσειον / αρρηφόριον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pandroseion e Arreforion<span class="site-greek">Πανδρόσειον / Αρρηφόριον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Arreforos</strong> da <em>arrhēta</em> ("cose segrete") + <em>phoros</em> ("che porta"). <strong>Pandroseion</strong> da <strong>Pandroso</strong> ("tutta rugiada").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Pandroseion, recinto dedicato a <strong>Pandroso</strong>, occupava lo spazio a ovest dell'Eretteo. L'Arreforion, residenza delle <strong>Arreforoi</strong> (due bambine al servizio di Atena), ospitava il rito notturno dell'<strong>Arreforia</strong>: le bambine portavano oggetti segreti attraverso un passaggio sotterraneo fino al Santuario di Afrodite nei Giardini.</p></div><div class="tab-panel"><p>Dell'Arreforion restano solo fondazioni in calcare, ricoperte nel 2006 per proteggerle. Il Pandroseion era un cortile trapezoidale con l'altare di Zeus Herkeios sotto l'ulivo sacro.</p></div><div class="tab-panel"><p>Il rito dell'Arreforia rispecchiava direttamente il mito delle figlie di Cecrope: la cesta chiusa, il divieto di guardare, la discesa in un luogo nascosto.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="calcoteca" data-greek="χαλκοθήκη">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Calcoteca<span class="site-greek">Χαλκοθήκη</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Chalkotheke</strong> da <em>chalkos</em> ("bronzo") + <em>thēkē</em> ("deposito") — la stessa radice di "biblioteca" e "pinacoteca".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita poco dopo il 450 a.C., lungo il muro meridionale. Magazzino/arsenale per offerte votive in bronzo e materiale bellico. Pausania non la menziona.</p></div><div class="tab-panel"><p>Edificio rettangolare di circa 43 x 14-20 metri, sei colonne interne. Oggi solo fondamenta in calcare.</p></div><div class="tab-panel"><p>Nessun mito, ma racconta l'intreccio tra dimensione militare e sacra tipico del culto di Atena.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="santuario di artemide brauronia" data-greek="ιερό αρτέμιδος βραυρωνίας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santuario di Artemide Brauronia<span class="site-greek">Ιερό Αρτέμιδος Βραυρωνίας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Le iniziate erano dette <strong>arktoi</strong> ("orse"), da <strong>arktos</strong> — radice dell'italiano "Artico" (la regione "sotto l'Orsa").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Filiale urbana del santuario di Artemide a Brauron. Vi si trovava una statua attribuita a <strong>Prassitele</strong>. Ogni cinque anni le ragazze partecipavano al rito iniziatico dell'<strong>Arkteia</strong>.</p></div><div class="tab-panel"><p>Stoa a forma di "Pi" (Π), adattata allo spazio irregolare tra le mura e il Partenone. Oggi solo tracce nella roccia.</p></div><div class="tab-panel"><p>Legato a <strong>Ifigenia</strong>, che secondo Euripide fondò il santuario di Brauron dopo essere stata salvata da Artemide con la sostituzione di una cerva al sacrificio di Aulide.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="odeon di erode attico" data-greek="ωδείο ηρώδου αττικού">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Odeon di Erode Attico<span class="site-greek">Ωδείο Ηρώδου Αττικού</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il 160 e il 174 d.C. da <strong>Erode Attico</strong> in memoria della moglie <strong>Regilla</strong>. Distrutto dagli Eruli nel 267 d.C., restaurato negli anni '50 del Novecento, sede del Festival di Atene dal 1955.</p></div><div class="tab-panel"><p>Odeon romano con cavea di 80 metri di diametro, capace di 5.000 spettatori. Edificio scenico alto 28 metri, un tempo coperto da un tetto in legno di cedro.</p></div><div class="tab-panel"><p>Monumento all'amore coniugale, non a un mito.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa di eumene" data-greek="στοά ευμένους">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa di Eumene<span class="site-greek">Στοά Ευμένους</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Donata attorno al 160 a.C. dal re <strong>Eumene II di Pergamo</strong>, tra il Teatro di Dioniso e l'area dell'Odeon. Offriva riparo agli spettatori del teatro.</p></div><div class="tab-panel"><p>Lunga 163 metri, alta 16, su due piani: 64 colonne doriche esterne, 32 interne (ioniche e "pergamene"). Simile alla Stoa di Attalo dell'Agorà.</p></div><div class="tab-panel"><p>Nessun mito, struttura puramente funzionale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="asklepieion (santuario di asclepio)" data-greek="ασκληπιείον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Asklepieion (Santuario di Asclepio)<span class="site-greek">Ασκληπιείον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato nel <strong>420/419 a.C.</strong>, forse in risposta alla peste di Atene, con culto importato da Epidauro. Fondatore: <strong>Telemaco di Acarne</strong>. Tradizione lega Sofocle all'accoglienza del serpente sacro.</p></div><div class="tab-panel"><p>Tempio, altare, sorgente sacra, e due stoe: una per i pasti rituali, una come abaton per l'incubazione.</p></div><div class="tab-panel"><p>Testimonia come il culto di <strong>Asclepio</strong>, già raccontato a Epidauro, si diffondesse fisicamente da un santuario all'altro.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="teatro di dioniso" data-greek="θέατρο διονύσου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teatro di Dioniso<span class="site-greek">Θέατρο Διονύσου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Theatron</strong> da <em>theaomai</em> ("guardare") — radice di "teoria" e "teatro". <strong>Orchestra</strong> da <em>orcheomai</em> ("danzare").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il teatro più antico del mondo, origini nel VI secolo a.C. legate al culto di <strong>Dioniso Eleutereo</strong>. Qui debuttarono Eschilo, Sofocle, Euripide, Aristofane. Ricostruito in pietra nel IV secolo a.C. sotto <strong>Licurgo</strong>, capienza fino a 17.000 spettatori.</p></div><div class="tab-panel"><p>Cavea larga 82 metri, fino a 67 file di gradini. Trono marmoreo per il sacerdote di Dioniso. Vicino, il Monumento Coragico di Trasillo e le fondamenta di due templi di Dioniso.</p></div><div class="tab-panel"><p>Legato a <strong>Dioniso</strong>, dio della trasformazione — qualità che si riflette nella natura stessa del teatro come luogo di metamorfosi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo dell'acropoli" data-greek="μουσείο ακρόπολης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo dell'Acropoli<span class="site-greek">Μουσείο Ακρόπολης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Inaugurato nel <strong>2009</strong> su progetto di <strong>Bernard Tschumi</strong>, sostituisce il museo ottocentesco del 1874. Costruito anche come argomento diplomatico nella disputa sugli Elgin Marbles.</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
       <ul>
         <li>Le <strong>cinque Cariatidi originali</strong> dell'Eretteo.</li>
         <li>Il <strong>Moscoforo</strong> (570 a.C.).</li>
         <li>Le <strong>kores arcaiche</strong>, inclusa la Peplos Kore.</li>
         <li>Il <strong>Cavaliere Rampin</strong>.</li>
         <li>La <strong>Galleria del Partenone</strong>, orientata come il tempio reale, con calchi delle parti al British Museum.</li>
-      </ul>`,
-    mito: `<p>Qui tutti i miti dell'Acropoli trovano la loro forma scolpita più autentica e meglio conservata.</p>`
-  },
+      </ul></div><div class="tab-panel"><p>Qui tutti i miti dell'Acropoli trovano la loro forma scolpita più autentica e meglio conservata.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
 
-  "tempio-efesto": {
-    etym: `<strong>Efesto</strong> ha etimologia pre-greca incerta; il suo corrispondente romano, <strong>Vulcano</strong>, ha dato l'italiano "vulcano". "Theseion" deriva invece da <strong>Teseo</strong>, le cui imprese sono scolpite nelle metope — nome tradizionale ma errato.`,
-    storia: `<p>Costruito tra il <strong>449 e il 415 a.C.</strong> sulla collina di Colono Agoreo, dedicato a Efesto e Atena Ergane. Il <strong>tempio dorico meglio conservato di tutta la Grecia</strong>, grazie alla conversione nel VII sec. d.C. in chiesa di Agios Georgios Akamates, usata fino al 1833.</p>`,
-    arte: `<p>Tempio dorico periptero esastilo (6x13 colonne, 34 ancora in piedi). Metope orientali con le fatiche di Eracle; metope nord/sud con le imprese di Teseo. Fregio ionico interno con la Centauromachia.</p>`,
-    mito: `<p>Le metope accostano <strong>Eracle</strong> e <strong>Teseo</strong>, presentando l'eroe ateniese come degno erede della tradizione eroica panellenica.</p>`
-  },
-  "stoa-attalo": {
-    etym: `Nel museo si trova una <strong>klepsydra</strong> (<em>kleptō</em> + <em>hydōr</em>, "che ruba l'acqua") — origine dell'italiano "clessidra".`,
-    storia: `<p>Costruita tra il <strong>159 e il 138 a.C.</strong> da <strong>Attalo II di Pergamo</strong>. Distrutta dagli Eruli nel 267 d.C., ricostruita integralmente tra il 1953 e il 1956 dalla Scuola Archeologica Americana.</p>`,
-    arte: `<p>115-120 metri su due piani, colonnati dorico/ionico esterno-interno, ordine "pergameno" al piano superiore. 42 negozi. Oggi ospita il <strong>Museo dell'Agorà</strong>, con gli <strong>ostraka</strong> dell'ostracismo.</p>`,
-    mito: `<p>Gli ostraka raccontano concretamente il funzionamento della <strong>democrazia</strong> ateniese.</p>`
-  },
-  "bouleuterion-agora": {
-    storia: `<p>Il <strong>Vecchio Bouleuterion</strong> (500 a.C.) ospitava la Boulè dei Cinquecento istituita da Clistene. Il <strong>Nuovo Bouleuterion</strong>, costruito a fine V secolo, lo sostituì; il vecchio edificio divenne archivio di stato e sede del culto della Madre degli Dèi.</p>`,
-    arte: `<p>Il Vecchio Bouleuterion era quadrato (23x23 m), con panche in legno. Il Nuovo adottò sedute ad anfiteatro su gradinate di legno.</p>`,
-    mito: `<p>Il culto della <strong>Madre degli Dèi</strong> nel Vecchio Bouleuterion offre un parallelo diretto con il Metroon di Olimpia.</p>`
-  },
-  "tholos-agora": {
-    etym: `Soprannominata <strong>Skias</strong> ("ombra"), per il tetto conico simile a un parasole.`,
-    storia: `<p>Costruita tra il <strong>470 e il 460 a.C.</strong>, sede dei <strong>pritani</strong>, che vi mangiavano e, a turno, dormivano — garantendo un governo attivo 24 ore su 24. Custodiva i pesi e le misure campione dello stato.</p>`,
-    arte: `<p>Edificio circolare di oltre 18 metri di diametro, sei colonne interne, tetto conico in tegole a rombo.</p>`,
-    mito: `<p>Racconta l'istituzionalizzazione concreta dell'ideale democratico ateniese.</p>`
-  },
-  "metroon-agora": {
-    etym: `Da <strong>mēter</strong> ("madre") + -oon — come già visto a Olimpia, radice condivisa con "metropoli" e con la Metropoli di Mistrà.`,
-    storia: `<p>Costruito attorno al <strong>140-130 a.C.</strong> sopra il Vecchio Bouleuterion: santuario della Meter Theon e archivio di stato. Pausania vide una statua crisoelefantina attribuita a Fidia o al suo allievo Agoracrito.</p>`,
-    arte: `<p>Edificio a quattro ambienti con colonnato ionico di 14 colonne.</p>`,
-    mito: `<p>Una leggenda narra l'uccisione di un sacerdote di <strong>Cibele</strong> e la pestilenza che ne seguì, placata solo istituendo il culto — lo stesso schema "colpa e riparazione" della Bouphonia sull'Acropoli.</p>`
-  },
-  "eroi-eponimi": {
-    etym: `<strong>Eponymos</strong> da <em>epi-</em> + <em>onyma</em> ("nome") — "che dà il nome a", origine dell'italiano "eponimo".`,
-    storia: `<p>Celebrava i dieci eroi scelti dall'oracolo di Delfi per le tribù di Clistene (508/507 a.C.). Fungeva da bacheca pubblica per decreti e liste di leva. Nel IV secolo furono aggiunte statue di sovrani macedoni.</p>`,
-    arte: `<p>Basamento marmoreo di oltre 16 metri con statue bronzee dei dieci eroi.</p>`,
-    mito: `<p>Include <strong>Eretteo</strong>, <strong>Egeo</strong> e <strong>Cecrope</strong>, già incontrati — la legittimità democratica rafforzata dall'autorità del mito.</p>`
-  },
-  "altare-dodici-dei": {
-    etym: `<strong>Dodeka</strong> da <em>dyo</em> + <em>deka</em> ("due-dieci") — stessa struttura dell'italiano "dodici" (lat. <em>duodecim</em>).`,
-    storia: `<p>Eretto nel <strong>522/521 a.C.</strong> da Pisistrato il Giovane. Era il "punto zero" ufficiale di Atene, da cui si misuravano le distanze, e luogo di asilo. Riscoperto nel 1891 durante la costruzione della ferrovia, che tuttora ne copre gran parte.</p>`,
-    arte: `<p>Semplice recinto rettangolare di circa 9,85 x 9,35 metri.</p>`,
-    mito: `<p>Dedicato ai <strong>dodici Olimpi</strong>, gli stessi raffigurati sul fregio del Partenone — un compendio sacro dell'intero pantheon.</p>`
-  },
-  "stoa-zeus": {
-    etym: `<strong>Eleutherios</strong> da <em>eleutheros</em> ("libero").`,
-    storia: `<p>Costruita tra il 430 e il 410 a.C. per onorare Zeus Eleutherios dopo la vittoria di <strong>Platea</strong>. Socrate vi si recava spesso secondo Senofonte.</p>`,
-    arte: `<p>Pianta a "Pi" con due ali sporgenti, colonnato dorico/ionico. Dipinti di <strong>Eufranore</strong> con i dodici dei, la Democrazia e il Demos.</p>`,
-    mito: `<p>La vittoria sui Persiani trasformata in dono divino permanente — mito e storia che si fondono.</p>`
-  },
-  "stoa-basileios": {
-    etym: `<strong>Basileios</strong> da <em>basileus</em> ("re") — radice dell'italiano "basilica".`,
-    storia: `<p>Tra le più antiche dell'Agorà (VI secolo a.C.), sede dell'arconte basileus. Vi erano esposte le leggi di Solone e Dracone. Qui Socrate rispose all'accusa che lo condannò a morte (399 a.C.).</p>`,
-    arte: `<p>Piccola struttura dorica con due ali aggiunte, nell'area "degli Herm".</p>`,
-    mito: `<p>Erede delle prerogative religiose degli antichi re mitici di Atene: Cecrope, Erittonio, Eretteo.</p>`
-  },
-  "stoa-poikile": {
-    etym: `<strong>Poikile</strong>, "variegata" — da qui il termine "Stoicismo".`,
-    storia: `<p>Costruita attorno al 460 a.C., celebre per i dipinti di <strong>Polignoto</strong>, Micone e Panainos: Maratona, la caduta di Troia, Teseo e le Amazzoni. Qui, verso il 301 a.C., <strong>Zenone di Cizio</strong> fondò lo Stoicismo.</p>`,
-    arte: `<p>Stoa dorica con colonnato ionico interno, spazio laico e pubblico.</p>`,
-    mito: `<p>Le pitture accostavano <strong>Teseo</strong>, la guerra di <strong>Troia</strong> e Maratona — mito eroico e storia recente fuse insieme.</p>`
-  },
-  "tempio-apollo-patroos": {
-    etym: `<strong>Patroos</strong> da <em>patēr</em> ("padre") — radice di "padre", "patria", "patrono".`,
-    storia: `<p>Costruito tra il 330 e il 300 a.C., dedicato ad Apollo come antenato mitico degli Ateniesi, padre di <strong>Ione</strong>, capostipite degli Ioni.</p>`,
-    arte: `<p>Piccolo tempio ionico tetrastilo in antis. Statua di Apollo nella cella opera di <strong>Eufranore</strong>.</p>`,
-    mito: `<p>Celebra la genealogia mitica dell'identità etnica ateniese: Apollo, padre di Ione.</p>`
-  },
-  "odeon-agrippa": {
-    etym: `<strong>Odeion</strong> da <em>ōdē</em> ("canto") — origine dell'italiano "ode".`,
-    storia: `<p>Costruito nel 16-14 a.C., dono di <strong>Marco Vipsanio Agrippa</strong>. Il tetto crollò attorno al 150 d.C.; ricostruito come sala per lezioni filosofiche. Distrutto dagli Eruli nel 267 d.C.</p>`,
-    arte: `<p>51,4 x 43,2 metri, capace di 1.000 spettatori. Facciata nord con statue colossali di <strong>Giganti</strong> e <strong>Tritoni</strong>.</p>`,
-    mito: `<p>Giganti e Tritoni richiamano la <strong>Gigantomachia</strong> già vista a Olimpia e al Partenone.</p>`
-  },
-  "biblioteca-pantainos": {
-    etym: `"Biblíon" (libro) deriva dal nome della città fenicia di <strong>Byblos</strong>, esportatrice di papiro.`,
-    storia: `<p>Costruita tra il 98 e il 102 d.C., dono di <strong>Tito Flavio Pantainos</strong>. L'unica biblioteca antica di cui si conosce il regolamento: "Nessun libro potrà essere portato fuori... aperta dalla prima alla sesta ora".</p>`,
-    arte: `<p>Sala quadrata per i libri, cortile porticato su tre lati con negozi che finanziavano la biblioteca.</p>`,
-    mito: `<p>Dedicata alle Muse filosofiche, con probabili statue dell'Iliade e dell'Odissea personificate.</p>`
-  },
-  "areopago": {
-    etym: `<strong>Areios Pagos</strong>: "Ares" + <em>pagos</em> ("roccia") — "la Roccia di Ares".`,
-    storia: `<p>Sede dell'antico Consiglio aristocratico, privato della gran parte dei poteri dalle riforme di <strong>Efialte</strong> nel 462 a.C., mantenendo solo la giurisdizione sugli omicidi. Nel 51 d.C. l'<strong>apostolo Paolo</strong> vi tenne il discorso sul "dio sconosciuto".</p>`,
-    arte: `<p>Roccia calcarea nuda con gradini scavati nella pietra. Ai piedi, un tempio dedicato alle Erinni.</p>`,
-    mito: `<p>Sede del processo mitico ad <strong>Ares</strong> e, soprattutto, di <strong>Oreste</strong> — già raccontato a Micene — dove Atena sancì il passaggio dalla vendetta privata alla giustizia della polis.</p>`
-  },
+<section class="group" id="agor-antica">
+  <h2 class="group-title">Agorà Antica<span class="group-count">14</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="tempio di efesto (theseion)" data-greek="ναός ηφαίστου (θησείον)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Efesto (Theseion)<span class="site-greek">Ναός Ηφαίστου (Θησείον)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Efesto</strong> ha etimologia pre-greca incerta; il suo corrispondente romano, <strong>Vulcano</strong>, ha dato l'italiano "vulcano". "Theseion" deriva invece da <strong>Teseo</strong>, le cui imprese sono scolpite nelle metope — nome tradizionale ma errato.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il <strong>449 e il 415 a.C.</strong> sulla collina di Colono Agoreo, dedicato a Efesto e Atena Ergane. Il <strong>tempio dorico meglio conservato di tutta la Grecia</strong>, grazie alla conversione nel VII sec. d.C. in chiesa di Agios Georgios Akamates, usata fino al 1833.</p></div><div class="tab-panel"><p>Tempio dorico periptero esastilo (6x13 colonne, 34 ancora in piedi). Metope orientali con le fatiche di Eracle; metope nord/sud con le imprese di Teseo. Fregio ionico interno con la Centauromachia.</p></div><div class="tab-panel"><p>Le metope accostano <strong>Eracle</strong> e <strong>Teseo</strong>, presentando l'eroe ateniese come degno erede della tradizione eroica panellenica.</p></div></div>
+    </div></div>
+  </div>
 
-  "agora-romana": {
-    etym: `<strong>Archegetis</strong> ("guida", "fondatrice") da <em>archē</em> ("inizio, comando") — radice di "architetto", "monarchia", "anarchia".`,
-    storia: `<p>Costruita dall'11 a.C. sotto <strong>Augusto</strong> (con contributo di Giulio Cesare), ampliata sotto Adriano. Nuovo centro commerciale distinto dall'Agorà Antica. Sotto gli Ottomani vi sorse la Moschea Fethiye (1668).</p>`,
-    arte: `<p>Cortile porticato di circa 111 x 98 metri con colonnati ionici lisci. Due ingressi: la <strong>Porta di Atena Archegetis</strong> a ovest, un propileo ionico a est. Latrina pubblica romana con 68 posti.</p>`,
-    mito: `<p>La dedica ad <strong>Atena Archegetis</strong> riprende il ruolo di patrona della città già raccontato nella contesa con Poseidone.</p>`
-  },
-  "torre-venti": {
-    etym: `<strong>Horologion</strong> da <em>hōra</em> + <em>logos</em> — origine di "orologio". Il nome popolare "Aerides" condivide la radice di "aria".`,
-    storia: `<p>Costruita dall'astronomo <strong>Andronico di Cirro</strong> (I secolo a.C. o prima). Prima stazione meteorologica della storia. In epoca ottomana ospitò le danze dei dervisci roteanti.</p>`,
-    arte: `<p>Torre ottagonale di marmo, 12 metri, con fregi degli otto venti (Borea, Kaikias, Euro, Apeliote, Noto, Lips, Zefiro, Skiron), meridiane, orologio ad acqua interno, un Tritone bronzeo come banderuola.</p>`,
-    mito: `<p>I venti erano divinità minori, figli di Eos e Astreo — tra cui <strong>Zefiro</strong>, poi ripreso dall'arte rinascimentale italiana.</p>`
-  },
-  "biblioteca-adriano": {
-    storia: `<p>Costruita nel <strong>132 d.C.</strong> da <strong>Adriano</strong>, ispirata alla Biblioteca di Alessandria, con oltre 16.000 rotoli. Distrutta dagli Eruli nel 267 d.C.; nel cortile sorse poi una chiesa tetraconca, forse la prima della città.</p>`,
-    arte: `<p>Complesso di 122 x 82 metri, propileo corinzio, peristilio di 100 colonne in marmo frigio attorno a una vasca decorativa.</p>`,
-    mito: `<p>Nessun mito diretto, ma la stessa aura sacra del sapere già vista alla Biblioteca di Pantainos.</p>`
-  },
-  "arco-adriano": {
-    storia: `<p>Costruito attorno al 131-132 d.C., probabilmente dagli Ateniesi in omaggio ad Adriano. Due iscrizioni contrapposte: "Questa è Atene, l'antica città di Teseo" e "Questa è la città di Adriano, e non di Teseo".</p>`,
-    arte: `<p>Alto 18 metri in marmo pentelico, due registri: arco a tutto sesto con paraste corinzie sotto, colonne corinzie sottili sopra.</p>`,
-    mito: `<p>Mette in scena il confronto tra <strong>Teseo</strong>, fondatore mitico, e Adriano, fondatore storico della "nuova" Atene.</p>`
-  },
-  "tempio-zeus-olimpio": {
-    etym: `L'ordine <strong>corinzio</strong> prende nome da Corinto, già visitata.`,
-    storia: `<p>Iniziato nel 515 a.C. da Pisistrato il Giovane, ripreso da <strong>Antioco IV Epifane</strong> (174 a.C.) e infine completato da <strong>Adriano</strong> nel 131-132 d.C. — dopo <strong>638 anni</strong> di lavori. Il tempio più grande mai costruito in Grecia.</p>`,
-    arte: `<p>110,35 x 43,68 metri, 104 colonne corinzie alte 17,25 metri (oggi 15 superstiti). Statua crisoelefantina di Zeus accanto a una di Adriano.</p>`,
-    mito: `<p>Secondo Pausania il santuario fu fondato dal mitico <strong>Deucalione</strong>, l'equivalente greco di Noè, dopo il grande diluvio.</p>`
-  },
-  "monumento-lisicrate": {
-    etym: `<strong>Choregos</strong> da <em>choros</em> ("coro") + <em>agō</em> ("guidare") — origine di "coreografia".`,
-    storia: `<p>Eretto nel 335/334 a.C. da <strong>Lisicrate</strong> per una vittoria nei ditirambi. Unico monumento coregico sopravvissuto integralmente, protetto da un monastero cappuccino nel Seicento.</p>`,
-    arte: `<p>Monumento circolare di 10 metri, primo esempio di ordine <strong>corinzio</strong> su una facciata esterna. Il tetto sosteneva un tripode bronzeo, oggi perduto.</p>`,
-    mito: `<p>Il fregio narra il mito di <strong>Dioniso e i pirati tirreni</strong>, trasformati in delfini dopo aver tentato di rapirlo.</p>`
-  },
-  "pnice": {
-    etym: `<strong>Pnyx</strong> da <em>pyknos</em> ("denso", "affollato").`,
-    storia: `<p>Collina dove si riuniva l'<strong>Ecclesia</strong>, l'assemblea popolare, dal 507 a.C. circa. Tre fasi costruttive; nella seconda, sotto i Trenta Tiranni, l'orientamento fu invertito per "distogliere lo sguardo dal mare".</p>`,
-    arte: `<p>Spazio scavato nella roccia, capienza fino a 13.500 posti nella fase finale. Il <strong>bema</strong>, piattaforma a tre gradini, ancora visibile.</p>`,
-    mito: `<p>Qui parlarono Temistocle, Pericle e Demostene — teoria e pratica della democrazia coincidono.</p>`
-  },
-  "collina-filopappo": {
-    etym: `Nome antico <strong>Mouseion</strong> ("collina delle Muse") — origine dell'italiano "museo".`,
-    storia: `<p>Monumento funerario eretto tra il 114 e il 116 d.C. per <strong>Filopappo</strong>, principe di Commagene, voluto dalla sorella Giulia Balbilla. Da qui Morosini bombardò il Partenone nel 1687.</p>`,
-    arte: `<p>13 metri in marmo pentelico su due registri: statue di Filopappo, del nonno Antioco IV e di Seleuco I; fregio con Filopappo su carro trionfale, iscrizioni bilingue greco-latino.</p>`,
-    mito: `<p>Legato a <strong>Museo</strong>, poeta-profeta discepolo di Orfeo, qui sepolto secondo la tradizione.</p>`
-  },
-  "kerameikos": {
-    etym: `<strong>Kerameikos</strong> da <em>keramos</em> ("argilla") — origine di "ceramica".`,
-    storia: `<p>Cimitero ufficiale di Atene dal XII secolo a.C. al VI d.C. Diviso dalle mura temistoclee (478 a.C.) in Kerameikos interno ed esterno. Qui fu sepolto <strong>Pericle</strong>. Nell'86 a.C. l'esercito di Silla vi sfondò le difese.</p>`,
-    arte: `<p>Le porte del <strong>Dipylon</strong> e della <strong>Porta Sacra</strong>, il <strong>Pompeion</strong> per la preparazione delle Panatenee, la Via delle Tombe con la Stele di Hegeso e la Tomba di Dexileo.</p>`,
-    mito: `<p>Il <strong>Tritopatreion</strong> era dedicato ai Tritopatores, antenati collettivi della comunità.</p>`
-  },
-  "museo-nazionale": {
-    storia: `<p>Fondato nel 1829, nell'edificio attuale dal 1866-1889, nel quartiere di Exarchia. Il più grande museo archeologico della Grecia, oltre 11.000 reperti.</p>`,
-    arte: `<p><strong>Cosa vedrete:</strong></p>
+  <div class="site" data-name="stoa di attalo (e museo dell'agorà)" data-greek="στοά αττάλου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa di Attalo (e Museo dell'Agorà)<span class="site-greek">Στοά Αττάλου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Nel museo si trova una <strong>klepsydra</strong> (<em>kleptō</em> + <em>hydōr</em>, "che ruba l'acqua") — origine dell'italiano "clessidra".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita tra il <strong>159 e il 138 a.C.</strong> da <strong>Attalo II di Pergamo</strong>. Distrutta dagli Eruli nel 267 d.C., ricostruita integralmente tra il 1953 e il 1956 dalla Scuola Archeologica Americana.</p></div><div class="tab-panel"><p>115-120 metri su due piani, colonnati dorico/ionico esterno-interno, ordine "pergameno" al piano superiore. 42 negozi. Oggi ospita il <strong>Museo dell'Agorà</strong>, con gli <strong>ostraka</strong> dell'ostracismo.</p></div><div class="tab-panel"><p>Gli ostraka raccontano concretamente il funzionamento della <strong>democrazia</strong> ateniese.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bouleuterion (vecchio e nuovo)" data-greek="βουλευτήριον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bouleuterion (Vecchio e Nuovo)<span class="site-greek">Βουλευτήριον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il <strong>Vecchio Bouleuterion</strong> (500 a.C.) ospitava la Boulè dei Cinquecento istituita da Clistene. Il <strong>Nuovo Bouleuterion</strong>, costruito a fine V secolo, lo sostituì; il vecchio edificio divenne archivio di stato e sede del culto della Madre degli Dèi.</p></div><div class="tab-panel"><p>Il Vecchio Bouleuterion era quadrato (23x23 m), con panche in legno. Il Nuovo adottò sedute ad anfiteatro su gradinate di legno.</p></div><div class="tab-panel"><p>Il culto della <strong>Madre degli Dèi</strong> nel Vecchio Bouleuterion offre un parallelo diretto con il Metroon di Olimpia.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tholos" data-greek="θόλος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tholos<span class="site-greek">Θόλος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Soprannominata <strong>Skias</strong> ("ombra"), per il tetto conico simile a un parasole.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita tra il <strong>470 e il 460 a.C.</strong>, sede dei <strong>pritani</strong>, che vi mangiavano e, a turno, dormivano — garantendo un governo attivo 24 ore su 24. Custodiva i pesi e le misure campione dello stato.</p></div><div class="tab-panel"><p>Edificio circolare di oltre 18 metri di diametro, sei colonne interne, tetto conico in tegole a rombo.</p></div><div class="tab-panel"><p>Racconta l'istituzionalizzazione concreta dell'ideale democratico ateniese.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="metroon" data-greek="μητρώον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Metroon<span class="site-greek">Μητρώον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Da <strong>mēter</strong> ("madre") + -oon — come già visto a Olimpia, radice condivisa con "metropoli" e con la Metropoli di Mistrà.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al <strong>140-130 a.C.</strong> sopra il Vecchio Bouleuterion: santuario della Meter Theon e archivio di stato. Pausania vide una statua crisoelefantina attribuita a Fidia o al suo allievo Agoracrito.</p></div><div class="tab-panel"><p>Edificio a quattro ambienti con colonnato ionico di 14 colonne.</p></div><div class="tab-panel"><p>Una leggenda narra l'uccisione di un sacerdote di <strong>Cibele</strong> e la pestilenza che ne seguì, placata solo istituendo il culto — lo stesso schema "colpa e riparazione" della Bouphonia sull'Acropoli.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monumento degli eroi eponimi" data-greek="μνημείο επωνύμων ηρώων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monumento degli Eroi Eponimi<span class="site-greek">Μνημείο Επωνύμων Ηρώων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Eponymos</strong> da <em>epi-</em> + <em>onyma</em> ("nome") — "che dà il nome a", origine dell'italiano "eponimo".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Celebrava i dieci eroi scelti dall'oracolo di Delfi per le tribù di Clistene (508/507 a.C.). Fungeva da bacheca pubblica per decreti e liste di leva. Nel IV secolo furono aggiunte statue di sovrani macedoni.</p></div><div class="tab-panel"><p>Basamento marmoreo di oltre 16 metri con statue bronzee dei dieci eroi.</p></div><div class="tab-panel"><p>Include <strong>Eretteo</strong>, <strong>Egeo</strong> e <strong>Cecrope</strong>, già incontrati — la legittimità democratica rafforzata dall'autorità del mito.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="altare dei dodici dei" data-greek="βωμός των δώδεκα θεών">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Altare dei Dodici Dei<span class="site-greek">Βωμός των Δώδεκα Θεών</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Dodeka</strong> da <em>dyo</em> + <em>deka</em> ("due-dieci") — stessa struttura dell'italiano "dodici" (lat. <em>duodecim</em>).</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Eretto nel <strong>522/521 a.C.</strong> da Pisistrato il Giovane. Era il "punto zero" ufficiale di Atene, da cui si misuravano le distanze, e luogo di asilo. Riscoperto nel 1891 durante la costruzione della ferrovia, che tuttora ne copre gran parte.</p></div><div class="tab-panel"><p>Semplice recinto rettangolare di circa 9,85 x 9,35 metri.</p></div><div class="tab-panel"><p>Dedicato ai <strong>dodici Olimpi</strong>, gli stessi raffigurati sul fregio del Partenone — un compendio sacro dell'intero pantheon.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa di zeus eleutherios" data-greek="στοά διός ελευθερίου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa di Zeus Eleutherios<span class="site-greek">Στοά Διός Ελευθερίου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Eleutherios</strong> da <em>eleutheros</em> ("libero").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita tra il 430 e il 410 a.C. per onorare Zeus Eleutherios dopo la vittoria di <strong>Platea</strong>. Socrate vi si recava spesso secondo Senofonte.</p></div><div class="tab-panel"><p>Pianta a "Pi" con due ali sporgenti, colonnato dorico/ionico. Dipinti di <strong>Eufranore</strong> con i dodici dei, la Democrazia e il Demos.</p></div><div class="tab-panel"><p>La vittoria sui Persiani trasformata in dono divino permanente — mito e storia che si fondono.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa basileios (stoa reale)" data-greek="βασίλειος στοά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa Basileios (Stoa Reale)<span class="site-greek">Βασίλειος Στοά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Basileios</strong> da <em>basileus</em> ("re") — radice dell'italiano "basilica".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Tra le più antiche dell'Agorà (VI secolo a.C.), sede dell'arconte basileus. Vi erano esposte le leggi di Solone e Dracone. Qui Socrate rispose all'accusa che lo condannò a morte (399 a.C.).</p></div><div class="tab-panel"><p>Piccola struttura dorica con due ali aggiunte, nell'area "degli Herm".</p></div><div class="tab-panel"><p>Erede delle prerogative religiose degli antichi re mitici di Atene: Cecrope, Erittonio, Eretteo.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa poikile (stoa dipinta)" data-greek="ποικίλη στοά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa Poikile (Stoa Dipinta)<span class="site-greek">Ποικίλη Στοά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Poikile</strong>, "variegata" — da qui il termine "Stoicismo".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita attorno al 460 a.C., celebre per i dipinti di <strong>Polignoto</strong>, Micone e Panainos: Maratona, la caduta di Troia, Teseo e le Amazzoni. Qui, verso il 301 a.C., <strong>Zenone di Cizio</strong> fondò lo Stoicismo.</p></div><div class="tab-panel"><p>Stoa dorica con colonnato ionico interno, spazio laico e pubblico.</p></div><div class="tab-panel"><p>Le pitture accostavano <strong>Teseo</strong>, la guerra di <strong>Troia</strong> e Maratona — mito eroico e storia recente fuse insieme.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di apollo patroos" data-greek="ναός απόλλωνος πατρώου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Apollo Patroos<span class="site-greek">Ναός Απόλλωνος Πατρώου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Patroos</strong> da <em>patēr</em> ("padre") — radice di "padre", "patria", "patrono".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il 330 e il 300 a.C., dedicato ad Apollo come antenato mitico degli Ateniesi, padre di <strong>Ione</strong>, capostipite degli Ioni.</p></div><div class="tab-panel"><p>Piccolo tempio ionico tetrastilo in antis. Statua di Apollo nella cella opera di <strong>Eufranore</strong>.</p></div><div class="tab-panel"><p>Celebra la genealogia mitica dell'identità etnica ateniese: Apollo, padre di Ione.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="odeon di agrippa" data-greek="ωδείο αγρίππα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Odeon di Agrippa<span class="site-greek">Ωδείο Αγρίππα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Odeion</strong> da <em>ōdē</em> ("canto") — origine dell'italiano "ode".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito nel 16-14 a.C., dono di <strong>Marco Vipsanio Agrippa</strong>. Il tetto crollò attorno al 150 d.C.; ricostruito come sala per lezioni filosofiche. Distrutto dagli Eruli nel 267 d.C.</p></div><div class="tab-panel"><p>51,4 x 43,2 metri, capace di 1.000 spettatori. Facciata nord con statue colossali di <strong>Giganti</strong> e <strong>Tritoni</strong>.</p></div><div class="tab-panel"><p>Giganti e Tritoni richiamano la <strong>Gigantomachia</strong> già vista a Olimpia e al Partenone.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="biblioteca di pantainos" data-greek="βιβλιοθήκη πανταίνου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Biblioteca di Pantainos<span class="site-greek">Βιβλιοθήκη Πανταίνου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">"Biblíon" (libro) deriva dal nome della città fenicia di <strong>Byblos</strong>, esportatrice di papiro.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita tra il 98 e il 102 d.C., dono di <strong>Tito Flavio Pantainos</strong>. L'unica biblioteca antica di cui si conosce il regolamento: "Nessun libro potrà essere portato fuori... aperta dalla prima alla sesta ora".</p></div><div class="tab-panel"><p>Sala quadrata per i libri, cortile porticato su tre lati con negozi che finanziavano la biblioteca.</p></div><div class="tab-panel"><p>Dedicata alle Muse filosofiche, con probabili statue dell'Iliade e dell'Odissea personificate.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="areopago" data-greek="άρειος πάγος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Areopago<span class="site-greek">Άρειος Πάγος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Areios Pagos</strong>: "Ares" + <em>pagos</em> ("roccia") — "la Roccia di Ares".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Sede dell'antico Consiglio aristocratico, privato della gran parte dei poteri dalle riforme di <strong>Efialte</strong> nel 462 a.C., mantenendo solo la giurisdizione sugli omicidi. Nel 51 d.C. l'<strong>apostolo Paolo</strong> vi tenne il discorso sul "dio sconosciuto".</p></div><div class="tab-panel"><p>Roccia calcarea nuda con gradini scavati nella pietra. Ai piedi, un tempio dedicato alle Erinni.</p></div><div class="tab-panel"><p>Sede del processo mitico ad <strong>Ares</strong> e, soprattutto, di <strong>Oreste</strong> — già raccontato a Micene — dove Atena sancì il passaggio dalla vendetta privata alla giustizia della polis.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="citt-bassa-e-dintorni">
+  <h2 class="group-title">Città Bassa e dintorni<span class="group-count">10</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="agorà romana" data-greek="ρωμαϊκή αγορά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Agorà Romana<span class="site-greek">Ρωμαϊκή Αγορά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Archegetis</strong> ("guida", "fondatrice") da <em>archē</em> ("inizio, comando") — radice di "architetto", "monarchia", "anarchia".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita dall'11 a.C. sotto <strong>Augusto</strong> (con contributo di Giulio Cesare), ampliata sotto Adriano. Nuovo centro commerciale distinto dall'Agorà Antica. Sotto gli Ottomani vi sorse la Moschea Fethiye (1668).</p></div><div class="tab-panel"><p>Cortile porticato di circa 111 x 98 metri con colonnati ionici lisci. Due ingressi: la <strong>Porta di Atena Archegetis</strong> a ovest, un propileo ionico a est. Latrina pubblica romana con 68 posti.</p></div><div class="tab-panel"><p>La dedica ad <strong>Atena Archegetis</strong> riprende il ruolo di patrona della città già raccontato nella contesa con Poseidone.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="torre dei venti" data-greek="πύργος των ανέμων (αέρηδες)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Torre dei Venti<span class="site-greek">Πύργος των Ανέμων (Αέρηδες)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Horologion</strong> da <em>hōra</em> + <em>logos</em> — origine di "orologio". Il nome popolare "Aerides" condivide la radice di "aria".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita dall'astronomo <strong>Andronico di Cirro</strong> (I secolo a.C. o prima). Prima stazione meteorologica della storia. In epoca ottomana ospitò le danze dei dervisci roteanti.</p></div><div class="tab-panel"><p>Torre ottagonale di marmo, 12 metri, con fregi degli otto venti (Borea, Kaikias, Euro, Apeliote, Noto, Lips, Zefiro, Skiron), meridiane, orologio ad acqua interno, un Tritone bronzeo come banderuola.</p></div><div class="tab-panel"><p>I venti erano divinità minori, figli di Eos e Astreo — tra cui <strong>Zefiro</strong>, poi ripreso dall'arte rinascimentale italiana.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="biblioteca di adriano" data-greek="βιβλιοθήκη αδριανού">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Biblioteca di Adriano<span class="site-greek">Βιβλιοθήκη Αδριανού</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita nel <strong>132 d.C.</strong> da <strong>Adriano</strong>, ispirata alla Biblioteca di Alessandria, con oltre 16.000 rotoli. Distrutta dagli Eruli nel 267 d.C.; nel cortile sorse poi una chiesa tetraconca, forse la prima della città.</p></div><div class="tab-panel"><p>Complesso di 122 x 82 metri, propileo corinzio, peristilio di 100 colonne in marmo frigio attorno a una vasca decorativa.</p></div><div class="tab-panel"><p>Nessun mito diretto, ma la stessa aura sacra del sapere già vista alla Biblioteca di Pantainos.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="arco di adriano" data-greek="αψίδα του αδριανού">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Arco di Adriano<span class="site-greek">Αψίδα του Αδριανού</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al 131-132 d.C., probabilmente dagli Ateniesi in omaggio ad Adriano. Due iscrizioni contrapposte: "Questa è Atene, l'antica città di Teseo" e "Questa è la città di Adriano, e non di Teseo".</p></div><div class="tab-panel"><p>Alto 18 metri in marmo pentelico, due registri: arco a tutto sesto con paraste corinzie sotto, colonne corinzie sottili sopra.</p></div><div class="tab-panel"><p>Mette in scena il confronto tra <strong>Teseo</strong>, fondatore mitico, e Adriano, fondatore storico della "nuova" Atene.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di zeus olimpio (olympieion)" data-greek="ναός ολυμπίου διός">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Zeus Olimpio (Olympieion)<span class="site-greek">Ναός Ολυμπίου Διός</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">L'ordine <strong>corinzio</strong> prende nome da Corinto, già visitata.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Iniziato nel 515 a.C. da Pisistrato il Giovane, ripreso da <strong>Antioco IV Epifane</strong> (174 a.C.) e infine completato da <strong>Adriano</strong> nel 131-132 d.C. — dopo <strong>638 anni</strong> di lavori. Il tempio più grande mai costruito in Grecia.</p></div><div class="tab-panel"><p>110,35 x 43,68 metri, 104 colonne corinzie alte 17,25 metri (oggi 15 superstiti). Statua crisoelefantina di Zeus accanto a una di Adriano.</p></div><div class="tab-panel"><p>Secondo Pausania il santuario fu fondato dal mitico <strong>Deucalione</strong>, l'equivalente greco di Noè, dopo il grande diluvio.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monumento di lisicrate" data-greek="μνημείο λυσικράτους">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monumento di Lisicrate<span class="site-greek">Μνημείο Λυσικράτους</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Choregos</strong> da <em>choros</em> ("coro") + <em>agō</em> ("guidare") — origine di "coreografia".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Eretto nel 335/334 a.C. da <strong>Lisicrate</strong> per una vittoria nei ditirambi. Unico monumento coregico sopravvissuto integralmente, protetto da un monastero cappuccino nel Seicento.</p></div><div class="tab-panel"><p>Monumento circolare di 10 metri, primo esempio di ordine <strong>corinzio</strong> su una facciata esterna. Il tetto sosteneva un tripode bronzeo, oggi perduto.</p></div><div class="tab-panel"><p>Il fregio narra il mito di <strong>Dioniso e i pirati tirreni</strong>, trasformati in delfini dopo aver tentato di rapirlo.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pnice" data-greek="πνύκα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pnice<span class="site-greek">Πνύκα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Pnyx</strong> da <em>pyknos</em> ("denso", "affollato").</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Collina dove si riuniva l'<strong>Ecclesia</strong>, l'assemblea popolare, dal 507 a.C. circa. Tre fasi costruttive; nella seconda, sotto i Trenta Tiranni, l'orientamento fu invertito per "distogliere lo sguardo dal mare".</p></div><div class="tab-panel"><p>Spazio scavato nella roccia, capienza fino a 13.500 posti nella fase finale. Il <strong>bema</strong>, piattaforma a tre gradini, ancora visibile.</p></div><div class="tab-panel"><p>Qui parlarono Temistocle, Pericle e Demostene — teoria e pratica della democrazia coincidono.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="collina di filopappo" data-greek="λόφος φιλοπάππου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Collina di Filopappo<span class="site-greek">Λόφος Φιλοπάππου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Nome antico <strong>Mouseion</strong> ("collina delle Muse") — origine dell'italiano "museo".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Monumento funerario eretto tra il 114 e il 116 d.C. per <strong>Filopappo</strong>, principe di Commagene, voluto dalla sorella Giulia Balbilla. Da qui Morosini bombardò il Partenone nel 1687.</p></div><div class="tab-panel"><p>13 metri in marmo pentelico su due registri: statue di Filopappo, del nonno Antioco IV e di Seleuco I; fregio con Filopappo su carro trionfale, iscrizioni bilingue greco-latino.</p></div><div class="tab-panel"><p>Legato a <strong>Museo</strong>, poeta-profeta discepolo di Orfeo, qui sepolto secondo la tradizione.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="kerameikos" data-greek="κεραμεικός">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Kerameikos<span class="site-greek">Κεραμεικός</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Kerameikos</strong> da <em>keramos</em> ("argilla") — origine di "ceramica".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Cimitero ufficiale di Atene dal XII secolo a.C. al VI d.C. Diviso dalle mura temistoclee (478 a.C.) in Kerameikos interno ed esterno. Qui fu sepolto <strong>Pericle</strong>. Nell'86 a.C. l'esercito di Silla vi sfondò le difese.</p></div><div class="tab-panel"><p>Le porte del <strong>Dipylon</strong> e della <strong>Porta Sacra</strong>, il <strong>Pompeion</strong> per la preparazione delle Panatenee, la Via delle Tombe con la Stele di Hegeso e la Tomba di Dexileo.</p></div><div class="tab-panel"><p>Il <strong>Tritopatreion</strong> era dedicato ai Tritopatores, antenati collettivi della comunità.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico nazionale" data-greek="εθνικό αρχαιολογικό μουσείο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico Nazionale<span class="site-greek">Εθνικό Αρχαιολογικό Μουσείο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato nel 1829, nell'edificio attuale dal 1866-1889, nel quartiere di Exarchia. Il più grande museo archeologico della Grecia, oltre 11.000 reperti.</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
       <ul>
         <li>La <strong>Maschera di Agamennone</strong> (1550 a.C.), da Micene — qui in originale.</li>
         <li>I tesori aurei micenei da Micene e Vaphio.</li>
         <li>Il <strong>Bronzo di Artemisio</strong> (Zeus o Poseidone) e il <strong>Fantino di Artemisio</strong>.</li>
         <li>Il <strong>Meccanismo di Antikythera</strong>, il più antico computer analogico conosciuto.</li>
         <li>Gli affreschi di <strong>Akrotiri</strong>, da Santorini.</li>
-      </ul>`,
-    mito: `<p>La Maschera di Agamennone richiama il ciclo degli Atridi; il Bronzo di Artemisio evoca la stessa ambiguità Zeus/Poseidone della contesa per Atene.</p>`
-  },
+      </ul></div><div class="tab-panel"><p>La Maschera di Agamennone richiama il ciclo degli Atridi; il Bronzo di Artemisio evoca la stessa ambiguità Zeus/Poseidone della contesa per Atene.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
 
-  "plaka": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> il nome deriva probabilmente dal dialetto <strong>arvanita</strong>, in cui significa "vecchia".</p>
-      <p>Il quartiere più antico di Atene, sviluppato sopra i resti dell'Agorà Antica, abitato ininterrottamente da circa tremila anni — il "quartiere degli dèi". In epoca ottomana era il quartiere turco. Dopo l'indipendenza si popolò di greci, arvaniti ed ebrei; dagli anni 1830 arrivarono immigrati dall'isola cicladica di <strong>Anafi</strong>. L'incendio del 1884 aprì la strada agli scavi dell'Agorà Romana. Dopo la Seconda Guerra Mondiale l'intero quartiere fu dichiarato area protetta. Vi abitarono Lord Byron, Seferis e Melina Merkouri.</p>`,
-    monumenti: `<ul>
+<section class="group" id="quartieri-di-atene">
+  <h2 class="group-title">Quartieri di Atene<span class="group-count">8</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="plaka" data-greek="πλάκα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Plaka<span class="site-greek">Πλάκα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> il nome deriva probabilmente dal dialetto <strong>arvanita</strong>, in cui significa "vecchia".</p>
+      <p>Il quartiere più antico di Atene, sviluppato sopra i resti dell'Agorà Antica, abitato ininterrottamente da circa tremila anni — il "quartiere degli dèi". In epoca ottomana era il quartiere turco. Dopo l'indipendenza si popolò di greci, arvaniti ed ebrei; dagli anni 1830 arrivarono immigrati dall'isola cicladica di <strong>Anafi</strong>. L'incendio del 1884 aprì la strada agli scavi dell'Agorà Romana. Dopo la Seconda Guerra Mondiale l'intero quartiere fu dichiarato area protetta. Vi abitarono Lord Byron, Seferis e Melina Merkouri.</p></div><div class="tab-panel"><ul>
         <li>Il <strong>Monumento di Lisicrate</strong>, già visitato, su Via Tripodon.</li>
         <li>La <strong>Casa Benizelos</strong>, la casa più antica di Atene.</li>
         <li>La chiesa bizantina di <strong>Kapnikarea</strong> (XI secolo).</li>
         <li>La <strong>Fethiye Mosque</strong> e la madrasa ottomana.</li>
         <li>L'<strong>hammam</strong> di Plaka, unico bagno ottomano sopravvissuto.</li>
         <li>La chiesa di <strong>Agios Nikolaos Rangavas</strong>.</li>
-      </ul>`
-  },
-  "anafiotika": {
-    storia: `<p>Un villaggio cicladico in miniatura sul fianco settentrionale dell'Acropoli. Nato attorno al 1841, quando re <strong>Ottone I</strong> chiamò artigiani da tutta la Grecia, inclusi carpentieri e muratori dell'isola di <strong>Anafi</strong>. Sfruttando un vuoto legale (chi completava una casa tra tramonto e alba ne acquisiva la proprietà), gli operai costruirono di notte le prime case. Nel 1922 arrivarono profughi dall'Asia Minore; oggi restano circa 45 case, ancora abitate dai discendenti dei primi costruttori.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="anafiotika" data-greek="αναφιώτικα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Anafiotika<span class="site-greek">Αναφιώτικα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>Un villaggio cicladico in miniatura sul fianco settentrionale dell'Acropoli. Nato attorno al 1841, quando re <strong>Ottone I</strong> chiamò artigiani da tutta la Grecia, inclusi carpentieri e muratori dell'isola di <strong>Anafi</strong>. Sfruttando un vuoto legale (chi completava una casa tra tramonto e alba ne acquisiva la proprietà), gli operai costruirono di notte le prime case. Nel 1922 arrivarono profughi dall'Asia Minore; oggi restano circa 45 case, ancora abitate dai discendenti dei primi costruttori.</p></div><div class="tab-panel"><ul>
         <li>La chiesa di <strong>Agios Georgios tou Vrachou</strong> (San Giorgio della Roccia).</li>
         <li>La chiesa di <strong>Agios Simeon</strong>.</li>
         <li>Le case stesse, di architettura popolare cicladica, sono il vero monumento diffuso del quartiere.</li>
-      </ul>`
-  },
-  "monastiraki": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> "Monastiraki" significa "piccolo monastero", da <em>monachos</em> — la stessa radice di "monaco".</p>
-      <p>Il nome deriva dalla chiesa bizantina di <strong>Panagia Pantanassa</strong> (X secolo), un tempo parte di un monastero più ampio. In epoca ottomana vi sorse un vivace bazaar; la <strong>Moschea Tzistarakis</strong> (1759) fu costruita, secondo la leggenda, con calce ricavata da una colonna del Tempio di Zeus Olimpio — un sacrilegio a cui gli Ateniesi attribuirono la peste dell'anno successivo. Oggi è il grande mercato delle pulci di Atene.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monastiraki" data-greek="μοναστηράκι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monastiraki<span class="site-greek">Μοναστηράκι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> "Monastiraki" significa "piccolo monastero", da <em>monachos</em> — la stessa radice di "monaco".</p>
+      <p>Il nome deriva dalla chiesa bizantina di <strong>Panagia Pantanassa</strong> (X secolo), un tempo parte di un monastero più ampio. In epoca ottomana vi sorse un vivace bazaar; la <strong>Moschea Tzistarakis</strong> (1759) fu costruita, secondo la leggenda, con calce ricavata da una colonna del Tempio di Zeus Olimpio — un sacrilegio a cui gli Ateniesi attribuirono la peste dell'anno successivo. Oggi è il grande mercato delle pulci di Atene.</p></div><div class="tab-panel"><ul>
         <li>La chiesa di <strong>Panagia Pantanassa</strong> (X secolo).</li>
         <li>La <strong>Moschea Tzistarakis</strong> (1759), oggi museo.</li>
         <li>L'<strong>Agorà Romana</strong> e la <strong>Biblioteca di Adriano</strong>, ai margini del quartiere.</li>
         <li>Il mercato delle pulci lungo Via Ifestou.</li>
-      </ul>`
-  },
-  "psyrri": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> il nome deriva dalla famiglia <strong>Psiri</strong>, di origine italiana, proprietaria di gran parte dei terreni nel XVII secolo.</p>
-      <p>Per tutto l'Ottocento e primi Novecento, quartiere artigiano e operaio, culla del <strong>rebetiko</strong> e dei suoi "magas". Caduto in degrado nel secondo Novecento, fu rigenerato dagli anni '90 da artisti attratti dagli affitti bassi, con un'accelerazione in vista delle Olimpiadi 2004. Oggi celebre per street art e vita notturna.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="psyrri" data-greek="ψυρρή">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Psyrri<span class="site-greek">Ψυρρή</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> il nome deriva dalla famiglia <strong>Psiri</strong>, di origine italiana, proprietaria di gran parte dei terreni nel XVII secolo.</p>
+      <p>Per tutto l'Ottocento e primi Novecento, quartiere artigiano e operaio, culla del <strong>rebetiko</strong> e dei suoi "magas". Caduto in degrado nel secondo Novecento, fu rigenerato dagli anni '90 da artisti attratti dagli affitti bassi, con un'accelerazione in vista delle Olimpiadi 2004. Oggi celebre per street art e vita notturna.</p></div><div class="tab-panel"><ul>
         <li><strong>Piazza Iroon</strong>, cuore del quartiere, circondata da murales.</li>
         <li>Botteghe artigiane storiche superstiti.</li>
         <li>Il <strong>Museo Benaki di Arte Islamica</strong>.</li>
         <li>Diffusa street art e gallerie contemporanee.</li>
-      </ul>`
-  },
-  "thissio": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> il nome deriva dal Tempio di Efesto, a lungo creduto erroneamente la tomba di <strong>Teseo</strong> ("Thiseion"). Il nome antico della zona era <strong>Melite</strong>.</p>
-      <p>Quartiere pedonale e panoramico a nord-ovest dell'Acropoli. Via Apostolou Pavlou, che ne costeggia il fianco, è una delle più belle passeggiate urbane della città, popolare al tramonto. Ospita l'<strong>Osservatorio Nazionale</strong> (1846) e il celebre cinema all'aperto <strong>Cine Thisio</strong>.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="thissio" data-greek="θησείο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Thissio<span class="site-greek">Θησείο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> il nome deriva dal Tempio di Efesto, a lungo creduto erroneamente la tomba di <strong>Teseo</strong> ("Thiseion"). Il nome antico della zona era <strong>Melite</strong>.</p>
+      <p>Quartiere pedonale e panoramico a nord-ovest dell'Acropoli. Via Apostolou Pavlou, che ne costeggia il fianco, è una delle più belle passeggiate urbane della città, popolare al tramonto. Ospita l'<strong>Osservatorio Nazionale</strong> (1846) e il celebre cinema all'aperto <strong>Cine Thisio</strong>.</p></div><div class="tab-panel"><ul>
         <li>Il <strong>Tempio di Efesto</strong>, già visitato.</li>
         <li>L'<strong>Agorà Antica</strong>, confinante.</li>
         <li>La <strong>collina delle Ninfe</strong>, con l'Osservatorio Nazionale e un antico santuario di Zeus.</li>
         <li>Il <strong>Cine Thisio</strong>, cinema all'aperto storico.</li>
-      </ul>`
-  },
-  "koukaki": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> a differenza di quasi tutte le altre tappe, il nome non ha origine mitologica: deriva da <strong>Georgios Koukakis</strong>, un fabbricante di letti/mobili in ferro del primo Novecento.</p>
-      <p>Quartiere borghese nato nei primi del Novecento, soprannominato la "piccola Parigi" fino agli anni '80. Trasformato dall'apertura del <strong>Museo dell'Acropoli</strong> nel 2009. La parte a nord è oggi nota come "Makrygianni". Gli scavi hanno riportato alla luce la <strong>Via di Koile</strong>, con i solchi dei carri antichi ancora visibili.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="koukaki" data-greek="κουκάκι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Koukaki<span class="site-greek">Κουκάκι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> a differenza di quasi tutte le altre tappe, il nome non ha origine mitologica: deriva da <strong>Georgios Koukakis</strong>, un fabbricante di letti/mobili in ferro del primo Novecento.</p>
+      <p>Quartiere borghese nato nei primi del Novecento, soprannominato la "piccola Parigi" fino agli anni '80. Trasformato dall'apertura del <strong>Museo dell'Acropoli</strong> nel 2009. La parte a nord è oggi nota come "Makrygianni". Gli scavi hanno riportato alla luce la <strong>Via di Koile</strong>, con i solchi dei carri antichi ancora visibili.</p></div><div class="tab-panel"><ul>
         <li>Il <strong>Museo dell'Acropoli</strong>, già visitato.</li>
         <li>La <strong>Via di Koile</strong>, con i solchi dei carri antichi.</li>
         <li>Il <strong>Museo Nazionale d'Arte Contemporanea</strong>.</li>
         <li>Il <strong>Museo di Gioielleria Lalaounis</strong>.</li>
-      </ul>`
-  },
-  "kolonaki": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> "piccola colonna", da un'antica colonna di marmo alta due metri nella piazza centrale.</p>
-      <p>Quartiere elegante sulle pendici del <strong>Monte Licabetto</strong>, sviluppato dal 1834 come residenza dell'élite ateniese. Durante la guerra civile, insieme a Piazza Syntagma, non cadde mai sotto controllo comunista. Gli scavi per un museo d'arte moderna hanno riportato alla luce le <strong>fondamenta del Liceo di Aristotele</strong> (335 a.C.).</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="kolonaki" data-greek="κολωνάκι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Kolonaki<span class="site-greek">Κολωνάκι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> "piccola colonna", da un'antica colonna di marmo alta due metri nella piazza centrale.</p>
+      <p>Quartiere elegante sulle pendici del <strong>Monte Licabetto</strong>, sviluppato dal 1834 come residenza dell'élite ateniese. Durante la guerra civile, insieme a Piazza Syntagma, non cadde mai sotto controllo comunista. Gli scavi per un museo d'arte moderna hanno riportato alla luce le <strong>fondamenta del Liceo di Aristotele</strong> (335 a.C.).</p></div><div class="tab-panel"><ul>
         <li>Le <strong>fondamenta del Liceo di Aristotele</strong>.</li>
         <li>Il <strong>Museo Benaki</strong>.</li>
         <li>Il <strong>Museo di Arte Cicladica</strong>.</li>
         <li>Il <strong>Museo Bizantino e Cristiano</strong> e il Museo della Guerra.</li>
         <li>Il <strong>Monte Licabetto</strong>, con vista panoramica su tutta Atene.</li>
-      </ul>`
-  },
-  "exarchia": {
-    storia: `<p>𐤠 <em>Curiosità etimologica:</em> dal commerciante ottocentesco <strong>Exarchos</strong>.</p>
-      <p>Quartiere studentesco vicino al <strong>Politecnico Nazionale</strong>, cuore della resistenza contro il regime dei Colonnelli: la <strong>Rivolta del Politecnico</strong> (14-17 novembre 1973) fu repressa con i carri armati, ma segnò l'inizio della fine della dittatura, commemorata ogni anno il 17 novembre. Oggi quartiere di sinistra e anarchico, con una vivace scena artistica, musicale (rebetiko) e libraria.</p>`,
-    monumenti: `<ul>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="exarchia" data-greek="εξάρχεια">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Exarchia<span class="site-greek">Εξάρχεια</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Da notare</button></div><div class="tab-panels"><div class="tab-panel active"><p>𐤠 <em>Curiosità etimologica:</em> dal commerciante ottocentesco <strong>Exarchos</strong>.</p>
+      <p>Quartiere studentesco vicino al <strong>Politecnico Nazionale</strong>, cuore della resistenza contro il regime dei Colonnelli: la <strong>Rivolta del Politecnico</strong> (14-17 novembre 1973) fu repressa con i carri armati, ma segnò l'inizio della fine della dittatura, commemorata ogni anno il 17 novembre. Oggi quartiere di sinistra e anarchico, con una vivace scena artistica, musicale (rebetiko) e libraria.</p></div><div class="tab-panel"><ul>
         <li>Il <strong>Museo Archeologico Nazionale</strong>, già visitato, ai margini del quartiere.</li>
         <li>Il <strong>Politecnico Nazionale</strong>, con il monumento alle vittime del 1973.</li>
         <li><strong>Piazza Exarchia</strong>, cuore sociale del quartiere.</li>
         <li>La <strong>Collina di Strefi</strong>, parco panoramico poco turistico.</li>
-      </ul>`
-  },
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
 
-  "mito-zeus": {
-    racconto: `<p><strong>La nascita e l'infanzia nascosta.</strong> Zeus era il più giovane figlio di Crono e Rea. Crono, temendo una profezia secondo cui uno dei suoi figli lo avrebbe detronizzato, divorava ogni figlio alla nascita. Rea sottrasse Zeus al marito, sostituendolo con una pietra avvolta in fasce, e nascose il neonato in una grotta di Creta (Monte Ida secondo la tradizione più diffusa; Monte Ditte o Monte Liceo in Arcadia secondo tradizioni rivali). Fu allevato dalla capra Amaltea e protetto dai Cureti e dai Dattili Ideani.</p>
-      <p><strong>La Titanomachia.</strong> Cresciuto, Zeus costrinse il padre a rigurgitare i fratelli inghiottiti — Estia, Demetra, Era, Ade e Poseidone — e mosse guerra ai Titani. Liberò dal Tartaro i Ciclopi (che gli forgiarono il fulmine) e gli Ecatonchiri, sconfiggendo Crono e i Titani. Seguì la Gigantomachia contro i Giganti nati dal sangue di Urano.</p>
-      <p><strong>Il sovrano dell'Olimpo.</strong> Si spartì il cosmo con i fratelli: a sé il cielo, a Poseidone il mare, ad Ade gli inferi. Sposò Era, ma fu celebre per le sue unioni extraconiugali tramite metamorfosi: toro (Europa), cigno (Leda), pioggia d'oro (Danae), aquila (Ganimede), nube (Io).</p>
-      <p><em>Versioni alternative:</em> Esiodo (Teogonia) offre il racconto "canonico"; Omero lo presenta già come re consolidato. La tradizione cretese e quella arcade si contendono il luogo di nascita.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il fulmine, l'aquila, la quercia, lo scettro, il toro.</p>
-      <p><strong>Metamorfosi:</strong> toro, cigno, pioggia d'oro, aquila, nube.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Olimpia</strong> — l'intero santuario: Tempio di Zeus, Bouleuterion (Zeus Horkios), Monte Crono, il mito contro Crono.</li>
-        <li><strong>Atene</strong> — Tempio di Zeus Olimpio, Santuario di Zeus Polieus (Bouphonia), Stoa di Zeus Eleutherios.</li>
-        <li><strong>Delfi</strong> — padre di Apollo; le due aquile che individuarono l'omphalos.</li>
-        <li><strong>Micene, Argo, Sparta</strong> — padre di Perseo, Eracle, i Dioscuri, Elena.</li>
-        <li><strong>Olimpia (Metroon)</strong> — attraverso la madre Rea.</li>
-      </ul>`
-  },
-  "mito-era": {
-    racconto: `<p><strong>Nascita e infanzia.</strong> Era era figlia di Crono e Rea, sorella e poi moglie di Zeus. Secondo una tradizione legata a Olimpia, fu allevata dalle Horai presso il fiume Imbraso, a Samo.</p>
-      <p><strong>Il matrimonio con Zeus.</strong> Secondo una versione, Zeus si trasformò in un cuculo infreddolito che Era, impietosita, strinse al petto — solo allora il dio riprese la propria forma. Il loro matrimonio (Hieros Gamos) divenne il modello archetipico dell'unione coniugale greca.</p>
-      <p><strong>La gelosia e le persecuzioni.</strong> Perseguitò Io con un tafano dopo averla scoperta trasformata in giovenca; tentò di ostacolare la nascita di Eracle, poi perseguitandolo per tutta la vita; scagliò Efesto giù dall'Olimpo per la sua bruttezza.</p>
-      <p><strong>Il Giudizio di Paride.</strong> Offrì a Paride potere e domini sconfinati per essere scelta la più bella, ma il principe preferì Afrodite — un rifiuto che le costò un'ostilità implacabile verso i Troiani.</p>
-      <p><em>Versioni alternative:</em> ad Argo Era era divinità patrona autonoma, forse ancora più importante che ad Atene stessa.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il pavone (con gli "occhi" di Argo Panoptes), la melagrana, il diadema, il cuculo, la vacca.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Olimpia</strong> — il Tempio di Hera (Heraion), da cui si accende la fiamma olimpica.</li>
-        <li><strong>Argo</strong> — sua città patrona; i miti di Io e Argo Panoptes.</li>
-        <li><strong>Micene</strong> — sfondo del ciclo degli Atridi e della guerra di Troia.</li>
-        <li><strong>Tirinto</strong> — persecuzione di Eracle.</li>
-      </ul>`
-  },
-  "mito-poseidone": {
-    racconto: `<p><strong>La spartizione del cosmo.</strong> Dopo la Titanomachia, a Poseidone toccò il mare, oltre al governo dei terremoti (epiteto Ennosigeo, "che scuote la terra") e, in molte tradizioni, dei cavalli.</p>
-      <p><strong>La contesa con Atena.</strong> Fece scaturire acqua salata dalla roccia dell'Acropoli (o apparire il primo cavallo), ma il dono di Atena — l'ulivo — fu giudicato superiore. Sconfitto, allagò la pianura attica. Si scontrò anche con Era per Argo (prosciugando i fiumi per rabbia) e con Elios per Corinto (spartendosi la città: Acrocorinto a Elios, Istmo a Poseidone).</p>
-      <p><strong>Gli amori e la progenie.</strong> Con Medusa generò Pegaso e il gigante Crisaore, nati dal sangue della madre decapitata da Perseo. Fu padre del ciclope Polifemo, del gigante Anteo, e di Nauplio, avuto dalla ninfa Amimone in cambio di una sorgente fatta scaturire con il tridente.</p>
-      <p><em>Versioni alternative:</em> l'identità del Bronzo di Artemisio (Zeus o Poseidone?) resta dibattuta, data l'iconografia quasi identica tra i due fratelli.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il tridente, il cavallo, il delfino, il toro.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene</strong> — la contesa con Atena, nel Partenone e nell'Eretteo.</li>
-        <li><strong>Corinto</strong> — patrono con Elios; padre di Pegaso; i Giochi Istmici.</li>
-        <li><strong>Argo</strong> — la contesa perduta con Era.</li>
-        <li><strong>Nauplia</strong> — padre del fondatore mitico Nauplio.</li>
-        <li><strong>Museo Archeologico Nazionale</strong> — il Bronzo di Artemisio.</li>
-      </ul>`
-  },
-  "mito-atena": {
-    racconto: `<p><strong>La nascita straordinaria.</strong> Zeus, dopo aver ingoiato la prima moglie Meti incinta per timore di una profezia, soffrì un violento mal di testa. Efesto (o Prometeo) gli spaccò il cranio con un'ascia, e ne balzò fuori Atena, già adulta e armata, con un grido di guerra.</p>
-      <p><strong>La dea vergine.</strong> Dea della saggezza strategica, della guerra come disciplina razionale, dell'artigianato (Atena Ergane) e patrona delle città. Rimase vergine per scelta (da cui "Parthenos").</p>
-      <p><strong>La contesa con Poseidone.</strong> Poseidone colpì la roccia dell'Acropoli con il tridente, facendo scaturire acqua salata (o un cavallo); Atena, colpendo la terra con la lancia, fece germogliare un ulivo. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, da lei chiamata Atene.</p>
-      <p><strong>Erittonio.</strong> Efesto tentò di unirsi ad Atena, che lo respinse; il suo seme, caduto a terra, fecondò Gea, generando Erittonio. Atena lo allevò in segreto, affidandolo in una cesta chiusa alle tre figlie di Cecrope, vietandone l'apertura: alcune disobbedirono, videro il bambino sorvegliato da un serpente, e impazzirono gettandosi dalla rupe dell'Acropoli.</p>
-      <p><strong>Miti di punizione.</strong> Trasformò la tessitrice Aracne in ragno per averla sfidata e battuta in una gara di tessitura; accecò il veggente Tiresia per averla vista nuda, concedendogli in cambio il dono della profezia. Nel Giudizio di Paride offrì saggezza e vittoria in guerra, rifiutata a favore di Afrodite.</p>
-      <p><em>Versioni alternative:</em> alcune tradizioni non pananelleniche attribuiscono la sua nascita a un lago libico chiamato Tritone (da cui l'epiteto omerico Tritogenia).</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> l'ulivo, la civetta, l'egida (con la testa di Medusa), la lancia, l'elmo, il serpente.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene</strong> — Partenone, Eretteo, Tempio di Atena Nike.</li>
-        <li><strong>Sparta</strong> — Tempio di Atena Chalkioikos.</li>
-        <li><strong>Argo</strong> — l'Aspis, santuario di Atena Oxyderkes.</li>
-        <li><strong>Tempio di Efesto (Atene)</strong> — condiviso con Atena Ergane.</li>
-      </ul>`
-  },
-  "mito-apollo": {
-    racconto: `<p><strong>La nascita a Delo.</strong> Apollo nacque a Delo con la gemella Artemide, figli di Zeus e Latona. Era perseguitò Latona per tutta la gravidanza; solo Delo, isola allora fluttuante, accettò di ospitarla, fissandosi al fondale come ricompensa.</p>
-      <p><strong>Apollo e Pitone.</strong> Appena nato, Apollo uccise il serpente Pitone, custode del santuario di Gea a Delfi, impossessandosi dell'oracolo. Per purificarsi fu costretto a un esilio come pastore presso il re Admeto — da cui nacquero i Giochi Pitici.</p>
-      <p><strong>Apollo e Marsia.</strong> Il satiro Marsia trovò un aulo scartato da Atena e sfidò Apollo in una gara musicale, con il vincitore libero di fare del perdente ciò che voleva. Apollo, suonando la cetra capovolta e cantando insieme — impossibile con un flauto — vinse, e per punire l'hybris di Marsia lo fece scorticare vivo, appendendolo a un pino; le sue lacrime diedero origine a un fiume in Frigia.</p>
-      <p><strong>Apollo e Dafne.</strong> Deriso Eros per il suo arco "da bambino", Apollo fu colpito da una freccia d'oro che accende l'amore, innamorandosi della ninfa Dafne, colpita invece da una freccia di piombo che respinge l'amore. Inseguita, Dafne implorò il padre-fiume di trasformarla, e fu mutata in alloro proprio mentre Apollo la raggiungeva — pianta da allora a lui sacra.</p>
-      <p><strong>Apollo e Coronide.</strong> L'amore per la principessa tessala, il tradimento rivelato dal corvo, la nascita di Asclepio strappato dalle fiamme della pira, affidato al centauro Chirone.</p>
-      <p><strong>Apollo Patroos.</strong> Considerato padre di Ione, capostipite degli Ioni, il gruppo etnico a cui appartenevano gli Ateniesi.</p>
-      <p><em>Versioni alternative:</em> tradizioni pre-elleniche attribuiscono un ruolo fondativo più diretto a Gea e Temi nell'oracolo delfico, con Apollo come "usurpatore" tardivo.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la lira/cetra, l'arco e le frecce, l'alloro, il corvo, il tripode delfico, il cigno.</p>
-      <p><strong>Metamorfosi:</strong> Dafne in alloro; il corvo da bianco a nero.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Delfi</strong> — il suo santuario per eccellenza.</li>
-        <li><strong>Epidauro</strong> — padre di Asclepio.</li>
-        <li><strong>Atene</strong> — Tempio di Apollo Patroos nell'Agorà.</li>
-      </ul>`
-  },
-  "mito-artemide": {
-    racconto: `<p><strong>La nascita a Delo.</strong> Nacque con il gemello Apollo. Secondo una tradizione, nacque per prima e aiutò la madre a partorire il fratello — da cui il suo ruolo di protettrice del parto.</p>
-      <p><strong>La dea vergine dei boschi.</strong> Ottenne da Zeus l'eterna verginità, un arco d'argento, un seguito di ninfe, e la sovranità sui monti e i boschi. Dea della caccia, degli animali selvatici, della luna, della transizione delle giovani donne all'età adulta.</p>
-      <p><strong>Il sacrificio di Ifigenia.</strong> La flotta greca, bloccata da venti contrari ad Aulide, poté salpare solo dopo il sacrificio di Ifigenia, figlia di Agamennone, richiesto da Artemide offesa. All'ultimo istante, Artemide sostituì la fanciulla con una cerva, portando Ifigenia in Tauride a farne la propria sacerdotessa. Da lì Ifigenia fondò poi il santuario di Artemide a Brauron.</p>
-      <p><strong>Il rito dell'Arkteia.</strong> A Brauron le giovani ateniesi venivano consacrate alla dea imitando gli orsi in danze rituali. Il mito narra che un'orsa sacra fu uccisa dai fratelli di una ragazza graffiata durante un gioco; Artemide, offesa, mandò una pestilenza, placata solo istituendo il rito annuale.</p>
-      <p><strong>Miti di punizione.</strong> Trasformò il cacciatore Atteone in cervo per averla vista nuda, facendolo sbranare dai propri cani; uccise, insieme ad Apollo, i quattordici figli di Niobe, colpevole di essersi vantata contro Latona.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> l'arco d'argento, la luna crescente, il cervo, l'orsa, la cipressa.</p>
-      <p><strong>Metamorfosi:</strong> Atteone in cervo; Ifigenia "sostituita" da una cerva.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Micene</strong> — il ciclo degli Atridi: Agamennone, Ifigenia, Aulide.</li>
-        <li><strong>Atene (Acropoli)</strong> — il Santuario di Artemide Brauronia, l'Arkteia.</li>
-        <li><strong>Epidauro</strong> — il Tempio di Artemide, zia di Asclepio.</li>
-      </ul>`
-  },
-  "mito-demetra": {
-    racconto: `<p><strong>Il ratto di Persefone.</strong> Demetra aveva un'unica figlia, Persefone, avuta da Zeus. Mentre raccoglieva fiori, sedotta da un narciso fatto crescere da Gea su richiesta di Zeus, la terra si spalancò e Ade la rapì con il proprio carro, con il consenso segreto di Zeus.</p>
-      <p><strong>La ricerca disperata.</strong> Demetra vagò nove giorni cercando la figlia. Elios le rivelò la verità. Furiosa, si travestì da vecchia e vagò fino a Eleusi, dove divenne nutrice del piccolo principe Demofoonte, tentando di renderlo immortale bruciandone le impurità nel fuoco ogni notte — rito interrotto dalla madre spaventata.</p>
-      <p><strong>Un momento comico:</strong> l'anziana Baubo fece ridere la dea sollevandosi le vesti in un gesto scherzoso — mito eziologico di riti osceni legati ai Misteri Eleusini.</p>
-      <p><strong>La carestia e il compromesso.</strong> Demetra impedì a ogni seme di germogliare. Zeus ordinò ad Ade di restituire Persefone, ma la fanciulla aveva mangiato chicchi di melagrana, il cibo dei morti: fu raggiunto un compromesso, Persefone avrebbe trascorso parte dell'anno negli inferi e parte con la madre — mito eziologico delle stagioni.</p>
-      <p><strong>I Misteri Eleusini.</strong> Demetra insegnò ai re di Eleusi i propri riti, istruendo Trittolemo nell'agricoltura. Nacquero così i Misteri Eleusini, celebrati per quasi duemila anni, il cui contenuto esatto resta segreto ancora oggi.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> le spighe di grano, la torcia, il maialino, il papavero.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Olimpia (Stadio)</strong> — l'altare di Demetra Chamyne, unica donna ammessa ai Giochi.</li>
-        <li><strong>Atene / Kerameikos</strong> — la Via Sacra verso Eleusi partiva dalla Porta Sacra.</li>
-        <li><strong>Corinto (Acrocorinto)</strong> — culti misterici e ctonii affini.</li>
-      </ul>`
-  },
-  "mito-dioniso": {
-    racconto: `<p><strong>La doppia nascita.</strong> Sua madre Semele, amante di Zeus, fu ingannata da Era a chiedere all'amante di mostrarsi in tutto il suo splendore divino — una richiesta fatale, che la incenerì. Zeus salvò il feto e se lo cucì nella coscia, portandolo a termine lui stesso — da cui l'epiteto "nato due volte".</p>
-      <p><strong>La versione orfica: Zagreus.</strong> Una tradizione più cupa narra che Dioniso nacque prima come Zagreus, figlio di Zeus e Persefone, fatto a pezzi dai Titani su istigazione di Era. Atena salvò il cuore ancora pulsante, che Zeus inghiottì, permettendo la "rinascita" attraverso Semele.</p>
-      <p><strong>Il dio del vino.</strong> Scoprì la vite e la vinificazione, diffondendole fino in India con un corteo di Satiri, Menadi e Sileno. Il suo culto era legato alla mania rituale e all'ebbrezza, motivo per cui era anche patrono del teatro.</p>
-      <p><strong>Dioniso e i pirati tirreni.</strong> Alcuni pirati, non riconoscendolo, tentarono di rapirlo per venderlo schiavo — le corde si sciolsero da sole, viti invasero la nave, e i pirati terrorizzati si gettarono in mare, dove il dio li trasformò in delfini.</p>
-      <p><strong>Dioniso e Arianna.</strong> Dopo che Teseo abbandonò Arianna a Nasso, Dioniso la trovò, se ne innamorò e la sposò, donandole una corona divenuta poi la costellazione della Corona Boreale.</p>
-      <p><strong>Dioniso a Delfi.</strong> Condivideva il Tempio di Apollo, che si allontanava nei mesi invernali verso gli Iperborei, lasciando il santuario a Dioniso.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il tirso, la vite, l'edera, la pantera, la maschera teatrale.</p>
-      <p><strong>Metamorfosi:</strong> i pirati tirreni in delfini; sé stesso "rinato" due volte.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Delfi</strong> — condivide il tempio con Apollo; i riti delle Tiadi.</li>
-        <li><strong>Atene</strong> — il Teatro di Dioniso, le Grandi Dionisie.</li>
-        <li><strong>Monumento di Lisicrate (Atene)</strong> — il mito dei pirati tirreni.</li>
-      </ul>`
-  },
-  "mito-afrodite": {
-    racconto: `<p><strong>La nascita dalla spuma.</strong> Secondo Esiodo, quando Crono evirò Urano, gettò i genitali in mare: dal contatto tra carne divina e spuma marina nacque Afrodite già adulta, approdando a Citera e poi a Cipro. Una tradizione alternativa (Omero) la fa figlia di Zeus e Dione.</p>
-      <p><strong>Il matrimonio con Efesto e l'amore per Ares.</strong> Sposata a Efesto, lo tradì con Ares. Efesto, avvertito da Elios, costruì una rete invisibile che intrappolò i due amanti, esponendoli al ridicolo di tutti gli dèi.</p>
-      <p><strong>Il Giudizio di Paride.</strong> Offrì a Paride l'amore di Elena, già moglie di Menelao, vincendo la gara di bellezza ma innescando la guerra di Troia.</p>
-      <p><strong>Adone.</strong> Si innamorò del bellissimo mortale Adone, nato da un incesto tra Mirra (trasformata in albero) e il proprio padre. Adone morì giovane, ucciso da un cinghiale (forse mandato da un geloso Ares). Dal suo sangue nacquero gli anemoni rossi; le lacrime di Afrodite, mescolate al sangue calpestando spine, tinsero di rosso le rose bianche.</p>
-      <p><strong>Eros.</strong> Madre di Eros, il dio alato dell'amore le cui frecce fecero innamorare anche Apollo di Dafne.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la conchiglia, la colomba, il mirto, la rosa, la cintura magica.</p>
-      <p><strong>Metamorfosi:</strong> Mirra in albero; il sangue di Adone in anemoni; le rose tinte di rosso.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Corinto (Acrocorinto)</strong> — il grande santuario sulla fortezza.</li>
-        <li><strong>Atene (Acropoli)</strong> — il Santuario nei Giardini, meta dell'Arreforia.</li>
-        <li><strong>Sparta</strong> — artefice della bellezza di Elena e della guerra di Troia.</li>
-      </ul>`
-  },
-  "mito-ares": {
-    racconto: `<p><strong>Il dio della guerra violenta.</strong> Figlio di Zeus ed Era, incarnava la furia cieca e sanguinaria del combattimento, in opposizione alla guerra strategica di Atena — uno degli dèi meno amati, definito da Zeus stesso "il più odioso di tutti".</p>
-      <p><strong>L'amore con Afrodite</strong> e la rete di Efesto che li espose al ridicolo dell'Olimpo.</p>
-      <p><strong>Il processo sull'Areopago.</strong> Ares fu il primo processato per omicidio in quel luogo, accusato di aver ucciso Alirrozio, figlio di Poseidone, che aveva tentato di violentare sua figlia Alcippe. Fu assolto per legittima difesa, stabilendo il precedente sacro per ogni futuro giudizio ateniese.</p>
-      <p><strong>Ares in guerra.</strong> Nell'Iliade viene ferito e messo in fuga sia da Diomede (aiutato da Atena) sia da Eracle, in un episodio quasi comico.</p>
-      <p><strong>I figli di Ares.</strong> Le Amazzoni erano considerate sue figlie; Enomao, re di Pisa nel mito di Pelope, era suo figlio e ne riceveva i cavalli invincibili.</p>
-      <p><em>Versioni alternative:</em> il corrispondente romano Marte godeva di un prestigio molto maggiore rispetto al greco Ares.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la lancia, l'elmo, il cane e l'avvoltoio, la fiaccola.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene (Areopago)</strong> — il mito fondativo del processo per Alirrozio.</li>
-        <li><strong>Olimpia</strong> — padre di Enomao.</li>
-        <li><strong>Micene, Argo</strong> — presenza indiretta nei conflitti eroici.</li>
-      </ul>`
-  },
-  "mito-efesto": {
-    racconto: `<p><strong>La nascita e il rifiuto.</strong> Nato da Zeus ed Era (o da Era sola, per partenogenesi, come "risposta" alla nascita di Atena), Efesto nacque zoppo e deforme; Era, disgustata, lo scaraventò giù dall'Olimpo. Fu raccolto da Teti ed Eurinome, che lo allevarono per nove anni in una grotta sottomarina.</p>
-      <p><strong>La vendetta contro Era.</strong> Costruì un trono d'oro magico e lo inviò in dono alla madre: Era vi restò intrappolata da legami invisibili. Solo Dioniso, ubriacandolo, convinse Efesto a liberarla, in cambio della mano di Afrodite.</p>
-      <p><strong>Il tentativo con Atena</strong> e la nascita di Erittonio, generato da Gea dal seme caduto a terra.</p>
-      <p><strong>Il dio fabbro.</strong> Forgiò il fulmine di Zeus, l'egida, le armi di molti eroi (incluso Achille, per la madre Teti), e la prima donna mortale, Pandora. Costruì automi meccanici viventi — servitrici d'oro parlanti, tripodi semoventi.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il martello e l'incudine, la forgia, la tenaglia; il corrispondente romano Vulcano ha dato l'italiano "vulcano".</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene</strong> — il Tempio di Efesto nell'Agorà; il mito di Erittonio.</li>
-        <li><strong>Olimpia, Delfi</strong> — presenza indiretta come artefice di armi.</li>
-      </ul>`
-  },
-  "mito-ermes": {
-    racconto: `<p><strong>Il neonato ladro e geniale.</strong> Figlio di Zeus e Maia, ancora in fasce inventò la lira e rubò cinquanta capi del bestiame di Apollo, facendo camminare gli animali all'indietro per confondere le tracce. Scoperto, negò tutto con sfrontatezza; la disputa si risolse quando Ermes offrì ad Apollo la lira in cambio del perdono, ricevendo il caduceo come simbolo della propria autorità.</p>
-      <p><strong>Il messaggero e psicopompo.</strong> Divenne il messaggero ufficiale di Zeus, l'unico dio capace di muoversi tra tutti i regni, e psicopompo — guida delle anime dei defunti fino al fiume Stige.</p>
-      <p><strong>Ermes e Argo Panoptes.</strong> Inviato da Zeus, addormentò con musica e racconti tutti i cento occhi del gigante guardiano, uccidendolo e liberando Io.</p>
-      <p><strong>Patrono di confini e scambi.</strong> Dio dei confini (le erme), dei viandanti, del commercio, dell'eloquenza e dei ladri. Patrono di palestre e ginnasi insieme a Eracle.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il caduceo, i sandali alati, il petaso, la lira, le erme.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Argo</strong> — il mito di Argo Panoptes e Io.</li>
-        <li><strong>Olimpia</strong> — patrono di palestre e ginnasi.</li>
-        <li><strong>Atene (Stoa Basileios)</strong> — l'area "degli Herm".</li>
-      </ul>`
-  },
-  "mito-estia": {
-    racconto: `<p><strong>La primogenita "due volte nata".</strong> Prima figlia di Crono e Rea, fu la prima a essere inghiottita e l'ultima a essere rigurgitata — insieme maggiore e minore tra i sei figli.</p>
-      <p><strong>Il voto di castità.</strong> Rifiutò sia Poseidone che Apollo come pretendenti, giurando su Zeus di restare vergine per sempre. Zeus la ricompensò con il privilegio di ricevere la prima e l'ultima offerta in ogni sacrificio.</p>
-      <p><strong>Il tentativo di Priapo.</strong> Durante una festa, mentre tutti dormivano, il dio Priapo tentò di avvicinarla — solo il raglio improvviso di un asino la svegliò in tempo, salvandola.</p>
-      <p><strong>La rinuncia al proprio seggio.</strong> Alcune fonti (incluso il fregio del Partenone, dove compare Dioniso al suo posto) suggeriscono che avrebbe volontariamente ceduto il proprio posto tra i dodici Olimpi a Dioniso per mantenere la pace.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il focolare, la fiamma perenne, il calderone, l'asino.</p>
-      <p><strong>Dove trovarla nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Olimpia (Pritaneo)</strong> — l'altare con la fiamma perenne.</li>
-        <li><strong>Atene (Tholos e Bouleuterion)</strong> — il focolare pubblico della città.</li>
-        <li><strong>Delfi</strong> — l'omphalos come suo "focolare" simbolico.</li>
-      </ul>`
-  },
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
 
-  "mito-eracle": {
-    racconto: `<p><strong>La nascita e l'inganno di Zeus.</strong> Figlio di Zeus e della mortale Alcmena. Era, gelosa, ritardò la sua nascita e affrettò quella del cugino Euristeo, che divenne re al posto suo.</p>
-      <p><strong>L'infanzia e la follia.</strong> Ancora in culla strangolò due serpenti inviati da Era. Da adulto, un attacco di follia scagliatogli da Era gli fece uccidere moglie e figli. L'oracolo di Delfi gli ordinò di servire Euristeo per dodici anni.</p>
-      <p><strong>Le Dodici Fatiche:</strong> il Leone di Nemea, l'Idra di Lerna, la Cerva di Cerinea, il Cinghiale di Erimanto, le Stalle di Augia, gli Uccelli Stinfali, il Toro di Creta, le Cavalle di Diomede, la Cintura di Ippolita, i Buoi di Gerione, i Pomi delle Esperidi, la cattura di Cerbero.</p>
-      <p><strong>La morte e l'apoteosi.</strong> Morì avvelenato involontariamente dalla moglie Deianira, che gli fece indossare una tunica intrisa del sangue del centauro Nesso. Si fece costruire una pira; mentre bruciava, Zeus lo elevò all'Olimpo come dio, sposando Ebe.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la clava, la pelle del Leone di Nemea, l'arco.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Tirinto</strong> — nascita e servizio presso Euristeo.</li>
-        <li><strong>Micene</strong> — capitale di Euristeo secondo un'altra tradizione.</li>
-        <li><strong>Olimpia</strong> — fondatore alternativo dei Giochi; le fatiche nelle metope del Tempio di Zeus.</li>
-        <li><strong>Atene (Tempio di Efesto)</strong> — le fatiche nelle metope orientali.</li>
-        <li><strong>Delfi</strong> — l'oracolo che gli impose il servizio.</li>
-      </ul>`
-  },
-  "mito-teseo": {
-    racconto: `<p><strong>La nascita e le prove del padre.</strong> Figlio di Egeo (o di Poseidone) e di Etra. Egeo nascose spada e sandali sotto un masso; Teseo, sollevatolo da adulto, partì per Atene.</p>
-      <p><strong>Il viaggio verso Atene.</strong> Sconfisse briganti come Procuste e Sinis lungo la via di terra, emulando Eracle.</p>
-      <p><strong>Medea e il riconoscimento.</strong> Medea, sposa di Egeo, tentò di avvelenarlo; Egeo lo riconobbe dalla spada appena in tempo, facendo cadere la coppa.</p>
-      <p><strong>Il Minotauro.</strong> Atene doveva inviare sette fanciulli e sette fanciulle in tributo al Minotauro nel labirinto di Creta. Teseo si offrì volontario; Arianna gli diede un filo per ritrovare l'uscita. Uccise il Minotauro e fuggì con lei.</p>
-      <p><strong>L'abbandono di Arianna e la morte di Egeo.</strong> Abbandonò Arianna a Nasso (poi sposata da Dioniso) e dimenticò di issare le vele bianche: Egeo, credendolo morto, si gettò in mare, dando nome al Mar Egeo.</p>
-      <p><strong>Il re e unificatore.</strong> Compì il sinecismo dell'Attica sotto Atene.</p>
-      <p><strong>Le Amazzoni</strong> e l'Amazzonomachia che ne seguì; <strong>l'amicizia con Piritoo</strong> e la discesa agli Inferi da cui fu salvato da Eracle.</p>
-      <p><strong>La morte in esilio</strong> a Skyros, gettato da una rupe.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la spada e i sandali, il gomitolo di filo, la clava.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene</strong> — l'eroe nazionale: Tempio di Efesto, Tempio di Atena Nike, Stoa Poikile, il sinecismo.</li>
-        <li><strong>Corinto</strong> — l'episodio di Medea.</li>
-        <li><strong>Delfi</strong> — l'Amazzonomachia nel Tesoro degli Ateniesi.</li>
-      </ul>`
-  },
-  "mito-perseo": {
-    racconto: `<p><strong>La profezia e la nascita.</strong> Acrisio, re di Argo, temeva un nipote che l'avrebbe ucciso. Rinchiuse la figlia Danae in una torre; Zeus, in pioggia d'oro, generò Perseo. Acrisio li gettò in mare in una cassa.</p>
-      <p><strong>L'infanzia a Serifo.</strong> Approdati a Serifo, Perseo crebbe fino a quando il re Polidette lo sfidò a portargli la testa di Medusa.</p>
-      <p><strong>La decapitazione di Medusa.</strong> Con l'aiuto di Atena ed Ermes, rintracciò le Graie per scoprire dove trovare gli strumenti magici, poi decapitò Medusa guidandosi col riflesso dello scudo. Dal collo reciso nacquero Pegaso e Crisaore.</p>
-      <p><strong>Il ritorno.</strong> Salvò e sposò Andromeda, pietrificò Polidette con la testa di Medusa, e donò la testa ad Atena, che la fissò sulla propria egida.</p>
-      <p><strong>La profezia compiuta.</strong> Un disco lanciato per errore uccise Acrisio, suo nonno, compiendo la profezia.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la testa di Medusa (Gorgoneion), i sandali alati, la falce, lo scudo riflettente.</p>
-      <p><strong>Metamorfosi:</strong> Polidette e il mostro marino pietrificati; Pegaso nato dal sangue di Medusa.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Argo</strong> — la sua città: Danao, Acrisio, la profezia.</li>
-        <li><strong>Micene</strong> — secondo alcune tradizioni, fondatore delle mura ciclopiche.</li>
-        <li><strong>Corinto</strong> — Pegaso, catturato da Bellerofonte.</li>
-      </ul>`
-  },
-  "mito-pelope": {
-    racconto: `<p><strong>Il banchetto di Tantalo.</strong> Tantalo uccise il figlio Pelope e lo servì agli dèi in un banchetto per testarne l'onniscienza. Demetra, distratta, assaggiò una spalla. Gli dèi ricomposero Pelope, sostituendo la spalla con una protesi d'avorio.</p>
-      <p><strong>L'amore di Poseidone,</strong> che lo rapì come coppiere e gli donò un carro con cavalli alati invincibili.</p>
-      <p><strong>La corsa contro Enomao.</strong> Per sposare Ippodamia, Pelope dovette battere in una corsa di carri il re Enomao, che uccideva ogni pretendente perdente.</p>
-      <p><strong>Il tradimento di Mirtilo.</strong> Pelope corruppe l'auriga Mirtilo, che sabotò il carro di Enomao con perni di cera. Enomao morì; Pelope tradì Mirtilo gettandolo in mare (da cui il Mar Mirtoo). Mirtilo, morendo, maledisse Pelope e la sua discendenza — la stessa maledizione degli Atridi.</p>
-      <p><strong>La fondazione dei Giochi</strong> in onore di Zeus, per celebrare la vittoria.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la spalla d'avorio, il carro e i cavalli alati.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Olimpia</strong> — il Pelopion, il Tempio di Zeus, l'Ippodromo, la fondazione dei Giochi.</li>
-        <li><strong>Micene</strong> — la maledizione trasmessa fino ad Atreo, Agamennone, Oreste.</li>
-        <li><strong>Il Peloponneso</strong> — l'intera penisola prende il suo nome.</li>
-      </ul>`
-  },
-  "mito-bellerofonte": {
-    racconto: `<p><strong>Il nome e l'esilio.</strong> Nato a Corinto, figlio di Glauco (o Poseidone). Dopo aver ucciso per errore un nobile, fu esiliato e purificato alla corte del re Preto di Tirinto.</p>
-      <p><strong>La cattura di Pegaso,</strong> che si abbeverava alla fonte di Peirene a Corinto, domato con briglie d'oro donate in sogno da Atena.</p>
-      <p><strong>Le imprese in Licia.</strong> Accusato falsamente da Antea, fu inviato dal re Iobate con una "lettera bellerofontica" che ne ordinava segretamente la morte. Superò le prove imposte, inclusa la sconfitta della Chimera volando su Pegaso, sposando poi la figlia di Iobate.</p>
-      <p><strong>L'hybris e la caduta.</strong> Tentò di volare fino all'Olimpo su Pegaso; Zeus mandò un tafano a pungere il cavallo, facendolo precipitare, storpio e cieco, per il resto della vita.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> Pegaso, le briglie d'oro, la Chimera.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Corinto</strong> — la cattura di Pegaso alla Fontana di Peirene.</li>
-      </ul>`
-  },
-  "mito-giasone": {
-    racconto: `<p><strong>Il trono usurpato.</strong> Figlio di Esone, spodestato dal fratellastro Pelia, che gli impose di recuperare il Vello d'Oro dalla Colchide.</p>
-      <p><strong>Gli Argonauti</strong> — Eracle, Orfeo, i Dioscuri e altri — salparono sulla nave Argo, superando le Simplegadi e altre prove.</p>
-      <p><strong>Le prove di Eeta e l'aiuto di Medea.</strong> Il re Eeta impose prove impossibili; Medea, innamoratasi di Giasone, lo aiutò con la magia, addormentando il drago custode del Vello.</p>
-      <p><strong>La fuga.</strong> Inseguiti da Eeta, Medea uccise e smembrò il proprio fratello Absirto per rallentare l'inseguimento.</p>
-      <p><strong>Il ritorno e la vendetta su Pelia.</strong> Medea ingannò le figlie di Pelia facendogli uccidere il padre credendo di ringiovanirlo. Esiliati, si rifugiarono a Corinto, dove Giasone abbandonò Medea per un'altra sposa — scatenando la tragedia già raccontata a Corinto.</p>
-      <p><strong>La fine solitaria,</strong> morto sotto la prua marcia della propria nave Argo.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il Vello d'Oro, la nave Argo, il sandalo singolo.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Corinto</strong> — l'esilio, il tradimento di Medea, la tragedia dei figli.</li>
-        <li><strong>Micene, Sparta</strong> — i Dioscuri, compagni di viaggio sulla Argo.</li>
-      </ul>`
-  },
-  "mito-achille": {
-    racconto: `<p><strong>Il matrimonio che scatenò la guerra di Troia.</strong> Figlio di Peleo e della ninfa Teti. Al loro matrimonio, Eris gettò la mela della discordia che innescò il Giudizio di Paride.</p>
-      <p><strong>L'immersione nello Stige,</strong> con cui Teti lo rese invulnerabile tranne che nel tallone, con cui lo teneva.</p>
-      <p><strong>L'educazione</strong> presso il centauro Chirone; nascosto a Sciro travestito da fanciulla, fu scoperto da Ulisse.</p>
-      <p><strong>L'ira di Achille e la morte di Patroclo.</strong> Offeso da Agamennone, si ritirò dal combattimento. Tornò in battaglia solo dopo che il suo compagno Patroclo, indossando le sue armi, fu ucciso da Ettore.</p>
-      <p><strong>La morte di Ettore,</strong> ucciso in duello e trascinato attorno alle mura di Troia, prima di restituirne il corpo al padre Priamo.</p>
-      <p><strong>La morte,</strong> colpito al tallone da una freccia di Paride guidata da Apollo.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> lo scudo forgiato da Efesto, il tallone, l'armatura divina.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Micene</strong> — la disputa con Agamennone.</li>
-        <li><strong>Epidauro</strong> — condivide il maestro Chirone con Asclepio.</li>
-      </ul>`
-  },
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
 
-  "ciclo-atridi": {
-    racconto: `<p><strong>La maledizione della casa di Atreo.</strong> Tantalo uccise il figlio Pelope e lo servì agli dèi in un banchetto; punito, vide comunque Pelope riportato in vita. Fu Pelope, dopo il tradimento di Mirtilo, a ricevere la maledizione che avrebbe attraversato le generazioni.</p>
-      <p><strong>Atreo e Tieste.</strong> I due figli di Pelope lottarono per il trono di Micene. Tieste sedusse la moglie di Atreo; Atreo si vendicò servendogli in un banchetto le carni dei propri figli — evento così mostruoso che il Sole invertì la propria rotta per non assistervi. Tieste generò poi Egisto, allevato per vendicarlo.</p>
-      <p><strong>Agamennone e il sacrificio di Ifigenia.</strong> Agamennone, comandante della spedizione contro Troia, sacrificò la figlia Ifigenia ad Aulide per ottenere venti favorevoli (sostituita all'ultimo da una cerva, secondo la versione più diffusa).</p>
-      <p><strong>Il ritorno e l'assassinio.</strong> Tornato dalla guerra, Agamennone fu ucciso nel bagno dalla moglie Clitennestra e dal suo amante Egisto (figlio di Tieste).</p>
-      <p><strong>La vendetta di Oreste.</strong> Il figlio Oreste, con l'aiuto della sorella Elettra, uccise Egisto e Clitennestra, scatenando la persecuzione delle Erinni. Un processo sull'Areopago di Atene, presieduto da Atena, lo assolse infine.</p>
-      <p><em>Versioni alternative:</em> Euripide offre letture più ambigue rispetto a Eschilo, dando risalto al punto di vista femminile.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la rete/il velo del bagno, le Erinni, la maschera tragica.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Micene</strong> — l'epicentro: Palazzo e Megaron, Tesoro di Atreo, Tomba di Clitennestra.</li>
-        <li><strong>Olimpia</strong> — l'origine della maledizione nel mito di Pelope.</li>
-        <li><strong>Atene (Areopago)</strong> — il processo che assolve Oreste.</li>
-        <li><strong>Nauplia</strong> — la leggenda dell'architrave dalla Tomba di Agamennone.</li>
-      </ul>`
-  },
-  "ciclo-troia": {
-    racconto: `<p><strong>Le cause: il Giudizio di Paride.</strong> Al matrimonio di Peleo e Teti, Eris gettò la mela della discordia. Paride scelse Afrodite, che gli promise l'amore di Elena, guadagnandosi l'ostilità di Era e Atena.</p>
-      <p><strong>Il giuramento dei pretendenti ed Elena.</strong> Elena sposò Menelao di Sparta; quando Paride la sedusse (o rapì) e fuggì con lei a Troia, il giuramento prestato da tutti i pretendenti obbligò i re greci a muovere guerra.</p>
-      <p><strong>La radunata e Ifigenia.</strong> La flotta di Agamennone, bloccata ad Aulide, salpò solo dopo il sacrificio di Ifigenia.</p>
-      <p><strong>I dieci anni d'assedio.</strong> L'ira di Achille, la morte di Patroclo e di Ettore; la morte di Achille per mano di Paride guidato da Apollo.</p>
-      <p><strong>Il Cavallo di Troia.</strong> Ulisse ideò il cavallo cavo; nonostante gli avvertimenti di Laocoonte (poi ucciso da serpenti marini) e Cassandra (mai creduta), i Troiani lo introdussero in città. Di notte i Greci uscirono e aprirono le porte: Troia cadde.</p>
-      <p><strong>Le conseguenze.</strong> Priamo ucciso, Cassandra portata schiava da Agamennone, Enea fuggito verso l'Italia. I Nostoi (ritorni) degli eroi greci furono pieni di sventure.</p>
-      <p><em>Versioni alternative:</em> Erodoto riporta una tradizione egizia secondo cui la vera Elena non giunse mai a Troia.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il Cavallo di Troia, la mela della discordia, le mura di Troia.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Sparta</strong> — Elena e Menelao, il Menelaion.</li>
-        <li><strong>Micene</strong> — Agamennone, comandante supremo.</li>
-        <li><strong>Delfi, Atene, Olimpia</strong> — raffigurato nelle decorazioni scultoree (Tesoro degli Ateniesi, Stoa Poikile, metope).</li>
-      </ul>`
-  },
-  "ciclo-argo": {
-    racconto: `<p><strong>Io, capostipite.</strong> Sacerdotessa di Era amata da Zeus, trasformata in giovenca, perseguitata da un tafano dopo la morte di Argo Panoptes. Vagò fino in Egitto, dove generò da Zeus una discendenza destinata a moltiplicarsi.</p>
-      <p><strong>Danao e le Danaidi.</strong> Un discendente di Io, Danao, ebbe cinquanta figlie; il fratello Egitto, cinquanta figli. Rifiutando le nozze forzate, Danao fuggì ad Argo. Costretto alle nozze, fece uccidere ai figli di Egitto dalle proprie figlie nella notte di nozze; solo Ipermestra risparmiò il marito Linceo. Le altre quarantanove furono condannate a riempire una giara forata per l'eternità.</p>
-      <p><strong>Da Ipermestra a Perseo.</strong> Dalla coppia superstite discese la dinastia regale di Argo fino ad Acrisio, nonno di Perseo — chiudendo il cerchio: la discendenza di Io, cacciata da Argo, vi ritorna con Danao e produce, generazioni dopo, uno dei più celebri eroi greci.</p>
-      <p><em>Versioni alternative:</em> Eschilo e Apollodoro offrono alberi genealogici con generazioni intermedie diverse.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> la giara forata, il tafano, i cento occhi di Argo Panoptes (nel pavone di Era).</p>
-      <p><strong>Metamorfosi:</strong> Io in giovenca.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Argo</strong> — il cuore del ciclo: Danao, le Danaidi, Io.</li>
-        <li><strong>Micene</strong> — secondo alcune tradizioni, fondata da Perseo.</li>
-      </ul>`
-  },
-  "ciclo-medea": {
-    racconto: `<p><strong>Da Colchide a Corinto.</strong> Medea tradì il padre e uccise il fratello per amore di Giasone, poi vendicò l'esilio del marito facendo uccidere il re Pelia. Esiliati, si rifugiarono a Corinto, dove ebbero diversi figli.</p>
-      <p><strong>Il tradimento.</strong> Giasone decise di abbandonare Medea per sposare Glauce, figlia del re Creonte di Corinto.</p>
-      <p><strong>La vendetta.</strong> Medea inviò a Glauce un peplo e una corona avvelenati che presero fuoco, uccidendo lei e Creonte accorso in soccorso. Poi uccise i propri stessi figli per infliggere a Giasone il dolore più totale, fuggendo infine su un carro alato del Sole.</p>
-      <p><em>Versioni alternative:</em> questa lettura si deve principalmente a Euripide (Medea, 431 a.C.); una tradizione corinzia più antica attribuiva l'uccisione dei figli agli stessi abitanti di Corinto, sdegnati per la morte di Glauce e Creonte.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il peplo e la corona avvelenati, il carro alato del Sole, il calderone magico.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Corinto</strong> — l'intera tragedia finale.</li>
-        <li><strong>Atene</strong> — secondo tradizioni successive, Medea si rifugiò qui e tentò di avvelenare il giovane Teseo.</li>
-      </ul>`
-  },
-  "ciclo-origini-atene": {
-    racconto: `<p><strong>Cecrope, il primo re autoctono.</strong> Nato dalla stessa terra, per metà uomo e per metà serpente. Sotto il suo regno avvenne la contesa tra Atena e Poseidone per il patronato della città.</p>
-      <p><strong>Le figlie di Cecrope.</strong> Aglauro, Erse e Pandroso — protagoniste del mito di Erittonio. Pandroso, unica a non disobbedire, divenne prima sacerdotessa di Atena.</p>
-      <p><strong>Erittonio, il bambino-serpente.</strong> Nato da Gea, fecondata dal seme di Efesto respinto da Atena. Affidato in una cesta chiusa alle figlie di Cecrope: Aglauro ed Erse disobbedirono, videro il bambino sorvegliato da serpenti, e impazzirono gettandosi dalla rupe.</p>
-      <p><strong>Erittonio re,</strong> istituì il culto di Atena Poliade e le feste Panatenaiche. Il suo nome è spesso fuso con quello di Erecteo, a cui è dedicato l'Eretteo.</p>
-      <p><strong>Il significato politico:</strong> l'autoctonia distingueva Atene dalle altre poleis (come Sparta, di discendenza dorica) e ne giustificava la pretesa di superiorità culturale.</p>`,
-    collegamenti: `<p><strong>Simboli:</strong> il serpente, la cesta chiusa, l'ulivo sacro.</p>
-      <p><strong>Dove trovarlo nel viaggio:</strong></p>
-      <ul>
-        <li><strong>Atene (Acropoli)</strong> — Eretteo, Pandroseion, Arreforion.</li>
-        <li><strong>Atene (Partenone)</strong> — il frontone occidentale con la contesa Atena-Poseidone.</li>
-      </ul>`
-  }
-};
+const searchInput = document.getElementById('search');
+const allSites = Array.from(document.querySelectorAll('.site'));
+const allGroups = Array.from(document.querySelectorAll('.group'));
 
-const container = document.getElementById('sitesContainer');
-let lastGroup = null;
-sites.forEach((s, i) => {
-  if (s.group && s.group !== lastGroup) {
-    lastGroup = s.group;
-    const groupHeader = document.createElement('div');
-    groupHeader.className = 'group-header';
-    groupHeader.innerHTML = `<h3>${s.group}</h3>`;
-    container.appendChild(groupHeader);
-  }
-  const c = content[s.key];
-  const cardType = s.group === "Quartieri di Atene" ? "district"
-    : (s.group && s.group.indexOf("Mitologia") === 0) ? "myth"
-    : s.group === "Personaggi Storici" ? "figure"
-    : "site";
-  const card = document.createElement('div');
-  card.className = 'site-card';
-  card.dataset.key = s.key;
-  let tabsHtml;
-  if (cardType === "district") {
-    tabsHtml = `
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab(this, '${s.key}', 'storia')">Storia e Curiosità</div>
-        <div class="tab" onclick="switchTab(this, '${s.key}', 'monumenti')">Monumenti nel Quartiere</div>
-      </div>
-      <div class="tab-panels">
-        <div class="tab-panel active" data-panel="${s.key}-storia">
-          ${c ? c.storia : '<p class="placeholder">Contenuto storico e curiosità da sviluppare in conversazione.</p>'}
-        </div>
-        <div class="tab-panel" data-panel="${s.key}-monumenti">
-          ${c ? c.monumenti : '<p class="placeholder">Elenco dei monumenti presenti nel quartiere da sviluppare in conversazione.</p>'}
-        </div>
-      </div>`;
-  } else if (cardType === "myth") {
-    tabsHtml = `
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab(this, '${s.key}', 'racconto')">Il Mito</div>
-        <div class="tab" onclick="switchTab(this, '${s.key}', 'collegamenti')">Simboli, Metamorfosi e Luoghi</div>
-      </div>
-      <div class="tab-panels">
-        <div class="tab-panel active" data-panel="${s.key}-racconto">
-          ${c ? c.racconto : '<p class="placeholder">Racconto del mito, incluse le versioni alternative, da sviluppare in conversazione.</p>'}
-        </div>
-        <div class="tab-panel" data-panel="${s.key}-collegamenti">
-          ${c ? c.collegamenti : '<p class="placeholder">Simboli, metamorfosi collegate e luoghi del viaggio dove ricorre da sviluppare in conversazione.</p>'}
-        </div>
-      </div>`;
-  } else if (cardType === "figure") {
-    tabsHtml = `
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab(this, '${s.key}', 'bio')">Biografia</div>
-        <div class="tab" onclick="switchTab(this, '${s.key}', 'eredita')">Eredità e Luoghi</div>
-      </div>
-      <div class="tab-panels">
-        <div class="tab-panel active" data-panel="${s.key}-bio">
-          ${c ? c.bio : '<p class="placeholder">Biografia da sviluppare in conversazione.</p>'}
-        </div>
-        <div class="tab-panel" data-panel="${s.key}-eredita">
-          ${c ? c.eredita : '<p class="placeholder">Eredità e collegamenti ai luoghi del viaggio da sviluppare in conversazione.</p>'}
-        </div>
-      </div>`;
-  } else {
-    tabsHtml = `
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab(this, '${s.key}', 'storia')">Storia</div>
-        <div class="tab" onclick="switchTab(this, '${s.key}', 'arte')">Arte &amp; Architettura</div>
-        <div class="tab" onclick="switchTab(this, '${s.key}', 'mito')">Mitologia</div>
-      </div>
-      <div class="tab-panels">
-        <div class="tab-panel active" data-panel="${s.key}-storia">
-          ${c && c.etym ? `<div class="etym-note"><div class="ic">Ετυμολογία</div><div class="txt">${c.etym}</div></div>` : ''}
-          ${c ? c.storia : '<p class="placeholder">Contenuto storico da sviluppare in conversazione.</p>'}
-        </div>
-        <div class="tab-panel" data-panel="${s.key}-arte">
-          ${c ? c.arte : '<p class="placeholder">Descrizione artistica e architettonica da sviluppare in conversazione.</p>'}
-        </div>
-        <div class="tab-panel" data-panel="${s.key}-mito">
-          ${c ? c.mito : '<p class="placeholder">Miti collegati a questo luogo da sviluppare in conversazione.</p>'}
-          <div class="myth-note"><div class="ic">𐤠</div><div class="txt">Mito collegato a questo luogo.</div></div>
-        </div>
-      </div>`;
-  }
-  card.innerHTML = `
-    <div class="site-top">
-      <div class="check" onclick="event.stopPropagation(); toggleCheck(this, '${s.key}')"></div>
-      <div class="site-num">${String(i+1).padStart(2,'0')}</div>
-      <div class="site-name" onclick="toggleSite(this.closest('.site-card'))">
-        <h3>${s.name}</h3>
-        ${s.greek ? `<div class="site-greek">${s.greek}</div>` : ''}
-      </div>
-      <div class="chevron" onclick="toggleSite(this.closest('.site-card'))"></div>
-    </div>
-    <div class="site-detail">
-      ${tabsHtml}
-    </div>
-  `;
-  container.appendChild(card);
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
-// storage keys: "storico", "mito-generale", plus each site key
-const allKeys = ["storico","mito-generale", ...sites.map(s=>s.key)];
-let state = {};
-
-const acropoliDone = new Set(["storico","mito-generale","propilei","tempio-atena-nike","partenone","eretteo","antico-tempio-atena","santuario-zeus-polieus","pandroseion","calcoteca","artemide-brauronia","odeon-erode","stoa-eumene","asklepieion","teatro-dioniso","museo-acropoli","tempio-efesto","stoa-attalo","bouleuterion-agora","tholos-agora","metroon-agora","eroi-eponimi","altare-dodici-dei","stoa-zeus","stoa-basileios","stoa-poikile","tempio-apollo-patroos","odeon-agrippa","biblioteca-pantainos","areopago","agora-romana","torre-venti","biblioteca-adriano","arco-adriano","tempio-zeus-olimpio","monumento-lisicrate","pnice","collina-filopappo","kerameikos","museo-nazionale","plaka","anafiotika","monastiraki","psyrri","thissio","koukaki","kolonaki","exarchia","mito-zeus","mito-era","mito-poseidone","mito-atena","mito-apollo","mito-artemide","mito-demetra","mito-dioniso","mito-afrodite","mito-ares","mito-efesto","mito-ermes","mito-estia","mito-eracle","mito-teseo","mito-perseo","mito-pelope","mito-bellerofonte","mito-giasone","mito-achille","ciclo-atridi","ciclo-troia","ciclo-argo","ciclo-medea","ciclo-origini-atene"]);
-async function loadState(){
-  for (const k of allKeys){
-    const def = acropoliDone.has(k);
-    try{
-      const r = await window.storage.get('atene-progress:'+k, false);
-      state[k] = r ? JSON.parse(r.value) : def;
-    }catch(e){
-      state[k] = def;
-    }
-  }
-  applyState();
-}
-
-function applyState(){
-  document.querySelectorAll('.block').forEach(b=>{
-    const key = b.dataset.key;
-    const pill = b.querySelector('[data-status]');
-    if(state[key]){ pill.textContent='completato'; pill.classList.add('done'); }
-    else { pill.textContent='da fare'; pill.classList.remove('done'); }
+// Attiva il funzionamento offline se il service worker del portale è già registrato
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
   });
-  document.querySelectorAll('.site-card').forEach(c=>{
-    const key = c.dataset.key;
-    const check = c.querySelector('.check');
-    if(state[key]) check.classList.add('checked');
-    else check.classList.remove('checked');
-  });
-  updateProgress();
 }
-
-function updateProgress(){
-  const total = allKeys.length;
-  const done = allKeys.filter(k=>state[k]).length;
-  document.getElementById('progressLabel').textContent = `${done} / ${total} sezioni completate`;
-  document.getElementById('progressFill').style.width = (done/total*100)+'%';
-}
-
-async function saveKey(key, value){
-  state[key] = value;
-  applyState();
-  try{ await window.storage.set('atene-progress:'+key, JSON.stringify(value), false); }
-  catch(e){ console.error('storage error', e); }
-}
-
-function toggleBlock(headEl){
-  const block = headEl.closest('.block');
-  block.classList.toggle('open');
-}
-
-function toggleSite(card){
-  card.classList.toggle('open');
-}
-
-function toggleCheck(el, key){
-  const nowChecked = !state[key];
-  saveKey(key, nowChecked);
-}
-
-function switchTab(tabEl, key, panel){
-  const tabsRow = tabEl.parentElement;
-  tabsRow.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  tabEl.classList.add('active');
-  const panelsWrap = tabsRow.nextElementSibling;
-  panelsWrap.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-  panelsWrap.querySelector(`[data-panel="${key}-${panel}"]`).classList.add('active');
-}
-
-// allow clicking the top-level block status pill to toggle done state
-document.querySelectorAll('.block').forEach(b=>{
-  const pill = b.querySelector('[data-status]');
-  pill.style.cursor='pointer';
-  pill.addEventListener('click', (e)=>{
-    e.stopPropagation();
-    const key = b.dataset.key;
-    saveKey(key, !state[key]);
-  });
-});
-
-loadState();
 </script>
+
 </body>
 </html>
