@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sparta — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Sparta</h1>
+  <div class="greek-title">Σπάρτη</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante (pur avendo così pochi resti).</strong> Sparta è probabilmente l'esempio più clamoroso, in tutto il vostro itinerario, di come fama storica e resti archeologici non vadano necessariamente di pari passo. Fu una delle due grandi potenze della Grecia classica, rivale per eccellenza di Atene — eppure oggi il sito antico è quasi spoglio.</p>
+<p><strong>Perché ci sono così pochi resti:</strong></p>
+<ul>
+  <li>Gli Spartani, per scelta culturale, <strong>non costruirono mai mura di cinta</strong>: secondo un celebre detto attribuito al re Agesilao, "le mura di Sparta sono i suoi uomini".</li>
+  <li>Sparta non era una città unitaria, ma un insieme di <strong>cinque villaggi (kome)</strong> uniti insieme, senza vera pianificazione urbana centralizzata.</li>
+  <li>I materiali da costruzione modesti (mattoni crudi, non pietra) hanno reso i pochi edifici ancora più deperibili nel tempo.</li>
+</ul>
+<p><strong>Perché conta comunque così tanto:</strong></p>
+<ul>
+  <li>Fu l'unica polis capace di reggere il confronto con Atene per oltre un secolo, culminando nella vittoria della <strong>Guerra del Peloponneso</strong> (431-404 a.C.).</li>
+  <li>Sviluppò un sistema educativo unico, l'<strong>agoge</strong>, addestramento militare rigido fin dall'infanzia.</li>
+  <li>È legata alla battaglia delle <strong>Termopili</strong> (480 a.C.), dove il re <strong>Leonida</strong> e i suoi 300 opliti si sacrificarono contro i Persiani.</li>
+  <li>Aveva un sistema politico unico, con <strong>due re</strong> contemporanei (diarchia), una Gherusia e magistrati chiamati <strong>efori</strong>.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto oggi:</strong> un sito archeologico modesto, con un teatro, resti dell'acropoli e del tempio di Atena "dalla casa di bronzo", un museo, e il Menelaion poco fuori città.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Lacedemone e Sparta.</strong> La regione della Laconia prende il nome dal mitico <strong>Lacedemone</strong>, figlio di Zeus e della ninfa Taigete. Lacedemone sposò <strong>Sparta</strong>, figlia del fiume Eurota, e diede il proprio nome alla regione, dedicando alla moglie il nome della città stessa — da qui i due termini "Lacedemone" e "Sparta" spesso usati come sinonimi.</p>
+<p><strong>Leda e i Dioscuri.</strong> Sparta è legata al mito di <strong>Leda</strong>, moglie del re <strong>Tindaro</strong>. Zeus, trasformato in un cigno, si unì a lei nello stesso periodo in cui giaceva anche con il marito mortale — da questa duplice unione nacquero <strong>Castore e Polluce</strong> (i Dioscuri) ed <strong>Elena e Clitennestra</strong>. I Dioscuri, quando Castore morì, ottennero da Zeus di alternarsi, a giorni alterni, tra l'Olimpo e l'Ade.</p>
+<p><strong>Elena e Menelao.</strong> <strong>Elena</strong>, la donna più bella del mondo secondo il mito, crebbe a Sparta e vi sposò <strong>Menelao</strong>, che ne divenne re. Fu da Sparta che Elena venne rapita da <strong>Paride</strong>, scatenando la guerra di Troia. Il <strong>Menelaion</strong>, poco fuori città, era il santuario dedicato al culto eroico di Elena e Menelao.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="teatro antico di sparta" data-greek="αρχαίο θέατρο σπάρτης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teatro Antico di Sparta<span class="site-greek">Αρχαίο Θέατρο Σπάρτης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il teatro sorge sul fianco sud-ovest dell'Acropoli, sotto il Santuario di Atena Chalkioikos. Attestato già nel V secolo a.C., la struttura visibile risale al 30-20 a.C. Vespasiano donò una scena marmorea a due piani. Pausania, visitandolo nel 160 d.C., lo definì "degno di essere visto". Fu smantellato dai Franchi nel XIII secolo per costruire Mistrà.</p></div><div class="tab-panel"><p>Uno dei teatri più grandi di Grecia: diametro esterno di circa 140 metri, capienza fino a 16.000-17.000 spettatori. L'uso del marmo bianco locale su scala così ampia fu un'innovazione per l'epoca. La scena non era fissa ma mobile, in legno su ruote.</p></div><div class="tab-panel"><p>Non ci sono miti di fondazione specifici — coerentemente con lo spirito pragmatico spartano, il teatro nacque per funzioni pratiche più che come luogo di culto.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="acropoli" data-greek="ακρόπολη">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Acropoli<span class="site-greek">Ακρόπολη</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Collina piuttosto bassa e modesta. Le prime esplorazioni sistematiche iniziarono nel XX secolo con la Scuola Archeologica Britannica. Gran parte di ciò che si vede appartiene a fasi romane e bizantine, piuttosto che all'epoca classica.</p></div><div class="tab-panel"><p>Oltre al teatro, si conservano i resti di un misterioso <strong>Edificio Rotondo</strong>, una stoà dell'agorà romana rimaneggiata in epoca bizantina, e resti di una basilica paleocristiana dedicata a <strong>Osios Nikon</strong>, costruita sopra parte della cavea del teatro.</p></div><div class="tab-panel"><p>Non ci sono miti specificamente legati alla collina, ma l'intera area costituiva il cuore religioso e civile della città fondata, secondo la tradizione, da <strong>Lacedemone</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di atena chalkioikos" data-greek="ναός αθηνάς χαλκιοίκου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Atena Chalkioikos<span class="site-greek">Ναός Αθηνάς Χαλκιοίκου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il santuario di <strong>Atena Chalkioikos</strong> ("della casa di bronzo") sorgeva sul punto più alto dell'Acropoli, esistito dall'VIII secolo a.C. al II d.C. Secondo Pausania la costruzione fu iniziata dal re Tindaro. Realizzato a metà del VI secolo a.C. dall'artista Gitiadas. Fungeva da asilo sacro: qui morì di fame il generale Pausania, e vi si rifugiò il re Leonida II nel 242 a.C.</p></div><div class="tab-panel"><p>Tempio e statua interamente rivestiti di lastre di bronzo, decorate con le fatiche di Eracle e il ratto delle figlie di Leucippo da parte dei Dioscuri. Oggi restano solo indicazioni di scavo.</p></div><div class="tab-panel"><p>Il santuario è intrecciato con il mito di <strong>Tindaro</strong> e dei <strong>Dioscuri</strong>, celebrati nelle decorazioni bronzee insieme alle imprese di <strong>Eracle</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di sparta" data-greek="αρχαιολογικό μουσείο σπάρτης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Sparta<span class="site-greek">Αρχαιολογικό Μουσείο Σπάρτης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Ospitato in un edificio ottocentesco (1874-1876), raccoglie i reperti degli scavi britannici dal 1906, in particolare dal Santuario di Artemide Ortia — un sito che ha ridimensionato molti luoghi comuni sulla presunta povertà culturale di Sparta.</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
+      <ul>
+        <li><strong>Figurine votive in piombo</strong> dal Santuario di Artemide Ortia.</li>
+        <li><strong>Maschere fittili</strong>, legate a riti di iniziazione.</li>
+        <li><strong>Il cosiddetto "Leonida"</strong> — statua in marmo pario di un oplita in stile severo, dal Santuario di Atena Chalkioikos.</li>
+        <li><strong>Rilievi</strong> con Elena, Menelao e Paride, e mosaici romani.</li>
+      </ul></div><div class="tab-panel"><p>I rilievi con Elena e Menelao riportano al grande ciclo mitico; le figurine e maschere di Artemide Ortia aprono una finestra su un aspetto meno noto della religiosità spartana, legato a riti di passaggio.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="menelaion" data-greek="μενελάειον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Menelaion<span class="site-greek">Μενελάειον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Sorge sulla collina di Profitis Ilias, nell'area detta Terapne. Unisce i resti di un complesso <strong>miceneo</strong> (1400-1100 a.C.) e un <strong>santuario eroico</strong> dedicato a Menelao ed Elena, costruito dal VII-VI secolo a.C. Identificato nel 1833, scavato dalla Scuola Britannica dal 1909. Ritrovati oggetti votivi con iscrizioni dedicate esplicitamente a Elena e Menelao.</p></div><div class="tab-panel"><p>Almeno tre fasi costruttive. Il santuario del V secolo a.C. fu costruito su una <strong>piattaforma inclinata alta almeno 8 metri</strong>, pensata per creare un basamento maestoso. Dei resti micenei sottostanti restano murature di un edificio di rango elevato.</p></div><div class="tab-panel"><p>Il Menelaion rende tangibile il legame tra mito e culto reale: qui gli Spartani veneravano concretamente <strong>Elena</strong> e <strong>Menelao</strong> come eroi divinizzati, con offerte e iscrizioni dedicate.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
