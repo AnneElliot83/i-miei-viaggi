@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itinerario — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --warn:#b08a4e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .subtitle{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.05rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  main{
+    max-width:720px;
+    margin:0 auto;
+    padding:24px 20px 80px;
+  }
+
+  .days{
+    position:relative;
+    padding-left:34px;
+  }
+  .days::before{
+    content:"";
+    position:absolute;
+    left:13px;
+    top:6px;
+    bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .day{
+    position:relative;
+    margin-bottom:16px;
+  }
+  .day-num{
+    position:absolute;
+    left:-34px;
+    top:0;
+    width:27px;
+    height:27px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--accent);
+    color:#3d3830;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:0.95rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .day-body{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 16px 14px;
+  }
+  .day-meta{
+    font-size:0.78rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-soft);
+    margin-bottom:3px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .flag{
+    font-size:0.68rem;
+    font-style:italic;
+    text-transform:none;
+    letter-spacing:0;
+    color:var(--warn);
+    border:1px solid var(--warn);
+    border-radius:10px;
+    padding:1px 8px;
+  }
+  .day-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.2rem;
+    color:#3d3830;
+  }
+  .day-desc{
+    font-size:0.92rem;
+    color:var(--text-soft);
+    margin-top:4px;
+  }
+  .chips{
+    margin-top:9px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+  }
+  .chip{
+    font-size:0.78rem;
+    padding:4px 11px;
+    border:1px solid var(--accent);
+    border-radius:20px;
+    text-decoration:none;
+    color:#3d3830;
+    background:#f4f7f4;
+  }
+  .chip:hover{ background:var(--accent); color:#fff; }
+
+  .section-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin:44px 0 14px;
+  }
+  .section-note{
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:14px;
+  }
+  .extra-card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--warn);
+    border-radius:8px;
+    padding:12px 16px;
+    margin-bottom:8px;
+  }
+  .extra-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.1rem;
+    color:#3d3830;
+    text-decoration:none;
+  }
+  .extra-desc{
+    font-size:0.9rem;
+    color:var(--text-soft);
+    margin-top:2px;
+  }
+
+  .footer-note{
+    margin-top:34px;
+    font-size:0.85rem;
+    font-style:italic;
+    color:var(--text-soft);
+    border-top:1px solid var(--line);
+    padding-top:14px;
+  }
+
+  .no-results{
+    text-align:center;
+    font-style:italic;
+    color:var(--text-soft);
+    padding:30px 0;
+    display:none;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Itinerario</h1>
+  <div class="subtitle">Grecia — I grandi siti dell'Antichità · 14 giorni</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un giorno o un luogo...">
+</div>
+
+<main>
+  <div class="days" id="days">
+    
+<div class="day" data-name="partenza — traghetto brindisi → igoumenitsa grimaldi lines">
+  <div class="day-num">1</div>
+  <div class="day-body">
+    <div class="day-meta">Sabato</div>
+    <div class="day-title">Partenza — Traghetto Brindisi → Igoumenitsa</div>
+    <div class="day-desc">Grimaldi Lines</div>
+    
+  </div>
+</div>
+
+<div class="day" data-name="meteora monastero aghia triada, monastero agios stefanos">
+  <div class="day-num">2</div>
+  <div class="day-body">
+    <div class="day-meta">Domenica</div>
+    <div class="day-title">Meteora</div>
+    <div class="day-desc">Monastero Aghia Triada, Monastero Agios Stefanos</div>
+    <div class="chips"><a class="chip" href="meteora.html">Meteora →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="trasferimento e delfi giornata di guida pesante (meteora → delfi), meglio non stipare altro">
+  <div class="day-num">3</div>
+  <div class="day-body">
+    <div class="day-meta">Lunedì</div>
+    <div class="day-title">Trasferimento e Delfi</div>
+    <div class="day-desc">Giornata di guida pesante (Meteora → Delfi), meglio non stipare altro</div>
+    <div class="chips"><a class="chip" href="delfi.html">Delfi →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="delfi → trasferimento serale ad atene visita completa di delfi (santuario, museo, tesoro degli ateniesi, tempio di apollo, teatro, stadio, tempio di atena pronaia), poi partenza nel pomeriggio per arrivare ad atene in serata">
+  <div class="day-num">4</div>
+  <div class="day-body">
+    <div class="day-meta">Martedì</div>
+    <div class="day-title">Delfi → trasferimento serale ad Atene</div>
+    <div class="day-desc">Visita completa di Delfi (santuario, museo, Tesoro degli Ateniesi, Tempio di Apollo, Teatro, Stadio, Tempio di Atena Pronaia), poi partenza nel pomeriggio per arrivare ad Atene in serata</div>
+    <div class="chips"><a class="chip" href="delfi.html">Delfi →</a><a class="chip" href="atene.html">Atene →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="atene acropoli, museo dell'acropoli">
+  <div class="day-num">5</div>
+  <div class="day-body">
+    <div class="day-meta">Mercoledì</div>
+    <div class="day-title">Atene</div>
+    <div class="day-desc">Acropoli, Museo dell'Acropoli</div>
+    <div class="chips"><a class="chip" href="atene.html">Atene →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="atene tempio di zeus olimpio, arco di adriano + eventuale capo sounion">
+  <div class="day-num">6</div>
+  <div class="day-body">
+    <div class="day-meta">Giovedì</div>
+    <div class="day-title">Atene</div>
+    <div class="day-desc">Tempio di Zeus Olimpio, Arco di Adriano + eventuale Capo Sounion</div>
+    <div class="chips"><a class="chip" href="atene.html">Atene →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="atene — giorno extra margine per musei e quartieri">
+  <div class="day-num">7</div>
+  <div class="day-body">
+    <div class="day-meta">Venerdì</div>
+    <div class="day-title">Atene — giorno extra</div>
+    <div class="day-desc">Margine per musei e quartieri</div>
+    <div class="chips"><a class="chip" href="atene.html">Atene →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="corinto antica → pernotto a tirinto tirinto è centrale tra micene ed epidauro, comoda per il check-in — possibile breve visita serale se gli orari lo permettono">
+  <div class="day-num">8</div>
+  <div class="day-body">
+    <div class="day-meta">Sabato</div>
+    <div class="day-title">Corinto antica → pernotto a Tirinto</div>
+    <div class="day-desc">Tirinto è centrale tra Micene ed Epidauro, comoda per il check-in — possibile breve visita serale se gli orari lo permettono</div>
+    <div class="chips"><a class="chip" href="corinto.html">Corinto →</a><a class="chip" href="tirinto.html">Tirinto →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="micene palazzo, tomba dei ciclopi, tesoro di atreo, porta dei leoni, museo archeologico">
+  <div class="day-num">9</div>
+  <div class="day-body">
+    <div class="day-meta">Domenica</div>
+    <div class="day-title">Micene</div>
+    <div class="day-desc">Palazzo, Tomba dei Ciclopi, Tesoro di Atreo, Porta dei Leoni, Museo Archeologico</div>
+    <div class="chips"><a class="chip" href="micene.html">Micene →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="epidauro → pernotto a sparta grande teatro, santuario di asclepio — poi trasferimento verso sparta (solo come base per dormire, comoda per mystras il giorno dopo)">
+  <div class="day-num">10</div>
+  <div class="day-body">
+    <div class="day-meta">Lunedì</div>
+    <div class="day-title">Epidauro → pernotto a Sparta</div>
+    <div class="day-desc">Grande Teatro, Santuario di Asclepio — poi trasferimento verso Sparta (solo come base per dormire, comoda per Mystras il giorno dopo)</div>
+    <div class="chips"><a class="chip" href="epidauro.html">Epidauro →</a><a class="chip" href="sparta.html">Sparta →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="mystras → olimpia focus su mystras (mezza/intera giornata) — poi ~2h di guida verso olimpia">
+  <div class="day-num">11</div>
+  <div class="day-body">
+    <div class="day-meta">Martedì<span class="flag">DA VERIFICARE</span></div>
+    <div class="day-title">Mystras → Olimpia</div>
+    <div class="day-desc">Focus su Mystras (mezza/intera giornata) — poi ~2h di guida verso Olimpia</div>
+    <div class="chips"><a class="chip" href="mistra.html">Mistrà →</a><a class="chip" href="olimpia.html">Olimpia →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="olimpia sito archeologico, museo archeologico, museo della storia dei giochi olimpici antichi">
+  <div class="day-num">12</div>
+  <div class="day-body">
+    <div class="day-meta">Mercoledì</div>
+    <div class="day-title">Olimpia</div>
+    <div class="day-desc">Sito archeologico, Museo Archeologico, Museo della Storia dei Giochi Olimpici Antichi</div>
+    <div class="chips"><a class="chip" href="olimpia.html">Olimpia →</a></div>
+  </div>
+</div>
+
+<div class="day" data-name="trasferimento a igoumenitsa → traghetto di ritorno ">
+  <div class="day-num">13</div>
+  <div class="day-body">
+    <div class="day-meta">Giovedì</div>
+    <div class="day-title">Trasferimento a Igoumenitsa → Traghetto di ritorno</div>
+    
+    
+  </div>
+</div>
+
+<div class="day" data-name="arrivo brindisi → rientro a vescovato ">
+  <div class="day-num">14</div>
+  <div class="day-body">
+    <div class="day-meta">Venerdì</div>
+    <div class="day-title">Arrivo Brindisi → Rientro a Vescovato</div>
+    
+    
+  </div>
+</div>
+  </div>
+
+  <p class="no-results" id="no-results">Nessun giorno trovato.</p>
+
+  <div class="section-title">Mete extra / eventuali</div>
+  <p class="section-note">Non incluse nell'itinerario ufficiale, ma tenute da parte come alternativa o approfondite comunque nelle guide.</p>
+  
+<div class="extra-card">
+  <a class="extra-name" href="nauplia.html">Nauplia →</a>
+  <div class="extra-desc">Prima capitale della Grecia moderna, cittadina costiera nell'Argolide</div>
+</div>
+
+<div class="extra-card">
+  <a class="extra-name" href="argo.html">Argo →</a>
+  <div class="extra-desc">Teatro antico tra i più grandi di Grecia, stratificazione miceneo-romana</div>
+</div>
+
+<div class="extra-card">
+  <a class="extra-name" href="sparta.html">Sparta →</a>
+  <div class="extra-desc">Sito archeologico modesto (poche rovine monumentali) — non segnalata come imperdibile; eventuale sosta breve se si passa comunque per Mystras</div>
+</div>
+
+  <p class="footer-note">Punti ancora da confermare: Mistrà. Da valutare anche se accorciare Corinto o i giorni ad Atene.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const searchInput = document.getElementById('search');
+const allDays = Array.from(document.querySelectorAll('.day'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allDays.forEach(d => {
+    const match = !f || d.dataset.name.includes(f);
+    d.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
