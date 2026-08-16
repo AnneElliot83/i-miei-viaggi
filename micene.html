@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Micene — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Micene</h1>
+  <div class="greek-title">Μυκῆναι</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Micene non è solo un sito archeologico: è il luogo che ha dato il nome a un'intera civiltà, quella micenea, la prima grande civiltà del mondo greco continentale (circa 1600-1100 a.C.), predecessora di secoli rispetto alla Grecia classica. Quando Omero, secoli dopo il crollo di questa civiltà, cantava la guerra di Troia, cantava un mondo che i Greci storici percepivano ormai come leggendario — ed è proprio a Micene che quel mondo aveva il suo centro di potere più celebre.</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Fu la città-fortezza più potente della Grecia micenea, tanto che Omero la definisce <strong>"ricca d'oro"</strong> (<em>polychrysos</em>) — un epiteto tutt'altro che esagerato, come conferma il museo.</li>
+  <li>È la reggia di <strong>Agamennone</strong>, il comandante supremo della spedizione greca contro Troia secondo l'Iliade.</li>
+  <li>Fu qui che nel <strong>1876</strong> l'archeologo tedesco <strong>Heinrich Schliemann</strong> scoprì la Cerchia Tombale A e la celebre <strong>maschera funeraria d'oro</strong> che attribuì — erroneamente, come si scoprirà poi — ad Agamennone stesso. Il nome "maschera di Agamennone" è rimasto comunque nell'uso comune.</li>
+  <li>Insieme a Tirinto, è stata dichiarata <strong>Patrimonio UNESCO</strong> come sito chiave per comprendere la civiltà micenea.</li>
+  <li>Il crollo di Micene, attorno al <strong>1200-1100 a.C.</strong>, segna l'inizio del cosiddetto "Medioevo ellenico", un periodo oscuro di quattro secoli prima della rinascita che porterà alla Grecia arcaica e poi classica.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un'acropoli fortificata su un'altura tra due monti, con l'iconica Porta dei Leoni come ingresso monumentale, il palazzo reale con il suo megaron in cima, e — appena fuori le mura — un vero e proprio "quartiere" di tombe monumentali, incluse le celebri tombe a tholos come il Tesoro di Atreo, oltre a un museo che raccoglie tesori di rara ricchezza.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>La maledizione della casa di Atreo.</strong> Tutto parte da Tantalo, che per mettere alla prova gli dèi uccise il proprio figlio Pelope servendolo loro in un banchetto. Gli dèi lo punirono con un supplizio eterno, riportando in vita Pelope, che generazioni più tardi maledisse a sua volta la propria discendenza. Atreo, in lotta con il fratello Tieste per il trono di Micene, gli uccise i figli e glieli servì in un banchetto — un evento così orrendo che il Sole invertì la propria rotta per non assistervi. Da questa catena di vendette nasce la maledizione che si trasmetterà ai figli di Atreo: <strong>Agamennone</strong> e Menelao.</p>
+<p><strong>Agamennone e il sacrificio di Ifigenia.</strong> Agamennone fu scelto come comandante supremo della spedizione contro Troia. La flotta, bloccata da venti contrari a Aulide, poté salpare solo dopo il sacrificio della figlia <strong>Ifigenia</strong>, richiesto dalla dea Artemide.</p>
+<p><strong>Il ritorno e l'assassinio.</strong> Dopo dieci anni di guerra, Agamennone tornò a Micene, dove la moglie <strong>Clitemnestra</strong> — mai perdonando il sacrificio della figlia, e legata all'amante <strong>Egisto</strong>, figlio di Tieste — lo uccise nel bagno appena rientrato, in uno degli omicidi più celebri della tragedia greca, immortalato da Eschilo nell'<em>Agamennone</em>.</p>
+<p><strong>La vendetta di Oreste.</strong> Anni dopo, <strong>Oreste</strong>, figlio di Agamennone e Clitemnestra, tornò a Micene e, con l'aiuto della sorella Elettra, uccise Egisto e la propria madre. Il matricidio scatenò contro di lui le <strong>Erinni</strong>, ma un processo ad Atene, presieduto da Atena, lo assolse infine, chiudendo il ciclo di violenza e sostituendo la vendetta privata con la giustizia della polis.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="porta dei leoni e mura ciclopiche" data-greek="πύλη των λεόντων και κυκλώπεια τείχη">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Porta dei Leoni e mura ciclopiche<span class="site-greek">Πύλη των Λεόντων και Κυκλώπεια Τείχη</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Porta dei Leoni è l'ingresso principale della cittadella, costruita attorno al <strong>1250 a.C.</strong> durante la seconda grande fase di espansione delle fortificazioni. È l'unica scultura monumentale sopravvissuta dell'intera età del Bronzo in Europa continentale.</p>
+      <p>A differenza di molti altri siti micenei, la Porta dei Leoni non fu mai completamente dimenticata: Pausania la descrisse personalmente nel II secolo d.C., aiutando gli archeologi moderni a identificare con certezza le rovine come quelle della Micene omerica.</p></div><div class="tab-panel"><p>La porta è affiancata dalle possenti mura ciclopiche. È un capolavoro di ingegneria: due monoliti verticali sormontati da un architrave di circa 4,5 metri, sopra il quale si apre un <strong>triangolo di scarico</strong> che scarica il peso della muratura sovrastante lontano dall'architrave.</p>
+      <p>In questo spazio si trova il celebre <strong>rilievo dei leoni</strong>: due animali araldicamente contrapposti ai lati di una colonna centrale di tipo minoico. Le teste, oggi perdute, erano probabilmente realizzate a parte in pietra ollare o metallo. È il primo esempio di scultura monumentale rappresentativa in tutto il continente europeo.</p></div><div class="tab-panel"><p>Come a Tirinto, le mura ciclopiche alimentarono il mito dei <strong>Ciclopi costruttori</strong>. Il rilievo dei leoni rappresentava probabilmente l'emblema della dinastia regnante, con alcuni studiosi che propongono un legame con <strong>Era</strong>, la dea a cui l'Argolide era particolarmente devota.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo e Megaron<span class="site-greek">Ανάκτορο και Μέγαρον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il palazzo occupava la sommità dell'acropoli, con vista su tutta la pianura argolica. L'area fu occupata fin da epoca neolitica, ma le strutture visibili risalgono principalmente al <strong>XIV-XIII secolo a.C.</strong>, prima della distruzione finale, probabilmente per un incendio, attorno al 1200-1100 a.C.</p></div><div class="tab-panel"><p>Dalla Porta dei Leoni, la <strong>Scala Monumentale</strong> collegava gli ambienti ufficiali al Centro di Culto della cittadella. Il megaron seguiva lo schema tipico miceneo: un'anticamera decorata da affreschi e la sala del trono, con un focolare circolare di 3,4 metri circondato da quattro colonne lignee. Le pareti, rivestite di lastre di gesso e affreschi con guerrieri, carri e dame, restituivano un effetto di grande sfarzo.</p></div><div class="tab-panel"><p>È qui che va immaginata la reggia di <strong>Agamennone</strong>: il trono su cui sedeva come comandante della spedizione contro Troia, e la sala in cui fu accolto da <strong>Clitemnestra</strong> prima dell'agguato mortale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tesoro di atreo (tomba di agamennone)" data-greek="θησαυρός του ατρέα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tesoro di Atreo (Tomba di Agamennone)<span class="site-greek">Θησαυρός του Ατρέα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La più grande e meglio conservata delle tombe a tholos di Micene, costruita tra il <strong>1350 e il 1250 a.C.</strong> Nonostante il nome, non vi è prova che appartenesse ad Atreo o Agamennone: l'attribuzione è ottocentesca. Nessun resto fu ritrovato al suo interno. Già Pausania la descrisse nel II secolo d.C.</p></div><div class="tab-panel"><p>Si accede attraverso un dromos di circa 36 metri. Il portale, alto 5,4 metri, era decorato con semicolonne in calcare verde, rosette e intarsi in marmo rosso e alabastro (oggi in gran parte al British Museum e al Pergamon Museum). Sopra l'architrave, che pesa circa <strong>120 tonnellate</strong>, si apre il triangolo di scarico. All'interno, la camera circolare raggiunge quasi <strong>14,5 metri di diametro e 13 di altezza</strong>: fu la cupola più grande al mondo per oltre un millennio, fino al Pantheon romano.</p></div><div class="tab-panel"><p>Il nome lega la tomba al ciclo degli Atridi: pur senza prove archeologiche, la tradizione ha voluto vedere qui la sepoltura del padre di Agamennone.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tomba di clitemnestra" data-greek="τάφος της κλυταιμνήστρας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tomba di Clitemnestra<span class="site-greek">Τάφος της Κλυταιμνήστρας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Insieme al Tesoro di Atreo, la più monumentale delle nove tombe a tholos di Micene, costruita attorno al <strong>1250 a.C.</strong> — l'ultima in ordine cronologico. Si trova a pochi passi dal Tesoro di Atreo. Il nome, come per l'altra tomba, è una convenzione moderna senza base archeologica certa.</p></div><div class="tab-panel"><p>Segue lo stesso schema del Tesoro di Atreo, in scala leggermente ridotta: dromos, portale monumentale con triangolo di scarico, camera circolare a cupola. La facciata era impreziosita da colonne decorative che testimoniano un'evoluzione stilistica rispetto alle tombe più antiche.</p></div><div class="tab-panel"><p>Il nome lega la tomba al momento più drammatico del ciclo degli Atridi: l'assassinio di Agamennone per mano di <strong>Clitemnestra</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di micene" data-greek="αρχαιολογικό μουσείο μυκηνών">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Micene<span class="site-greek">Αρχαιολογικό Μουσείο Μυκηνών</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il museo sorge all'interno del sito, inaugurato nel 1997 per raccogliere i reperti di oltre un secolo e mezzo di scavi. La celebre maschera d'oro attribuita ad Agamennone, insieme a gran parte dei tesori della Cerchia Tombale A, si trova al Museo Archeologico Nazionale di Atene — qui se ne trovano solo repliche, insieme a moltissimo materiale originale.</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
+      <ul>
+        <li><strong>Tavolette in Lineare B</strong> — la più antica forma di greco scritto, decifrata solo nel 1952.</li>
+        <li><strong>Frammenti di affreschi</strong> dalle stanze del palazzo.</li>
+        <li><strong>Ceramica dalla Cerchia Tombale A</strong> e da altre sepolture.</li>
+        <li><strong>Oggetti in avorio</strong>, a testimonianza dei contatti commerciali micenei con tutto il Mediterraneo.</li>
+        <li><strong>Repliche della maschera d'oro</strong> e di altri corredi della Cerchia Tombale A.</li>
+      </ul></div><div class="tab-panel"><p>È il luogo in cui il ciclo degli Atridi trova la sua controparte materiale più toccante: i volti d'oro (per quanto solo riprodotti) che Schliemann volle credere fossero quelli degli stessi eroi omerici.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
