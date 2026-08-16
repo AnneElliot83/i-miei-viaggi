@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Climats di Borgogna — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#c98a2c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.95rem;
+    color:var(--text-soft);
+    max-width:520px;
+    margin:8px auto 0;
+  }
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.76rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:20px 22px 80px;
+  }
+  article h4{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--text);
+    margin:30px 0 10px;
+    scroll-margin-top:78px;
+  }
+  article h4:first-of-type{ margin-top:8px; }
+  article h5{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--text);
+    margin:18px 0 6px;
+  }
+  article p{ margin:0 0 14px; font-size:1rem; }
+  article ul{ padding-left:22px; margin:0 0 14px; }
+  article li{ margin-bottom:6px; }
+  article p:last-child{ margin-bottom:0; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="borgogna.html">← Torna ai luoghi</a>
+
+<header>
+  <h1>I Climats di Borgogna</h1>
+  <div class="subtitle">Il paesaggio vitivinicolo della Côte, Patrimonio UNESCO dal 2015.</div>
+</header>
+
+<nav class="pills">
+    <a href="#l-idea-0" class="pill">L'idea</a>
+    <a href="#l-origine-i-monaci-1" class="pill">L'origine: i monaci</a>
+    <a href="#la-piramide-delle-classificazioni-2" class="pill">La piramide delle classificazioni</a>
+    <a href="#la-frammentazione-3" class="pill">La frammentazione</a>
+    <a href="#la-geografia-la-cote-d-or-4" class="pill">La geografia: la Côte d'Or</a>
+    <a href="#cosa-vedrete-sul-campo-5" class="pill">Cosa vedrete sul campo</a>
+    <a href="#beaune-e-l-hotel-dieu-6" class="pill">Beaune e l'Hôtel-Dieu</a>
+    <a href="#l-eredita-mondiale-7" class="pill">L'eredità mondiale</a>
+</nav>
+
+<main>
+  <article>
+<header class="essay-header">
+
+</header>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2022', this)"><h4 id="l-idea-0">L'idea<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2022"><div class="acc-body-inner"><p>I <strong>Climats</strong> (in italiano "climi") sono il modo borgognone di chiamare i singoli <strong>appezzamenti di vigna</strong>: non vigneti in senso ampio, ma parcelle delimitate con il proprio nome, i propri confini e le proprie caratteristiche di suolo, esposizione e microclima. Ciascuna produce un vino <strong>distinto da tutte le altre</strong>, anche quando le altre sono a venti metri di distanza.</p><p>L'idea è radicale: il <strong>luogo</strong> è il vero produttore del vino, non l'uva (che in Borgogna è quasi sempre la stessa: <strong>Pinot Noir</strong> per i rossi, <strong>Chardonnay</strong> per i bianchi) né il viticoltore. In Borgogna esistono <strong>1247 Climats</strong> ufficialmente catalogati. Nel <strong>2015</strong> tutto questo è stato dichiarato <strong>patrimonio UNESCO</strong> col nome di <em>Climats du vignoble de Bourgogne</em>.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2023', this)"><h4 id="l-origine-i-monaci-1">L'origine: i monaci<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2023"><div class="acc-body-inner"><p>L'idea che la vigna borgognona produca vini diversi a seconda del luogo preciso risale all'epoca romana. Ma il vero salto culturale è medievale, e lo fanno i monaci. I <strong>benedettini di Cluny</strong> dall'XI secolo piantano vigneti per la liturgia e il commercio. Poi arrivano i <strong>cistercensi</strong>, che applicano un metodo quasi scientifico: cominciano nel XII secolo a piantare sulla Côte de Nuits, e nel <strong>1336</strong> completano la cintura muraria del <strong>Clos de Vougeot</strong>.</p><p>Il contributo decisivo dei cistercensi: <strong>catalogare i vini per parcella</strong>. Avevano osservato che lo stesso Pinot Noir, piantato a due metri di distanza, dava vini diversi. Cominciarono a fare vini separati per ogni parcella, marcando le pietre e tenendo registri. Una sorta di <strong>catasto del gusto</strong>.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2024', this)"><h4 id="la-piramide-delle-classificazioni-2">La piramide delle classificazioni<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2024"><div class="acc-body-inner"><p>Codificata definitivamente nel <strong>1936</strong> con il sistema delle AOC:</p><ul>
+<li><strong>Régionales</strong> (52% della produzione): <em>Bourgogne</em>, <em>Bourgogne Aligoté</em>, <em>Crémant de Bourgogne</em>. Provenienza diffusa.</li>
+<li><strong>Villages</strong> (36%): vini di un singolo comune. <em>Gevrey-Chambertin</em>, <em>Vosne-Romanée</em>, <em>Meursault</em>, <em>Pommard</em>, <em>Volnay</em>.</li>
+<li><strong>Premiers Crus</strong> (10%): <strong>640 Climats</strong> classificati. Nome del Climat in etichetta accanto al villaggio: <em>Gevrey-Chambertin 1er Cru Les Cazetiers</em>.</li>
+<li><strong>Grands Crus</strong> (1,4%): l'apice. <strong>33 Climats</strong>, di cui 24 sulla Côte d'Or. In etichetta solo il nome del Climat, senza villaggio: <em>Romanée-Conti</em>, <em>Chambertin</em>, <em>Musigny</em>, <em>Clos de Vougeot</em>, <em>Montrachet</em>, <em>Corton</em>.</li>
+</ul><p>Differenza da <strong>Bordeaux</strong>: là si classifica per <em>château</em> (cioè per produttore), qui per <strong>terra</strong>. Un <em>Chambertin</em> resta <em>Chambertin</em> indipendentemente da chi lo produce.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2025', this)"><h4 id="la-frammentazione-3">La frammentazione<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2025"><div class="acc-body-inner"><p>I Climats sono divisi tra moltissimi proprietari. Il <strong>Clos de Vougeot</strong> (50 ettari) è diviso tra circa <strong>80 proprietari</strong>: ognuno ha qualche filare e produce il proprio vino etichettato <em>Clos de Vougeot Grand Cru</em>. Per cui non è un vino, sono ottanta vini diversi prodotti dalla stessa terra.</p><p>Due cause storiche: la <strong>Rivoluzione francese</strong> (1789) che confisca i vigneti monastici e nobiliari e li vende in piccoli lotti; il <strong>Codice Civile napoleonico</strong> (1804) che impone la divisione ereditaria paritaria, frammentando i vigneti in particelle minuscole. Un viticoltore borgognone tipico oggi possiede 5-10 ettari distribuiti su 20-50 parcelle sparse.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2026', this)"><h4 id="la-geografia-la-cote-d-or-4">La geografia: la Côte d'Or<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2026"><div class="acc-body-inner"><p>Una <strong>scarpata calcarea</strong> che corre da nord a sud per <strong>50 chilometri</strong>, da Digione a Santenay, larga da 200 m a 2 km. Le vigne stanno sul pendio orientale, tra 220 e 380 m di altitudine.</p><ul>
+<li><strong>Côte de Nuits</strong> (Digione → Corgoloin): grandi rossi da Pinot Noir. Quasi tutti i Grands Crus rossi: Chambertin, Clos de Vougeot, Romanée-Conti, Musigny, Échezeaux. Suoli ricchi di <strong>calcare giurassico</strong> e marne argillose.</li>
+<li><strong>Côte de Beaune</strong> (Aloxe-Corton → Santenay): grandi bianchi da Chardonnay (Meursault, Puligny-Montrachet, Chassagne-Montrachet) e rossi (Pommard, Volnay). <strong>Beaune</strong> capoluogo storico.</li>
+</ul><p>Le rocce sono <strong>calcari giurassici</strong> formatisi 150-170 milioni di anni fa quando la regione era fondo marino tropicale. Camminando in vigna si trovano facilmente <strong>conchiglie fossili</strong> tra i ceppi.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2027', this)"><h4 id="cosa-vedrete-sul-campo-5">Cosa vedrete sul campo<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2027"><div class="acc-body-inner"><ul>
+<li><strong>I villaggi vinicoli</strong>: ogni qualche chilometro lungo la Côte. Case basse, cantine semi-sotterranee, qualche château, chiesa romanica o gotica al centro.</li>
+<li><strong>I muretti a secco</strong>: confini dei Climats segnati da bassi muretti di calcare biondo-grigio. Costruiti nei secoli, mantenuti generazione dopo generazione, oggi patrimonio protetto.</li>
+<li><strong>I clos</strong>: alcuni Climats interamente cinti da mura. <strong>Clos de Vougeot</strong> il più famoso (1336), poi <em>Clos de la Roche</em>, <em>Clos des Lambrays</em>, <em>Clos de Tart</em>.</li>
+<li><strong>Le cabottes</strong>: piccole costruzioni in pietra a secco sui pendii alti, circolari o quadrate, con tettino di lastre. Rifugi dei contadini durante i temporali, simboli del paesaggio cistercense.</li>
+</ul></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2028', this)"><h4 id="beaune-e-l-hotel-dieu-6">Beaune e l'Hôtel-Dieu<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2028"><div class="acc-body-inner"><p>Capitale storica della viticoltura borgognona. L'<strong>Hôtel-Dieu</strong>, fondato nel 1443 da Nicolas Rolin, ricevette nei secoli numerose <strong>donazioni di vigne</strong>: oggi gli <strong>Hospices de Beaune</strong> sono proprietari di circa 60 ettari, in larga parte Premier Cru e Grand Cru. La <strong>Vente des Hospices de Beaune</strong> (terza domenica di novembre, dal 1859) è una delle aste vinicole più antiche e famose al mondo, osservatorio sui prezzi del vino borgognone.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2029', this)"><h4 id="l-eredita-mondiale-7">L'eredità mondiale<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2029"><div class="acc-body-inner"><p>La Borgogna non è la regione che produce più vino di Francia (è Bordeaux). Ma ha esportato al mondo <strong>un'idea</strong>: che la qualità del vino non dipende dalla tecnica o dalla varietà, ma dal rapporto preciso tra una vite e un luogo. Il "<strong>terroir</strong>" è oggi alla base della viticoltura mondiale. Anche in Italia (Barolo: Cannubi, Brunate, Bussia; Brunello di Montalcino: singoli vigneti) si è cominciato negli ultimi decenni a una <strong>borgognizzazione</strong> della classificazione vinicola. Lunedì 5 ottobre, attraversando la Côte d'Or, guiderete dentro questa idea: ogni muretto rappresenta una distinzione di gusto codificata nel Duecento e perpetuata fino al mercato mondiale del XXI secolo.</p></div></div>
+</article>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

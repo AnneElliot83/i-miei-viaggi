@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La storia della Borgogna in sette epoche — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#c98a2c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.95rem;
+    color:var(--text-soft);
+    max-width:520px;
+    margin:8px auto 0;
+  }
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.76rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:20px 22px 80px;
+  }
+  article h4{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--text);
+    margin:30px 0 10px;
+    scroll-margin-top:78px;
+  }
+  article h4:first-of-type{ margin-top:8px; }
+  article h5{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--text);
+    margin:18px 0 6px;
+  }
+  article p{ margin:0 0 14px; font-size:1rem; }
+  article ul{ padding-left:22px; margin:0 0 14px; }
+  article li{ margin-bottom:6px; }
+  article p:last-child{ margin-bottom:0; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="borgogna.html">← Torna ai luoghi</a>
+
+<header>
+  <h1>La storia della Borgogna in sette epoche</h1>
+  <div class="subtitle">La Borgogna dalle origini celtiche all'annessione alla Francia, in sette grandi fasi.</div>
+</header>
+
+<nav class="pills">
+    <a href="#1-la-borgogna-celtica-fino-al-i-sec-a-c-0" class="pill">1. La Borgogna celtica (fino al I sec. a.C.)</a>
+    <a href="#2-la-borgogna-gallo-romana-i-v-sec-d-c-1" class="pill">2. La Borgogna gallo-romana (I-V sec. d.C.)</a>
+    <a href="#3-i-burgundi-e-i-merovingi-v-viii-sec-2" class="pill">3. I Burgundi e i Merovingi (V-VIII sec.)</a>
+    <a href="#4-la-borgogna-carolingia-ix-x-sec-3" class="pill">4. La Borgogna carolingia (IX-X sec.)</a>
+    <a href="#5-la-grande-borgogna-medievale-xi-xiii-sec-4" class="pill">5. La grande Borgogna medievale (XI-XIII sec.)</a>
+    <a href="#6-la-grande-borgogna-ducale-1363-1477-5" class="pill">6. La grande Borgogna ducale (1363-1477)</a>
+    <a href="#7-la-borgogna-francese-dal-1477-a-oggi-6" class="pill">7. La Borgogna francese (dal 1477 a oggi)</a>
+    <a href="#il-filo-conduttore-7" class="pill">Il filo conduttore</a>
+</nav>
+
+<main>
+  <article>
+<header class="essay-header">
+
+</header>
+<p>La storia della Borgogna è particolarmente affascinante perché — a differenza di altre regioni francesi — non è semplicemente "una regione della Francia": è stata, in diverse epoche, <strong>uno stato indipendente</strong>, una monarchia germanica, un regno, un principato europeo. La sua storia è una serie di <em>riemersioni e dissoluzioni</em> della stessa idea: che ci sia, tra Francia e Germania, uno spazio politico e culturale distinto.</p>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2001', this)"><h4 id="1-la-borgogna-celtica-fino-al-i-sec-a-c-0">1. La Borgogna celtica (fino al I sec. a.C.)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2001"><div class="acc-body-inner"><p>Il territorio è abitato dai <strong>Galli</strong>, in particolare dal grande popolo degli <strong>Edui</strong>, con capitale a <strong>Bibracte</strong> sul Mont Beuvray — oppidum di 200 ettari, ricchi mediatori commerciali tra Mediterraneo e Nord Europa. Nel <strong>58 a.C.</strong> Giulio Cesare comincia la conquista della Gallia proprio qui (battaglia di Bibracte contro gli Elvezi); nel <strong>52 a.C.</strong> a Bibracte le tribù confederate proclamano <strong>Vercingetorige</strong> capo della rivolta, conclusa ad Alesia (Côte d'Or) con la sconfitta dei Galli.</p><p><em>Tracce nel viaggio:</em> il sito archeologico di Bibracte (venerdì 9).</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2002', this)"><h4 id="2-la-borgogna-gallo-romana-i-v-sec-d-c-1">2. La Borgogna gallo-romana (I-V sec. d.C.)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2002"><div class="acc-body-inner"><p>Augusto rifonda la regione: gli Edui sono trasferiti in una nuova città di pianura, <strong>Augustodunum</strong> (l'attuale Autun), pensata come vetrina della civiltà imperiale in Gallia. Quattro secoli di prosperità: viticoltura, agricoltura, scuole celebri, vie commerciali. Nel IV secolo Autun ha già il suo vescovo.</p><p><em>Tracce nel viaggio:</em> ad Autun le porte romane (<strong>Porte d'Arroux</strong> e <strong>Porte Saint-André</strong>), il teatro, il "Tempio di Giano" (venerdì 9).</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2003', this)"><h4 id="3-i-burgundi-e-i-merovingi-v-viii-sec-2">3. I Burgundi e i Merovingi (V-VIII sec.)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2003"><div class="acc-body-inner"><p>Nel <strong>V secolo</strong> un popolo germanico, i <strong>Burgundi</strong> (originario delle isole baltiche, protagonisti del <em>Nibelungenlied</em>), si stabilisce sul Reno e poi nell'attuale Savoia. Dal V al VI secolo costituisce il <strong>Regno dei Burgundi</strong>, che copre dalla Provenza all'Alsazia. Il re <strong>Gundobado</strong> promulga la <em>Lex Burgundionum</em>, una delle prime codificazioni giuridiche barbariche. Nel <strong>534</strong> il regno è conquistato dai <strong>Franchi merovingi</strong> ma il nome resta attaccato al territorio: nasce il toponimo <strong>"Bourgogne"</strong>.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2004', this)"><h4 id="4-la-borgogna-carolingia-ix-x-sec-3">4. La Borgogna carolingia (IX-X sec.)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2004"><div class="acc-body-inner"><p>Provincia importante dell'impero di Carlo Magno. Al <strong>Trattato di Verdun (843)</strong>, la divisione lascerà cicatrici durature: la parte <strong>occidentale</strong> (Digione, Beaune, Autun) ai Franchi occidentali — la futura Borgogna francese; la parte <strong>orientale</strong> (Franca Contea, Besançon) al regno di Lotario — la Borgogna imperiale, parte del Sacro Romano Impero. Divisione che durerà <strong>mille anni</strong>.</p><p>Nel <strong>910</strong>, in piena fioritura monastica, nasce <strong>Cluny</strong>: l'evento che segna l'ingresso della Borgogna nella grande storia europea del Medioevo.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2005', this)"><h4 id="5-la-grande-borgogna-medievale-xi-xiii-sec-4">5. La grande Borgogna medievale (XI-XIII sec.)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2005"><div class="acc-body-inner"><p>L'epoca del <strong>romanico</strong> e del primo <strong>gotico</strong>. La Borgogna è il <em>cuore religioso d'Europa</em>:</p><ul>
+<li><strong>Cluny</strong> è la più potente abbazia della cristianità (1.400 monasteri dipendenti).</li>
+<li><strong>Cîteaux</strong> (1098) dà vita all'ordine cistercense con <strong>Bernardo di Chiaravalle</strong> (1115).</li>
+<li>Il <strong>romanico borgognone</strong> produce le sue cattedrali tra il 1080 e il 1150: Cluny III, Paray, Vézelay, Saint-Lazare di Autun, Fontenay, Pontigny.</li>
+<li>Il <strong>pellegrinaggio per Santiago</strong> passa da Vézelay; le <strong>crociate</strong> sono predicate qui (Bernardo a Vézelay nel 1146).</li>
+<li>I <strong>vigneti monastici</strong> dei cistercensi gettano le basi della futura viticoltura: il Clos de Vougeot è completato nel 1336.</li>
+</ul><p>Sul piano politico nasce il <strong>ducato di Borgogna</strong>: nel <strong>1032</strong> il re Roberto il Pio lo crea come feudo della corona, con capitale Digione. La <strong>prima dinastia capetingia</strong> (1032-1361) governa per oltre tre secoli con stabilità relativa, senza grandi ambizioni autonome.</p><p><em>Tracce nel viaggio:</em> praticamente tutto il romanico (Cluny, Vézelay, Paray, Autun, Fontenay, Pontigny) e i borghi medievali (Semur, Châteauneuf, Noyers, Flavigny).</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2006', this)"><h4 id="6-la-grande-borgogna-ducale-1363-1477-5">6. La grande Borgogna ducale (1363-1477)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2006"><div class="acc-body-inner"><p>Il momento più drammatico e affascinante. Nel <strong>1361</strong> muore senza eredi l'ultimo duca capetingio; nel <strong>1363</strong> Giovanni II il Buono dà il ducato in appannaggio al figlio <strong>Filippo l'Ardito</strong>. Nasce la <strong>seconda dinastia, i Valois borgognoni</strong>, che in un secolo trasformeranno un appannaggio regionale nel più ambizioso esperimento politico dell'Europa quattrocentesca.</p><p>I quattro grandi duchi:</p><ul>
+<li><strong>Filippo l'Ardito</strong> (1363-1404). Il matrimonio del 1369 con <strong>Margherita di Fiandra</strong> è il colpo di genio fondatore: alla morte del suocero (1384), eredita Fiandre, Artois, Nevers — territori più ricchi della Francia stessa. Fonda Champmol e avvia il grande mecenatismo borgognone.
+          </li>
+<li><strong>Giovanni Senza Paura</strong> (1404-1419). Scontri con la corte francese (guerra civile armagnacchi-borgognoni). Viene <strong>assassinato</strong> nel 1419 sul ponte di Montereau dal Delfino di Francia.
+          </li>
+<li><strong>Filippo il Buono</strong> (1419-1467). Forse il più grande dei quattro. Alleanza con l'<strong>Inghilterra</strong> nella Guerra dei Cent'Anni: un signore borgognone cattura <strong>Giovanna d'Arco</strong> nel 1430 e la vende agli inglesi. Espande il ducato sui Paesi Bassi (Brabante, Hainaut, Olanda, Zelanda, Lussemburgo). Crea l'<strong>Ordine del Toson d'Oro</strong> (1430). Il cancelliere <strong>Nicolas Rolin</strong> fonda l'Hôtel-Dieu di Beaune (1443). La sua corte è la più splendida d'Europa: <strong>Jan van Eyck</strong> è suo pittore ufficiale dal 1425.
+          </li>
+<li><strong>Carlo il Temerario</strong> (1467-1477). Sogna di farsi <strong>re</strong>, di ricostituire l'antico regno medio tra Francia e Germania. Conquista la Lorena per congiungere Borgogna e Paesi Bassi. Si scontra col re Luigi XI di Francia e con gli Svizzeri. Tre battaglie disastrose: <strong>Grandson</strong> (marzo 1476), <strong>Morat</strong> (giugno 1476), <strong>Nancy</strong>. Il <strong>5 gennaio 1477</strong> Carlo muore in battaglia a Nancy. Il cadavere, nudo, mezzo divorato dai lupi, viene ritrovato due giorni dopo in un fossato gelato.
+          </li>
+</ul><p>La morte di Carlo è uno <strong>spartiacque epocale</strong>. L'unica figlia, Maria di Borgogna, sposa <strong>Massimiliano d'Asburgo</strong>: i Paesi Bassi finiscono agli Asburgo, da loro a Carlo V. Luigi XI annette la Borgogna ducale alla Francia. È uno dei punti di svolta più sottovalutati della storia europea: senza la morte di Carlo, oggi avremmo probabilmente uno stato borgognone tra Francia e Germania, con conseguenze geopolitiche immense.</p><p><em>Tracce nel viaggio:</em> a Digione il <strong>Palais des Ducs</strong> con le tombe ducali, la <strong>Chartreuse de Champmol</strong> con il Pozzo di Mosè di Sluter, il <strong>Musée des Beaux-Arts</strong> con i polittici di Broederlam; a Beaune l'<strong>Hôtel-Dieu</strong> di Nicolas Rolin (lunedì 5). Indirettamente, il prestigio del vino borgognone, fondato proprio dalla corte ducale.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2007', this)"><h4 id="7-la-borgogna-francese-dal-1477-a-oggi-6">7. La Borgogna francese (dal 1477 a oggi)<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2007"><div class="acc-body-inner"><p>Dopo l'annessione, la Borgogna non sarà mai più indipendente. Diventa <strong>provincia del regno di Francia</strong>, governata da un governatore reale, con gli <strong>États de Bourgogne</strong> che si riuniscono a Digione.</p><ul>
+<li><strong>Guerre di religione (XVI sec.)</strong>: in larga parte cattolica, ma con enclave protestanti nel nord (Tonnerre, Auxerre, Tanlay). Tanlay e la sua Tour de la Ligue ne sono testimonianza.</li>
+<li><strong>Età classica (XVII-XVIII sec.)</strong>: provincia ricca e tranquilla, Parlement de Bourgogne, costruzioni nobiliari (Cormatin, Bussy-Rabutin, Bazoches di Vauban). <strong>Hardouin-Mansart</strong> rifà il Palais des Ducs di Digione e la Place Royale (oggi Place de la Libération).</li>
+<li><strong>Rivoluzione (1789-99)</strong>: devasta la Borgogna ecclesiastica. <strong>Cluny, Cîteaux, Champmol, Fontenay, Pontigny</strong> e centinaia di monasteri soppressi, venduti, demoliti. Cluny diventa cava di pietra. Vigneti monastici confiscati e venduti in piccoli lotti — origine della frammentazione catastale dei Climats.</li>
+<li><strong>Ottocento</strong>: industrializzazione moderata, restauri di <strong>Viollet-le-Duc</strong> (Vézelay), riemersione del patrimonio enologico. Nascono le grandi maisons di vino di Beaune.</li>
+<li><strong>Novecento</strong>: valorizzazione patrimoniale dagli anni 1960. UNESCO per <strong>Vézelay</strong> (1979), <strong>Fontenay</strong> (1981), <strong>Climats</strong> (2015).</li>
+</ul></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2008', this)"><h4 id="il-filo-conduttore-7">Il filo conduttore<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2008"><div class="acc-body-inner"><p>Se c'è una sola idea da tenere in mente durante il viaggio è questa: la Borgogna è uno dei pochissimi luoghi al mondo dove <strong>tre grandi forze storiche europee si sono stratificate sullo stesso territorio</strong> in modo visibile:</p><ol style="margin:8px 0 12px 22px; padding:0;">
+<li>La <strong>Roma imperiale</strong>, con la sua organizzazione urbana e i suoi monumenti (Autun).</li>
+<li>Il <strong>Medioevo cristiano</strong>, con la sua doppia anima — splendore clunyacense e ascesi cistercense (Cluny, Cîteaux e tutto ciò che ne deriva).</li>
+<li>Lo <strong>stato principesco rinascimentale</strong>, con la sua corte cosmopolita (i Duchi Valois di Digione).</li>
+</ol><p>Tre civiltà sovrapposte, tre risposte diverse alla domanda di come si organizza il potere e la cultura, tutte visibili in raggio di cento chilometri. Non vedrete solo "cose belle": vedrete <strong>tre modi diversi di essere europei</strong>, succedutisi sullo stesso suolo in duemila anni.</p></div></div>
+</article>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

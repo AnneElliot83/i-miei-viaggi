@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cluny e Cîteaux: due modelli opposti — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#c98a2c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.95rem;
+    color:var(--text-soft);
+    max-width:520px;
+    margin:8px auto 0;
+  }
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.76rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:20px 22px 80px;
+  }
+  article h4{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--text);
+    margin:30px 0 10px;
+    scroll-margin-top:78px;
+  }
+  article h4:first-of-type{ margin-top:8px; }
+  article h5{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--text);
+    margin:18px 0 6px;
+  }
+  article p{ margin:0 0 14px; font-size:1rem; }
+  article ul{ padding-left:22px; margin:0 0 14px; }
+  article li{ margin-bottom:6px; }
+  article p:last-child{ margin-bottom:0; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="borgogna.html">← Torna ai luoghi</a>
+
+<header>
+  <h1>Cluny e Cîteaux: due modelli opposti</h1>
+  <div class="subtitle">Due riforme monastiche, due visioni opposte dell'architettura e della vita religiosa.</div>
+</header>
+
+<nav class="pills">
+    <a href="#cluny-la-nascita-del-primo-grande-ordine-monastico-0" class="pill">Cluny: la nascita del primo grande ordine monastico</a>
+    <a href="#la-vita-interna-clunyacense-1" class="pill">La vita interna clunyacense</a>
+    <a href="#citeaux-la-riforma-cistercense-2" class="pill">Cîteaux: la riforma cistercense</a>
+    <a href="#la-carta-caritatis-la-struttura-federale-3" class="pill">La Carta Caritatis: la struttura federale</a>
+    <a href="#i-contrasti-con-cluny-4" class="pill">I contrasti con Cluny</a>
+    <a href="#le-regole-architettoniche-cistercensi-5" class="pill">Le regole architettoniche cistercensi</a>
+    <a href="#la-parabola-successiva-6" class="pill">La parabola successiva</a>
+</nav>
+
+<main>
+  <article>
+<header class="essay-header">
+
+</header>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2009', this)"><h4 id="cluny-la-nascita-del-primo-grande-ordine-monastico-0">Cluny: la nascita del primo grande ordine monastico<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2009"><div class="acc-body-inner"><p>L'abbazia di Cluny fu fondata il <strong>2 settembre 910</strong> da Guglielmo I il Pio, duca d'Aquitania, su una sua riserva di caccia in Borgogna meridionale. La donazione conteneva una clausola decisiva: il nuovo monastero era posto sotto la <strong>protezione diretta del papa</strong>, sottratto a ogni autorità di vescovi locali e signori laici. Questa <strong>immunità</strong> sarà il segreto di tutta la fortuna successiva.</p><p>Sotto una catena di abati di lunga vita e altissimo prestigio — Bernone (910-927), Oddone (927-942), Maiolo (954-994), Odilone (994-1049) e soprattutto <strong>Ugo di Semur "il Grande"</strong> (1049-1109) — Cluny diventa il centro di un vasto ordine: al suo apice nel XII secolo conta circa <strong>1.400 monasteri</strong> dipendenti in tutta Europa, dalla Spagna all'Inghilterra, governati direttamente dall'abate di Cluny in una <strong>gerarchia piramidale</strong>. Non una federazione, ma una vera monarchia spirituale.</p><p>Quattro papi del XII secolo, tra cui <strong>Urbano II</strong> (quello della prima crociata), erano stati monaci di Cluny. È Odilone a istituire la <strong>commemorazione dei defunti del 2 novembre</strong>, oggi festa universale.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2010', this)"><h4 id="la-vita-interna-clunyacense-1">La vita interna clunyacense<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2010"><div class="acc-body-inner"><p>Il cuore di Cluny era la <strong>liturgia infinita</strong>: in certi periodi i monaci cantavano oltre <strong>200 salmi al giorno</strong> (contro i 30 della regola di Benedetto), in una sequenza continua di salmi, antifone, processioni, messe private e solenni che occupava gran parte della giornata. L'idea: la preghiera dei monaci sostiene il mondo. L'aristocrazia laica li nutriva con donazioni e affidava loro la preghiera per i propri morti.</p><p>Per via di questo carico liturgico, la vita dei monaci era esonerata dal lavoro manuale, affidato ai <strong>conversi</strong> e ai servi delle terre dell'abbazia. È esattamente il punto su cui i cistercensi reagiranno un secolo dopo.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2011', this)"><h4 id="citeaux-la-riforma-cistercense-2">Cîteaux: la riforma cistercense<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2011"><div class="acc-body-inner"><p>Nel <strong>marzo 1098</strong>, una ventina di monaci guidati da Roberto di Molesme abbandona la sua abbazia per stabilirsi in una palude trentacinque chilometri a sud di Digione: <strong>Cîteaux</strong> (dal latino <em>cistercium</em>). La scelta del sito è una dichiarazione di principio: terra che nessuno vuole, isolata, da bonificare con le proprie mani. L'esatto opposto della valle ridente di Cluny.</p><p>I primi anni sono durissimi. Poi nel <strong>1112</strong>, un giovane nobile borgognone di 22 anni si presenta alla porta con trenta parenti e amici: si chiama <strong>Bernardo di Fontaine</strong>, sarà <strong>Bernardo di Chiaravalle</strong>. Nel <strong>1115</strong> fonda Clairvaux e da lì guida il movimento cistercense per quarant'anni. Quando muore, nel <strong>1153</strong>, l'ordine ha <strong>343 abbazie</strong>; al 1200 saranno oltre <strong>530</strong>. Crescita senza precedenti.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2012', this)"><h4 id="la-carta-caritatis-la-struttura-federale-3">La Carta Caritatis: la struttura federale<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2012"><div class="acc-body-inner"><p>Verso il <strong>1119</strong>, l'abate Stefano Harding redige la <strong>Carta Caritatis</strong>, il documento costituzionale dell'ordine. Differenza fondamentale rispetto a Cluny: ogni abbazia è <strong>autonoma</strong>, con il proprio abate eletto. Le abbazie sono legate da un sistema di <strong>filiazione</strong> (la casa-madre visita ogni anno le case-figlie) e tutti gli abati si riuniscono ogni anno nel <strong>Capitolo Generale</strong> a Cîteaux. È una <strong>federazione</strong>, non una monarchia. Modernissima: garantisce uniformità senza centralismo, e tiene insieme 500 monasteri sparsi per l'Europa.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2013', this)"><h4 id="i-contrasti-con-cluny-4">I contrasti con Cluny<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2013"><div class="acc-body-inner"><p>Tutto in Cîteaux è progettato <strong>per opposizione esplicita</strong> a Cluny.</p><ul>
+<li><strong>Lavoro</strong>: i monaci tornano a lavorare con le proprie mani. Vengono introdotti i <strong>conversi cistercensi</strong> (laici con voti, vita separata, lavoro pesante), mentre i monaci del coro alternano preghiera e lavoro agricolo. Modello di successo economico: i cistercensi bonificano paludi, dissodano foreste, diventano i <strong>grandi imprenditori agricoli</strong> del XII secolo.</li>
+<li><strong>Liturgia</strong>: tagliata drasticamente. Niente messe accumulate per i defunti dei donatori, canto gregoriano in versione austera, regola di Benedetto alla lettera.</li>
+<li><strong>Povertà materiale</strong>: rifiuto delle <strong>rendite signorili</strong> — niente tributi feudali, niente diritti di decima, niente proprietà di chiese parrocchiali. Vivono solo del lavoro delle terre bonificate.</li>
+<li><strong>Isolamento</strong>: i nuovi monasteri sorgono <em>in locis ab hominibus remotis</em>, in luoghi remoti dagli uomini. Fontenay è esempio perfetto.</li>
+<li><strong>Architettura</strong>: nel <strong>1125</strong> Bernardo scrive l'<em>Apologia ad Guillelmum</em>, manifesto anti-estetico dell'ordine. Attacca punto per punto la decorazione clunyacense: <em>"Cosa ci fanno nei chiostri, davanti agli occhi dei fratelli che leggono, quelle ridicole mostruosità, quella deforme bellezza, quella bellissima deformità?"</em>. Per Bernardo l'immagine scolpita distrae il monaco dalla preghiera.</li>
+</ul></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2014', this)"><h4 id="le-regole-architettoniche-cistercensi-5">Le regole architettoniche cistercensi<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2014"><div class="acc-body-inner"><p>Codificate nei capitoli generali del XII secolo:</p><ul>
+<li><strong>Niente torri</strong> in pietra (solo piccoli campanili a vela in legno)</li>
+<li><strong>Niente sculture figurate</strong> sui capitelli (solo foglie, geometrie, intrecci)</li>
+<li><strong>Niente vetrate colorate</strong> (solo <em>grisailles</em>, vetri bianchi a piombo)</li>
+<li><strong>Niente pavimenti decorati</strong>, niente affreschi, niente ori, niente broccati</li>
+<li><strong>Una sola campana</strong> di peso limitato</li>
+<li><strong>Proporzioni semplici</strong>, basate su rapporti geometrici puri</li>
+</ul><p>Risultato: un'estetica del <strong>bianco e della luce</strong> — pietra nuda, finestre semplici, volumi nitidi. Bellezza per sottrazione. Lo vedrete a Fontenay e Pontigny.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2015', this)"><h4 id="la-parabola-successiva-6">La parabola successiva<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2015"><div class="acc-body-inner"><p>Anche i cistercensi, col tempo, cedono. Le bonifiche li arricchiscono. Le abbazie diventano potenti latifondisti. Nel Duecento accettano rendite, costruiscono in stile gotico, lasciano entrare le decorazioni. Nel Cinquecento ci sono già le riforme interne, nel Seicento nascono i <strong>trappisti</strong> (cistercensi della stretta osservanza) per tornare al rigore primitivo.</p><p>Entrambe le abbazie-madri, Cluny e Cîteaux, sono soppresse dalla Rivoluzione del 1789 e in larga parte demolite. Oggi non resta quasi nulla di Cîteaux; di Cluny sopravvive circa il 10% della grande chiesa. Ma gli eredi spirituali esistono ancora: i <strong>trappisti</strong> (OCSO) e i <strong>cistercensi della comune osservanza</strong> (OCist).</p></div></div>
+</article>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

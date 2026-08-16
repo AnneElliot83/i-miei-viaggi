@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il romanico borgognone — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#c98a2c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.65;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.95rem;
+    color:var(--text-soft);
+    max-width:520px;
+    margin:8px auto 0;
+  }
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.76rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:680px;
+    margin:0 auto;
+    padding:20px 22px 80px;
+  }
+  article h4{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.25rem;
+    color:var(--text);
+    margin:30px 0 10px;
+    scroll-margin-top:78px;
+  }
+  article h4:first-of-type{ margin-top:8px; }
+  article h5{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:var(--text);
+    margin:18px 0 6px;
+  }
+  article p{ margin:0 0 14px; font-size:1rem; }
+  article ul{ padding-left:22px; margin:0 0 14px; }
+  article li{ margin-bottom:6px; }
+  article p:last-child{ margin-bottom:0; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="borgogna.html">← Torna ai luoghi</a>
+
+<header>
+  <h1>Il romanico borgognone</h1>
+  <div class="subtitle">Gli elementi che riconoscerete in ogni grande chiesa del viaggio: volte, alzati, capitelli.</div>
+</header>
+
+<nav class="pills">
+    <a href="#il-contesto-0" class="pill">Il contesto</a>
+    <a href="#le-fasi-1" class="pill">Le fasi</a>
+    <a href="#i-caratteri-del-secondo-stile-clunyacense-2" class="pill">I caratteri del secondo stile clunyacense</a>
+    <a href="#la-scultura-3" class="pill">La scultura</a>
+    <a href="#il-contrappunto-cistercense-4" class="pill">Il contrappunto cistercense</a>
+    <a href="#il-declino-e-l-eredita-5" class="pill">Il declino e l'eredità</a>
+</nav>
+
+<main>
+  <article>
+<header class="essay-header">
+
+</header>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2016', this)"><h4 id="il-contesto-0">Il contesto<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2016"><div class="acc-body-inner"><p>In nessun'altra regione d'Europa il romanico raggiunse la densità, la coerenza e la sofisticazione che ebbe in Borgogna nel <strong>XII secolo</strong>. Qui si concentrarono tre forze: <strong>Cluny</strong> con la sua rete di centinaia di priorati da costruire o ricostruire; <strong>Cîteaux</strong> col suo cantiere parallelo e antagonista; la <strong>via Lemovicensis</strong>, una delle quattro grandi strade del pellegrinaggio per Santiago, che partiva da Vézelay e attraversava il Morvan portando flussi continui di pellegrini, denaro, scambi culturali.</p><p>A questo si aggiunse una geografia favorevole: la Borgogna è ricca di <strong>calcare</strong> di ottima qualità, di tonalità calde — il colore biondo-dorato delle sue chiese — che si presta tanto alla muratura quanto alla scultura.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2017', this)"><h4 id="le-fasi-1">Le fasi<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2017"><div class="acc-body-inner"><ul>
+<li><strong>Primo romanico</strong> (980-1050): sperimentazione. Si volta in pietra absidi e cori (le navate restano a capriate lignee), si codifica la pianta benedettina, compaiono le prime torri-lanterna. <strong>Cluny II</strong> (981) è il prototipo.</li>
+<li><strong>Romanico maturo</strong> (1080-1140): la grande stagione, identificata col <strong>secondo stile clunyacense</strong>. Si inventa la <strong>volta a botte acuta</strong> (Cluny III, 1088), si codifica l'alzato a tre livelli, si sviluppa la scultura monumentale dei capitelli istoriati e dei timpani figurati. È la fase di Cluny III, Paray-le-Monial, Vézelay, Saint-Lazare di Autun, La Charité-sur-Loire.</li>
+<li><strong>Tardo romanico e transizione</strong> (1140-1190): contaminazione con il gotico nascente. Primi archi rampanti, volte a crociera ogivale, proporzioni più slanciate. Il coro di Vézelay (1185 ca.) è già gotico.</li>
+<li>In parallelo, dal 1118, si sviluppa il filone <strong>cistercense</strong>: coevo al clunyacense, ma diametralmente opposto come estetica.</li>
+</ul></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2018', this)"><h4 id="i-caratteri-del-secondo-stile-clunyacense-2">I caratteri del secondo stile clunyacense<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2018"><div class="acc-body-inner"><ul>
+<li><strong>La pianta</strong>: basilica a tre navate (cinque a Cluny III), transetto sporgente, coro profondo con deambulatorio e cappelle radiali per le reliquie e le messe private. Spesso un nartece monumentale davanti alla facciata.</li>
+<li><strong>L'alzato a tre livelli</strong>: grandi arcate al piano terra, <strong>falso triforio</strong> intermedio (arcate cieche decorative), finestre alte del cleristorio. Marchio di fabbrica clunyacense.</li>
+<li><strong>La volta a botte acuta</strong>: profilo leggermente acuto invece che semicircolare. Riduce le spinte laterali, permette di alzare la volta più in alto e su luci più ampie. Invenzione decisiva del romanico maturo, passo intermedio tra volta romana e arco ogivale gotico.</li>
+<li><strong>Le pilastrate scanalate</strong>: i grandi pilastri della navata sono piatti, a sezione rettangolare, con scanalature verticali — imitazione delle <strong>lesene scanalate romane</strong>. Ad Autun questo è esplicito: gli architetti copiarono le porte romane della città dentro la cattedrale.</li>
+<li><strong>La policromia delle pietre</strong>: gli archi alternano calcare chiaro e calcare scuro, creando un effetto a strisce. Tipico di Vézelay, di probabile ispirazione moresco-spagnola attraverso la via di Santiago.</li>
+</ul></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2019', this)"><h4 id="la-scultura-3">La scultura<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2019"><div class="acc-body-inner"><p>Il romanico borgognone produsse in cinquant'anni la più grande stagione di scultura monumentale del Medioevo, prima delle cattedrali gotiche.</p><h5>I capitelli istoriati</h5><p>Piccoli quadri scolpiti: scene bibliche, allegorie, mostri, fatiche dei mesi, episodi della vita di Cristo o dei santi. I capitelli del coro di <strong>Cluny III</strong> (1095, oggi al Musée du Farinier) sono il vertice assoluto: toni della musica gregoriana, virtù cardinali, stagioni, in altorilievo con figure espressive in pose disinvolte. A <strong>Vézelay</strong> i cento capitelli della navata sono un intero programma teologico ambulante; ad <strong>Autun</strong> opera quasi tutta di Gislebertus.</p><h5>I timpani figurati</h5><p>Sopra il portale d'ingresso, lo spazio semicircolare diventa manifesto teologico in pietra. I tre grandi timpani borgognoni:</p><ul>
+<li><strong>Vézelay</strong>, timpano interno del nartece (1125 ca.): Cristo gigantesco che invia gli apostoli a predicare; popoli mostruosi del mondo ai bordi.</li>
+<li><strong>Saint-Lazare di Autun</strong> (1130-1145): Giudizio Universale di <strong>Gislebertus</strong>, espressionista, drammatico. Firmato: <em>Gislebertus hoc fecit</em>.</li>
+<li><strong>Saint-Pierre di Moissac</strong> (Linguadoca, ma legato all'orbita clunyacense).</li>
+</ul><h5>Lo stile</h5><p>Figure allungate, pose torte, piccole teste e mani molto espressive; drappeggi in pieghe parallele, sottili, quasi calligrafiche; gusto per il movimento e la torsione. Scultura <strong>teatrale</strong>, già attenta all'emozione dello spettatore: anticipa di un secolo il gotico.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2020', this)"><h4 id="il-contrappunto-cistercense-4">Il contrappunto cistercense<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2020"><div class="acc-body-inner"><p>Negli stessi anni, a pochi chilometri, nasce il romanico cistercense. Stessa epoca, stessa regione, stessi cantieri, ma estetica opposta. Niente torri, niente capitelli figurati, niente timpani scolpiti, niente vetrate colorate, niente policromie. Volumi puri, pietra nuda, proporzioni geometriche. Abbazie: <strong>Fontenay</strong>, <strong>Pontigny</strong>, La Bussière, Sept-Fons.</p><p>Mentre a Vézelay si scolpisce il timpano dell'Invio degli apostoli, a ottanta chilometri di distanza si sta tirando su Fontenay, dove nelle navate non c'è un solo capitello istoriato. Il dibattito artistico più profondo del XII secolo si gioca tutto in Borgogna, raggio cinquanta chilometri.</p></div></div>
+<div class="mono-acc-header" onclick="toggleAcc('essay-acc-2021', this)"><h4 id="il-declino-e-l-eredita-5">Il declino e l'eredità<span class="acc-chevron"></span></h4></div><div class="acc-body" id="essay-acc-2021"><div class="acc-body-inner"><p>Dopo il 1150 il romanico borgognone declina rapidamente. Il gotico arriva dall'Île-de-France (Saint-Denis 1144, Sens 1140, Notre-Dame de Paris 1163). Per i committenti più ambiziosi è irresistibile. Le grandi cattedrali tardive — <strong>Auxerre</strong>, ad esempio — saranno gotiche.</p><p>Ma il romanico borgognone non muore: resta nelle chiese rurali per altri cento anni, e sopravvive nelle grandi opere maggiori che ebbero la fortuna di non essere ricostruite o distrutte — <strong>Paray-le-Monial</strong> intatta, <strong>Vézelay</strong> completa nella navata, <strong>Autun</strong> integralmente romanica, <strong>Fontenay</strong> perfettamente conservata. Quattro chiese che racchiudono mezzo secolo decisivo della storia dell'architettura europea, tutte nel vostro viaggio.</p></div></div>
+</article>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
