@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Epidauro — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Epidauro</h1>
+  <div class="greek-title">Ἐπίδαυρος</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Epidauro non era una città nel senso tradizionale, ma il più importante centro di guarigione di tutto il mondo greco antico — l'equivalente, per l'epoca, di un grande centro medico internazionale, ma interamente organizzato attorno alla dimensione religiosa.</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Era il <strong>santuario principale del culto di Asclepio</strong>, dio della medicina, meta di pellegrinaggio per malati da tutta la Grecia, in cerca di guarigione attraverso il rituale dell'<strong>incubazione</strong>: il malato dormiva in un portico sacro (l'Abaton) nella speranza che il dio gli apparisse in sogno.</li>
+  <li>Ospita il <strong>teatro meglio conservato di tutta la Grecia antica</strong>, celebre per la sua straordinaria acustica.</li>
+  <li>Era sede dei <strong>Giochi Asclepiei</strong>, competizioni panelleniche in onore del dio.</li>
+  <li>È stato dichiarato <strong>Patrimonio UNESCO</strong>, riconosciuto come testimonianza eccezionale dei culti di guarigione nel mondo antico.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un vasto santuario immerso nel verde, con il celebre teatro come elemento più fotografato, il Tempio e la Tholos di Asclepio al centro dell'area sacra, l'Abaton dove si praticava l'incubazione, e un museo che raccoglie strumenti chirurgici, iscrizioni votive e testimonianze delle guarigioni "miracolose" registrate dai sacerdoti.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>La nascita di Asclepio.</strong> Asclepio nacque dall'unione tra Apollo e la principessa tessala Coronide. Mentre era incinta, Coronide tradì il dio con un mortale — un tradimento rivelato ad Apollo da un corvo. Apollo fece uccidere Coronide, ma strappò il bambino dalle fiamme della pira funebre, salvandolo, e lo affidò al saggio centauro <strong>Chirone</strong>, che lo istruì nell'arte della medicina portandolo a un livello di maestria mai raggiunto prima da un mortale.</p>
+<p><strong>Il potere sulla morte e la punizione di Zeus.</strong> Asclepio divenne talmente abile da riuscire, secondo alcune versioni, a <strong>resuscitare i morti</strong>. Ade si lamentò con Zeus che il proprio regno si stava spopolando; Zeus, per ristabilire l'equilibrio cosmico, fulminò Asclepio. Ma la sua fama sopravvisse alla morte: fu <strong>divinizzato</strong>, e il suo culto si diffuse in tutto il mondo greco, con Epidauro come santuario principale. Suo simbolo è il <strong>bastone con il serpente attorcigliato</strong> — ancora oggi emblema universale della medicina — mentre le sue figlie, <strong>Igea</strong> (la Salute) e <strong>Panacea</strong> (colei che guarisce tutto), diedero i loro nomi a concetti medici che usiamo tuttora.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="teatro di epidauro" data-greek="θέατρο επιδαύρου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teatro di Epidauro<span class="site-greek">Θέατρο Επιδαύρου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il teatro fu costruito attorno al <strong>340-330 a.C.</strong>, come parte di un più ampio programma di ricostruzione del santuario. Secondo Pausania, fu opera dell'architetto <strong>Polykleitos il Giovane</strong>. Inizialmente per circa 8.000 spettatori, fu ampliato in epoca ellenistica fino a 13.000-14.000 posti.</p>
+      <p>Il teatro era parte integrante della cura: assistere a tragedie e commedie era considerato un mezzo di <strong>catarsi</strong>, capace di favorire il benessere psicologico dei pazienti.</p></div><div class="tab-panel"><p>Considerato il più perfetto esempio di architettura teatrale greca per armonia geometrica e acustica: dalle ultime file si può udire un sussurro dal centro dell'orchestra, grazie alla particolare disposizione geometrica della cavea, basata su un pentagono regolare.</p>
+      <p>Orchestra circolare di circa 20 metri di diametro, skene, e theatron scavato nel pendio del Monte Kynortion, con un settore inferiore di 34 file (originario) e uno superiore di 21 file (ellenistico).</p></div><div class="tab-panel"><p>La sua esistenza in un santuario di guarigione, anziché in una città, richiama la funzione terapeutica che i Greci attribuivano all'arte scenica, in coerenza con il culto di <strong>Asclepio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di asclepio" data-greek="ναός ασκληπιού">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Asclepio<span class="site-greek">Ναός Ασκληπιού</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al <strong>380 a.C.</strong>, era il fulcro spirituale dell'intero santuario. Al suo interno era custodita una statua <strong>crisoelefantina</strong> del dio, opera dello scultore <strong>Trasimede di Paro</strong>, raffigurante Asclepio seduto in trono con una mano sulla testa di un serpente e un cane accucciato al fianco.</p></div><div class="tab-panel"><p>Schema dorico periptero classico, 6 colonne sulla fronte e 11 sui lati lunghi. I frontoni erano decorati con l'<strong>Amazzonomachia</strong> e la <strong>presa di Troia</strong>.</p></div><div class="tab-panel"><p>Il tempio era dedicato al culto di <strong>Asclepio</strong>, con la statua che ne riassumeva l'iconografia: il bastone-serpente e il cane, animale associato ai culti terapeutici antichi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tholos (thymele)" data-greek="θόλος (θυμέλη)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tholos (Thymele)<span class="site-greek">Θόλος (Θυμέλη)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Tholos (o Thymele) sorge accanto al tempio, costruita tra il <strong>365 e il 335 a.C.</strong>, su progetto di Polykleitos il Giovane. La sua funzione originaria resta uno dei grandi misteri dell'archeologia greca.</p></div><div class="tab-panel"><p>Struttura circolare con <strong>26 colonne doriche</strong> esterne e <strong>14 colonne corinzie</strong> interne — tra i capitelli corinzi più raffinati del IV secolo a.C. Sotto il pavimento si cela un <strong>labirinto sotterraneo</strong> di corridoi concentrici, di funzione dibattuta.</p></div><div class="tab-panel"><p>Il mistero del labirinto, con il possibile legame ai serpenti sacri, richiama il <strong>bastone con il serpente attorcigliato</strong> di Asclepio, nato dal potere di rinnovamento attribuito a questo animale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di artemide" data-greek="ναός αρτέμιδος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Artemide<span class="site-greek">Ναός Αρτέμιδος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il piccolo tempio si trova a pochi passi dal Tempio di Asclepio, parte dello stesso programma di ricostruzione del IV secolo a.C. Non va confuso con il ben più imponente Tempio di Artemide di Efeso. Artemide era zia di Asclepio e protettrice del parto.</p></div><div class="tab-panel"><p>Seguiva i canoni dell'architettura dorica classica, con dimensioni più ridotte rispetto al vicino Tempio di Asclepio. Oggi ne restano soprattutto le fondamenta ed elementi frammentari.</p></div><div class="tab-panel"><p>Il culto qui richiama la natura di Artemide come <strong>protettrice della nascita</strong>, coprendo insieme ad Asclepio l'intero arco della vita umana.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="abaton (portico dell'incubazione)" data-greek="άβατον (εγκοιμητήριο)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Abaton (portico dell'incubazione)<span class="site-greek">Άβατον (Εγκοιμητήριο)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'Abaton (o Enkoimeterion) era l'edificio più importante dal punto di vista medico-rituale. Qui si praticava l'<strong>incubazione</strong>: il malato dormiva sperando in un'apparizione in sogno di Asclepio. Al mattino i sacerdoti-medici interpretavano i sogni e prescrivevano trattamenti — una forma precoce di medicina psicosomatica.</p></div><div class="tab-panel"><p>Si presentava come una lunga stoà a due piani lungo il lato nord del Tempio di Asclepio, con giacigli disposti lungo il portico per i pazienti.</p></div><div class="tab-panel"><p>È il luogo che rende concreto il mito di <strong>Asclepio</strong>: qui il dio scendeva nei sogni dei malati, spesso nella forma del suo animale sacro, il <strong>serpente</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stadio" data-greek="στάδιο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stadio<span class="site-greek">Στάδιο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al <strong>V secolo a.C.</strong>, ospitava i <strong>Giochi Asclepiei</strong> ogni quattro anni. Inizialmente senza sedute in pietra (aggiunte solo nel tardo IV secolo a.C.), vedeva gare podistiche, salto in lungo e lotta.</p></div><div class="tab-panel"><p>Costruito su pendio, sfrutta il declivio naturale da un lato e un terrapieno artificiale dall'altro. Pista di circa <strong>181 metri per 21,5</strong>. Si conservano il corridoio d'ingresso, i blocchi di partenza e tratti di gradinate.</p></div><div class="tab-panel"><p>I Giochi Asclepiei vanno letti nel quadro simbolico della competizione fisica come parte del percorso di guarigione promosso da <strong>Asclepio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="hestiatorion" data-greek="εστιατόριο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Hestiatorion<span class="site-greek">Εστιατόριο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra la fine del IV e l'inizio del III secolo a.C., era il <strong>più grande edificio del santuario</strong>, dedicato ai banchetti rituali in cui gli dèi erano considerati commensali simbolici. Fu parzialmente distrutto nel I secolo a.C. dai pirati cilici.</p></div><div class="tab-panel"><p>Cortile a peristilio di circa 69 x 75 metri, circondato da un colonnato dorico (16 colonne per lato). L'ala settentrionale ospitava nicchie con statue di Asclepio e famiglia. Ingresso monumentale (propileo) ampio abbastanza per il passaggio di carri.</p></div><div class="tab-panel"><p>Il banchetto rituale richiama la convinzione greca che il cibo condiviso, anche con gli dèi, avesse un potere di rafforzamento coerente con la visione olistica della guarigione legata ad <strong>Asclepio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="odeon" data-greek="ωδείο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Odeon<span class="site-greek">Ωδείο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Aggiunta romana del <strong>II o III secolo d.C.</strong>, costruita dentro il cortile centrale dell'Hestiatorion, che trasformò parte dello spazio in un piccolo teatro coperto per esibizioni musicali e canore.</p></div><div class="tab-panel"><p>Restano i resti dei muri, leggermente più alti rispetto ai contorni dell'Hestiatorion, che permettono di distinguere questa struttura più tarda inserita "a incastro" nell'edificio più antico.</p></div><div class="tab-panel"><p>Non ci sono miti legati all'Odeon, ma la sua presenza testimonia come i Romani abbiano mantenuto viva l'idea greca di arte e convivialità legata al culto di <strong>Asclepio</strong>.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="katagogion" data-greek="κατάγωγιον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Katagogion<span class="site-greek">Κατάγωγιον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra la fine del IV e l'inizio del III secolo a.C., era la foresteria del santuario, con 160 ambienti — il più grande edificio del complesso. Ospitava pellegrini e pazienti in cerca di guarigione, distanti dalla città di Epidauro (15 km).</p></div><div class="tab-panel"><p>Pianta quadrata di circa 76 x 76 metri, organizzata in <strong>quattro cortili</strong> con peristilio dorico a due piani (10 colonne per lato), per un totale di 160 stanze. In epoca romana furono aggiunti bagni caldi.</p></div><div class="tab-panel"><p>Non ci sono miti legati al Katagogion, ma conferma quanto il culto di <strong>Asclepio</strong> fosse pensato come un percorso completo di cura, ben prima dell'incontro con il dio nel sonno.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di epidauro" data-greek="αρχαιολογικό μουσείο επιδαύρου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Epidauro<span class="site-greek">Αρχαιολογικό Μουσείο Επιδαύρου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il 1902 e il 1909 dall'archeologo <strong>Panagiotis Kavvadias</strong>. Molte sculture importanti furono trasferite al Museo Archeologico Nazionale di Atene, sostituite qui da calchi in gesso.</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
+      <ul>
+        <li><strong>Strumenti medici e chirurgici in bronzo</strong>.</li>
+        <li><strong>Le "Iamata"</strong> — 70 iscrizioni votive che registrano guarigioni miracolose nell'Abaton.</li>
+        <li><strong>Grandi ricostruzioni architettoniche</strong> del Tempio di Asclepio, del Tempio di Artemide e della colonna corinzia della Tholos.</li>
+        <li><strong>Calchi di statue</strong>, tra cui Igea, Afrodite e Asclepio.</li>
+        <li><strong>Un'iscrizione sulla guarigione di Marco Aurelio</strong>.</li>
+      </ul></div><div class="tab-panel"><p>Le Iamata sono il ponte più diretto tra mito e realtà: registrano i miracoli di <strong>Asclepio</strong> che chiudono il cerchio narrativo aperto con la nascita del dio.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
