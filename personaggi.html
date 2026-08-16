@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personaggi Storici Greci — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  header .intro-text{
+    max-width:600px;
+    margin:14px auto 0;
+    font-size:0.95rem;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:8000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+  .tab-panel ul{ padding-left:22px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Personaggi Storici Greci</h1>
+  <div class="greek-title">Ἱστορία</div>
+  <div class="intro-text">Un compendio di consultazione libera sui protagonisti storici (non mitologici) incontrati lungo il viaggio: statisti, filosofi, tragediografi, architetti e mecenati. Ogni voce racconta la biografia per intero e indica dove lo avete incontrato.</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<nav class="pills">
+    <a href="#statisti-e-condottieri" class="pill">Statisti e Condottieri</a>
+    <a href="#filosofi" class="pill">Filosofi</a>
+    <a href="#tragediografi" class="pill">Tragediografi</a>
+    <a href="#artisti-e-mecenati" class="pill">Artisti e Mecenati</a>
+    <a href="#storici-e-viaggiatori" class="pill">Storici e Viaggiatori</a>
+</nav>
+
+<main>
+  <div id="groups">
+    
+<section class="group" id="statisti-e-condottieri">
+  <h2 class="group-title">Statisti e Condottieri<span class="group-count">7</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="solone" data-greek="σόλων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Solone<span class="site-greek">Σόλων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Solone (circa 630-560 a.C.) nacque ad Atene da una famiglia nobile, i Codridi. Fu prima di tutto un poeta, prima di diventare statista. Iniziò la carriera pubblica con una spedizione per la contesa di Salamina contro Megara.</p>
+      <p>Eletto arconte nel 594/593 a.C. per mediare la crisi tra aristocrazia e piccoli agricoltori oppressi dai debiti, varò la <strong>Seisachtheia</strong> ("scuotimento dei pesi"): cancellò i debiti, abolì la schiavitù per debiti. Riorganizzò la cittadinanza in quattro classi censitarie basate sul reddito, non sulla nascita, e istituì il <strong>Consiglio dei Quattrocento</strong>. Sostituì il codice di Dracone con leggi più miti, introducendo il diritto di appello e la possibilità per chiunque di intentare causa per un torto altrui. Riformò moneta, pesi e misure, e concesse la cittadinanza agli artigiani stranieri.</p>
+      <p>Dopo aver fatto giurare agli Ateniesi di non modificare le leggi per dieci anni, si esiliò volontariamente, viaggiando in Egitto e Asia Minore — periodo a cui si lega l'aneddoto dell'incontro con re Creso di Lidia. Morì attorno al 560 a.C., annoverato tra i Sette Sapienti della Grecia.</p></div><div class="tab-panel"><p>Le sue riforme posero le basi giuridiche ed economiche su cui, quasi un secolo dopo, Clistene avrebbe costruito la vera democrazia.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Stoa Basileios, Agorà)</strong> — qui erano esposte le sue leggi, incise su assi rotanti.</li>
+        <li><strong>Atene (quadro storico generale)</strong> — apre la narrazione del percorso verso la democrazia.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="clistene" data-greek="κλεισθένης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Clistene<span class="site-greek">Κλεισθένης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Clistene (nato verso il 570 a.C.) apparteneva alla famiglia degli <strong>Alcmeonidi</strong>, gravata dalla "maledizione ciloniana" che ne causava periodici esili. Fu proprio grazie all'influenza degli Alcmeonidi sull'oracolo di Delfi che gli Spartani furono convinti a cacciare il tiranno Ippia nel 510 a.C.</p>
+      <p>In competizione con Isagora per il controllo della città, Clistene si appellò al popolo proponendo, nel <strong>508/507 a.C.</strong>, la riforma che segna la nascita della democrazia: sostituì le quattro tribù aristocratiche con <strong>dieci tribù territoriali</strong>, mescolando deliberatamente i demi di costa, città e interno per spezzare il potere delle vecchie famiglie. Istituì la <strong>Boulè dei Cinquecento</strong> e, secondo la tradizione, l'<strong>ostracismo</strong>.</p></div><div class="tab-panel"><p>Le sue riforme trasformarono Atene nella prima democrazia diretta della storia occidentale.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Agorà Antica)</strong> — il Bouleuterion, il Monumento degli Eroi Eponimi, gli ostraka nella Stoa di Attalo.</li>
+        <li><strong>Delfi</strong> — il legame familiare con la ricostruzione del Tempio di Apollo.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="leonida" data-greek="λεωνίδας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Leonida<span class="site-greek">Λεωνίδας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Leonida (circa 540-480 a.C.) apparteneva alla dinastia Agiade di Sparta. Divenne re verso il 490 a.C. Nel 480 a.C., guidò la coalizione greca alle <strong>Termopili</strong> contro l'invasione di Serse, con circa 300 opliti spartani scelti e alcune migliaia di alleati.</p>
+      <p>Dopo due giorni di resistenza, il traditore Efialte rivelò ai Persiani un sentiero per aggirare la posizione greca. Leonida congedò la maggior parte delle truppe, restando a combattere con gli Spartani e i Tespi fino alla morte. Il suo corpo fu decapitato per ordine di Serse. L'epitaffio di Simonide ("Straniero, va' a dire agli Spartani...") è tra i versi più celebri dell'antichità.</p></div><div class="tab-panel"><p>Le sue ossa furono riportate a Sparta per una sepoltura onorifica, celebrata ogni anno con giochi funebri.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Sparta</strong> — il "cosiddetto Leonida" al Museo Archeologico.</li>
+        <li><strong>Olimpia (Leonidaion)</strong> — attenzione: nome dall'architetto omonimo, non dal re.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="temistocle" data-greek="θεμιστοκλῆς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Temistocle<span class="site-greek">Θεμιστοκλῆς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Temistocle (circa 524-459 a.C.) fortificò il Pireo da arconte (493 a.C.) e convinse l'assemblea a investire il tesoro del Laurion in <strong>duecento triremi</strong>. Interpretò l'oracolo delfico delle "mura di legno" come riferimento alla flotta, convincendo gli Ateniesi a evacuare la città.</p>
+      <p>A <strong>Salamina</strong> (480 a.C.), ingannò Serse fingendo un tradimento per farlo attaccare nello stretto, dove la flotta greca ottenne la vittoria decisiva. Ostracizzato attorno al 472/471 a.C., fu accusato di collusione con i Persiani e fuggì, trovando infine rifugio proprio alla corte del re persiano, che lo nominò governatore di città greche in Asia Minore. Morì verso il 460-459 a.C.</p></div><div class="tab-panel"><p>L'uomo che salvò la Grecia a Salamina morì suddito del re che aveva sconfitto — monito sull'incostanza della fortuna politica.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (quadro storico generale)</strong> — la vittoria di Salamina, snodo delle guerre persiane.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pericle" data-greek="περικλῆς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pericle<span class="site-greek">Περικλῆς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Pericle (circa 495-429 a.C.) nacque da una famiglia aristocratica, imparentata con gli Alcmeonidi. Eletto stratego nel 443 a.C., mantenne la carica quasi ininterrottamente per il resto della vita. Nel 454 a.C. trasferì il tesoro della Lega di Delo ad Atene, finanziando con esso la ricostruzione monumentale dell'Acropoli, sovrintesa dall'amico <strong>Fidia</strong>.</p>
+      <p>Ebbe una relazione con la colta <strong>Aspasia</strong> di Mileto, criticata perché straniera. Pronunciò il celebre Epitaffio in onore dei caduti all'inizio della Guerra del Peloponneso. Nel 430 a.C. una devastante pestilenza colpì Atene, uccidendo anche i suoi due figli legittimi; Pericle stesso morì di peste nell'autunno 429 a.C.</p></div><div class="tab-panel"><p>A lui si lega indissolubilmente il "secolo d'oro" di Atene: democrazia matura, filosofia, tragedia, architettura monumentale.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Acropoli)</strong> — l'intero programma edilizio: Partenone, Propilei, Eretteo, Tempio di Atena Nike.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="demostene" data-greek="δημοσθένης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Demostene<span class="site-greek">Δημοσθένης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Demostene (384-322 a.C.) restò orfano a sette anni; a diciotto fece causa ai propri tutori disonesti, vincendo. Corresse un difetto di pronuncia con esercizi diventati proverbiali (sassolini in bocca, declamazioni davanti al mare). Lavorò come logografo prima di diventare oratore politico.</p>
+      <p>Fu il più instancabile oppositore di <strong>Filippo II di Macedonia</strong>, con le quattro <strong>Filippiche</strong>. Dopo la sconfitta di Cheronea (338 a.C.), continuò l'attività politica; la sua orazione "Sulla Corona" (330 a.C.) è considerata il capolavoro dell'oratoria greca. Dopo una fallita rivolta contro il successore di Alessandro, Antipatro, fu condannato a morte e si tolse la vita nel santuario di Poseidone a Calauria nel 322 a.C.</p></div><div class="tab-panel"><p>Gli Ateniesi, pentiti, gli eressero una statua e concessero pasti gratuiti ai discendenti nel Pritaneo.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Pnice)</strong> — dove pronunciò le Filippiche.</li>
+        <li><strong>Olimpia (Filippeion)</strong> — il monumento del suo grande avversario.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="alessandro magno" data-greek="ἀλέξανδρος ὁ μέγας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Alessandro Magno<span class="site-greek">Ἀλέξανδρος ὁ Μέγας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Alessandro (356-323 a.C.) nacque a Pella, figlio di Filippo II e della regina Olimpiade. Fu allievo di <strong>Aristotele</strong> per tre anni. A diciotto anni guidò la cavalleria decisiva a Cheronea (338 a.C.); divenne re a vent'anni nel 336 a.C.</p>
+      <p>Invase l'impero persiano nel 334 a.C., sconfiggendo tre volte Dario III, conquistando Egitto (dove fondò Alessandria) e l'intero impero achemenide fino all'India, dove l'ammutinamento delle truppe lo fermò nel 326 a.C. Morì a Babilonia nel giugno 323 a.C., a trentadue anni. Il suo impero si disgregò nelle guerre dei Diadochi, dando origine ai regni ellenistici.</p></div><div class="tab-panel"><p>Le sue conquiste inaugurarono l'epoca ellenistica, diffondendo la cultura greca dall'Egitto all'India.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia (Filippeion)</strong> — la statua crisoelefantina da bambino, nell'edificio completato da lui.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="filosofi">
+  <h2 class="group-title">Filosofi<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="socrate" data-greek="σωκράτης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Socrate<span class="site-greek">Σωκράτης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Socrate (circa 470-399 a.C.) nacque da uno scalpellino e una levatrice — origine artigiana, non aristocratica. Prestò servizio come oplita nella Guerra del Peloponneso. Rivolse l'indagine filosofica verso l'etica, insegnando attraverso il dialogo e il <strong>metodo socratico</strong> nelle piazze e nei portici ateniesi. Affermava di essere guidato da un <strong>daimonion</strong>, voce interiore divina.</p>
+      <p>Processato nel 399 a.C. per empietà e corruzione dei giovani, in un clima di sospetto post-bellico. Si difese con fierezza più che con supplica; condannato, rifiutò la fuga offerta dagli amici e bevve la cicuta, morendo circondato dai discepoli.</p></div><div class="tab-panel"><p>Punto di svolta della filosofia occidentale, dal pensiero cosmologico dei presocratici a quello etico e antropocentrico.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Agorà Antica)</strong> — la Stoa Basileios (processo), la Stoa di Zeus Eleutherios (conversazioni).</li>
+        <li><strong>Delfi</strong> — l'oracolo che lo proclamò il più sapiente.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="platone" data-greek="πλάτων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Platone<span class="site-greek">Πλάτων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Platone (428/427-348/347 a.C.) nacque da famiglia aristocratica, imparentata con Solone. Allievo di Socrate fino alla sua condanna nel 399 a.C., viaggiò poi in Egitto, Italia e Sicilia, entrando in contatto con la scuola pitagorica.</p>
+      <p>Fondò l'<strong>Accademia</strong> ad Atene attorno al 387 a.C., prima istituzione filosofica organizzata della storia occidentale. Tentò due volte, senza successo, di educare il tiranno di Siracusa Dionisio II secondo l'ideale del "filosofo-re". Morì ad Atene attorno al 348-347 a.C., sepolto nella stessa Accademia.</p></div><div class="tab-panel"><p>Autore dell'intero corpus dei propri dialoghi, in gran parte incentrati su Socrate. L'Accademia rimase attiva fino alla chiusura di Giustiniano nel 529 d.C.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — il sito dell'Accademia; l'ambientazione dell'<em>Eutifrone</em> presso la Stoa Basileios.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="aristotele" data-greek="ἀριστοτέλης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Aristotele<span class="site-greek">Ἀριστοτέλης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Aristotele (384-322 a.C.) nacque a Stagira, figlio del medico di corte macedone. Studiò vent'anni all'Accademia di Platone. Dopo la morte del maestro, si dedicò a ricerche biologiche a Lesbo, poi divenne precettore del tredicenne <strong>Alessandro</strong> a Pella (343/342 a.C.).</p>
+      <p>Tornato ad Atene nel 335 a.C., fondò il <strong>Liceo</strong>, con un approccio enciclopedico ed empirico. Dopo la morte di Alessandro, accusato di empietà in un clima anti-macedone, si ritirò a Calcide per non "far peccare due volte Atene contro la filosofia", morendo l'anno successivo, nel 322 a.C.</p></div><div class="tab-panel"><p>La sua opera ha influenzato quasi ogni campo del sapere occidentale per oltre due millenni.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — il sito del Liceo, riportato alla luce a Kolonaki.</li>
+        <li><strong>Olimpia (Filippeion)</strong> — il legame con la famiglia macedone.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="tragediografi">
+  <h2 class="group-title">Tragediografi<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="eschilo" data-greek="αἰσχύλος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Eschilo<span class="site-greek">Αἰσχύλος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Eschilo (525/524-456/455 a.C.) nacque a Eleusi. Combatté a Maratona, Artemisio, Salamina e Platea. Debuttò attorno al 499 a.C.; compose circa novanta tragedie, di cui sette sopravvivono: i <em>Persiani</em> (472 a.C.), i <em>Sette contro Tebe</em>, le <em>Supplici</em>, e l'<strong>Orestea</strong> (458 a.C.).</p>
+      <p>Introdusse il <strong>secondo attore</strong>, fondando la tragedia come genere drammatico maturo. Morì a Gela, in Sicilia, nel 456/455 a.C. — la leggenda narra di un'aquila che gli lasciò cadere sulla testa una tartaruga.</p></div><div class="tab-panel"><p>Insieme a Sofocle ed Euripide, forma la grande triade dei tragediografi ateniesi.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Teatro di Dioniso)</strong> — debutto delle sue tragedie.</li>
+        <li><strong>Micene</strong> — l'Orestea racconta per intero il ciclo degli Atridi.</li>
+        <li><strong>Atene (Areopago)</strong> — le Eumenidi culminano nel processo di Oreste.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="sofocle" data-greek="σοφοκλῆς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Sofocle<span class="site-greek">Σοφοκλῆς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Sofocle (497/496-406/405 a.C.) nacque a Colono. Debuttò nel 468 a.C. sconfiggendo Eschilo. Vinse circa venti concorsi, componendo 123 tragedie, di cui sette sopravvivono: <em>Aiace</em>, <em>Antigone</em>, <em>Edipo re</em>, <em>Elettra</em>, <em>Filottete</em>, <em>Edipo a Colono</em>. Introdusse il <strong>terzo attore</strong>.</p>
+      <p>Fu stratego al fianco di Pericle e uno dei probouloi dopo il disastro siciliano (413 a.C.). Ospitò il serpente sacro di Asclepio, eroizzato dopo la morte come <strong>Dexion</strong>. Morì nel 406/405 a.C., in tarda età.</p></div><div class="tab-panel"><p>Rappresenta il punto di massimo equilibrio classico tra le tre voci della tragedia ateniese.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Asklepieion)</strong> — il suo culto come Dexion.</li>
+        <li><strong>Epidauro</strong> — il legame con Asclepio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="euripide" data-greek="εὐριπίδης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Euripide<span class="site-greek">Εὐριπίδης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Euripide (circa 480-406 a.C.) nacque forse a Salamina. Temperamento solitario, vinse solo cinque concorsi ma fu straordinariamente influente per il proprio <strong>realismo psicologico</strong> e i personaggi femminili complessi — <strong>Medea</strong> (431 a.C.) su tutte. Introdusse il <em>deus ex machina</em>.</p>
+      <p>Diciannove delle sue novanta tragedie sopravvivono. Nel 408 a.C. si trasferì alla corte macedone di Archelao, dove morì nel 406 a.C.</p></div><div class="tab-panel"><p>Ultimo dei tre grandi tragediografi, il più influente sul teatro successivo per la sua psicologia complessa.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Corinto</strong> — la sua Medea è la fonte canonica del ciclo tragico.</li>
+        <li><strong>Micene</strong> — le tragedie sul ciclo degli Atridi.</li>
+        <li><strong>Atene (Artemide Brauronia)</strong> — la sua Ifigenia in Tauride.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="artisti-e-mecenati">
+  <h2 class="group-title">Artisti e Mecenati<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="fidia" data-greek="φειδίας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Fidia<span class="site-greek">Φειδίας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fidia (attivo circa 490-430 a.C.) fu il più celebre scultore greco, amico e consigliere artistico di <strong>Pericle</strong>. Diresse il programma scultoreo del Partenone e realizzò l'<strong>Atena Parthenos</strong>, oltre alla statua di <strong>Zeus a Olimpia</strong>, una delle Sette Meraviglie.</p>
+      <p>Accusato di peculato (scagionato dopo aver pesato l'oro rimovibile della statua) e poi di empietà per aver raffigurato se stesso e Pericle sullo scudo di Atena. Le fonti divergono sulla sua fine: morte in prigione ad Atene, o esilio a Olimpia dove completò lo Zeus.</p></div><div class="tab-panel"><p>Iniziatore dello stile classico idealizzato che avrebbe dominato l'arte greca per due secoli.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — il Tempio di Zeus, la sua Officina.</li>
+        <li><strong>Atene (Acropoli)</strong> — il Partenone, l'Atena Parthenos.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="adriano" data-greek="hadrianus">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Adriano<span class="site-greek">Hadrianus</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Publio Elio Adriano (76-138 d.C.) nacque probabilmente a Italica, in Spagna. Educato dal cugino <strong>Traiano</strong>, divenne imperatore nel 117 d.C., adottando una politica di consolidamento (Vallo di Adriano in Britannia) piuttosto che espansione.</p>
+      <p>Filellenico convinto, elesse Atene a capitale culturale dell'impero, completando il Tempio di Zeus Olimpio dopo 638 anni di lavori. Divinizzò il giovane amato <strong>Antinoo</strong>, morto annegato nel Nilo nel 130 d.C. Morì nel 138 d.C.</p></div><div class="tab-panel"><p>Uno dei "Cinque Buoni Imperatori", ricordato in Grecia come tra le figure romane più amate.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — Tempio di Zeus Olimpio, Biblioteca di Adriano, Arco di Adriano.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="erode attico" data-greek="ἡρώδης ὁ ἀττικός">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Erode Attico<span class="site-greek">Ἡρώδης ὁ Ἀττικός</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Erode Attico (101-177 d.C.) nacque a Maratona da una delle famiglie più ricche di Atene. Amico di <strong>Adriano</strong>, divenne console nel 143 d.C. e maestro del Secondo Sofismo. Sposò Annia Regilla, la cui morte (160 d.C.) portò accuse mai del tutto chiarite.</p>
+      <p>Dedicò l'immensa fortuna a un mecenatismo capillare: l'Odeon di Atene, il Ninfeo di Olimpia, gli stadi di Delfi ed Epidauro, la Fontana di Peirene a Corinto. Morì a Maratona nel 177 d.C.</p></div><div class="tab-panel"><p>Incarna l'ideale dell'evergete: il benefattore che trasforma la fortuna privata in patrimonio pubblico duraturo.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene, Olimpia, Delfi, Epidauro, Corinto</strong> — presenza capillare in quasi ogni tappa del Peloponneso.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="storici-e-viaggiatori">
+  <h2 class="group-title">Storici e Viaggiatori<span class="group-count">1</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="pausania (il viaggiatore)" data-greek="παυσανίας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pausania (il viaggiatore)<span class="site-greek">Παυσανίας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Biografia</button><button class="tab" onclick="switchTab(this)">Eredità e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p>Pausania (circa 110-180 d.C.), originario della Lidia, viaggiò estesamente prima di dedicarsi alla Grecia: Antiochia, Gerusalemme, Egitto, Mar Morto. Compose la <strong>Descrizione della Grecia</strong> in dieci libri (143-176 d.C. circa), un itinerario geografico con storia, monumenti, culti e miti locali di ogni città.</p>
+      <p>Non è da confondere con l'omonimo generale spartano di secoli prima. La sua opera, pur devota, applicava un vaglio critico ai miti riportati.</p></div><div class="tab-panel"><p>La sua opera ha permesso, dal XVIII secolo, l'identificazione di quasi ogni sito archeologico greco maggiore, inclusa l'Accademia di Platone.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Ovunque</strong> — fonte primaria per la ricostruzione di praticamente ogni tappa di questo itinerario.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessuna voce trovata.</p>
+</main>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
