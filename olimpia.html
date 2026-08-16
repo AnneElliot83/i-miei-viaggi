@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olimpia — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Olimpia</h1>
+  <div class="greek-title">Ὀλυμπία</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p>Olimpia non era una città-stato, ma il <strong>santuario panellenico per eccellenza</strong> dedicato a Zeus — il luogo che, più di ogni altro, riusciva a mettere temporaneamente da parte le rivalità politiche e militari che dividevano il mondo greco. Si trova nella regione dell'<strong>Elide</strong>, nel Peloponneso occidentale, in una valle formata dai fiumi Alfeo e Kladeos.</p>
+<p><strong>Le origini e la nascita dei Giochi.</strong> Le prime testimonianze di culto risalgono già all'epoca micenea e geometrica (X-IX secolo a.C.). La data tradizionale di fondazione dei <strong>Giochi Olimpici</strong> è il <strong>776 a.C.</strong>, l'anno del primo vincitore registrato, <strong>Corebo di Elide</strong>, nell'unica gara allora esistente: lo <em>stadion</em>. Secondo la tradizione, i Giochi furono riorganizzati grazie a un accordo tra <strong>Ifito</strong> di Elide, <strong>Licurgo</strong> di Sparta e <strong>Clistene</strong> di Pisa, che istituirono anche la <strong>tregua sacra</strong>.</p>
+<p><strong>La tregua sacra (ekecheiria).</strong> Una tregua proclamata prima e durante ogni edizione dei Giochi, che vietava di portare armi nel territorio dell'Elide e garantiva un passaggio sicuro ad atleti e spettatori diretti a Olimpia. Il testo fu inciso su un disco di bronzo, conservato nell'Heraion.</p>
+<p><strong>Lo sviluppo del santuario.</strong> Il grande sviluppo monumentale iniziò in epoca arcaica (VII-VI secolo a.C.). L'apice arrivò in epoca classica, con il Tempio di Zeus (470-456 a.C.) e la sua statua crisoelefantina di <strong>Fidia</strong> — una delle Sette Meraviglie del mondo antico.</p>
+<p><strong>La fine e la riscoperta.</strong> I Giochi si tennero per 293 edizioni consecutive, fino a quando l'imperatore <strong>Teodosio I</strong>, nel 393-394 d.C., ne decretò la fine. Il sito, sepolto da alluvioni, fu riscoperto nel 1766 da Richard Chandler; gli scavi sistematici iniziarono nel 1875 con l'Istituto Archeologico Tedesco, e proseguono tuttora.</p>
+<p><strong>Perché conta così tanto:</strong> Olimpia è il luogo simbolico da cui discendono, con una linea diretta di oltre 2.500 anni, le moderne Olimpiadi — reintrodotte nel 1896 da Pierre de Coubertin. È stata dichiarata <strong>Patrimonio UNESCO</strong>.</p>
+<p><strong>Cosa "è" nel concreto:</strong> un vasto santuario organizzato attorno all'<strong>Altis</strong> (il recinto sacro), con i templi di Zeus e Hera al centro, una fila di edifici votivi e amministrativi, le strutture sportive, e due musei di importanza straordinaria.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Pelope ed Enomao.</strong> Il mito più direttamente legato a Olimpia è quello di <strong>Pelope</strong>, eroe da cui prende nome il Peloponneso. Enomao, re di Pisa, sfidava ogni pretendente alla mano della figlia <strong>Ippodamia</strong> a una corsa di carri, uccidendo chi perdeva. Pelope corruppe l'auriga <strong>Mirtilo</strong>, che sostituì i perni del carro reale con perni di cera: Enomao morì nell'incidente. Pelope tradì poi la promessa fatta a Mirtilo, gettandolo in mare; Mirtilo, morendo, maledisse Pelope e la sua discendenza — la stessa maledizione che porterà fino ad Atreo e al ciclo tragico di Micene. Secondo la tradizione, fu Pelope a fondare i Giochi in onore di Zeus.</p>
+<p><strong>Eracle Ideo.</strong> Una tradizione parallela attribuisce la fondazione dei Giochi a <strong>Eracle Ideo</strong>, uno dei Dattili Ideani, protettori del piccolo Zeus nascosto sul monte Ida a Creta, che avrebbe misurato lo stadio percorrendo 600 volte la lunghezza del proprio piede.</p>
+<p><strong>Zeus contro Crono.</strong> Il Monte Crono, che domina l'Altis, richiama la lotta tra <strong>Zeus</strong> e il padre <strong>Crono</strong> per il predominio sul cosmo — alcuni miti narrano che i Giochi commemorassero proprio questa vittoria.</p>
+<p><strong>Rhea e il Metroon.</strong> Il Metroon era dedicato a <strong>Rhea</strong>, madre degli dèi, che salvò il piccolo Zeus dall'essere divorato dal padre Crono, nascondendolo a Creta sotto la protezione dei Dattili Ideani.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="tempio di zeus" data-greek="ναός του διός">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Zeus<span class="site-greek">Ναός του Διός</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Il nome <strong>Zeus</strong> deriva dalla radice indoeuropea *dyeus, "risplendere, cielo luminoso" — la stessa radice del latino <em>deus</em> ("dio") e <em>dies</em> ("giorno"). Zeus, "Dio" e "giorno" sono quindi, etimologicamente, parole imparentate.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra il <strong>470 e il 456 a.C.</strong> su progetto di <strong>Libone di Elide</strong>, finanziato col bottino della vittoria di Elide su Pisa. Al suo interno fu collocata, attorno al 435 a.C., la statua crisoelefantina di Zeus di <strong>Fidia</strong>, alta 12 metri — una delle Sette Meraviglie del mondo antico. Distrutto da un terremoto nel V secolo d.C.</p></div><div class="tab-panel"><p>Tempio dorico periptero di circa 64 x 28 metri, 6 colonne sulla fronte e 13 sui lati lunghi — tra i più grandi di terraferma greca. Modello per eccellenza dello <strong>stile severo</strong>. Frontone orientale: corsa di Pelope ed Enomao; frontone occidentale: Centauromachia; metope: le dodici fatiche di Eracle, prima rappresentazione a fissarne canonicamente il numero.</p></div><div class="tab-panel"><p>Il programma decorativo è un compendio dei miti fondativi: Pelope ed Enomao, le fatiche di Eracle, e Zeus come garante dell'ordine — il ruolo che il dio incarnava in tutto il santuario.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di hera (heraion)" data-greek="ναός της ήρας (ηραίο)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Hera (Heraion)<span class="site-greek">Ναός της Ήρας (Ηραίο)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">L'etimologia di <strong>Hera</strong> resta dibattuta: forse dalla radice <em>hōra</em> ("stagione", da cui il latino <em>hora</em> e l'italiano "ora"), forse da <em>erōs</em> ("amore"). <strong>Heraion</strong> aggiunge il suffisso <strong>-eion</strong> ("luogo di") — lo stesso di Philippeion, Prytaneion, Bouleuterion, Theokoleon e Leonidaion: da qui in avanti, "-eion/-ion" indica sempre "il luogo di...".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Tempio monumentale più antico di Olimpia, circa <strong>600 a.C.</strong>, forse originariamente congiunto di Hera e Zeus. In epoca romana funse da "museo" del santuario: qui fu ritrovato l'Hermes di Prassitele (1877) e il disco di Ifito con la tregua sacra.</p></div><div class="tab-panel"><p>Tra i più antichi templi dorici, con impianto allungato (6 x 16 colonne). Le colonne, originariamente in legno, furono sostituite gradualmente in pietra nei secoli — ancora nel II sec. d.C. una era ancora di quercia originale, un "campionario" involontario dell'evoluzione dell'ordine dorico.</p></div><div class="tab-panel"><p>È dall'altare di questo tempio che ancora oggi viene accesa la fiamma olimpica moderna — un filo diretto tra l'Olimpia antica e le Olimpiadi contemporanee.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pelopion" data-greek="πελόπιον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pelopion<span class="site-greek">Πελόπιον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Pelopion</strong> unisce <strong>Pelope</strong> (Πέλοψ, da <em>pelios</em> "scuro" + <em>ops</em> "volto") al suffisso -ion: "il luogo di Pelope".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Monumento funerario dedicato a <strong>Pelope</strong>, dedicato secondo Pausania da Eracle stesso. Sotto il monumento visibile si cela un tumulo preistorico di circa 2500 a.C. — la struttura più antica dell'Altis. Il recinto attuale, a pianta pentagonale, risale al VI secolo a.C.</p></div><div class="tab-panel"><p>Un tumulo di terra e cenere compattata, racchiuso da un recinto pentagonale con alberi e statue — un altare di terra battuta, forma arcaica, diversa dagli altari in pietra di Delfi o Atene.</p></div><div class="tab-panel"><p>Qui si celebrava il sacrificio annuale di un <strong>montone nero</strong>, di notte, prima di quello diurno a Zeus — culto ctonio distinto da quello celeste del padre degli dèi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="metroon" data-greek="μητρώον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Metroon<span class="site-greek">Μητρώον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Metroon</strong> da <strong>mēter</strong> ("madre", radice del latino <em>mater</em> e dell'italiano "madre") + -oon. Stessa radice di "metropoli" (<em>mētēr</em> + <em>polis</em>, "città madre") — già incontrata nella Metropoli di Mistrà.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito nei primi anni del <strong>IV secolo a.C.</strong>, dedicato alla <strong>Meter Theon</strong>, identificata con Rea o Cibele. In epoca romana riconvertito al culto imperiale (Sebasteion), con statue di Augusto e altri imperatori.</p></div><div class="tab-panel"><p>Tempio periptero dorico contenuto (10,6 x 20,7 metri), 6 x 11 colonne — il più piccolo dei tre templi principali.</p></div><div class="tab-panel"><p><strong>Rea</strong> salvò il piccolo Zeus dall'essere divorato dal padre Crono, nascondendolo a Creta — lo stesso mito già collegato al Monte Crono che domina l'Altis.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tesori" data-greek="θησαυροί">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tesori<span class="site-greek">Θησαυροί</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Thesauros</strong> è passato quasi identico in italiano: "tesoro", e nell'inglese <em>treasure</em>.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fila di edifici votivi ai piedi del Monte Crono, dedicati da città e colonie greche dal VI secolo a.C.: <strong>Sicione, Siracusa, Epidamno, Bisanzio, Sibari, Cirene, Selinunte, Metaponto, Megara e Gela</strong> — un elenco che racconta quanto fosse panellenico il santuario.</p></div><div class="tab-panel"><p>Ogni tesoro era un piccolo tempio "in antis". Il Tesoro di Sicione, dedicato dal tiranno Mirone, è il meglio conservato (12,5 x 7,3 metri).</p></div><div class="tab-panel"><p>Le decorazioni raccontavano spesso cicli mitologici, come Atlante ed Eracle presso il melo delle Esperidi — la stessa impresa già vista nelle metope del Tempio di Zeus.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa dell'eco" data-greek="στοά της ηχούς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa dell'Eco<span class="site-greek">Στοά της Ηχούς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Stoa</strong> ("portico colonnato") tornerà ad Atene con la Stoa Poikile, dove insegnò Zenone di Cizio, dando origine allo "Stoicismo". <strong>Eco</strong> da <em>ēchō</em> ("suono, rimbombo"), origine anche della ninfa Eco e dell'italiano "eco".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita attorno al <strong>350 a.C.</strong>, forse sotto Filippo II, per segnare il confine orientale dell'Altis e separarlo dallo Stadio.</p></div><div class="tab-panel"><p>Lunga quasi 98 metri, colonnato dorico esterno di 44 colonne. Chiamata anche "Eptaechos" per la sua acustica eccezionale: una parola vi si ripeteva in eco fino a sette volte — vi si tenevano le gare di araldi e trombettieri.</p></div><div class="tab-panel"><p>Il fenomeno dell'eco richiama il mito della ninfa <strong>Eco</strong>, condannata da Era a poter solo ripetere le ultime parole altrui.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stoa meridionale" data-greek="νότια στοά">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stoa Meridionale<span class="site-greek">Νότια Στοά</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita attorno al <strong>365-350 a.C.</strong>, confine sud dell'Altis e ingresso principale al santuario. Nel 267 d.C. fu inglobata in una cinta muraria d'emergenza contro gli Eruli.</p></div><div class="tab-panel"><p>Struttura a doppia navata, circa 80 metri, colonnato dorico esterno e corinzio interno. Probabile funzione di <strong>proedria</strong>, tribuna d'onore per assistere alle processioni verso l'Ippodromo.</p></div><div class="tab-panel"><p>Non ci sono miti legati a questo edificio, di natura puramente funzionale e cerimoniale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bouleuterion" data-greek="βουλευτήριον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bouleuterion<span class="site-greek">Βουλευτήριον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Bouleuterion</strong> da <strong>boulē</strong> ("consiglio") + il suffisso -tērion, variante di -eion. Lo stesso suffisso torna in "<strong>cimitero</strong>", dal greco <em>koimētērion</em> ("luogo per dormire") — un caso in cui lo stesso meccanismo linguistico genera parole da contesti opposti.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Tra i primissimi edifici del sito (VI secolo a.C.), sede del Senato dell'Elide e degli Ellanodici. Qui avveniva il <strong>giuramento olimpico</strong> davanti alla statua di Zeus Horkios, calpestando i testicoli di un cinghiale sacrificato.</p></div><div class="tab-panel"><p>Due edifici absidati di epoca diversa, collegati da una sala quadrata centrale con portico ionico aggiunto successivamente.</p></div><div class="tab-panel"><p><strong>Zeus Horkios</strong> ("dei Giuramenti") era il garante della parola data — un aspetto meno noto del dio supremo, che sottolinea la natura religiosa della lealtà sportiva.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pritaneo (prytaneion)" data-greek="πρυτανείον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pritaneo (Prytaneion)<span class="site-greek">Πρυτανείον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Prytaneion</strong> da <strong>prytanis</strong>, magistrato con funzioni di presidenza. Sopravvive in italiano come "pritaneo", usato per sedi di rappresentanza o governo.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito tra fine VI e inizio V secolo a.C., centro amministrativo con l'altare di <strong>Hestia</strong> e la sua fiamma perenne. Qui si teneva il banchetto di vittoria per i campioni olimpici.</p></div><div class="tab-panel"><p>Struttura quasi quadrata (32,8 metri di lato) con camera centrale del focolare di 6,8 metri quadrati.</p></div><div class="tab-panel"><p><strong>Hestia</strong>, dea del focolare, riceveva sempre la prima offerta in ogni sacrificio — un'anticipazione, per quanto involontaria, della fiamma olimpica moderna.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="filippeion" data-greek="φιλιππείο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Filippeion<span class="site-greek">Φιλιππείο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">"Filippo" deriva da <strong>philos</strong> ("amico/amante") + <strong>hippos</strong> ("cavallo") — "amante dei cavalli". Radice che ritroverete nell'Ippodromo e in "ippico", "ippopotamo".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Commissionato da <strong>Filippo II di Macedonia</strong> dopo Cheronea (338 a.C.), completato da <strong>Alessandro Magno</strong>. Unico edificio dell'Altis dedicato a esseri umani, con statue crisoelefantine di Leocare.</p></div><div class="tab-panel"><p>Unico edificio circolare (tholos) dell'Altis, 15 metri di diametro: colonnato ionico esterno di 18 colonne, nove semicolonne corinzie interne.</p></div><div class="tab-panel"><p>Racconta il momento in cui la Grecia delle poleis cede il passo al mondo ellenistico dominato dalla Macedonia.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="leonidaion" data-greek="λεωνιδαίον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Leonidaion<span class="site-greek">Λεωνιδαίον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Da non confondere col re di Sparta: prende nome dall'architetto <strong>Leonida di Nasso</strong>. "Leonida" (Λεωνίδας) da <em>leōn</em> ("leone"): "figlio del leone".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al <strong>330 a.C.</strong>, il più grande edificio del santuario: foresteria di lusso per gli ospiti illustri, capace di quasi 300 persone. In epoca romana divenne residenza dei governatori.</p></div><div class="tab-panel"><p>Edificio quasi quadrato, colonnato ionico continuo di 138 colonne, cortile a peristilio dorico di 44 colonne.</p></div><div class="tab-panel"><p>Nessun mito, ma un aneddoto storico: qui, durante i Giochi del 428 a.C., banchettò anche Alcibiade.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="palestra" data-greek="παλαίστρα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palestra<span class="site-greek">Παλαίστρα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Palaistra</strong> da <em>palaiō</em> ("lottare") — l'italiano "palestra" deriva esattamente da qui.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita nel <strong>III secolo a.C.</strong>, spazio per l'allenamento nelle discipline "leggere": lotta, pugilato, salto in lungo, lancio del disco e del giavellotto.</p></div><div class="tab-panel"><p>Grande cortile quadrato a cielo aperto circondato da colonnato dorico, con spogliatoi e sale per l'unzione con olio.</p></div><div class="tab-panel"><p>La lotta era associata a <strong>Eracle</strong> ed <strong>Ermes</strong>, protettore di palestre e ginnasi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="ginnasio" data-greek="γυμνάσιο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ginnasio<span class="site-greek">Γυμνάσιο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Gymnasion</strong> da <em>gymnos</em> ("nudo"). Da qui "ginnastica" e "ginnasio" — quest'ultimo anche il nome dei primi due anni del liceo classico.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito in epoca ellenistica, II secolo a.C., per atleti di corsa e pentathlon.</p></div><div class="tab-panel"><p>Vasto complesso rettangolare con cortile centrale lungo esattamente come lo stadio olimpico (192,27 metri). Il portico orientale ospitava lo <strong>xystos</strong>, pista coperta per la corsa.</p></div><div class="tab-panel"><p>I grandi ginnasi greci, come l'Accademia di Platone o il Liceo di Aristotele, nacquero come luoghi di allenamento fisico prima di diventare luoghi di insegnamento filosofico.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="theokoleon" data-greek="θεοκολεῖον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Theokoleon<span class="site-greek">Θεοκολεῖον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Theokoleon</strong> da <em>theos</em> ("dio") + una radice imparentata con <em>akolouthos</em> ("seguace") — "coloro che seguono il dio". Da questa radice deriva anche l'italiano "<strong>accolito</strong>".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Residenza permanente dei sacerdoti del santuario e del personale specializzato. Struttura originaria alla metà del <strong>V secolo a.C.</strong>, ampliata più volte.</p></div><div class="tab-panel"><p>Struttura quasi quadrata (19 x 19 metri) attorno a un cortile centrale, con otto stanze.</p></div><div class="tab-panel"><p>Racconta la complessità "burocratica" del culto di Zeus, con un apparato di personale specializzato non dissimile da quello di Asclepio a Epidauro.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="officina di fidia" data-greek="εργαστήριο του φειδία">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Officina di Fidia<span class="site-greek">Εργαστήριο του Φειδία</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">"Officina" in greco è <strong>ergastērion</strong>, da <em>ergon</em> ("lavoro") — radice di "energia" e "chirurgo" (<em>kheir</em>, mano, + <em>ergon</em>).</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita nella seconda metà del <strong>V secolo a.C.</strong> per permettere a <strong>Fidia</strong> di realizzare la statua di Zeus, databile al 430-420 a.C. Poi riconvertita in luogo di culto, e nel V sec. d.C. in basilica cristiana.</p></div><div class="tab-panel"><p>Edificio rettangolare con due file di colonne interne, riproducendo le proporzioni della cella del Tempio di Zeus per permettere a Fidia di lavorare a grandezza reale.</p></div><div class="tab-panel"><p>Pausania narra che, dopo aver completato la statua, Fidia chiese un segno a Zeus: un fulmine colpì il pavimento davanti alla statua.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="terme del kladeos" data-greek="λουτρά του κλαδέου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terme del Kladeos<span class="site-greek">Λουτρά του Κλαδέου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">"Terme" da <strong>thermos</strong> ("caldo"). "Kladeos" è il nome del fiume-dio che delimita il lato ovest del santuario.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le prime terme greche risalgono al <strong>V secolo a.C.</strong>, per gli atleti. Le Terme del Kladeos vere e proprie furono costruite attorno al <strong>100 d.C.</strong>, sopra la piscina greca precedente.</p></div><div class="tab-panel"><p>Complesso romano di circa 400 mq e 14 ambienti: apodyterium, frigidarium, tepidarium, caldarium con ipocausto. Pavimenti a mosaico.</p></div><div class="tab-panel"><p>Il fiume Kladeos, come molti corsi d'acqua greci, era percepito come presenza sacra e quasi vivente.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stadio" data-greek="στάδιο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stadio<span class="site-greek">Στάδιο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Come già visto, <strong>stadion</strong> è l'unità di misura (600 piedi) che dà nome sia alla distanza sia alla struttura — passata quasi intatta in tutte le lingue moderne.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Nella forma definitiva del <strong>V secolo a.C.</strong>, ospitò gare dal 776 a.C. al 393 d.C. L'ingresso monumentale <strong>Krypte</strong>, corridoio voltato di 32 metri, fu aggiunto nel tardo III secolo a.C.</p></div><div class="tab-panel"><p>Pista di circa 212 metri, distanza di gara di 192,27 metri. Fino a 45.000 spettatori su terrapieni; tribuna in pietra solo per gli Ellanodici. Altare per la sacerdotessa di Demetra Chamyne, unica donna ammessa.</p></div><div class="tab-panel"><p>Origine mitica legata sia a <strong>Pelope</strong> sia a <strong>Eracle Ideo</strong>, che ne avrebbe fissato la misura standard.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="ippodromo" data-greek="ιππόδρομος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ippodromo<span class="site-greek">Ιππόδρομος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Hippodromos</strong> unisce <em>hippos</em> ("cavallo") e <em>dromos</em> ("corsa", da <em>dremō</em>, "correre") — radice di "aerodromo", "autodromo" e "dromedario".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Ospitava le gare equestri, riservate all'aristocrazia più ricca. Spazzato via nei secoli dalle esondazioni dell'Alfeo; la sua collocazione esatta è stata individuata solo nel <strong>2008</strong> tramite indagine radar.</p></div><div class="tab-panel"><p>Area pianeggiante di circa 780 x 320 metri secondo Pausania. Il sistema di partenza (<em>aphesis</em>), ideato da Cleoita, usava cancelli scaglionati segnalati da un'aquila e un delfino di bronzo.</p></div><div class="tab-panel"><p>La tradizione equestre affonda le radici nel mito di <strong>Pelope ed Enomao</strong>: al centro della linea di partenza si trovava un altare a <strong>Poseidone Ippio</strong>, che donò a Pelope i cavalli alati.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="ninfeo di erode attico" data-greek="νυμφαίο ηρώδη αττικού">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ninfeo di Erode Attico<span class="site-greek">Νυμφαίο Ηρώδη Αττικού</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Nymphaion</strong> da <em>nymphē</em> ("ninfa") + -eion. Da qui l'italiano "ninfeo" e "ninfa".</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruito attorno al <strong>153 d.C.</strong> da <strong>Erode Attico</strong> e dalla moglie <strong>Regilla</strong>, risolse la cronica carenza idrica del santuario, convogliando acqua da una sorgente a 4 km di distanza.</p></div><div class="tab-panel"><p>Due bacini, uno semicircolare e uno rettangolare, con 15 nicchie per statue della famiglia imperiale e di Erode Attico. Al centro un toro di marmo con iscrizione di Regilla.</p></div><div class="tab-panel"><p>Il nome richiama le <strong>ninfe</strong> delle acque — la stessa categoria di divinità già incontrata con Peirene a Corinto e Amimone, madre di Nauplio.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di olimpia" data-greek="αρχαιολογικό μουσείο ολυμπίας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Olimpia<span class="site-greek">Αρχαιολογικό Μουσείο Ολυμπίας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Inaugurato nel 1982, raccoglie oltre 150 anni di scavi dell'Istituto Archeologico Tedesco (dal 1875).</p></div><div class="tab-panel"><p><strong>Cosa vedrete:</strong></p>
+      <ul>
+        <li>I <strong>frontoni e le metope del Tempio di Zeus</strong>.</li>
+        <li>L'<strong>Hermes con il piccolo Dioniso</strong>, attribuito a Prassitele.</li>
+        <li>La <strong>Nike di Peonio</strong>, statua alata in volo.</li>
+        <li>L'<strong>elmo di Milziade</strong>, offerto dopo Maratona.</li>
+        <li>Reperti dall'<strong>Officina di Fidia</strong>, inclusa una coppa con la firma "Appartengo a Fidia".</li>
+      </ul></div><div class="tab-panel"><p>Qui i miti già raccontati — Pelope ed Enomao, le fatiche di Eracle, Zeus e Ganimede — prendono forma scolpita.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo dei giochi olimpici antichi" data-greek="μουσείο αρχαίων ολυμπιακών αγώνων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo dei Giochi Olimpici Antichi<span class="site-greek">Μουσείο Αρχαίων Ολυμπιακών Αγώνων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Occupa l'edificio del "Syngreion", il primissimo Museo Archeologico di Olimpia (anni 1880), restaurato per le Olimpiadi di Atene 2004 e riaperto il 24 marzo 2004 con questa nuova funzione monotematica.</p></div><div class="tab-panel"><p>Oltre 400 reperti in 14 sezioni tematiche: dalla preistoria dello sport greco alla nascita dei Giochi, al culto di Zeus, al ruolo delle donne nello sport antico. Seminterrato con esposizione digitale e teatro 3D interattivo.</p></div><div class="tab-panel"><p>I miti già raccontati — Pelope, Eracle, la tregua di Ifito — trovano qui la loro funzione di narrazione fondativa dello sport greco.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
