@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tirinto — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Tirinto</h1>
+  <div class="greek-title">Τίρυνς</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Tirinto non è famosa per la bellezza dei suoi resti, ma per la loro potenza: è una delle testimonianze meglio conservate della civiltà micenea, il mondo che i Greci classici stessi guardavano come un'epoca eroica e semi-leggendaria — l'epoca di Agamennone, di Achille, della guerra di Troia.</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Era una delle grandi <strong>roccaforti micenee</strong> dell'Argolide, insieme a Micene, e controllava la pianura verso il mare — una posizione strategica, non casuale.</li>
+  <li>Le sue <strong>mura ciclopiche</strong> — blocchi di pietra calcarea da diverse tonnellate l'uno, incastrati senza malta — erano così imponenti che i Greci del periodo classico, secoli dopo, non credevano potessero essere opera umana: le attribuirono ai <strong>Ciclopi</strong>, gli unici esseri abbastanza forti da sollevare simili massi. Da qui il nome "ciclopiche" che usiamo ancora oggi.</li>
+  <li>È il sito che meglio conserva la pianta di un <strong>palazzo miceneo</strong> con il suo <em>megaron</em> (la sala del trono), permettendo di capire come vivesse e governasse un sovrano miceneo — cosa che a Micene, più danneggiata, si legge con più difficoltà.</li>
+  <li>Nella mitologia è legata a <strong>Eracle</strong>: secondo la tradizione più diffusa nacque qui (o vi fu comunque legato a doppio filo), e fu al servizio del re di Tirinto Euristeo che dovette compiere le celebri <strong>dodici fatiche</strong>.</li>
+  <li>Insieme a Micene, è stata dichiarata <strong>Patrimonio UNESCO</strong> proprio come testimonianza chiave della civiltà micenea.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un'acropoli fortificata su un basso sperone roccioso nella pianura argolica, cinta da possenti mura a più fasi costruttive, con un palazzo al centro, un sistema di rampe d'accesso studiato per la difesa, e gallerie a volta scavate nello spessore stesso delle mura.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Eracle a Tirinto.</strong> Secondo una delle tradizioni più diffuse, Tirinto è legata a doppio filo alla nascita stessa di Eracle: Zeus, per assicurare al figlio il trono di questa città, ingannò Era facendole giurare che il primo discendente della stirpe di Perseo nato quel giorno avrebbe regnato su Argo e Tirinto. Era, gelosa, ritardò la nascita di Eracle e affrettò invece quella di <strong>Euristeo</strong>, cugino di Eracle, che così divenne re al posto suo.</p>
+<p>Fu proprio questo intreccio a costringere Eracle, più tardi, a <strong>servire Euristeo</strong> come punizione per aver ucciso, in un attacco di follia mandatogli da Era, la propria moglie e i propri figli. Euristeo impose a Eracle le <strong>dodici fatiche</strong>: dal leone di Nemea all'idra di Lerna, dai pomi delle Esperidi alla cattura di Cerbero.</p>
+<p><strong>I Ciclopi.</strong> Il nome "ciclopiche" nasce da un mito eziologico: davanti a blocchi di pietra da diverse tonnellate, sollevati e incastrati senza malta con precisione sovrumana, i Greci del periodo classico immaginarono che solo i <strong>Ciclopi</strong> — giganti con un solo occhio, gli stessi che fabbricavano i fulmini di Zeus nelle fucine dell'Etna — potessero aver avuto la forza per costruirle. Una tradizione parallela li identifica come i "Ciclopi Gasteroceiri", operai mitici specializzati in opere murarie colossali, chiamati appositamente in Argolide.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="mura ciclopiche" data-greek="κυκλώπεια τείχη">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Mura Ciclopiche<span class="site-greek">Κυκλώπεια Τείχη</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le mura di Tirinto rappresentano uno dei sistemi difensivi meglio conservati di tutta la civiltà micenea, costruite in più fasi tra il <strong>XIV e il XIII secolo a.C.</strong>, con gli interventi più imponenti attorno al 1250 a.C., nel pieno della fase di massima potenza micenea, poco prima del collasso della civiltà. La cinta racchiudeva l'intera acropoli su tre livelli — cittadella superiore, media e inferiore.</p></div><div class="tab-panel"><p>Le mura raggiungono uno spessore che in alcuni punti supera i <strong>7-8 metri</strong>, costruite con blocchi calcarei irregolari spesso di diverse tonnellate ciascuno, disposti senza malta ma incastrati con estrema precisione. Questa tecnica poligonale "a secco" è tipica dell'architettura micenea più monumentale e si ritrova, con varianti, anche a Micene.</p>
+      <p>Un tratto notevole sono le gallerie a volta ricavate nello spessore delle mura, costruite con la tecnica dell'arco a mensola ("falsa volta"), ottenuto sovrapponendo file di pietre progressivamente aggettanti — un sistema diverso e più antico rispetto al vero arco a chiave di volta.</p></div><div class="tab-panel"><p>Sono proprio queste mura ad aver dato origine al mito dei <strong>Ciclopi costruttori</strong>: i Greci classici, incapaci di spiegare come uomini comuni potessero aver sollevato blocchi di tali dimensioni, attribuirono l'opera a questi giganti mitici, fissando per sempre il nome "ciclopiche".</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="propilei e rampa d'accesso" data-greek="προπύλαια και ράμπα πρόσβασης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Propilei e rampa d'accesso<span class="site-greek">Προπύλαια και Ράμπα Πρόσβασης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'accesso alla cittadella era progettato appositamente per rallentare ed esporre chiunque tentasse di avvicinarsi con intenzioni ostili. Questo sistema — rampa esterna, corridoio incassato tra le mura, propilei monumentali — risale alla stessa grande fase costruttiva delle mura, XIII secolo a.C., ed è uno degli esempi meglio conservati di ingegneria militare micenea, insieme a quello di Micene.</p></div><div class="tab-panel"><p>La rampa d'accesso risale il fianco della collina lungo il lato est, correndo parallela alle mura esterne: chi saliva teneva il proprio lato destro — non protetto dallo scudo — esposto verso i difensori appostati sulle mura, un accorgimento difensivo tipico dell'architettura fortificata micenea.</p>
+      <p>I <strong>Propilei</strong> ("davanti alle porte") sono un ingresso monumentale a due ambienti allineati, ciascuno con porta e colonne centrali — soluzione che si ritroverà, molto più elaborata, nei Propilei dell'Acropoli di Atene secoli dopo. Qui a Tirinto rappresentano probabilmente il primo esempio noto di questa tipologia.</p></div><div class="tab-panel"><p>Non è legato a un mito specifico, ma vale la pena immaginare questo percorso — stretto, sorvegliato, studiato per intimidire — come lo scenario fisico in cui la tradizione colloca le vicende di Euristeo, il re che da qui imponeva a Eracle le sue fatiche.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo e Megaron<span class="site-greek">Ανάκτορο και Μέγαρον</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il palazzo occupava il punto più alto e protetto della cittadella, riservato al sovrano e alla sua cerchia più stretta. La struttura visibile oggi, benché parzialmente crollata (in parte per un terremoto attorno al 1200 a.C.), permette di leggere con chiarezza rara la pianta di una reggia micenea, meglio conservata rispetto a quella, più danneggiata, di Micene.</p></div><div class="tab-panel"><p>Il cuore del palazzo è il <strong>megaron</strong>, la sala del trono: un vestibolo d'ingresso, un'anticamera, e la sala principale, dominata al centro da un grande <strong>focolare circolare</strong> incassato nel pavimento, circondato da quattro colonne che sostenevano il tetto.</p>
+      <p>Accanto al focolare si trovava il trono del sovrano, addossato a una parete laterale. I pavimenti erano decorati con motivi dipinti, e le pareti dovevano ospitare affreschi colorati, secondo un gusto decorativo condiviso, con differenze stilistiche, con la civiltà minoica di Creta.</p></div><div class="tab-panel"><p>È qui, secondo la tradizione, che va immaginata la reggia di <strong>Euristeo</strong>: il luogo da cui il re, timoroso della forza di Eracle, avrebbe evitato di riceverlo di persona per alcune delle fatiche, facendosi annunciare i risultati da lontano.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="gallerie a volta e casematte" data-greek="θολωτές στοές και καζεμάτες">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Gallerie a volta e casematte<span class="site-greek">Θολωτές Στοές και Καζεμάτες</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le gallerie e le casematte sono ricavate direttamente nello spessore delle mura ciclopiche durante l'ultima grande fase costruttiva, nel <strong>XIII secolo a.C.</strong> La loro funzione resta in parte dibattuta: l'ipotesi più accreditata è che fossero <strong>magazzini</strong> per derrate e materiali, sfruttando la temperatura costante garantita dallo spessore murario; altre ipotesi le vedono come rifugi o depositi d'armi.</p></div><div class="tab-panel"><p>Corridoi coperti scavati nello spessore delle mura, costruiti con la tecnica dell'<strong>arco a mensola</strong> o "falsa volta" — lo stesso sistema usato per le tombe a tholos come il Tesoro di Atreo a Micene. File di pietre sovrapposte, ciascuna leggermente aggettante rispetto alla sottostante, fino a chiudere lo spazio dall'alto senza una vera chiave di volta.</p>
+      <p>Il risultato è una sequenza di gallerie a sezione ogivale, buie e fresche, ancora oggi percorribili.</p></div><div class="tab-panel"><p>Anche qui, come per le mura esterne, la tradizione classica vedeva l'opera dei <strong>Ciclopi</strong>: la capacità di scavare e sostenere simili strutture nello spessore della roccia contribuiva ad alimentare la leggenda di costruttori sovrumani.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
