@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delfi — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Delfi</h1>
+  <div class="greek-title">Δελφοί</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così famosa.</strong> Delfi non era una città come le altre: era il santuario panellenico per eccellenza, il luogo dove tutto il mondo greco — spesso in guerra tra sé — si riconosceva come un'unica civiltà. Situata sulle pendici del Monte Parnaso, sopra la valle del fiume Pleistos, Delfi era considerata il centro geografico e sacro del mondo (l'<em>omphalos</em>, l'"ombelico"), secondo il mito il punto in cui si incontrarono le due aquile fatte volare da Zeus da estremità opposte della terra.</p>
+<p><strong>Perché era così influente:</strong></p>
+<ul>
+  <li>Ospitava l'<strong>oracolo di Apollo</strong>, ritenuto il più autorevole di tutto il mondo antico. Nessuna decisione importante — fondare una colonia, dichiarare guerra, riformare le leggi — veniva presa senza consultarlo.</li>
+  <li>Era il luogo dei <strong>Giochi Pitici</strong>, seconda competizione panellenica per importanza dopo quella di Olimpia, che univa gare atletiche e musicali/poetiche.</li>
+  <li>Le città-stato greche e persino sovrani stranieri vi costruivano <strong>tesori</strong> votivi, gareggiando in ricchezza e prestigio agli occhi di tutta la Grecia.</li>
+  <li>Fu teatro delle <strong>guerre sacre</strong>, conflitti combattuti proprio per il controllo del santuario.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> un santuario dedicato ad Apollo, sviluppato su più terrazze lungo la Via Sacra, con edifici votivi, il tempio principale, un teatro, uno stadio più in alto, e — leggermente separato — il santuario di Atena Pronaia a Marmaria, oltre al museo che raccoglie i reperti.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Gaia e il primo oracolo.</strong> Nella tradizione più antica, Delfi era sacra a Gaia, la Terra primordiale. Da una fenditura nella roccia del Parnaso saliva un vapore profetico, e qui Gaia aveva posto il suo oracolo, custodito dal figlio Pitone, un enorme serpente nato dal fango lasciato dal diluvio di Deucalione.</p>
+<p><strong>Apollo uccide Pitone.</strong> Appena nato a Delo, Apollo si diresse verso il Parnaso per rivendicare il santuario. Affrontò Pitone e lo trafisse con le sue frecce, vendicando anche un'offesa fatta alla madre Latona. Uccidendo Pitone, Apollo si impossessò dell'oracolo e lo rifondò sotto il proprio nome. Per purificarsi dal sangue versato dovette esiliarsi e servire come pastore presso il re Admeto — da qui nacquero i Giochi Pitici, istituiti in origine come cerimonia espiatoria, poi trasformati in competizione panellenica.</p>
+<p><strong>La Pizia.</strong> Da questo mito deriva il nome della sacerdotessa-oracolo: la Pizia (da "Pitone"). Sedeva su un tripode sopra la fenditura sacra, in uno stato di trance — l'antichità narrava di vapori profetici (<em>pneuma</em>), su cui gli storici moderni ancora discutono. I responsi, spesso ambigui o in versi enigmatici, venivano poi interpretati dai sacerdoti del tempio.</p>
+<p><strong>L'omphalos e le due aquile.</strong> Zeus, volendo trovare il centro esatto della terra, fece volare due aquile da estremità opposte del mondo in direzioni opposte: si incontrarono esattamente sopra Delfi. Per segnare il punto fece collocare una pietra sacra, l'omphalos ("ombelico"), conservata nel tempio di Apollo.</p>
+<p><strong>Un dettaglio che lega tutto.</strong> Questi tre elementi — Gaia/Pitone, Apollo, l'omphalos — raccontano insieme il passaggio di Delfi da santuario ctonio (legato alla terra) a santuario apollineo (legato alla luce, alla profezia razionalizzata, all'ordine), un passaggio simbolico centrale per capire come i Greci leggevano la propria religione.</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="tutti">
+  <div class="sites-list">
+    
+  <div class="site" data-name="santuario di apollo — via sacra e tesori votivi" data-greek="ιερό του απόλλωνα – ιερά οδός">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santuario di Apollo — Via Sacra e Tesori votivi<span class="site-greek">Ιερό του Απόλλωνα – Ιερά Οδός</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il santuario, delimitato da un recinto sacro (<em>temenos</em>), si sviluppa in salita lungo la <strong>Via Sacra</strong>, il percorso processionale che dall'ingresso principale conduce fino al Tempio di Apollo. Lungo questo tracciato le città-stato greche, le colonie e persino sovrani stranieri costruivano i propri <strong>tesori</strong>: piccoli edifici votivi in cui custodire le offerte dedicate ad Apollo dopo vittorie militari o come ringraziamento per un responso oracolare favorevole.</p>
+      <p>Se ne contavano circa una trentina nel periodo di massimo splendore (VI-IV secolo a.C.). Ogni città cercava di costruire il proprio tesoro nella posizione più visibile e con i materiali più pregiati possibile: una competizione di prestigio sotto gli occhi di tutta la Grecia, specialmente durante i Giochi Pitici.</p>
+      <p>Lungo la via si trovavano anche grandi offerte non-architettoniche: statue colossali, ex-voto di guerra (come le armi spartane dopo la vittoria di Egospotami), e monumenti celebrativi eretti da una città contro un'altra.</p></div><div class="tab-panel"><p>I tesori seguivano tipicamente lo schema del piccolo tempio <strong>in antis</strong>: una cella preceduta da un breve portico con due colonne tra le ali dei muri laterali (le <em>antae</em>). Le dimensioni erano contenute, ma la decorazione — fregi, metope, sculture frontonali — era spesso di altissima qualità. I materiali variavano da calcare locale a marmo pregiato, a seconda delle possibilità economiche del committente.</p>
+      <p>La Via Sacra stessa non era un semplice sentiero: era pavimentata e disegnata per creare un percorso scenografico, con curve calcolate che rivelavano progressivamente nuovi monumenti man mano che si saliva, fino alla vista del Tempio di Apollo in cima.</p></div><div class="tab-panel"><p>Non è legato a un singolo mito, ma la Via Sacra rappresentava simbolicamente il cammino di purificazione e avvicinamento al dio: ogni pellegrino, prima di ricevere un responso, doveva percorrerla, spesso dopo essersi purificato alla fonte Castalia ai piedi del santuario — luogo sacro alle Muse, dove secondo il mito anche Apollo si bagnava dopo aver ucciso Pitone.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tesoro degli ateniesi" data-greek="θησαυρός των αθηναίων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tesoro degli Ateniesi<span class="site-greek">Θησαυρός των Αθηναίων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tesoro degli Ateniesi è il monumento meglio conservato di tutta Delfi, tanto da essere stato interamente ricostruito (anastilosi) nei primi anni del Novecento grazie ai finanziamenti della città di Atene. La tradizione antica, riportata da Erodoto, lo lega alla vittoria ateniese di <strong>Maratona (490 a.C.)</strong>: sarebbe stato costruito con la decima parte del bottino di guerra, come ringraziamento ad Apollo.</p>
+      <p>Studi archeologici più recenti hanno messo in discussione questa datazione, proponendo una costruzione leggermente precedente, forse legata alla fondazione della democrazia ateniese e alla cacciata dei tiranni Pisistratidi (fine VI secolo a.C.). Resta comunque un monumento fortemente politico: Atene sceglieva Delfi — il palcoscenico più visibile che esistesse — per raccontare la propria ascesa.</p>
+      <p>Sul basamento erano inoltre incisi gli <strong>Inni Delfici</strong>, tra le più importanti testimonianze sopravvissute di notazione musicale greca antica.</p></div><div class="tab-panel"><p>È un piccolo tesoro <strong>in antis</strong>, costruito interamente in <strong>marmo pario</strong> — un dettaglio ostentatorio, dato che molti altri tesori usavano calcare locale più economico.</p>
+      <p>Le <strong>metope</strong> — oggi in gran parte al Museo Archeologico, sostituite in loco da copie — raccontano cicli mitologici scelti non a caso: le fatiche di <strong>Eracle</strong> e le imprese di <strong>Teseo</strong>, l'eroe ateniese per eccellenza. Accostare Teseo a Eracle era un messaggio preciso: Atene rivendicava un proprio eroe nazionale alla pari del più celebre semidio greco. Compare anche l'<strong>Amazzonomachia</strong>, tema molto caro alla propaganda ateniese, spesso letto come metafora della vittoria sui Persiani.</p></div><div class="tab-panel"><p>Le metope stesse sono un piccolo compendio mitologico: le dodici fatiche di Eracle, le imprese di Teseo (tra cui l'uccisione del Minotauro e la lotta contro le Amazzoni), e la guerra mitica delle Amazzoni contro gli eroi greci — tema usato per rappresentare simbolicamente lo scontro tra ordine civile ed elementi "altri" o minacciosi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Apollo<span class="site-greek">Ναός του Απόλλωνα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>È il cuore dell'intero santuario: l'edificio che ospitava l'<strong>adyton</strong>, la camera dove la Pizia pronunciava i suoi responsi. Il tempio attuale è il <strong>quarto</strong> costruito su questo sito — i precedenti furono distrutti da un incendio (548 a.C.) e da un terremoto (373 a.C.).</p>
+      <p>La ricostruzione visibile oggi risale al <strong>IV secolo a.C.</strong> (inaugurata attorno al 330 a.C.), finanziata con una sottoscrizione panellenica. Il tempio arcaico precedente era stato ricostruito grazie al contributo della potente famiglia ateniese degli <strong>Alcmeonidi</strong>, che vollero impreziosirlo con una facciata in marmo pario invece del previsto calcare.</p></div><div class="tab-panel"><p>Il tempio segue lo schema <strong>periptero dorico</strong> (colonnato su tutti e quattro i lati), con 6 colonne sulla fronte e 15 sui lati lunghi.</p>
+      <p>Sul frontone erano scolpite scene che univano il divino e lo storico: da un lato Apollo, spesso affiancato da Artemide e Latona, dall'altro una <strong>Gigantomachia</strong>. Sull'architrave, secondo le fonti antiche, erano incise celebri massime dei Sette Sapienti, tra cui il famosissimo <strong>"Conosci te stesso" (Gnothi seauton)</strong>.</p>
+      <p>All'interno, nell'adyton, si trovavano l'omphalos, il tripode della Pizia e — secondo la tradizione — la tomba di Dioniso.</p></div><div class="tab-panel"><p>Qui converge tutto: è il luogo dove Apollo uccise Pitone e fondò l'oracolo; è dove la Pizia riceveva l'ispirazione profetica; ed è anche un luogo condiviso con <strong>Dioniso</strong> — un dettaglio che mostra come i Greci vedessero Delfi come punto di equilibrio tra ordine (Apollo) ed estasi (Dioniso), tra luce e oscurità.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="teatro" data-greek="θέατρο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teatro<span class="site-greek">Θέατρο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il teatro sorge poco sopra il Tempio di Apollo, addossato al pendio del Parnaso, con vista straordinaria sul santuario e sulla valle del Pleistos. La struttura visibile oggi risale principalmente al <strong>IV secolo a.C.</strong>, con interventi successivi in epoca ellenistica e romana (in particolare sotto <strong>Eumene II di Pergamo</strong>, II secolo a.C.).</p>
+      <p>Era legato soprattutto alle <strong>gare musicali e poetiche</strong> dei Giochi Pitici: canto, esecuzione con la cetra, recitazione di inni dedicati ad Apollo, dio della musica. Ospitava fino a circa 5.000 spettatori.</p></div><div class="tab-panel"><p>Schema greco classico: cavea semicircolare scavata nel pendio, suddivisa in settori da scalinate radiali, che scende verso l'orchestra circolare. Le gradinate in calcare locale sono organizzate in due ordini, separati da un corridoio orizzontale (<em>diazoma</em>).</p>
+      <p>Ciò che rende unico questo teatro è la sua relazione con il paesaggio: dalla cavea lo sguardo abbraccia il Tempio di Apollo, la Via Sacra e la valle sottostante — un dialogo tra costruito e paesaggio sacro mai casuale nell'architettura greca.</p></div><div class="tab-panel"><p>Il teatro è legato alla natura di <strong>Apollo Musagete</strong>, "guida delle Muse": le competizioni celebravano musica e poesia, sfere che il dio presiedeva insieme alla profezia.</p>
+      <p><strong>Il mito di Apollo e Marsia</strong> — Marsia era un satiro che trovò un aulos (flauto doppio) scartato da Atena e divenne così abile da sfidare Apollo in una gara musicale: il flauto contro la cetra. Il vincitore avrebbe potuto fare del perdente ciò che voleva. Apollo, suonando la cetra capovolta e cantando insieme — cosa impossibile con un flauto — vinse. Come punizione per l'<em>hybris</em> di aver sfidato un dio, fece scorticare vivo Marsia, appendendolo a un pino; le sue lacrime diedero origine, secondo il mito, a un fiume in Frigia. Un monito sui limiti tra mortale e divino, molto ripreso anche nell'arte successiva.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="stadio" data-greek="στάδιο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stadio<span class="site-greek">Στάδιο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Si trova nel punto più alto del santuario, oltre il teatro, ed era la sede delle <strong>gare atletiche</strong> dei Giochi Pitici: corsa, pentathlon, lotta (le gare con carri si svolgevano nell'ippodromo a valle, ormai perduto). La struttura risale principalmente al <strong>V secolo a.C.</strong>, con le gradinate in pietra finanziate in epoca romana da <strong>Erode Attico</strong>, benefattore ateniese del II secolo d.C.</p>
+      <p>Poteva ospitare circa 6.500 spettatori.</p></div><div class="tab-panel"><p>Pista lunga circa <strong>177 metri</strong> (lo "stadion" greco, unità di misura da cui deriva il nome). Le gradinate seguono l'andamento naturale del terreno su un lato, artificiali sull'altro. All'estremità occidentale si conserva un arco monumentale d'epoca romana, ingresso cerimoniale per gli atleti.</p>
+      <p>Rispetto ad altri stadi panellenici (come quello di Olimpia, che vedrete più avanti nel viaggio), quello di Delfi colpisce per l'ambientazione, incastonato tra i boschi del Parnaso.</p></div><div class="tab-panel"><p>I Giochi Pitici nacquero come cerimonia espiatoria legata alla purificazione di Apollo dopo l'uccisione di Pitone, prima di trasformarsi in competizione atletica e musicale — lo stadio chiude idealmente il cerchio narrativo aperto con il mito fondativo del santuario.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="tempio di atena pronaia (marmaria)" data-greek="ναός αθηνάς προναίας (μαρμαριά)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Atena Pronaia (Marmaria)<span class="site-greek">Ναός Αθηνάς Προναίας (Μαρμαριά)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il santuario di Marmaria si trova circa 800 metri a sud-est del complesso principale, lungo la strada che saliva da Atene e dalla costa — spesso la prima tappa dei pellegrini, ancora prima del santuario di Apollo. Il nome "Pronaia" significa "colei che sta davanti al tempio".</p>
+      <p>Il sito era sacro ad <strong>Atena</strong> già in epoca arcaica, con almeno tre fasi costruttive tra VII e IV secolo a.C. Il nome moderno "Marmaria" ("cava di marmi") deriva dall'uso dei resti come cava in epoca bizantina, motivo per cui oggi il sito è più frammentario.</p></div><div class="tab-panel"><p>L'edificio più celebre è la <strong>Tholos</strong>, tempietto circolare del IV secolo a.C. attribuito all'architetto Teodoro di Focea, con 20 colonne doriche esterne e 10 colonne corinzie interne. La funzione esatta resta dibattuta, ma è diventata l'immagine simbolo di Delfi più riprodotta, grazie alla sua eleganza circolare rispetto alla rigidità rettangolare degli altri edifici.</p>
+      <p>Si trovano inoltre i resti di due templi rettangolari dedicati ad Atena Pronaia e un piccolo tesoro in stile dorico.</p></div><div class="tab-panel"><p>Non esiste un mito specifico legato a questo santuario, ma il culto di <strong>Atena "Pronaia"</strong> — protettrice che vigila all'ingresso — richiama la sua funzione di dea della saggezza pratica e protettrice delle soglie, coerente con la sua posizione di "guardiana" all'ingresso del complesso sacro di Delfi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="museo archeologico di delfi" data-greek="αρχαιολογικό μουσείο δελφών">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Archeologico di Delfi<span class="site-greek">Αρχαιολογικό Μουσείο Δελφών</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il museo sorge accanto al sito e raccoglie i reperti scavati a partire dagli scavi sistematici francesi (fine Ottocento), oltre a materiali più recenti. È strutturato in ordine cronologico, dalle testimonianze micenee e geometriche fino all'epoca romana.</p></div><div class="tab-panel"><p><strong>Cosa vedrete — collegamenti diretti con le tappe già viste:</strong></p>
+      <ul>
+        <li><strong>Le metope del Tesoro degli Ateniesi</strong> — le fatiche di Eracle e le imprese di Teseo, qui visibili da vicino.</li>
+        <li><strong>L'omphalos</strong> — copia antica (età romana) della pietra sacra dell'adyton, scolpita con un motivo a rete che imitava le bende rituali.</li>
+        <li><strong>La Sfinge dei Nassi</strong> — colossale statua votiva arcaica (VI sec. a.C.) donata dall'isola di Nasso.</li>
+        <li><strong>Il fregio del Tesoro dei Sifni</strong> — uno dei cicli scultorei arcaici meglio conservati di tutta la Grecia.</li>
+        <li><strong>L'Auriga di Delfi</strong> — statua in bronzo del V secolo a.C., di rara conservazione (occhi in pasta vitrea originali), offerta come ex-voto da un tiranno di Siracusa dopo una vittoria ai Giochi Pitici.</li>
+      </ul>
+      <p>Qui la lettura architettonica lascia spazio a quella scultorea: è l'occasione per osservare l'evoluzione stilistica greca, dall'arcaismo rigido (Sfinge dei Nassi) al naturalismo severo del primo classicismo (l'Auriga).</p></div><div class="tab-panel"><p>Il museo non aggiunge nuovi miti, ma è il luogo dove i miti già raccontati — Eracle, Teseo, l'omphalos — prendono finalmente un volto e una forma tangibile, dopo averli solo immaginati camminando tra le rovine.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
