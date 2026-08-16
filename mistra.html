@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -274,9 +300,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così importante.</strong> Mistrà rappresenta un salto temporale enorme rispetto a tutte le tappe precedenti del vostro viaggio: qui lasciamo il mondo classico e miceneo per entrare nell'ultima, splendida stagione dell'Impero Bizantino, quella del <strong>Despotato di Morea</strong> (XIV-XV secolo).</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così importante.</strong> Mistrà rappresenta un salto temporale enorme rispetto a tutte le tappe precedenti del vostro viaggio: qui lasciamo il mondo classico e miceneo per entrare nell'ultima, splendida stagione dell'Impero Bizantino, quella del <strong>Despotato di Morea</strong> (XIV-XV secolo).</p>
 <p><strong>Perché conta così tanto:</strong></p>
 <ul>
   <li>Fu fondata nel <strong>1249</strong> dal principe franco <strong>Guglielmo II di Villehardouin</strong>. Passò poi ai <strong>Bizantini</strong> nel 1262, diventando sede del <strong>Despotato di Morea</strong>.</li>
@@ -286,12 +318,10 @@
   <li>Sorge ai piedi del <strong>Monte Taigeto</strong>, a pochi chilometri dall'antica Sparta.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> una città-fortezza costruita sul fianco di una collina ripida, organizzata su più livelli — la Città Bassa, ricca di chiese e monasteri decorati con affreschi di straordinaria qualità, e la Città Alta, dominata dal Palazzo dei Despoti e dal Castello in cima.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p>A differenza di tutte le tappe precedenti, Mistrà non ha una mitologia propria: è un sito interamente bizantino, sorto nel XIII secolo, quando il mondo degli dèi olimpici era ormai da secoli sostituito dal cristianesimo.</p>
+        <div class="tab-panel"><p>A differenza di tutte le tappe precedenti, Mistrà non ha una mitologia propria: è un sito interamente bizantino, sorto nel XIII secolo, quando il mondo degli dèi olimpici era ormai da secoli sostituito dal cristianesimo.</p>
 <p>Vale però la pena ricordare il contesto mitico del territorio su cui sorge: Mistrà si trova ai piedi del <strong>Monte Taigeto</strong>, a pochissimi chilometri dall'antica <strong>Sparta</strong> — la terra di <strong>Elena</strong>, la donna la cui bellezza scatenò la guerra di Troia, e di suo marito <strong>Menelao</strong>, re di Sparta e fratello di Agamennone. La regione prende inoltre il nome dal mitico <strong>Lacedemone</strong>, figlio di Zeus e della ninfa Taigete (da cui il nome del monte), primo re della zona secondo la tradizione — motivo per cui gli antichi Spartani si definivano anche "Lacedemoni".</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -390,8 +420,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -423,6 +453,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -430,5 +466,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

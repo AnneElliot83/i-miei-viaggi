@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arte Greca — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+
+    /* Alias delle variabili usate nel contenuto originale, riportate alla palette chiara del portale */
+    --stone:#f3f1ea;
+    --stone-deep:#e8e4d8;
+    --ink:#3d3830;
+    --ink-soft:#8c8579;
+    --bronze:#a5824f;
+    --bronze-deep:#8a6a3d;
+    --sky:#6b8494;
+    --sky-deep:#516877;
+    --laurel:#8a9a8b;
+    --card:#ffffff;
+    --radius:8px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  header .intro-text{
+    max-width:600px;
+    margin:14px auto 0;
+    font-size:0.95rem;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.8rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .chapter{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .chapter-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:15px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .chapter-num{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.1rem;
+    color:var(--accent);
+    flex-shrink:0;
+    width:24px;
+  }
+  .chapter-title{
+    flex:1;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.18rem;
+    color:#3d3830;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+  }
+  .chapter.open .chev{ transform:rotate(90deg); }
+  .chapter-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .chapter.open .chapter-body{ max-height:20000px; }
+  .chapter-body-inner{ padding:0 16px 18px; }
+  .chapter-body-inner p{ margin:0 0 12px; font-size:0.98rem; }
+  .chapter-body-inner p:last-child{ margin-bottom:0; }
+  .chapter-body-inner h3{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:#3d3830;
+    margin:22px 0 10px;
+  }
+  .chapter-body-inner h3:first-child{ margin-top:4px; }
+  .chapter-body-inner h4{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.05rem;
+    color:#3d3830;
+    margin:16px 0 6px;
+  }
+  .chapter-body-inner .greek-term{
+    font-style:italic;
+    color:var(--accent);
+  }
+  .chapter-body-inner .lex-card{
+    background:var(--stone);
+    border-radius:8px;
+    padding:14px 16px;
+    margin-bottom:12px;
+  }
+  .chapter-body-inner table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:0.9rem;
+    margin:12px 0;
+  }
+  .chapter-body-inner th, .chapter-body-inner td{
+    border:1px solid var(--line);
+    padding:6px 8px;
+    text-align:left;
+  }
+  .chapter-body-inner th{
+    background:var(--stone);
+    font-family:'Cormorant Garamond', serif;
+  }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Arte Greca</h1>
+  <div class="greek-title">Τέχνη καὶ Ἀρχιτεκτονική</div>
+  <div class="intro-text">Lessico, ordini architettonici, tipologie di templi e scultura — con una sezione dedicata monumento per monumento ai luoghi del viaggio.</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un termine o un monumento...">
+</div>
+
+<nav class="pills">
+    <a href="#s1" class="pill">Lessico ed etimologia</a>
+    <a href="#s2" class="pill">Gli ordini architettonici</a>
+    <a href="#s3" class="pill">Le piante dei templi</a>
+    <a href="#s4" class="pill">Evoluzione storica dell'architettura templare</a>
+    <a href="#s5" class="pill">Altre tipologie edilizie</a>
+    <a href="#s6" class="pill">Scultura</a>
+    <a href="#s7" class="pill">I monumenti del viaggio</a>
+    <a href="#s8" class="pill">Glossario</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire o chiudere.</p>
+
+  <div id="chapters">
+    
+<div class="chapter" id="s1" data-name="lessico ed etimologia">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Α</span>
+    <span class="chapter-title">Lessico ed etimologia</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p style="color:var(--ink-soft);font-size:14.5px;">Prima delle forme, le parole. Gran parte della terminologia che userai in loco (e che leggerai nelle tue guide) viene direttamente dal greco antico, spesso mediato dal latino di Vitruvio, l'unico trattato di architettura antica sopravvissuto quasi per intero.</p>
+
+      <div class="lex-card">
+        <h4>Naos / Cella</h4>
+        <p><span class="greek-term">ναός (naós)</span> significa letteralmente "dimora, casa" — la casa del dio. È la stanza chiusa e cieca al centro del tempio dove sorgeva la statua di culto. "Cella" è il termine latino equivalente, usato più spesso in italiano. Un tempio greco, a differenza di una chiesa, non era pensato per contenere fedeli all'interno: i riti si svolgevano all'aperto, davanti all'altare a est.</p>
+      </div>
+
+      <div class="lex-card">
+        <h4>Peristasi / Peristilio</h4>
+        <p><span class="greek-term">περί (perí) = intorno + στάσις (stásis) = fila di colonne</span>. È il colonnato che corre lungo tutto il perimetro esterno dell'edificio, l'elemento che rende un tempio greco riconoscibile a colpo d'occhio. Non tutti i templi ce l'hanno (vedi §3) — è una scelta architettonica precisa, non un dato scontato.</p>
+      </div>
+
+      <div class="lex-card">
+        <h4>Stilobate / Krepidoma</h4>
+        <p><span class="greek-term">στυλοβάτης</span>, da <em>stylos</em> (colonna) + <em>bainein</em> (poggiare): il gradino più alto della base su cui poggiano le colonne. L'intera base a gradoni si chiama <em>krepidoma</em> (di solito tre gradini, non praticabili come una scala normale — servivano da basamento monumentale, non da accesso).</p>
+      </div>
+
+      <div class="lex-card">
+        <h4>Entasi</h4>
+        <p><span class="greek-term">ἔντασις</span>, "tensione". Il lievissimo rigonfiamento convesso a metà altezza del fusto delle colonne doriche. Corregge un'illusione ottica: colonne perfettamente rettilinee apparirebbero, viste da lontano, leggermente concave/assottigliate al centro. È il primo di molti "correttivi ottici" che ritroverai parlando del Partenone (§4).</p>
+      </div>
+
+      <div class="lex-card">
+        <h4>Tempio, dal latino <em>templum</em></h4>
+        <p>Curiosamente non è una parola greca: i Greci chiamavano l'edificio <span class="greek-term">ναός</span> (naos), riferendosi alla casa della divinità. <em>Templum</em> in latino indicava originariamente lo spazio di osservazione ritualmente delimitato dall'àugure per leggere il volo degli uccelli — il senso di "edificio sacro" è un'estensione successiva. Usiamo "tempio" per convenzione moderna.</p>
+      </div>
+  </div></div>
+</div>
+
+<div class="chapter" id="s2" data-name="gli ordini architettonici">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Β</span>
+    <span class="chapter-title">Gli ordini architettonici</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p style="color:var(--ink-soft);font-size:14.5px;">Un "ordine" non è solo un tipo di colonna: è un intero sistema coerente e proporzionato di basamento, colonna (fusto + capitello) e trabeazione (architrave + fregio + cornice). I Greci ne svilupparono due propri (dorico e ionico); il terzo (corinzio) nasce come variante decorativa del capitello ionico e viene usato dai Greci con parsimonia — sarà Roma a farne un ordine a pieno titolo.</p>
+
+      <h3>Ordine dorico</h3>
+      <p>Il più antico e "severo" dei tre, si sviluppa nella Grecia continentale e nelle colonie doriche (Peloponneso, Magna Grecia, Sicilia) a partire dal VII secolo a.C., probabilmente come traduzione in pietra di forme originariamente lignee. Caratteri distintivi:</p>
+      <ul>
+        <li><strong>Colonna senza base</strong>: poggia direttamente sullo stilobate.</li>
+        <li><strong>Fusto scanalato</strong> con spigoli vivi (20 scanalature, tipicamente), marcato dall'entasi.</li>
+        <li><strong>Capitello</strong> in due parti semplici: <em>echino</em> (cuscinetto arrotondato) + <em>abaco</em> (tavoletta quadrata piatta).</li>
+        <li><strong>Fregio a triglifi e metope</strong>: il fregio non è continuo ma alterna pannelli scolpiti (<em>metope</em>) a blocchi con tre scanalature verticali (<em>triglifi</em>, dal greco "tre solchi") — un ricordo fossile delle testate delle travi lignee originarie.</li>
+      </ul>
+      <p>Esempi che vedrai: il Partenone, il tempio di Apollo a Corinto, il tempio di Zeus a Olimpia.</p>
+
+      <h3>Ordine ionico</h3>
+      <p>Nasce nella Ionia (costa dell'Asia Minore e isole) nel VI secolo a.C., in un'area di intensi contatti con l'Oriente (Lidia, Persia, Egitto) — da cui deriva un gusto più decorativo e "grafico".</p>
+      <ul>
+        <li><strong>Colonna con base modanata</strong> (spesso a toro e scozia), più slanciata e sottile del dorico.</li>
+        <li><strong>Capitello a volute</strong>: due spirali laterali (i "riccioli" ionici) — l'elemento più riconoscibile dell'ordine.</li>
+        <li><strong>Fregio continuo</strong>, senza divisioni: una fascia scolpita ininterrotta lungo tutto il perimetro, ideale per narrazioni continue (è il caso del fregio delle Panatenee sull'Eretteo/Partenone).</li>
+      </ul>
+      <p>Esempio principale del tuo itinerario: l'Eretteo sull'Acropoli, con la celebre <em>tribuna delle Cariatidi</em> (colonne scolpite a figura femminile, una soluzione scultorea che sostituisce del tutto il capitello ionico canonico).</p>
+
+      <h3>Ordine corinzio</h3>
+      <p>Nasce ad Atene nella seconda metà del V secolo a.C. come variante decorativa del capitello ionico: stessa proporzione e stessa base, ma il capitello si trasforma in un cesto di foglie d'acanto stilizzate. La leggenda (riportata da Vitruvio) lo fa inventare dallo scultore Callimaco, ispirato da un cesto votivo cresciuto attraverso un cespo d'acanto su una tomba a Corinto — da cui il nome.</p>
+      <p class="side-note">Nel mondo greco il corinzio resta raro e usato quasi solo all'interno di edifici (come nel tempio di Apollo Epicurio a Bassae) o in monumenti minori — non lo troverai come ordine esterno di un grande tempio dorico o ionico in questo viaggio. Diventerà l'ordine "di lusso" per eccellenza solo con l'architettura ellenistica e poi romana — lo stesso corinzio che, come già visto, incorona il Tempio di Zeus Olimpio ad Atene e il Monumento di Lisicrate.</p>
+
+      <h3>Tavola comparativa</h3>
+      <table class="art-table">
+        <thead><tr><th>Elemento</th><th>Dorico</th><th>Ionico</th><th>Corinzio</th></tr></thead>
+        <tbody>
+          <tr><td>Base colonna</td><td>Assente</td><td>Presente, modanata</td><td>Presente, modanata</td></tr>
+          <tr><td>Capitello</td><td>Echino + abaco, liscio</td><td>Volute a spirale</td><td>Foglie d'acanto</td></tr>
+          <tr><td>Fregio</td><td>Triglifi e metope</td><td>Continuo</td><td>Continuo</td></tr>
+          <tr><td>Proporzioni</td><td>Tozze, massicce</td><td>Slanciate</td><td>Slanciate</td></tr>
+          <tr><td>Area d'origine</td><td>Grecia continentale, Peloponneso</td><td>Asia Minore, isole</td><td>Atene</td></tr>
+          <tr><td>Impressione</td><td>Severa, virile (Vitruvio)</td><td>Elegante, femminile (Vitruvio)</td><td>Ornata, festosa</td></tr>
+        </tbody>
+      </table>
+  </div></div>
+</div>
+
+<div class="chapter" id="s3" data-name="le piante dei templi">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Γ</span>
+    <span class="chapter-title">Le piante dei templi</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p style="color:var(--ink-soft);font-size:14.5px;">L'ordine (dorico/ionico/corinzio) riguarda il linguaggio decorativo delle colonne. La <strong>pianta</strong> è un'altra variabile, indipendente: descrive quante file di colonne circondano l'edificio e come. Il Partenone è dorico <em>e</em> periptero — ma potresti trovare un tempio ionico con la stessa pianta, o un tempio dorico con una pianta completamente diversa.</p>
+
+      <h3>Classificazione per numero e disposizione delle colonne</h3>
+      <div class="lex-card">
+        <h4>In antis</h4>
+        <p>La forma più semplice ed elementare: la cella è preceduta da un piccolo vestibolo (<em>pronao</em>) le cui pareti laterali si prolungano oltre la facciata (le <em>ante</em>) e tra queste si inseriscono una o due colonne. Nessun colonnato perimetrale. È lo schema-embrione da cui derivano, per addizione, tutti gli altri.</p>
+      </div>
+      <div class="lex-card">
+        <h4>Prostilo</h4>
+        <p>Come "in antis", ma con una fila completa di colonne (di solito 4 o 6) libere sulla sola facciata anteriore, non incassate tra le ante.</p>
+      </div>
+      <div class="lex-card">
+        <h4>Anfiprostilo</h4>
+        <p>Come il prostilo, ma con colonne anche sul lato posteriore — due facciate colonnate, fianchi ciechi. È lo schema del Tempio di Atena Nike ad Atene.</p>
+      </div>
+      <div class="lex-card">
+        <h4>Periptero <span class="greek-term">περί + πτερόν = "alato tutt'intorno"</span></h4>
+        <p>Lo schema più diffuso e "canonico": una singola fila di colonne corre lungo tutti e quattro i lati. <strong>Il Partenone è periptero</strong> (8 colonne sui lati corti, 17 su quelli lunghi — con la formula classica colonne-lunghe = 2× colonne-corte + 1).</p>
+      </div>
+      <div class="lex-card">
+        <h4>Dipteros</h4>
+        <p>Come il periptero, ma con <em>due</em> file concentriche di colonne tutt'intorno. Riservato a templi di scala eccezionale (l'Artemision di Efeso, il tempio di Apollo a Didyma) — il Tempio di Zeus Olimpio ad Atene, con la sua doppia fila di colonne corinzie, è il caso dipteros che incontrerai nel tuo itinerario.</p>
+      </div>
+      <div class="lex-card">
+        <h4>Pseudoperiptero e pseudodipteros</h4>
+        <p>Varianti "economiche": alcune delle colonne del perimetro vengono addossate (semi-incassate) al muro della cella anziché restare libere, riducendo il costo senza perdere l'effetto visivo del colonnato continuo.</p>
+      </div>
+      <div class="lex-card">
+        <h4>Tholos <span class="greek-term">θόλος = "cupola, edificio a pianta circolare"</span></h4>
+        <p>L'eccezione rispetto a tutto lo schema rettangolare: pianta circolare, con un anello di colonne (di solito doriche all'esterno, talvolta corinzie all'interno) attorno a un piccolo naos cilindrico. Funzione spesso incerta o legata a culti eroici/ctoni. <strong>Ne vedrai esempi diretti nel tuo itinerario</strong>: la Tholos di Marmaria a Delfi (santuario di Atena Pronaia), la Tholos/Thymele di Epidauro nel santuario di Asclepio, il Filippeion di Olimpia (di natura commemorativa più che cultuale) e la Tholos dell'Agorà di Atene, sede dei pritani.</p>
+      </div>
+
+      <h3>Perché questa distinzione conta in visita</h3>
+      <p style="color:var(--ink-soft);font-size:14.5px;">Quando la tua guida userà espressioni come "tempio periptero dorico esastilo" (esastilo = 6 colonne in facciata), ora saprai scomporla in tre informazioni indipendenti: <em>pianta</em> (periptero), <em>ordine</em> (dorico), <em>numero di colonne in facciata</em> (esastilo, da <em>hexa</em> = sei). Il Partenone, per la cronaca, è ottastilo (8 colonne in facciata) — una scelta insolitamente monumentale per un tempio dorico, che normalmente preferiva l'esastilo.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="s4" data-name="evoluzione storica dell'architettura templare">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Δ</span>
+    <span class="chapter-title">Evoluzione storica dell'architettura templare</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <h3>Periodo arcaico (ca. 700–480 a.C.)</h3>
+      <p>I primi templi monumentali in pietra nascono nel VII secolo, traducendo in materiale durevole forme originariamente lignee e in mattoni crudi (da cui derivano triglifi, gutte e altri dettagli "fossili" dell'ordine dorico). Le proporzioni sono ancora tozze e sperimentali, le colonne massicce e ravvicinate. È il periodo in cui l'ordine dorico si fissa come sistema coerente nel Peloponneso, mentre lo ionico si sviluppa parallelamente in Asia Minore.</p>
+
+      <h3>Periodo classico (480–323 a.C.)</h3>
+      <p>Dopo le guerre persiane (e la distruzione dell'Acropoli nel 480 a.C. da parte dei Persiani), Atene sotto Pericle avvia una ricostruzione che diventa il manifesto dell'intera civiltà: è qui che si colloca il Partenone (447–438 a.C., architetti Ictino e Callicrate, supervisione artistica di Fidia). Le proporzioni si affinano, il rapporto tra vuoti e pieni si equilibra, e — soprattutto nel caso del Partenone — si introducono <strong>raffinatezze ottiche</strong> quasi impercettibili: lo stilobate non è perfettamente piano ma leggermente convesso (curvatura di pochi centimetri su 70 metri), le colonne d'angolo sono più spesse e più ravvicinate alle vicine (per compensare il fatto che, stagliandosi contro il cielo anziché contro il muro della cella, apparirebbero otticamente più sottili), e naturalmente c'è l'entasi vista in §1. Nessuna linea del Partenone è, in senso stretto, perfettamente diritta.</p>
+
+      <h3>Periodo ellenistico (323–31 a.C.)</h3>
+      <p>Con Alessandro Magno e i regni ellenistici l'architettura si fa più scenografica e "urbanistica" (grandi complessi, terrazzamenti, l'invenzione di piazze monumentali), e il corinzio inizia a diffondersi più liberamente. È un periodo meno rappresentato nel tuo itinerario, che si concentra soprattutto su arcaico e classico, con l'eccezione di alcuni interventi successivi (es. l'Olympieion di Atene, completato solo in epoca romana da Adriano — vedi §7).</p>
+
+      <p class="side-note">Un punto da ricordare in visita: quello che vediamo oggi (marmo bianco, pietra a vista) non era l'aspetto originale. I templi greci erano <strong>dipinti</strong> a colori vivaci (rosso, blu, oro) su fregi, triglifi e decorazioni scultoree — il "bianco classico" è in realtà l'effetto di 2500 anni di erosione del colore, non una scelta estetica originaria.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="s5" data-name="altre tipologie edilizie">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Ε</span>
+    <span class="chapter-title">Altre tipologie edilizie</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <h3>Il teatro</h3>
+      <p>Nasce dai riti in onore di Dioniso e si struttura in tre parti: la <em>cavea</em> (o <em>koilon</em>, gradinate scavate nel pendio di una collina, mai costruite su strutture artificiali come a Roma), l'<em>orchestra</em> (l'area circolare a pianta piena dove si muoveva il coro — non un semicerchio come nei teatri romani successivi) e la <em>skené</em> (l'edificio scenico sul fondo, da cui deriva la nostra parola "scena"). Il teatro di Epidauro, che vedrai, è considerato il meglio conservato e acusticamente più perfetto dell'intera Grecia antica.</p>
+
+      <h3>Lo stadio</h3>
+      <p><span class="greek-term">στάδιον</span> era originariamente un'unità di misura (circa 178–192 m a seconda della città) prima ancora di indicare l'edificio — la pista aveva quella lunghezza, e il nome è passato a designare lo spazio stesso. Gradinate spesso solo in terra battuta o pietra minima, a differenza della monumentalità dei teatri. Lo stadio di Delfi e quello di Olimpia (dove nacquero i Giochi Olimpici, 776 a.C.) sono tra i meglio conservati.</p>
+
+      <h3>Tesori (thesauroi)</h3>
+      <p><span class="greek-term">θησαυρός = "tesoro, deposito"</span>. Piccoli edifici a pianta "in antis" (§3) costruiti dalle singole città-stato all'interno di grandi santuari panellenici (Delfi, Olimpia) per custodire le proprie offerte votive — funzionavano quindi anche come manifesti di prestigio politico tra città rivali. Il Tesoro degli Ateniesi a Delfi, che vedrai, è uno dei meglio conservati (ricostruito nel 1904 sulla base dei blocchi originali).</p>
+
+      <h3>Agora e stoa</h3>
+      <p>L'<em>agorà</em> è la piazza pubblica, cuore civico e commerciale della polis (distinta dall'<em>acropoli</em>, cuore religioso in quota). La <em>stoà</em> è il portico colonnato lungo e stretto, aperto su un lato, che delimitava le agore e offriva riparo per il commercio, l'insegnamento filosofico (da cui "stoicismo", dalla Stoà Poikile di Atene) e la vita pubblica in genere.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="s6" data-name="scultura">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Ζ</span>
+    <span class="chapter-title">Scultura</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <h3>Arcaico: kouroi e korai</h3>
+      <p>Statue di giovani uomini nudi (<em>kouroi</em>, sing. <em>kouros</em>) e giovani donne vestite (<em>korai</em>, sing. <em>kore</em>), a grandezza naturale o più grandi, frontali e rigide, con il caratteristico "sorriso arcaico" — una convenzione stilistica per animare il volto, non un'espressione emotiva reale. Funzione votiva o funeraria, non ritrattistica.</p>
+
+      <h3>Severo (ca. 480–450 a.C.)</h3>
+      <p>Fase di transizione: i corpi iniziano a "pesare" sul terreno in modo asimmetrico (nasce il <em>chiasmo</em>, il gioco tra gamba portante e gamba libera), i volti si fanno più gravi e meno sorridenti. Coincide con il trauma delle guerre persiane.</p>
+
+      <h3>Classico: Fidia e Policleto</h3>
+      <p>Fidia (attivo Atene, metà V sec.) supervisiona l'intero programma scultoreo del Partenone — fregio delle Panatenee, metope, frontoni — e realizza la perduta statua crisoelefantina di Atena Parthenos, oltre allo Zeus di Olimpia. Policleto (attivo ad Argo, sua città) codifica nel trattato perduto <em>Kanon</em> un sistema di proporzioni ideali del corpo umano, esemplificato dal suo Doriforo — un tentativo di fissare matematicamente la bellezza, non solo di rappresentarla.</p>
+
+      <h3>Ellenistico</h3>
+      <p>Dopo Alessandro, la scultura si apre a soggetti più drammatici, patetici e individualizzati (vecchiaia, dolore, movimento estremo, ritrattistica psicologica) — un allontanamento deliberato dall'idealismo classico verso il pathos.</p>
+
+      <h3>I rilievi architettonici: dove guardare</h3>
+      <table class="art-table">
+        <thead><tr><th>Elemento</th><th>Posizione</th><th>Cosa aspettarsi</th></tr></thead>
+        <tbody>
+          <tr><td>Metope</td><td>Fregio dorico, tra i triglifi</td><td>Scene singole e autoconclusive (spesso battaglie mitiche: Centauromachia, Amazzonomachia)</td></tr>
+          <tr><td>Fregio continuo</td><td>Sopra l'architrave, ordine ionico</td><td>Narrazione continua senza interruzioni (es. corteo delle Panatenee)</td></tr>
+          <tr><td>Frontone</td><td>Timpano triangolare in facciata</td><td>Composizioni figurate adattate allo spazio triangolare, scena mitologica unitaria legata alla divinità del tempio</td></tr>
+        </tbody>
+      </table>
+      <p class="side-note">Molti dei rilievi originali del Partenone (i celebri "marmi di Elgin") sono oggi al British Museum di Londra: all'Acropoli e nel Museo dell'Acropoli vedrai in parte originali superstiti, in parte calchi — la museologia stessa del sito racconta questa storia, vale la pena chiederlo in loco.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="s7" data-name="i monumenti del viaggio">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Η</span>
+    <span class="chapter-title">I monumenti del viaggio</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p style="color:var(--ink-soft);font-size:14.5px;">Ogni scheda richiama le categorie definite nelle sezioni precedenti, così che in loco tu possa "leggere" l'edificio invece di limitarti a guardarlo.</p>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 2</span>
+        <h3>Meteora</h3>
+        <p class="meta">Monasteri bizantini (Santa Trinità, Santo Stefano) — non architettura dell'antica Grecia</p>
+        <p class="body-text">Va segnalato subito: Meteora appartiene al mondo bizantino-ortodosso (XIV–XVI secolo), non alla Grecia classica. Architettonicamente non rientra negli ordini o nelle tipologie templari trattate qui — la chiave di lettura corretta è quella dell'architettura monastica bizantina (chiese a croce greca inscritta, cupole, iconostasi), un sistema del tutto diverso.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorni 3–4</span>
+        <h3>Delfi</h3>
+        <p class="meta">Santuario panellenico di Apollo, VI–IV sec. a.C.</p>
+        <p class="body-text">Il <strong>Tempio di Apollo</strong> visibile oggi è periptero dorico esastilo (la terza ricostruzione sul sito, IV sec. a.C.) — al suo interno sedeva la Pizia, l'oracolo. Il <strong>Tesoro degli Ateniesi</strong> lungo la Via Sacra è un edificio in antis in marmo pario, tipologia-manifesto vista in §5. Nel santuario di Atena Pronaia (Marmaria) troverai la <strong>Tholos</strong>, l'unico esempio di pianta circolare del tuo itinerario insieme a quella di Epidauro — funzione ancora dibattuta dagli studiosi. Il <strong>teatro</strong> e lo <strong>stadio</strong>, in quota sopra il santuario, seguono lo schema descritto in §5.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorni 5–7</span>
+        <h3>Atene</h3>
+        <p class="meta">Acropoli e centro cittadino, V sec. a.C. (con addizioni successive)</p>
+        <p class="body-text">Il <strong>Partenone</strong>: periptero dorico ottastilo, il caso studio dell'intero §4 (correttivi ottici, curvatura dello stilobate, entasi). L'<strong>Eretteo</strong>: pianta irregolare e asimmetrica (unica eccezione allo schema rettangolare regolare, dovuta al terreno in pendenza e alla necessità di inglobare più culti preesistenti in un solo edificio), ordine ionico, celebre per la <strong>tribuna delle Cariatidi</strong> (colonne-statua, un'invenzione unica senza vero equivalente altrove). I <strong>Propilei</strong>, l'ingresso monumentale all'Acropoli, combinano dorico esterno e ionico interno — un'anticipazione della mescolanza di ordini che diventerà comune in epoca ellenistica-romana. Fuori dall'Acropoli: il <strong>Tempio di Zeus Olimpio</strong> (Olympieion) è corinzio dipteros — la scala più colossale di tutto il tuo viaggio, iniziato nel VI sec. a.C. ma completato solo sotto l'imperatore Adriano nel 132 d.C., quindi tecnicamente romano nella sua forma finale pur essendo greco nel disegno originario. L'<strong>Arco di Adriano</strong> accanto è, coerentemente, un monumento romano puro (marmo pentelico, II sec. d.C.), non greco classico.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 8</span>
+        <h3>Corinto Antica</h3>
+        <p class="meta">Tempio di Apollo, metà VI sec. a.C.</p>
+        <p class="body-text">Uno dei templi dorici superstiti più antichi della Grecia continentale: colonne monolitiche (non a rocchi sovrapposti come nella maggior parte dei templi successivi), proporzioni ancora tozze e arcaiche rispetto al Partenone — un buon "prima" per apprezzare per contrasto il "dopo" classico di Atene.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 9</span>
+        <h3>Tirinto e Argo</h3>
+        <p class="meta">Architettura micenea (età del Bronzo, ca. 1400–1200 a.C.) e teatro ellenistico-romano</p>
+        <p class="body-text">Tirinto precede di secoli tutto il resto dell'itinerario: le sue mura "ciclopiche" (blocchi enormi non squadrati, che i Greci del periodo classico attribuivano leggendariamente ai Ciclopi) appartengono a un sistema costruttivo del tutto estraneo agli ordini classici — siamo nella civiltà micenea, non nella Grecia dei templi. Ad Argo, il teatro ellenistico segue lo schema di §5 su scala minore rispetto a Epidauro.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 10</span>
+        <h3>Micene</h3>
+        <p class="meta">Civiltà micenea, ca. 1350–1200 a.C.</p>
+        <p class="body-text">La <strong>Porta dei Leoni</strong> è l'ingresso monumentale alla cittadella, con l'iconico rilievo dei due leoni araldici — anch'essa in muratura ciclopica. Il <strong>Tesoro di Atreo</strong> (nonostante il nome "tesoro", condiviso per analogia con i thesauroi di §5, è in realtà una tomba a tholos reale) è una struttura a falsa cupola (a filari aggettanti, non a vera volta radiale come quelle romane) di straordinaria ingegneria per la sua epoca — qui "tholos" indica una tipologia costruttiva miceneo-funeraria, distinta dalla tholos religiosa classica vista a Delfi ed Epidauro: stesso nome, funzione ed epoca completamente diverse.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 11</span>
+        <h3>Epidauro</h3>
+        <p class="meta">Santuario di Asclepio, IV sec. a.C.</p>
+        <p class="body-text">Il <strong>teatro</strong>, il meglio conservato della Grecia, incarna perfettamente lo schema cavea/orchestra/skené di §5. La <strong>Tholos</strong> (o Thymele), nel santuario di Asclepio, è la seconda pianta circolare del viaggio dopo Delfi — qui legata al culto terapeutico-misterico del dio della medicina, forse concepita come accesso simbolico al mondo ctonio.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 12</span>
+        <h3>Mistrà e Sparta</h3>
+        <p class="meta">Mistrà: città bizantina, XIII–XV sec. — Sparta: resti ellenistico-romani limitati</p>
+        <p class="body-text">Come Meteora, Mistrà è un capitolo bizantino, non classico — palazzi e chiese ortodosse su una collina fortificata, tipologia costruttiva del tutto diversa da quella qui trattata. Sparta antica, paradossalmente per l'importanza storica della città, ha lasciato pochissime tracce monumentali: gli Spartani non investivano in architettura celebrativa quanto Atene, coerentemente con il loro ethos anti-ostentativo.</p>
+      </div>
+
+      <div class="mon-card">
+        <span class="day-tag">Giorno 13</span>
+        <h3>Olimpia</h3>
+        <p class="meta">Santuario panellenico di Zeus, sede dei Giochi Olimpici dal 776 a.C.</p>
+        <p class="body-text">Il <strong>Tempio di Zeus</strong> (metà V sec. a.C.), periptero dorico, ospitava una delle Sette Meraviglie del mondo antico: la statua crisoelefantina di Zeus di Fidia (perduta). Il <strong>Tempio di Hera</strong>, più antico (fine VII sec. a.C.), è periptero dorico ma ancora arcaico nelle proporzioni — un ottimo confronto diretto con quello di Zeus per vedere in un solo sito l'evoluzione arcaico→classico descritta in §4. Il <strong>Filippeion</strong>, unico edificio a tholos del sito e a pianta circolare ma di natura commemorativa-dinastica (voluto da Filippo II di Macedonia dopo Cheronea), introduce già il gusto ellenistico. Lo <strong>stadio</strong> conserva ancora la linea di partenza originale in pietra.</p>
+      </div>
+  </div></div>
+</div>
+
+<div class="chapter" id="s8" data-name="glossario">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">Θ</span>
+    <span class="chapter-title">Glossario</span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <dl class="glossary">
+        <dt>Abaco</dt><dd>Tavoletta quadrata piatta sopra l'echino, parte sommitale del capitello dorico.</dd>
+        <dt>Acroterio</dt><dd>Elemento decorativo (spesso floreale o figurato) posto agli angoli e al vertice del frontone.</dd>
+        <dt>Cella / Naos</dt><dd>Vano chiuso centrale del tempio, sede della statua di culto.</dd>
+        <dt>Cariatide</dt><dd>Colonna scolpita a forma di figura femminile, in sostituzione del capitello canonico.</dd>
+        <dt>Echino</dt><dd>Elemento arrotondato del capitello dorico, sotto l'abaco.</dd>
+        <dt>Entasi</dt><dd>Rigonfiamento convesso del fusto della colonna, correttivo ottico.</dd>
+        <dt>Fregio</dt><dd>Fascia decorata sopra l'architrave; continuo (ionico) o a triglifi/metope (dorico).</dd>
+        <dt>Frontone</dt><dd>Timpano triangolare in facciata, spesso scolpito.</dd>
+        <dt>Krepidoma</dt><dd>Base a gradoni del tempio, non praticabile come scala funzionale.</dd>
+        <dt>Metopa</dt><dd>Pannello scolpito tra due triglifi nel fregio dorico.</dd>
+        <dt>Naos</dt><dd>Vedi Cella.</dd>
+        <dt>Opistodomo</dt><dd>Piccolo vano posteriore del tempio, speculare al pronao, spesso usato come tesoreria.</dd>
+        <dt>Peristasi / Peristilio</dt><dd>Colonnato che corre lungo il perimetro esterno dell'edificio.</dd>
+        <dt>Pronao</dt><dd>Vestibolo d'ingresso davanti alla cella.</dd>
+        <dt>Skené</dt><dd>Edificio scenico di fondo nel teatro greco.</dd>
+        <dt>Stilobate</dt><dd>Gradino sommitale del krepidoma, su cui poggiano le colonne.</dd>
+        <dt>Tholos</dt><dd>Edificio a pianta circolare; termine usato sia per templi classici (Delfi, Epidauro) sia per tombe micenee (Micene) — attenzione a non confondere le due funzioni.</dd>
+        <dt>Triglifo</dt><dd>Blocco con tre scanalature verticali nel fregio dorico, tra due metope.</dd>
+      </dl>
+  </div></div>
+</div>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleChapter(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allChapters = Array.from(document.querySelectorAll('.chapter'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allChapters.forEach(ch => {
+    const text = ch.textContent.toLowerCase();
+    const match = !f || text.includes(f);
+    ch.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+    if (f && match) ch.classList.add('open'); else if (f) ch.classList.remove('open');
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

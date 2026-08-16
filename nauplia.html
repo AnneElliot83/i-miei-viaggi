@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -271,9 +297,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così importante.</strong> Nauplia — o Nafplio nel greco moderno — è un caso ben diverso dalle tappe precedenti: non è un sito archeologico da leggere in chiave antica, ma una città viva, dal fascino profondamente veneziano e ottomano, che ha avuto un ruolo cruciale nella storia più recente della Grecia.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così importante.</strong> Nauplia — o Nafplio nel greco moderno — è un caso ben diverso dalle tappe precedenti: non è un sito archeologico da leggere in chiave antica, ma una città viva, dal fascino profondamente veneziano e ottomano, che ha avuto un ruolo cruciale nella storia più recente della Grecia.</p>
 <p><strong>Perché conta così tanto:</strong></p>
 <ul>
   <li>Fu la <strong>prima capitale della Grecia indipendente</strong>: dal 1823 sede del governo rivoluzionario provvisorio, e ufficialmente capitale dal 1827/1829 al 1834, quando il titolo passò ad Atene.</li>
@@ -283,12 +315,10 @@
   <li>Il centro storico è oggi uno dei meglio conservati di tutta la Grecia continentale.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> una città portuale fortificata su tre livelli, con un centro storico compatto e pedonale, che racconta la storia più recente e ancora "calda" della nazione greca.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Nauplio.</strong> Nauplia deve il proprio nome e la propria fondazione mitica a <strong>Nauplio</strong>, figlio di Poseidone e della ninfa Amimone, celebre navigatore che secondo la tradizione fondò la città e insegnò ai Greci l'arte di orientarsi con le stelle.</p>
+        <div class="tab-panel"><p><strong>Nauplio.</strong> Nauplia deve il proprio nome e la propria fondazione mitica a <strong>Nauplio</strong>, figlio di Poseidone e della ninfa Amimone, celebre navigatore che secondo la tradizione fondò la città e insegnò ai Greci l'arte di orientarsi con le stelle.</p>
 <p><strong>Palamede.</strong> Suo figlio fu <strong>Palamede</strong>, uno degli eroi della guerra di Troia — inventore, secondo il mito, di numeri, lettere dell'alfabeto, dadi e persino del gioco degli scacchi — che fu ingiustamente accusato di tradimento da Ulisse (geloso della sua intelligenza) e lapidato dai Greci sotto Troia. Per vendicare il figlio, Nauplio, al ritorno della flotta greca, accese falsi fuochi sugli scogli di Capo Cafareo per farla naufragare — un mito di vendetta che i marinai greci raccontavano ancora secoli dopo come monito contro le false luci costiere.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -349,8 +379,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -382,6 +412,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -389,5 +425,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

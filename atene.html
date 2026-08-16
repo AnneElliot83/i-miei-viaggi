@@ -102,7 +102,6 @@
     padding:10px 20px 80px;
   }
 
-  /* intro collapsibili */
   .intro{
     background:var(--bg-panel);
     border:1px solid var(--line);
@@ -136,10 +135,10 @@
     padding:0 18px 18px;
   }
   .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
-  .intro-body p, .field p{ margin:0 0 10px; font-size:0.98rem; }
-  .intro-body p:last-child, .field p:last-child{ margin-bottom:0; }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -216,6 +215,7 @@
     padding-bottom:10px;
     border-bottom:1px dashed var(--line);
   }
+
   .tabs{
     display:flex;
     gap:4px;
@@ -241,6 +241,8 @@
   }
   .tab-panel{ display:none; }
   .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
 
   .note{
     text-align:center;
@@ -248,6 +250,32 @@
     font-style:italic;
     font-size:0.85rem;
     margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
   }
 </style>
 </head>
@@ -261,7 +289,7 @@
 </header>
 
 <div class="search-wrap">
-  <input type="text" id="search" placeholder="Cerca un luogo: es. Partenone, Plaka...">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
 </div>
 
 <nav class="pills">
@@ -274,9 +302,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p>Atene non fu mai, in termini di popolazione o potenza militare, la più grande città della Grecia antica — eppure è la città che, più di ogni altra, ha plasmato il pensiero, l'arte, la politica e il linguaggio con cui ancora oggi descriviamo il mondo. Parole come "democrazia", "filosofia", "teatro", "politica" sono greche, nate o sviluppate nella loro forma matura proprio qui.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p>Atene non fu mai, in termini di popolazione o potenza militare, la più grande città della Grecia antica — eppure è la città che, più di ogni altra, ha plasmato il pensiero, l'arte, la politica e il linguaggio con cui ancora oggi descriviamo il mondo. Parole come "democrazia", "filosofia", "teatro", "politica" sono greche, nate o sviluppate nella loro forma matura proprio qui.</p>
 <p><strong>Le origini.</strong> Atene è tra le città più antiche d'Europa ininterrottamente abitate: l'Acropoli era occupata già in epoca neolitica, e divenne roccaforte micenea fortificata nel XIII secolo a.C. A differenza di Micene o Tirinto, Atene non fu abbandonata dopo il collasso miceneo.</p>
 <p><strong>L'età arcaica.</strong> Con <strong>Solone</strong> (594 a.C.) vennero poste le prime basi giuridiche per una partecipazione più ampia alla vita pubblica. Seguì la tirannide di <strong>Pisistrato</strong>, poi rovesciata nel 510 a.C.; nel <strong>508-507 a.C.</strong> il riformatore <strong>Clistene</strong> introdusse la <strong>democrazia</strong>, riorganizzando la cittadinanza in dieci tribù territoriali e istituendo il Consiglio dei Cinquecento e l'ostracismo.</p>
 <p><strong>Le guerre persiane.</strong> Tra il 490 e il 479 a.C. Atene fu protagonista della resistenza greca: la vittoria di <strong>Maratona</strong> (490 a.C.), la distruzione della città e dell'Acropoli nel 480 a.C., la vittoria navale di <strong>Salamina</strong> guidata da Temistocle, e infine <strong>Platea</strong> (479 a.C.).</p>
@@ -286,14 +320,12 @@
 <p><strong>Ellenismo e Roma.</strong> Con l'ascesa macedone Atene perse l'indipendenza politica ma mantenne prestigio culturale: nacquero lo <strong>Stoicismo</strong> di Zenone e l'<strong>Epicureismo</strong>. Sotto Roma restò meta di pellegrinaggio culturale, beneficiando di donazioni monumentali sotto <strong>Adriano</strong>.</p>
 <p><strong>Declino e rinascita.</strong> Con la chiusura delle scuole filosofiche pagane nel 529 d.C., Atene entrò in un lungo periodo di marginalità: bizantina, franca, ottomana dal 1458. Il Partenone divenne chiesa, poi moschea, danneggiato nel 1687. Solo nel 1834 Atene fu scelta come capitale del nuovo Regno di Grecia.</p>
 <p><strong>Perché conta così tanto, in sintesi:</strong> Atene è il luogo dove nacquero, nella loro forma più matura, la democrazia, la filosofia sistematica, il teatro tragico e comico, e una tradizione artistica e architettonica che ha definito per secoli l'idea stessa di classicismo in Occidente.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>La contesa tra Atena e Poseidone.</strong> Sia Atena che Poseidone desideravano diventare la divinità tutelare della città, governata dal primo re <strong>Cecrope</strong>. Poseidone colpì la roccia con il tridente, facendo scaturire acqua salata; Atena, colpendo la terra con la lancia, fece germogliare un <strong>ulivo</strong>. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, prendendo da lei il nome. Poseidone, furioso, allagò la pianura dell'Attica.</p>
+        <div class="tab-panel"><p><strong>La contesa tra Atena e Poseidone.</strong> Sia Atena che Poseidone desideravano diventare la divinità tutelare della città, governata dal primo re <strong>Cecrope</strong>. Poseidone colpì la roccia con il tridente, facendo scaturire acqua salata; Atena, colpendo la terra con la lancia, fece germogliare un <strong>ulivo</strong>. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, prendendo da lei il nome. Poseidone, furioso, allagò la pianura dell'Attica.</p>
 <p><strong>Cecrope, il primo re "nato dalla terra".</strong> Cecrope era un re <strong>autoctono</strong> (<em>autos</em>, stesso, + <em>chthon</em>, terra), rappresentato per metà uomo e per metà serpente — un mito politicamente importante: gli Ateniesi si vantavano di essere discendenti diretti della propria terra.</p>
 <p><strong>Erittonio ed Erecteo.</strong> Efesto tentò di unirsi ad Atena, che lo respinse; il suo seme fecondò Gea, che generò <strong>Erittonio</strong>. Atena lo allevò in segreto, affidandolo in una cesta chiusa alle tre figlie di Cecrope, vietandone l'apertura. Alcune disobbedirono, videro il bambino sorvegliato dai serpenti, e impazzirono gettandosi dalla rupe. Erittonio, cresciuto, divenne re e istituì il culto di Atena Poliade. Il suo nome è spesso associato a <strong>Erecteo</strong>, a cui è dedicato l'Eretteo.</p>
 <p><strong>Teseo, l'eroe nazionale.</strong> Figlio del re <strong>Egeo</strong>, Teseo uccise il <strong>Minotauro</strong> a Creta, liberando Atene dal tributo di fanciulli. Dimenticò di cambiare le vele nere della nave: Egeo, credendolo morto, si gettò in mare, dando il nome al <strong>Mar Egeo</strong>. Teseo fu ricordato come unificatore dell'Attica e quasi precursore mitico della democrazia.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -896,8 +928,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -911,7 +943,6 @@ function switchTab(btn){
 }
 
 const searchInput = document.getElementById('search');
-const allSites = Array.from(document.querySelectorAll('.site'));
 const allGroups = Array.from(document.querySelectorAll('.group'));
 
 searchInput.addEventListener('input', () => {
@@ -930,7 +961,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
-// Attiva il funzionamento offline se il service worker del portale è già registrato
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -938,5 +974,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

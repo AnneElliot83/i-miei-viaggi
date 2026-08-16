@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -271,9 +297,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così importante.</strong> Argo rivendica il titolo di città più antica d'Europa ininterrottamente abitata: gli scavi documentano insediamenti continuativi da almeno il 7000 a.C. fino a oggi. Si trova nella pianura argolica, a pochi chilometri sia da Micene che da Tirinto, ed era il centro urbano e politico di riferimento di tutta la regione, che infatti prende il nome proprio da lei: <strong>Argolide</strong>.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così importante.</strong> Argo rivendica il titolo di città più antica d'Europa ininterrottamente abitata: gli scavi documentano insediamenti continuativi da almeno il 7000 a.C. fino a oggi. Si trova nella pianura argolica, a pochi chilometri sia da Micene che da Tirinto, ed era il centro urbano e politico di riferimento di tutta la regione, che infatti prende il nome proprio da lei: <strong>Argolide</strong>.</p>
 <p><strong>Perché conta così tanto:</strong></p>
 <ul>
   <li>Fu una delle grandi potenze del mondo miceneo e poi della Grecia arcaica e classica, spesso in <strong>rivalità diretta con Sparta</strong> per il controllo del Peloponneso orientale.</li>
@@ -282,13 +314,11 @@
   <li>A differenza di Micene e Tirinto, Argo non fu mai completamente abbandonata: rimase abitata ininterrottamente fino ai giorni nostri, motivo per cui il sito archeologico convive letteralmente con la città moderna.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> un sito articolato, con l'Aspis (l'antica acropoli) su un'altura che domina la pianura, il grande teatro ellenistico-romano scavato nel pendio, i resti dell'agorà e delle terme romane nel cuore della città moderna, e il museo che raccoglie i reperti di un arco cronologico eccezionalmente lungo.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Danao e le Danaidi.</strong> Danao era re di Libia, con cinquanta figlie, le Danaidi, mentre suo fratello gemello Egitto ebbe cinquanta figli maschi. Egitto propose che i suoi figli sposassero le figlie di Danao, che rifiutò, fuggendo via mare fino ad Argo. I figli di Egitto li raggiunsero e li costrinsero alle nozze. Ma Danao diede a ciascuna figlia un pugnale, ordinando di uccidere i mariti nella notte di nozze. Quarantanove obbedirono; solo <strong>Ipermestra</strong> risparmiò il marito Linceo, da cui discese la dinastia regale di Argo fino a Perseo. Per la loro colpa, le quarantanove Danaidi furono condannate nell'oltretomba a riempire d'acqua una giara forata, per l'eternità.</p>
+        <div class="tab-panel"><p><strong>Danao e le Danaidi.</strong> Danao era re di Libia, con cinquanta figlie, le Danaidi, mentre suo fratello gemello Egitto ebbe cinquanta figli maschi. Egitto propose che i suoi figli sposassero le figlie di Danao, che rifiutò, fuggendo via mare fino ad Argo. I figli di Egitto li raggiunsero e li costrinsero alle nozze. Ma Danao diede a ciascuna figlia un pugnale, ordinando di uccidere i mariti nella notte di nozze. Quarantanove obbedirono; solo <strong>Ipermestra</strong> risparmiò il marito Linceo, da cui discese la dinastia regale di Argo fino a Perseo. Per la loro colpa, le quarantanove Danaidi furono condannate nell'oltretomba a riempire d'acqua una giara forata, per l'eternità.</p>
 <p><strong>Perseo e la profezia di Acrisio.</strong> Acrisio, re di Argo, ricevette la profezia di essere ucciso da un figlio nato da sua figlia Danae. La rinchiuse in una torre di bronzo, ma Zeus si trasformò in pioggia d'oro e generò <strong>Perseo</strong>. Acrisio chiuse madre e figlio in una cassa gettata in mare; approdarono a Serifo, dove Perseo crebbe e fu inviato a decapitare <strong>Medusa</strong>. Anni dopo, partecipando a giochi funebri, lanciò un disco che deviò e colpì a morte uno spettatore: era Acrisio, suo nonno — la profezia si compì proprio nel modo che si era cercato di evitare.</p>
 <p><strong>Io.</strong> Io era sacerdotessa di Era ad Argo, amata da Zeus, che la trasformò in giovenca bianca per proteggerla dalla gelosia della moglie. Era pretese l'animale e lo affidò al gigante <strong>Argo Panoptes</strong>, dai cento occhi. Zeus inviò Ermes, che addormentò Argo e lo uccise, liberando Io — ma Era le inviò un tafano che la perseguitò per il mondo intero. Da qui l'espressione "occhi d'Argo" per una sorveglianza continua e inevitabile.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -359,8 +389,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -392,6 +422,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -399,5 +435,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

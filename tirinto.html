@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -271,9 +297,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così importante.</strong> Tirinto non è famosa per la bellezza dei suoi resti, ma per la loro potenza: è una delle testimonianze meglio conservate della civiltà micenea, il mondo che i Greci classici stessi guardavano come un'epoca eroica e semi-leggendaria — l'epoca di Agamennone, di Achille, della guerra di Troia.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così importante.</strong> Tirinto non è famosa per la bellezza dei suoi resti, ma per la loro potenza: è una delle testimonianze meglio conservate della civiltà micenea, il mondo che i Greci classici stessi guardavano come un'epoca eroica e semi-leggendaria — l'epoca di Agamennone, di Achille, della guerra di Troia.</p>
 <p><strong>Perché conta così tanto:</strong></p>
 <ul>
   <li>Era una delle grandi <strong>roccaforti micenee</strong> dell'Argolide, insieme a Micene, e controllava la pianura verso il mare — una posizione strategica, non casuale.</li>
@@ -283,13 +315,11 @@
   <li>Insieme a Micene, è stata dichiarata <strong>Patrimonio UNESCO</strong> proprio come testimonianza chiave della civiltà micenea.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> un'acropoli fortificata su un basso sperone roccioso nella pianura argolica, cinta da possenti mura a più fasi costruttive, con un palazzo al centro, un sistema di rampe d'accesso studiato per la difesa, e gallerie a volta scavate nello spessore stesso delle mura.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Eracle a Tirinto.</strong> Secondo una delle tradizioni più diffuse, Tirinto è legata a doppio filo alla nascita stessa di Eracle: Zeus, per assicurare al figlio il trono di questa città, ingannò Era facendole giurare che il primo discendente della stirpe di Perseo nato quel giorno avrebbe regnato su Argo e Tirinto. Era, gelosa, ritardò la nascita di Eracle e affrettò invece quella di <strong>Euristeo</strong>, cugino di Eracle, che così divenne re al posto suo.</p>
+        <div class="tab-panel"><p><strong>Eracle a Tirinto.</strong> Secondo una delle tradizioni più diffuse, Tirinto è legata a doppio filo alla nascita stessa di Eracle: Zeus, per assicurare al figlio il trono di questa città, ingannò Era facendole giurare che il primo discendente della stirpe di Perseo nato quel giorno avrebbe regnato su Argo e Tirinto. Era, gelosa, ritardò la nascita di Eracle e affrettò invece quella di <strong>Euristeo</strong>, cugino di Eracle, che così divenne re al posto suo.</p>
 <p>Fu proprio questo intreccio a costringere Eracle, più tardi, a <strong>servire Euristeo</strong> come punizione per aver ucciso, in un attacco di follia mandatogli da Era, la propria moglie e i propri figli. Euristeo impose a Eracle le <strong>dodici fatiche</strong>: dal leone di Nemea all'idra di Lerna, dai pomi delle Esperidi alla cattura di Cerbero.</p>
 <p><strong>I Ciclopi.</strong> Il nome "ciclopiche" nasce da un mito eziologico: davanti a blocchi di pietra da diverse tonnellate, sollevati e incastrati senza malta con precisione sovrumana, i Greci del periodo classico immaginarono che solo i <strong>Ciclopi</strong> — giganti con un solo occhio, gli stessi che fabbricavano i fulmini di Zeus nelle fucine dell'Etna — potessero aver avuto la forza per costruirle. Una tradizione parallela li identifica come i "Ciclopi Gasteroceiri", operai mitici specializzati in opere murarie colossali, chiamati appositamente in Argolide.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -352,8 +382,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -385,6 +415,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -392,5 +428,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

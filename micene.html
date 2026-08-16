@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -271,9 +297,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così importante.</strong> Micene non è solo un sito archeologico: è il luogo che ha dato il nome a un'intera civiltà, quella micenea, la prima grande civiltà del mondo greco continentale (circa 1600-1100 a.C.), predecessora di secoli rispetto alla Grecia classica. Quando Omero, secoli dopo il crollo di questa civiltà, cantava la guerra di Troia, cantava un mondo che i Greci storici percepivano ormai come leggendario — ed è proprio a Micene che quel mondo aveva il suo centro di potere più celebre.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così importante.</strong> Micene non è solo un sito archeologico: è il luogo che ha dato il nome a un'intera civiltà, quella micenea, la prima grande civiltà del mondo greco continentale (circa 1600-1100 a.C.), predecessora di secoli rispetto alla Grecia classica. Quando Omero, secoli dopo il crollo di questa civiltà, cantava la guerra di Troia, cantava un mondo che i Greci storici percepivano ormai come leggendario — ed è proprio a Micene che quel mondo aveva il suo centro di potere più celebre.</p>
 <p><strong>Perché conta così tanto:</strong></p>
 <ul>
   <li>Fu la città-fortezza più potente della Grecia micenea, tanto che Omero la definisce <strong>"ricca d'oro"</strong> (<em>polychrysos</em>) — un epiteto tutt'altro che esagerato, come conferma il museo.</li>
@@ -283,14 +315,12 @@
   <li>Il crollo di Micene, attorno al <strong>1200-1100 a.C.</strong>, segna l'inizio del cosiddetto "Medioevo ellenico", un periodo oscuro di quattro secoli prima della rinascita che porterà alla Grecia arcaica e poi classica.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> un'acropoli fortificata su un'altura tra due monti, con l'iconica Porta dei Leoni come ingresso monumentale, il palazzo reale con il suo megaron in cima, e — appena fuori le mura — un vero e proprio "quartiere" di tombe monumentali, incluse le celebri tombe a tholos come il Tesoro di Atreo, oltre a un museo che raccoglie tesori di rara ricchezza.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>La maledizione della casa di Atreo.</strong> Tutto parte da Tantalo, che per mettere alla prova gli dèi uccise il proprio figlio Pelope servendolo loro in un banchetto. Gli dèi lo punirono con un supplizio eterno, riportando in vita Pelope, che generazioni più tardi maledisse a sua volta la propria discendenza. Atreo, in lotta con il fratello Tieste per il trono di Micene, gli uccise i figli e glieli servì in un banchetto — un evento così orrendo che il Sole invertì la propria rotta per non assistervi. Da questa catena di vendette nasce la maledizione che si trasmetterà ai figli di Atreo: <strong>Agamennone</strong> e Menelao.</p>
+        <div class="tab-panel"><p><strong>La maledizione della casa di Atreo.</strong> Tutto parte da Tantalo, che per mettere alla prova gli dèi uccise il proprio figlio Pelope servendolo loro in un banchetto. Gli dèi lo punirono con un supplizio eterno, riportando in vita Pelope, che generazioni più tardi maledisse a sua volta la propria discendenza. Atreo, in lotta con il fratello Tieste per il trono di Micene, gli uccise i figli e glieli servì in un banchetto — un evento così orrendo che il Sole invertì la propria rotta per non assistervi. Da questa catena di vendette nasce la maledizione che si trasmetterà ai figli di Atreo: <strong>Agamennone</strong> e Menelao.</p>
 <p><strong>Agamennone e il sacrificio di Ifigenia.</strong> Agamennone fu scelto come comandante supremo della spedizione contro Troia. La flotta, bloccata da venti contrari a Aulide, poté salpare solo dopo il sacrificio della figlia <strong>Ifigenia</strong>, richiesto dalla dea Artemide.</p>
 <p><strong>Il ritorno e l'assassinio.</strong> Dopo dieci anni di guerra, Agamennone tornò a Micene, dove la moglie <strong>Clitemnestra</strong> — mai perdonando il sacrificio della figlia, e legata all'amante <strong>Egisto</strong>, figlio di Tieste — lo uccise nel bagno appena rientrato, in uno degli omicidi più celebri della tragedia greca, immortalato da Eschilo nell'<em>Agamennone</em>.</p>
 <p><strong>La vendetta di Oreste.</strong> Anni dopo, <strong>Oreste</strong>, figlio di Agamennone e Clitemnestra, tornò a Micene e, con l'aiuto della sorella Elettra, uccise Egisto e la propria madre. Il matricidio scatenò contro di lui le <strong>Erinni</strong>, ma un processo ad Atene, presieduto da Atena, lo assolse infine, chiudendo il ciclo di violenza e sostituendo la vendetta privata con la giustizia della polis.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -369,8 +399,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -402,6 +432,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -409,5 +445,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>

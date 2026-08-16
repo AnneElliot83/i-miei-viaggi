@@ -138,7 +138,7 @@
   .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
   .intro-body p:last-child{ margin-bottom:0; }
 
-  .group{ margin:34px 0 0; }
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
     font-family:'Cormorant Garamond', serif;
     font-weight:600;
@@ -251,6 +251,32 @@
     font-size:0.85rem;
     margin:0 0 8px;
   }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
 </style>
 </head>
 <body>
@@ -271,9 +297,15 @@
 <main>
   <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
 
-  <div class="intro" id="intro-storico">
-    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Perché è così famosa.</strong> Corinto occupava una posizione unica nel mondo greco: era situata sull'istmo che collega la Grecia continentale al Peloponneso, con <strong>due porti</strong> — Lechaion sul Golfo di Corinto e Cencrea sul Golfo Saronico. Questo la rendeva uno snodo commerciale strategico senza pari: le merci potevano essere trasportate via terra tra i due golfi (sul <strong>Diolkos</strong>, una via lastricata per il trasbordo delle navi) evitando la pericolosa circumnavigazione del Peloponneso.</p>
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Mitologia del luogo</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Perché è così famosa.</strong> Corinto occupava una posizione unica nel mondo greco: era situata sull'istmo che collega la Grecia continentale al Peloponneso, con <strong>due porti</strong> — Lechaion sul Golfo di Corinto e Cencrea sul Golfo Saronico. Questo la rendeva uno snodo commerciale strategico senza pari: le merci potevano essere trasportate via terra tra i due golfi (sul <strong>Diolkos</strong>, una via lastricata per il trasbordo delle navi) evitando la pericolosa circumnavigazione del Peloponneso.</p>
 <p><strong>Perché era così importante:</strong></p>
 <ul>
   <li>Fu una delle città-stato più ricche e potenti della Grecia arcaica e classica, rivale di Atene e Sparta, fondatrice di colonie importanti come <strong>Siracusa</strong> e <strong>Corcira</strong> (Corfù).</li>
@@ -282,13 +314,11 @@
   <li>Divenne un centro cristiano primitivo di grande importanza: <strong>San Paolo</strong> vi soggiornò 18 mesi, e le sue due Lettere ai Corinzi sono tra i testi più noti del Nuovo Testamento.</li>
 </ul>
 <p><strong>Cosa "è" nel concreto:</strong> un sito archeologico che mescola strati greci e romani, dominato dal Tempio arcaico di Apollo, con l'agorà romana, la Via di Lechaion, il luogo del processo a San Paolo (il Bema), e sopra tutto — su un'altura a parte — la fortezza dell'Acrocorinto.</p></div>
-  </div>
-
-  <div class="intro" id="intro-mito">
-    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
-    <div class="intro-body"><p><strong>Sisifo.</strong> Sisifo era il leggendario fondatore e re di Corinto, celebre per la sua astuzia al limite dell'inganno verso gli stessi dèi. Quando Zeus rapì la ninfa Egina, Sisifo rivelò il fatto al padre di lei in cambio di una fonte d'acqua per la sua città. Per punirlo, Zeus mandò Thanatos, la Morte, a prenderlo — ma Sisifo riuscì a incatenare la Morte stessa, impedendo che chiunque al mondo potesse morire, finché Ares non intervenne a liberarla. Quando finalmente morì, convinse Ade e Persefone a lasciarlo tornare brevemente sulla terra — e semplicemente non tornò più, vivendo fino a tarda età. Per questa doppia beffa alla Morte, gli dèi lo condannarono al supplizio eterno più celebre della mitologia: spingere un masso fino in cima a un colle, vedendolo rotolare giù ogni volta appena prima di arrivare.</p>
+        <div class="tab-panel"><p><strong>Sisifo.</strong> Sisifo era il leggendario fondatore e re di Corinto, celebre per la sua astuzia al limite dell'inganno verso gli stessi dèi. Quando Zeus rapì la ninfa Egina, Sisifo rivelò il fatto al padre di lei in cambio di una fonte d'acqua per la sua città. Per punirlo, Zeus mandò Thanatos, la Morte, a prenderlo — ma Sisifo riuscì a incatenare la Morte stessa, impedendo che chiunque al mondo potesse morire, finché Ares non intervenne a liberarla. Quando finalmente morì, convinse Ade e Persefone a lasciarlo tornare brevemente sulla terra — e semplicemente non tornò più, vivendo fino a tarda età. Per questa doppia beffa alla Morte, gli dèi lo condannarono al supplizio eterno più celebre della mitologia: spingere un masso fino in cima a un colle, vedendolo rotolare giù ogni volta appena prima di arrivare.</p>
 <p><strong>Bellerofonte e Pegaso.</strong> Bellerofonte, eroe corinzio, desiderava catturare Pegaso, il cavallo alato nato dal sangue di Medusa. Fu proprio presso la fonte di Peirene che riuscì nell'impresa, con l'aiuto di Atena, che gli donò in sogno delle briglie d'oro. Con Pegaso compì la sua impresa più famosa: l'uccisione della Chimera. Più tardi, però, tentò di volare fino all'Olimpo per unirsi agli dèi, e Zeus, offeso, mandò un tafano a pungere Pegaso, facendo precipitare Bellerofonte sulla terra.</p>
 <p><strong>Medea.</strong> Dopo le vicende degli Argonauti, Giasone e Medea si stabilirono a Corinto, dove Giasone decise di abbandonarla per sposare la figlia del re Creonte. Medea reagì con una vendetta atroce: uccise la nuova sposa con un dono avvelenato, uccise Creonte, e infine uccise i propri stessi figli per infliggere a Giasone il dolore più totale, prima di fuggire su un carro alato donatole dal Sole. È la tragedia di Euripide che ha reso questo mito immortale, e Corinto ne è il palcoscenico definitivo.</p></div>
+      </div>
+    </div>
   </div>
 
   <div id="groups">
@@ -386,8 +416,8 @@
 </main>
 
 <script>
-function toggleIntro(id){
-  document.getElementById(id).classList.toggle('open');
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
 }
 function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
@@ -419,6 +449,12 @@ searchInput.addEventListener('input', () => {
   document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
 });
 
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -426,5 +462,7 @@ if ('serviceWorker' in navigator) {
 }
 </script>
 
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 </body>
 </html>
