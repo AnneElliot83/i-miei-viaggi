@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mitologia Greca — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  header .intro-text{
+    max-width:600px;
+    margin:14px auto 0;
+    font-size:0.95rem;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:8000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+  .tab-panel ul{ padding-left:22px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Mitologia Greca</h1>
+  <div class="greek-title">Μῦθος</div>
+  <div class="intro-text">Un compendio di consultazione libera, organizzato per categoria: Dèi, Eroi, Cicli Mitologici, Creature. Ogni voce racconta il mito per intero, incluse le versioni alternative, e indica dove lo avete incontrato lungo il viaggio.</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<nav class="pills">
+    <a href="#mitologia-d-i" class="pill">Dèi</a>
+    <a href="#mitologia-eroi" class="pill">Eroi</a>
+    <a href="#mitologia-cicli" class="pill">Cicli</a>
+    <a href="#mitologia-creature" class="pill">Creature</a>
+</nav>
+
+<main>
+  <div id="groups">
+    
+<section class="group" id="mitologia-d-i">
+  <h2 class="group-title">Dèi<span class="group-count">13</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="zeus" data-greek="ζεύς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Zeus<span class="site-greek">Ζεύς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita e l'infanzia nascosta.</strong> Zeus era il più giovane figlio di Crono e Rea. Crono, temendo una profezia secondo cui uno dei suoi figli lo avrebbe detronizzato, divorava ogni figlio alla nascita. Rea sottrasse Zeus al marito, sostituendolo con una pietra avvolta in fasce, e nascose il neonato in una grotta di Creta (Monte Ida secondo la tradizione più diffusa; Monte Ditte o Monte Liceo in Arcadia secondo tradizioni rivali). Fu allevato dalla capra Amaltea e protetto dai Cureti e dai Dattili Ideani.</p>
+      <p><strong>La Titanomachia.</strong> Cresciuto, Zeus costrinse il padre a rigurgitare i fratelli inghiottiti — Estia, Demetra, Era, Ade e Poseidone — e mosse guerra ai Titani. Liberò dal Tartaro i Ciclopi (che gli forgiarono il fulmine) e gli Ecatonchiri, sconfiggendo Crono e i Titani. Seguì la Gigantomachia contro i Giganti nati dal sangue di Urano.</p>
+      <p><strong>Il sovrano dell'Olimpo.</strong> Si spartì il cosmo con i fratelli: a sé il cielo, a Poseidone il mare, ad Ade gli inferi. Sposò Era, ma fu celebre per le sue unioni extraconiugali tramite metamorfosi: toro (Europa), cigno (Leda), pioggia d'oro (Danae), aquila (Ganimede), nube (Io).</p>
+      <p><em>Versioni alternative:</em> Esiodo (Teogonia) offre il racconto "canonico"; Omero lo presenta già come re consolidato. La tradizione cretese e quella arcade si contendono il luogo di nascita.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il fulmine, l'aquila, la quercia, lo scettro, il toro.</p>
+      <p><strong>Metamorfosi:</strong> toro, cigno, pioggia d'oro, aquila, nube.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — l'intero santuario: Tempio di Zeus, Bouleuterion (Zeus Horkios), Monte Crono, il mito contro Crono.</li>
+        <li><strong>Atene</strong> — Tempio di Zeus Olimpio, Santuario di Zeus Polieus (Bouphonia), Stoa di Zeus Eleutherios.</li>
+        <li><strong>Delfi</strong> — padre di Apollo; le due aquile che individuarono l'omphalos.</li>
+        <li><strong>Micene, Argo, Sparta</strong> — padre di Perseo, Eracle, i Dioscuri, Elena.</li>
+        <li><strong>Olimpia (Metroon)</strong> — attraverso la madre Rea.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="era" data-greek="ήρα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Era<span class="site-greek">Ήρα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Nascita e infanzia.</strong> Era era figlia di Crono e Rea, sorella e poi moglie di Zeus. Secondo una tradizione legata a Olimpia, fu allevata dalle Horai presso il fiume Imbraso, a Samo.</p>
+      <p><strong>Il matrimonio con Zeus.</strong> Secondo una versione, Zeus si trasformò in un cuculo infreddolito che Era, impietosita, strinse al petto — solo allora il dio riprese la propria forma. Il loro matrimonio (Hieros Gamos) divenne il modello archetipico dell'unione coniugale greca.</p>
+      <p><strong>La gelosia e le persecuzioni.</strong> Perseguitò Io con un tafano dopo averla scoperta trasformata in giovenca; tentò di ostacolare la nascita di Eracle, poi perseguitandolo per tutta la vita; scagliò Efesto giù dall'Olimpo per la sua bruttezza.</p>
+      <p><strong>Il Giudizio di Paride.</strong> Offrì a Paride potere e domini sconfinati per essere scelta la più bella, ma il principe preferì Afrodite — un rifiuto che le costò un'ostilità implacabile verso i Troiani.</p>
+      <p><em>Versioni alternative:</em> ad Argo Era era divinità patrona autonoma, forse ancora più importante che ad Atene stessa.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il pavone (con gli "occhi" di Argo Panoptes), la melagrana, il diadema, il cuculo, la vacca.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — il Tempio di Hera (Heraion), da cui si accende la fiamma olimpica.</li>
+        <li><strong>Argo</strong> — sua città patrona; i miti di Io e Argo Panoptes.</li>
+        <li><strong>Micene</strong> — sfondo del ciclo degli Atridi e della guerra di Troia.</li>
+        <li><strong>Tirinto</strong> — persecuzione di Eracle.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="poseidone" data-greek="ποσειδῶν">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Poseidone<span class="site-greek">Ποσειδῶν</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La spartizione del cosmo.</strong> Dopo la Titanomachia, a Poseidone toccò il mare, oltre al governo dei terremoti (epiteto Ennosigeo, "che scuote la terra") e, in molte tradizioni, dei cavalli.</p>
+      <p><strong>La contesa con Atena.</strong> Fece scaturire acqua salata dalla roccia dell'Acropoli (o apparire il primo cavallo), ma il dono di Atena — l'ulivo — fu giudicato superiore. Sconfitto, allagò la pianura attica. Si scontrò anche con Era per Argo (prosciugando i fiumi per rabbia) e con Elios per Corinto (spartendosi la città: Acrocorinto a Elios, Istmo a Poseidone).</p>
+      <p><strong>Gli amori e la progenie.</strong> Con Medusa generò Pegaso e il gigante Crisaore, nati dal sangue della madre decapitata da Perseo. Fu padre del ciclope Polifemo, del gigante Anteo, e di Nauplio, avuto dalla ninfa Amimone in cambio di una sorgente fatta scaturire con il tridente.</p>
+      <p><em>Versioni alternative:</em> l'identità del Bronzo di Artemisio (Zeus o Poseidone?) resta dibattuta, data l'iconografia quasi identica tra i due fratelli.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il tridente, il cavallo, il delfino, il toro.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — la contesa con Atena, nel Partenone e nell'Eretteo.</li>
+        <li><strong>Corinto</strong> — patrono con Elios; padre di Pegaso; i Giochi Istmici.</li>
+        <li><strong>Argo</strong> — la contesa perduta con Era.</li>
+        <li><strong>Nauplia</strong> — padre del fondatore mitico Nauplio.</li>
+        <li><strong>Museo Archeologico Nazionale</strong> — il Bronzo di Artemisio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="atena" data-greek="ἀθηνᾶ">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Atena<span class="site-greek">Ἀθηνᾶ</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita straordinaria.</strong> Zeus, dopo aver ingoiato la prima moglie Meti incinta per timore di una profezia, soffrì un violento mal di testa. Efesto (o Prometeo) gli spaccò il cranio con un'ascia, e ne balzò fuori Atena, già adulta e armata, con un grido di guerra.</p>
+      <p><strong>La dea vergine.</strong> Dea della saggezza strategica, della guerra come disciplina razionale, dell'artigianato (Atena Ergane) e patrona delle città. Rimase vergine per scelta (da cui "Parthenos").</p>
+      <p><strong>La contesa con Poseidone.</strong> Poseidone colpì la roccia dell'Acropoli con il tridente, facendo scaturire acqua salata (o un cavallo); Atena, colpendo la terra con la lancia, fece germogliare un ulivo. Cecrope e gli abitanti scelsero il dono di Atena, che divenne patrona della città, da lei chiamata Atene.</p>
+      <p><strong>Erittonio.</strong> Efesto tentò di unirsi ad Atena, che lo respinse; il suo seme, caduto a terra, fecondò Gea, generando Erittonio. Atena lo allevò in segreto, affidandolo in una cesta chiusa alle tre figlie di Cecrope, vietandone l'apertura: alcune disobbedirono, videro il bambino sorvegliato da un serpente, e impazzirono gettandosi dalla rupe dell'Acropoli.</p>
+      <p><strong>Miti di punizione.</strong> Trasformò la tessitrice Aracne in ragno per averla sfidata e battuta in una gara di tessitura; accecò il veggente Tiresia per averla vista nuda, concedendogli in cambio il dono della profezia. Nel Giudizio di Paride offrì saggezza e vittoria in guerra, rifiutata a favore di Afrodite.</p>
+      <p><em>Versioni alternative:</em> alcune tradizioni non pananelleniche attribuiscono la sua nascita a un lago libico chiamato Tritone (da cui l'epiteto omerico Tritogenia).</p></div><div class="tab-panel"><p><strong>Simboli:</strong> l'ulivo, la civetta, l'egida (con la testa di Medusa), la lancia, l'elmo, il serpente.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — Partenone, Eretteo, Tempio di Atena Nike.</li>
+        <li><strong>Sparta</strong> — Tempio di Atena Chalkioikos.</li>
+        <li><strong>Argo</strong> — l'Aspis, santuario di Atena Oxyderkes.</li>
+        <li><strong>Tempio di Efesto (Atene)</strong> — condiviso con Atena Ergane.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="apollo" data-greek="ἀπόλλων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Apollo<span class="site-greek">Ἀπόλλων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita a Delo.</strong> Apollo nacque a Delo con la gemella Artemide, figli di Zeus e Latona. Era perseguitò Latona per tutta la gravidanza; solo Delo, isola allora fluttuante, accettò di ospitarla, fissandosi al fondale come ricompensa.</p>
+      <p><strong>Apollo e Pitone.</strong> Appena nato, Apollo uccise il serpente Pitone, custode del santuario di Gea a Delfi, impossessandosi dell'oracolo. Per purificarsi fu costretto a un esilio come pastore presso il re Admeto — da cui nacquero i Giochi Pitici.</p>
+      <p><strong>Apollo e Marsia.</strong> Il satiro Marsia trovò un aulo scartato da Atena e sfidò Apollo in una gara musicale, con il vincitore libero di fare del perdente ciò che voleva. Apollo, suonando la cetra capovolta e cantando insieme — impossibile con un flauto — vinse, e per punire l'hybris di Marsia lo fece scorticare vivo, appendendolo a un pino; le sue lacrime diedero origine a un fiume in Frigia.</p>
+      <p><strong>Apollo e Dafne.</strong> Deriso Eros per il suo arco "da bambino", Apollo fu colpito da una freccia d'oro che accende l'amore, innamorandosi della ninfa Dafne, colpita invece da una freccia di piombo che respinge l'amore. Inseguita, Dafne implorò il padre-fiume di trasformarla, e fu mutata in alloro proprio mentre Apollo la raggiungeva — pianta da allora a lui sacra.</p>
+      <p><strong>Apollo e Coronide.</strong> L'amore per la principessa tessala, il tradimento rivelato dal corvo, la nascita di Asclepio strappato dalle fiamme della pira, affidato al centauro Chirone.</p>
+      <p><strong>Apollo Patroos.</strong> Considerato padre di Ione, capostipite degli Ioni, il gruppo etnico a cui appartenevano gli Ateniesi.</p>
+      <p><em>Versioni alternative:</em> tradizioni pre-elleniche attribuiscono un ruolo fondativo più diretto a Gea e Temi nell'oracolo delfico, con Apollo come "usurpatore" tardivo.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la lira/cetra, l'arco e le frecce, l'alloro, il corvo, il tripode delfico, il cigno.</p>
+      <p><strong>Metamorfosi:</strong> Dafne in alloro; il corvo da bianco a nero.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Delfi</strong> — il suo santuario per eccellenza.</li>
+        <li><strong>Epidauro</strong> — padre di Asclepio.</li>
+        <li><strong>Atene</strong> — Tempio di Apollo Patroos nell'Agorà.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="artemide" data-greek="ἄρτεμις">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Artemide<span class="site-greek">Ἄρτεμις</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita a Delo.</strong> Nacque con il gemello Apollo. Secondo una tradizione, nacque per prima e aiutò la madre a partorire il fratello — da cui il suo ruolo di protettrice del parto.</p>
+      <p><strong>La dea vergine dei boschi.</strong> Ottenne da Zeus l'eterna verginità, un arco d'argento, un seguito di ninfe, e la sovranità sui monti e i boschi. Dea della caccia, degli animali selvatici, della luna, della transizione delle giovani donne all'età adulta.</p>
+      <p><strong>Il sacrificio di Ifigenia.</strong> La flotta greca, bloccata da venti contrari ad Aulide, poté salpare solo dopo il sacrificio di Ifigenia, figlia di Agamennone, richiesto da Artemide offesa. All'ultimo istante, Artemide sostituì la fanciulla con una cerva, portando Ifigenia in Tauride a farne la propria sacerdotessa. Da lì Ifigenia fondò poi il santuario di Artemide a Brauron.</p>
+      <p><strong>Il rito dell'Arkteia.</strong> A Brauron le giovani ateniesi venivano consacrate alla dea imitando gli orsi in danze rituali. Il mito narra che un'orsa sacra fu uccisa dai fratelli di una ragazza graffiata durante un gioco; Artemide, offesa, mandò una pestilenza, placata solo istituendo il rito annuale.</p>
+      <p><strong>Miti di punizione.</strong> Trasformò il cacciatore Atteone in cervo per averla vista nuda, facendolo sbranare dai propri cani; uccise, insieme ad Apollo, i quattordici figli di Niobe, colpevole di essersi vantata contro Latona.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> l'arco d'argento, la luna crescente, il cervo, l'orsa, la cipressa.</p>
+      <p><strong>Metamorfosi:</strong> Atteone in cervo; Ifigenia "sostituita" da una cerva.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Micene</strong> — il ciclo degli Atridi: Agamennone, Ifigenia, Aulide.</li>
+        <li><strong>Atene (Acropoli)</strong> — il Santuario di Artemide Brauronia, l'Arkteia.</li>
+        <li><strong>Epidauro</strong> — il Tempio di Artemide, zia di Asclepio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="demetra" data-greek="δημήτηρ">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Demetra<span class="site-greek">Δημήτηρ</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il ratto di Persefone.</strong> Demetra aveva un'unica figlia, Persefone, avuta da Zeus. Mentre raccoglieva fiori, sedotta da un narciso fatto crescere da Gea su richiesta di Zeus, la terra si spalancò e Ade la rapì con il proprio carro, con il consenso segreto di Zeus.</p>
+      <p><strong>La ricerca disperata.</strong> Demetra vagò nove giorni cercando la figlia. Elios le rivelò la verità. Furiosa, si travestì da vecchia e vagò fino a Eleusi, dove divenne nutrice del piccolo principe Demofoonte, tentando di renderlo immortale bruciandone le impurità nel fuoco ogni notte — rito interrotto dalla madre spaventata.</p>
+      <p><strong>Un momento comico:</strong> l'anziana Baubo fece ridere la dea sollevandosi le vesti in un gesto scherzoso — mito eziologico di riti osceni legati ai Misteri Eleusini.</p>
+      <p><strong>La carestia e il compromesso.</strong> Demetra impedì a ogni seme di germogliare. Zeus ordinò ad Ade di restituire Persefone, ma la fanciulla aveva mangiato chicchi di melagrana, il cibo dei morti: fu raggiunto un compromesso, Persefone avrebbe trascorso parte dell'anno negli inferi e parte con la madre — mito eziologico delle stagioni.</p>
+      <p><strong>I Misteri Eleusini.</strong> Demetra insegnò ai re di Eleusi i propri riti, istruendo Trittolemo nell'agricoltura. Nacquero così i Misteri Eleusini, celebrati per quasi duemila anni, il cui contenuto esatto resta segreto ancora oggi.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> le spighe di grano, la torcia, il maialino, il papavero.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia (Stadio)</strong> — l'altare di Demetra Chamyne, unica donna ammessa ai Giochi.</li>
+        <li><strong>Atene / Kerameikos</strong> — la Via Sacra verso Eleusi partiva dalla Porta Sacra.</li>
+        <li><strong>Corinto (Acrocorinto)</strong> — culti misterici e ctonii affini.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="dioniso" data-greek="διόνυσος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Dioniso<span class="site-greek">Διόνυσος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La doppia nascita.</strong> Sua madre Semele, amante di Zeus, fu ingannata da Era a chiedere all'amante di mostrarsi in tutto il suo splendore divino — una richiesta fatale, che la incenerì. Zeus salvò il feto e se lo cucì nella coscia, portandolo a termine lui stesso — da cui l'epiteto "nato due volte".</p>
+      <p><strong>La versione orfica: Zagreus.</strong> Una tradizione più cupa narra che Dioniso nacque prima come Zagreus, figlio di Zeus e Persefone, fatto a pezzi dai Titani su istigazione di Era. Atena salvò il cuore ancora pulsante, che Zeus inghiottì, permettendo la "rinascita" attraverso Semele.</p>
+      <p><strong>Il dio del vino.</strong> Scoprì la vite e la vinificazione, diffondendole fino in India con un corteo di Satiri, Menadi e Sileno. Il suo culto era legato alla mania rituale e all'ebbrezza, motivo per cui era anche patrono del teatro.</p>
+      <p><strong>Dioniso e i pirati tirreni.</strong> Alcuni pirati, non riconoscendolo, tentarono di rapirlo per venderlo schiavo — le corde si sciolsero da sole, viti invasero la nave, e i pirati terrorizzati si gettarono in mare, dove il dio li trasformò in delfini.</p>
+      <p><strong>Dioniso e Arianna.</strong> Dopo che Teseo abbandonò Arianna a Nasso, Dioniso la trovò, se ne innamorò e la sposò, donandole una corona divenuta poi la costellazione della Corona Boreale.</p>
+      <p><strong>Dioniso a Delfi.</strong> Condivideva il Tempio di Apollo, che si allontanava nei mesi invernali verso gli Iperborei, lasciando il santuario a Dioniso.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il tirso, la vite, l'edera, la pantera, la maschera teatrale.</p>
+      <p><strong>Metamorfosi:</strong> i pirati tirreni in delfini; sé stesso "rinato" due volte.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Delfi</strong> — condivide il tempio con Apollo; i riti delle Tiadi.</li>
+        <li><strong>Atene</strong> — il Teatro di Dioniso, le Grandi Dionisie.</li>
+        <li><strong>Monumento di Lisicrate (Atene)</strong> — il mito dei pirati tirreni.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="afrodite" data-greek="ἀφροδίτη">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Afrodite<span class="site-greek">Ἀφροδίτη</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita dalla spuma.</strong> Secondo Esiodo, quando Crono evirò Urano, gettò i genitali in mare: dal contatto tra carne divina e spuma marina nacque Afrodite già adulta, approdando a Citera e poi a Cipro. Una tradizione alternativa (Omero) la fa figlia di Zeus e Dione.</p>
+      <p><strong>Il matrimonio con Efesto e l'amore per Ares.</strong> Sposata a Efesto, lo tradì con Ares. Efesto, avvertito da Elios, costruì una rete invisibile che intrappolò i due amanti, esponendoli al ridicolo di tutti gli dèi.</p>
+      <p><strong>Il Giudizio di Paride.</strong> Offrì a Paride l'amore di Elena, già moglie di Menelao, vincendo la gara di bellezza ma innescando la guerra di Troia.</p>
+      <p><strong>Adone.</strong> Si innamorò del bellissimo mortale Adone, nato da un incesto tra Mirra (trasformata in albero) e il proprio padre. Adone morì giovane, ucciso da un cinghiale (forse mandato da un geloso Ares). Dal suo sangue nacquero gli anemoni rossi; le lacrime di Afrodite, mescolate al sangue calpestando spine, tinsero di rosso le rose bianche.</p>
+      <p><strong>Eros.</strong> Madre di Eros, il dio alato dell'amore le cui frecce fecero innamorare anche Apollo di Dafne.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la conchiglia, la colomba, il mirto, la rosa, la cintura magica.</p>
+      <p><strong>Metamorfosi:</strong> Mirra in albero; il sangue di Adone in anemoni; le rose tinte di rosso.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Corinto (Acrocorinto)</strong> — il grande santuario sulla fortezza.</li>
+        <li><strong>Atene (Acropoli)</strong> — il Santuario nei Giardini, meta dell'Arreforia.</li>
+        <li><strong>Sparta</strong> — artefice della bellezza di Elena e della guerra di Troia.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="ares" data-greek="ἄρης">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ares<span class="site-greek">Ἄρης</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il dio della guerra violenta.</strong> Figlio di Zeus ed Era, incarnava la furia cieca e sanguinaria del combattimento, in opposizione alla guerra strategica di Atena — uno degli dèi meno amati, definito da Zeus stesso "il più odioso di tutti".</p>
+      <p><strong>L'amore con Afrodite</strong> e la rete di Efesto che li espose al ridicolo dell'Olimpo.</p>
+      <p><strong>Il processo sull'Areopago.</strong> Ares fu il primo processato per omicidio in quel luogo, accusato di aver ucciso Alirrozio, figlio di Poseidone, che aveva tentato di violentare sua figlia Alcippe. Fu assolto per legittima difesa, stabilendo il precedente sacro per ogni futuro giudizio ateniese.</p>
+      <p><strong>Ares in guerra.</strong> Nell'Iliade viene ferito e messo in fuga sia da Diomede (aiutato da Atena) sia da Eracle, in un episodio quasi comico.</p>
+      <p><strong>I figli di Ares.</strong> Le Amazzoni erano considerate sue figlie; Enomao, re di Pisa nel mito di Pelope, era suo figlio e ne riceveva i cavalli invincibili.</p>
+      <p><em>Versioni alternative:</em> il corrispondente romano Marte godeva di un prestigio molto maggiore rispetto al greco Ares.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la lancia, l'elmo, il cane e l'avvoltoio, la fiaccola.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Areopago)</strong> — il mito fondativo del processo per Alirrozio.</li>
+        <li><strong>Olimpia</strong> — padre di Enomao.</li>
+        <li><strong>Micene, Argo</strong> — presenza indiretta nei conflitti eroici.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="efesto" data-greek="ἥφαιστος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Efesto<span class="site-greek">Ἥφαιστος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita e il rifiuto.</strong> Nato da Zeus ed Era (o da Era sola, per partenogenesi, come "risposta" alla nascita di Atena), Efesto nacque zoppo e deforme; Era, disgustata, lo scaraventò giù dall'Olimpo. Fu raccolto da Teti ed Eurinome, che lo allevarono per nove anni in una grotta sottomarina.</p>
+      <p><strong>La vendetta contro Era.</strong> Costruì un trono d'oro magico e lo inviò in dono alla madre: Era vi restò intrappolata da legami invisibili. Solo Dioniso, ubriacandolo, convinse Efesto a liberarla, in cambio della mano di Afrodite.</p>
+      <p><strong>Il tentativo con Atena</strong> e la nascita di Erittonio, generato da Gea dal seme caduto a terra.</p>
+      <p><strong>Il dio fabbro.</strong> Forgiò il fulmine di Zeus, l'egida, le armi di molti eroi (incluso Achille, per la madre Teti), e la prima donna mortale, Pandora. Costruì automi meccanici viventi — servitrici d'oro parlanti, tripodi semoventi.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il martello e l'incudine, la forgia, la tenaglia; il corrispondente romano Vulcano ha dato l'italiano "vulcano".</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — il Tempio di Efesto nell'Agorà; il mito di Erittonio.</li>
+        <li><strong>Olimpia, Delfi</strong> — presenza indiretta come artefice di armi.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="ermes" data-greek="ἑρμῆς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ermes<span class="site-greek">Ἑρμῆς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il neonato ladro e geniale.</strong> Figlio di Zeus e Maia, ancora in fasce inventò la lira e rubò cinquanta capi del bestiame di Apollo, facendo camminare gli animali all'indietro per confondere le tracce. Scoperto, negò tutto con sfrontatezza; la disputa si risolse quando Ermes offrì ad Apollo la lira in cambio del perdono, ricevendo il caduceo come simbolo della propria autorità.</p>
+      <p><strong>Il messaggero e psicopompo.</strong> Divenne il messaggero ufficiale di Zeus, l'unico dio capace di muoversi tra tutti i regni, e psicopompo — guida delle anime dei defunti fino al fiume Stige.</p>
+      <p><strong>Ermes e Argo Panoptes.</strong> Inviato da Zeus, addormentò con musica e racconti tutti i cento occhi del gigante guardiano, uccidendolo e liberando Io.</p>
+      <p><strong>Patrono di confini e scambi.</strong> Dio dei confini (le erme), dei viandanti, del commercio, dell'eloquenza e dei ladri. Patrono di palestre e ginnasi insieme a Eracle.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il caduceo, i sandali alati, il petaso, la lira, le erme.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Argo</strong> — il mito di Argo Panoptes e Io.</li>
+        <li><strong>Olimpia</strong> — patrono di palestre e ginnasi.</li>
+        <li><strong>Atene (Stoa Basileios)</strong> — l'area "degli Herm".</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="estia" data-greek="ἑστία">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Estia<span class="site-greek">Ἑστία</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La primogenita "due volte nata".</strong> Prima figlia di Crono e Rea, fu la prima a essere inghiottita e l'ultima a essere rigurgitata — insieme maggiore e minore tra i sei figli.</p>
+      <p><strong>Il voto di castità.</strong> Rifiutò sia Poseidone che Apollo come pretendenti, giurando su Zeus di restare vergine per sempre. Zeus la ricompensò con il privilegio di ricevere la prima e l'ultima offerta in ogni sacrificio.</p>
+      <p><strong>Il tentativo di Priapo.</strong> Durante una festa, mentre tutti dormivano, il dio Priapo tentò di avvicinarla — solo il raglio improvviso di un asino la svegliò in tempo, salvandola.</p>
+      <p><strong>La rinuncia al proprio seggio.</strong> Alcune fonti (incluso il fregio del Partenone, dove compare Dioniso al suo posto) suggeriscono che avrebbe volontariamente ceduto il proprio posto tra i dodici Olimpi a Dioniso per mantenere la pace.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il focolare, la fiamma perenne, il calderone, l'asino.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia (Pritaneo)</strong> — l'altare con la fiamma perenne.</li>
+        <li><strong>Atene (Tholos e Bouleuterion)</strong> — il focolare pubblico della città.</li>
+        <li><strong>Delfi</strong> — l'omphalos come suo "focolare" simbolico.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="mitologia-eroi">
+  <h2 class="group-title">Eroi<span class="group-count">7</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="eracle" data-greek="ἡρακλῆς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Eracle<span class="site-greek">Ἡρακλῆς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita e l'inganno di Zeus.</strong> Figlio di Zeus e della mortale Alcmena. Era, gelosa, ritardò la sua nascita e affrettò quella del cugino Euristeo, che divenne re al posto suo.</p>
+      <p><strong>L'infanzia e la follia.</strong> Ancora in culla strangolò due serpenti inviati da Era. Da adulto, un attacco di follia scagliatogli da Era gli fece uccidere moglie e figli. L'oracolo di Delfi gli ordinò di servire Euristeo per dodici anni.</p>
+      <p><strong>Le Dodici Fatiche:</strong> il Leone di Nemea, l'Idra di Lerna, la Cerva di Cerinea, il Cinghiale di Erimanto, le Stalle di Augia, gli Uccelli Stinfali, il Toro di Creta, le Cavalle di Diomede, la Cintura di Ippolita, i Buoi di Gerione, i Pomi delle Esperidi, la cattura di Cerbero.</p>
+      <p><strong>La morte e l'apoteosi.</strong> Morì avvelenato involontariamente dalla moglie Deianira, che gli fece indossare una tunica intrisa del sangue del centauro Nesso. Si fece costruire una pira; mentre bruciava, Zeus lo elevò all'Olimpo come dio, sposando Ebe.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la clava, la pelle del Leone di Nemea, l'arco.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Tirinto</strong> — nascita e servizio presso Euristeo.</li>
+        <li><strong>Micene</strong> — capitale di Euristeo secondo un'altra tradizione.</li>
+        <li><strong>Olimpia</strong> — fondatore alternativo dei Giochi; le fatiche nelle metope del Tempio di Zeus.</li>
+        <li><strong>Atene (Tempio di Efesto)</strong> — le fatiche nelle metope orientali.</li>
+        <li><strong>Delfi</strong> — l'oracolo che gli impose il servizio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="teseo" data-greek="θησεύς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Teseo<span class="site-greek">Θησεύς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita e le prove del padre.</strong> Figlio di Egeo (o di Poseidone) e di Etra. Egeo nascose spada e sandali sotto un masso; Teseo, sollevatolo da adulto, partì per Atene.</p>
+      <p><strong>Il viaggio verso Atene.</strong> Sconfisse briganti come Procuste e Sinis lungo la via di terra, emulando Eracle.</p>
+      <p><strong>Medea e il riconoscimento.</strong> Medea, sposa di Egeo, tentò di avvelenarlo; Egeo lo riconobbe dalla spada appena in tempo, facendo cadere la coppa.</p>
+      <p><strong>Il Minotauro.</strong> Atene doveva inviare sette fanciulli e sette fanciulle in tributo al Minotauro nel labirinto di Creta. Teseo si offrì volontario; Arianna gli diede un filo per ritrovare l'uscita. Uccise il Minotauro e fuggì con lei.</p>
+      <p><strong>L'abbandono di Arianna e la morte di Egeo.</strong> Abbandonò Arianna a Nasso (poi sposata da Dioniso) e dimenticò di issare le vele bianche: Egeo, credendolo morto, si gettò in mare, dando nome al Mar Egeo.</p>
+      <p><strong>Il re e unificatore.</strong> Compì il sinecismo dell'Attica sotto Atene.</p>
+      <p><strong>Le Amazzoni</strong> e l'Amazzonomachia che ne seguì; <strong>l'amicizia con Piritoo</strong> e la discesa agli Inferi da cui fu salvato da Eracle.</p>
+      <p><strong>La morte in esilio</strong> a Skyros, gettato da una rupe.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la spada e i sandali, il gomitolo di filo, la clava.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — l'eroe nazionale: Tempio di Efesto, Tempio di Atena Nike, Stoa Poikile, il sinecismo.</li>
+        <li><strong>Corinto</strong> — l'episodio di Medea.</li>
+        <li><strong>Delfi</strong> — l'Amazzonomachia nel Tesoro degli Ateniesi.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="perseo" data-greek="περσεύς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Perseo<span class="site-greek">Περσεύς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La profezia e la nascita.</strong> Acrisio, re di Argo, temeva un nipote che l'avrebbe ucciso. Rinchiuse la figlia Danae in una torre; Zeus, in pioggia d'oro, generò Perseo. Acrisio li gettò in mare in una cassa.</p>
+      <p><strong>L'infanzia a Serifo.</strong> Approdati a Serifo, Perseo crebbe fino a quando il re Polidette lo sfidò a portargli la testa di Medusa.</p>
+      <p><strong>La decapitazione di Medusa.</strong> Con l'aiuto di Atena ed Ermes, rintracciò le Graie per scoprire dove trovare gli strumenti magici, poi decapitò Medusa guidandosi col riflesso dello scudo. Dal collo reciso nacquero Pegaso e Crisaore.</p>
+      <p><strong>Il ritorno.</strong> Salvò e sposò Andromeda, pietrificò Polidette con la testa di Medusa, e donò la testa ad Atena, che la fissò sulla propria egida.</p>
+      <p><strong>La profezia compiuta.</strong> Un disco lanciato per errore uccise Acrisio, suo nonno, compiendo la profezia.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la testa di Medusa (Gorgoneion), i sandali alati, la falce, lo scudo riflettente.</p>
+      <p><strong>Metamorfosi:</strong> Polidette e il mostro marino pietrificati; Pegaso nato dal sangue di Medusa.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Argo</strong> — la sua città: Danao, Acrisio, la profezia.</li>
+        <li><strong>Micene</strong> — secondo alcune tradizioni, fondatore delle mura ciclopiche.</li>
+        <li><strong>Corinto</strong> — Pegaso, catturato da Bellerofonte.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="pelope" data-greek="πέλοψ">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pelope<span class="site-greek">Πέλοψ</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il banchetto di Tantalo.</strong> Tantalo uccise il figlio Pelope e lo servì agli dèi in un banchetto per testarne l'onniscienza. Demetra, distratta, assaggiò una spalla. Gli dèi ricomposero Pelope, sostituendo la spalla con una protesi d'avorio.</p>
+      <p><strong>L'amore di Poseidone,</strong> che lo rapì come coppiere e gli donò un carro con cavalli alati invincibili.</p>
+      <p><strong>La corsa contro Enomao.</strong> Per sposare Ippodamia, Pelope dovette battere in una corsa di carri il re Enomao, che uccideva ogni pretendente perdente.</p>
+      <p><strong>Il tradimento di Mirtilo.</strong> Pelope corruppe l'auriga Mirtilo, che sabotò il carro di Enomao con perni di cera. Enomao morì; Pelope tradì Mirtilo gettandolo in mare (da cui il Mar Mirtoo). Mirtilo, morendo, maledisse Pelope e la sua discendenza — la stessa maledizione degli Atridi.</p>
+      <p><strong>La fondazione dei Giochi</strong> in onore di Zeus, per celebrare la vittoria.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la spalla d'avorio, il carro e i cavalli alati.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — il Pelopion, il Tempio di Zeus, l'Ippodromo, la fondazione dei Giochi.</li>
+        <li><strong>Micene</strong> — la maledizione trasmessa fino ad Atreo, Agamennone, Oreste.</li>
+        <li><strong>Il Peloponneso</strong> — l'intera penisola prende il suo nome.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bellerofonte" data-greek="βελλεροφῶν">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bellerofonte<span class="site-greek">Βελλεροφῶν</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il nome e l'esilio.</strong> Nato a Corinto, figlio di Glauco (o Poseidone). Dopo aver ucciso per errore un nobile, fu esiliato e purificato alla corte del re Preto di Tirinto.</p>
+      <p><strong>La cattura di Pegaso,</strong> che si abbeverava alla fonte di Peirene a Corinto, domato con briglie d'oro donate in sogno da Atena.</p>
+      <p><strong>Le imprese in Licia.</strong> Accusato falsamente da Antea, fu inviato dal re Iobate con una "lettera bellerofontica" che ne ordinava segretamente la morte. Superò le prove imposte, inclusa la sconfitta della Chimera volando su Pegaso, sposando poi la figlia di Iobate.</p>
+      <p><strong>L'hybris e la caduta.</strong> Tentò di volare fino all'Olimpo su Pegaso; Zeus mandò un tafano a pungere il cavallo, facendolo precipitare, storpio e cieco, per il resto della vita.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> Pegaso, le briglie d'oro, la Chimera.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Corinto</strong> — la cattura di Pegaso alla Fontana di Peirene.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="giasone" data-greek="ἰάσων">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Giasone<span class="site-greek">Ἰάσων</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il trono usurpato.</strong> Figlio di Esone, spodestato dal fratellastro Pelia, che gli impose di recuperare il Vello d'Oro dalla Colchide.</p>
+      <p><strong>Gli Argonauti</strong> — Eracle, Orfeo, i Dioscuri e altri — salparono sulla nave Argo, superando le Simplegadi e altre prove.</p>
+      <p><strong>Le prove di Eeta e l'aiuto di Medea.</strong> Il re Eeta impose prove impossibili; Medea, innamoratasi di Giasone, lo aiutò con la magia, addormentando il drago custode del Vello.</p>
+      <p><strong>La fuga.</strong> Inseguiti da Eeta, Medea uccise e smembrò il proprio fratello Absirto per rallentare l'inseguimento.</p>
+      <p><strong>Il ritorno e la vendetta su Pelia.</strong> Medea ingannò le figlie di Pelia facendogli uccidere il padre credendo di ringiovanirlo. Esiliati, si rifugiarono a Corinto, dove Giasone abbandonò Medea per un'altra sposa — scatenando la tragedia già raccontata a Corinto.</p>
+      <p><strong>La fine solitaria,</strong> morto sotto la prua marcia della propria nave Argo.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il Vello d'Oro, la nave Argo, il sandalo singolo.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Corinto</strong> — l'esilio, il tradimento di Medea, la tragedia dei figli.</li>
+        <li><strong>Micene, Sparta</strong> — i Dioscuri, compagni di viaggio sulla Argo.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="achille" data-greek="ἀχιλλεύς">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Achille<span class="site-greek">Ἀχιλλεύς</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Il matrimonio che scatenò la guerra di Troia.</strong> Figlio di Peleo e della ninfa Teti. Al loro matrimonio, Eris gettò la mela della discordia che innescò il Giudizio di Paride.</p>
+      <p><strong>L'immersione nello Stige,</strong> con cui Teti lo rese invulnerabile tranne che nel tallone, con cui lo teneva.</p>
+      <p><strong>L'educazione</strong> presso il centauro Chirone; nascosto a Sciro travestito da fanciulla, fu scoperto da Ulisse.</p>
+      <p><strong>L'ira di Achille e la morte di Patroclo.</strong> Offeso da Agamennone, si ritirò dal combattimento. Tornò in battaglia solo dopo che il suo compagno Patroclo, indossando le sue armi, fu ucciso da Ettore.</p>
+      <p><strong>La morte di Ettore,</strong> ucciso in duello e trascinato attorno alle mura di Troia, prima di restituirne il corpo al padre Priamo.</p>
+      <p><strong>La morte,</strong> colpito al tallone da una freccia di Paride guidata da Apollo.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> lo scudo forgiato da Efesto, il tallone, l'armatura divina.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Micene</strong> — la disputa con Agamennone.</li>
+        <li><strong>Epidauro</strong> — condivide il maestro Chirone con Asclepio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="mitologia-cicli">
+  <h2 class="group-title">Cicli<span class="group-count">5</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="il ciclo degli atridi" data-greek="ἀτρεῖδαι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Ciclo degli Atridi<span class="site-greek">Ἀτρεῖδαι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La maledizione della casa di Atreo.</strong> Tantalo uccise il figlio Pelope e lo servì agli dèi in un banchetto; punito, vide comunque Pelope riportato in vita. Fu Pelope, dopo il tradimento di Mirtilo, a ricevere la maledizione che avrebbe attraversato le generazioni.</p>
+      <p><strong>Atreo e Tieste.</strong> I due figli di Pelope lottarono per il trono di Micene. Tieste sedusse la moglie di Atreo; Atreo si vendicò servendogli in un banchetto le carni dei propri figli — evento così mostruoso che il Sole invertì la propria rotta per non assistervi. Tieste generò poi Egisto, allevato per vendicarlo.</p>
+      <p><strong>Agamennone e il sacrificio di Ifigenia.</strong> Agamennone, comandante della spedizione contro Troia, sacrificò la figlia Ifigenia ad Aulide per ottenere venti favorevoli (sostituita all'ultimo da una cerva, secondo la versione più diffusa).</p>
+      <p><strong>Il ritorno e l'assassinio.</strong> Tornato dalla guerra, Agamennone fu ucciso nel bagno dalla moglie Clitennestra e dal suo amante Egisto (figlio di Tieste).</p>
+      <p><strong>La vendetta di Oreste.</strong> Il figlio Oreste, con l'aiuto della sorella Elettra, uccise Egisto e Clitennestra, scatenando la persecuzione delle Erinni. Un processo sull'Areopago di Atene, presieduto da Atena, lo assolse infine.</p>
+      <p><em>Versioni alternative:</em> Euripide offre letture più ambigue rispetto a Eschilo, dando risalto al punto di vista femminile.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la rete/il velo del bagno, le Erinni, la maschera tragica.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Micene</strong> — l'epicentro: Palazzo e Megaron, Tesoro di Atreo, Tomba di Clitennestra.</li>
+        <li><strong>Olimpia</strong> — l'origine della maledizione nel mito di Pelope.</li>
+        <li><strong>Atene (Areopago)</strong> — il processo che assolve Oreste.</li>
+        <li><strong>Nauplia</strong> — la leggenda dell'architrave dalla Tomba di Agamennone.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="la guerra di troia" data-greek="τρωικὸς πόλεμος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Guerra di Troia<span class="site-greek">Τρωικὸς Πόλεμος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Le cause: il Giudizio di Paride.</strong> Al matrimonio di Peleo e Teti, Eris gettò la mela della discordia. Paride scelse Afrodite, che gli promise l'amore di Elena, guadagnandosi l'ostilità di Era e Atena.</p>
+      <p><strong>Il giuramento dei pretendenti ed Elena.</strong> Elena sposò Menelao di Sparta; quando Paride la sedusse (o rapì) e fuggì con lei a Troia, il giuramento prestato da tutti i pretendenti obbligò i re greci a muovere guerra.</p>
+      <p><strong>La radunata e Ifigenia.</strong> La flotta di Agamennone, bloccata ad Aulide, salpò solo dopo il sacrificio di Ifigenia.</p>
+      <p><strong>I dieci anni d'assedio.</strong> L'ira di Achille, la morte di Patroclo e di Ettore; la morte di Achille per mano di Paride guidato da Apollo.</p>
+      <p><strong>Il Cavallo di Troia.</strong> Ulisse ideò il cavallo cavo; nonostante gli avvertimenti di Laocoonte (poi ucciso da serpenti marini) e Cassandra (mai creduta), i Troiani lo introdussero in città. Di notte i Greci uscirono e aprirono le porte: Troia cadde.</p>
+      <p><strong>Le conseguenze.</strong> Priamo ucciso, Cassandra portata schiava da Agamennone, Enea fuggito verso l'Italia. I Nostoi (ritorni) degli eroi greci furono pieni di sventure.</p>
+      <p><em>Versioni alternative:</em> Erodoto riporta una tradizione egizia secondo cui la vera Elena non giunse mai a Troia.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il Cavallo di Troia, la mela della discordia, le mura di Troia.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Sparta</strong> — Elena e Menelao, il Menelaion.</li>
+        <li><strong>Micene</strong> — Agamennone, comandante supremo.</li>
+        <li><strong>Delfi, Atene, Olimpia</strong> — raffigurato nelle decorazioni scultoree (Tesoro degli Ateniesi, Stoa Poikile, metope).</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il ciclo di argo (danao, perseo, io)" data-greek="ἄργος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Ciclo di Argo (Danao, Perseo, Io)<span class="site-greek">Ἄργος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Io, capostipite.</strong> Sacerdotessa di Era amata da Zeus, trasformata in giovenca, perseguitata da un tafano dopo la morte di Argo Panoptes. Vagò fino in Egitto, dove generò da Zeus una discendenza destinata a moltiplicarsi.</p>
+      <p><strong>Danao e le Danaidi.</strong> Un discendente di Io, Danao, ebbe cinquanta figlie; il fratello Egitto, cinquanta figli. Rifiutando le nozze forzate, Danao fuggì ad Argo. Costretto alle nozze, fece uccidere ai figli di Egitto dalle proprie figlie nella notte di nozze; solo Ipermestra risparmiò il marito Linceo. Le altre quarantanove furono condannate a riempire una giara forata per l'eternità.</p>
+      <p><strong>Da Ipermestra a Perseo.</strong> Dalla coppia superstite discese la dinastia regale di Argo fino ad Acrisio, nonno di Perseo — chiudendo il cerchio: la discendenza di Io, cacciata da Argo, vi ritorna con Danao e produce, generazioni dopo, uno dei più celebri eroi greci.</p>
+      <p><em>Versioni alternative:</em> Eschilo e Apollodoro offrono alberi genealogici con generazioni intermedie diverse.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> la giara forata, il tafano, i cento occhi di Argo Panoptes (nel pavone di Era).</p>
+      <p><strong>Metamorfosi:</strong> Io in giovenca.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Argo</strong> — il cuore del ciclo: Danao, le Danaidi, Io.</li>
+        <li><strong>Micene</strong> — secondo alcune tradizioni, fondata da Perseo.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="medea e giasone" data-greek="μήδεια">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Medea e Giasone<span class="site-greek">Μήδεια</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Da Colchide a Corinto.</strong> Medea tradì il padre e uccise il fratello per amore di Giasone, poi vendicò l'esilio del marito facendo uccidere il re Pelia. Esiliati, si rifugiarono a Corinto, dove ebbero diversi figli.</p>
+      <p><strong>Il tradimento.</strong> Giasone decise di abbandonare Medea per sposare Glauce, figlia del re Creonte di Corinto.</p>
+      <p><strong>La vendetta.</strong> Medea inviò a Glauce un peplo e una corona avvelenati che presero fuoco, uccidendo lei e Creonte accorso in soccorso. Poi uccise i propri stessi figli per infliggere a Giasone il dolore più totale, fuggendo infine su un carro alato del Sole.</p>
+      <p><em>Versioni alternative:</em> questa lettura si deve principalmente a Euripide (Medea, 431 a.C.); una tradizione corinzia più antica attribuiva l'uccisione dei figli agli stessi abitanti di Corinto, sdegnati per la morte di Glauce e Creonte.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il peplo e la corona avvelenati, il carro alato del Sole, il calderone magico.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Corinto</strong> — l'intera tragedia finale.</li>
+        <li><strong>Atene</strong> — secondo tradizioni successive, Medea si rifugiò qui e tentò di avvelenare il giovane Teseo.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="le origini di atene (cecrope, erittonio)" data-greek="κέκροψ">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Le Origini di Atene (Cecrope, Erittonio)<span class="site-greek">Κέκροψ</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Cecrope, il primo re autoctono.</strong> Nato dalla stessa terra, per metà uomo e per metà serpente. Sotto il suo regno avvenne la contesa tra Atena e Poseidone per il patronato della città.</p>
+      <p><strong>Le figlie di Cecrope.</strong> Aglauro, Erse e Pandroso — protagoniste del mito di Erittonio. Pandroso, unica a non disobbedire, divenne prima sacerdotessa di Atena.</p>
+      <p><strong>Erittonio, il bambino-serpente.</strong> Nato da Gea, fecondata dal seme di Efesto respinto da Atena. Affidato in una cesta chiusa alle figlie di Cecrope: Aglauro ed Erse disobbedirono, videro il bambino sorvegliato da serpenti, e impazzirono gettandosi dalla rupe.</p>
+      <p><strong>Erittonio re,</strong> istituì il culto di Atena Poliade e le feste Panatenaiche. Il suo nome è spesso fuso con quello di Erecteo, a cui è dedicato l'Eretteo.</p>
+      <p><strong>Il significato politico:</strong> l'autoctonia distingueva Atene dalle altre poleis (come Sparta, di discendenza dorica) e ne giustificava la pretesa di superiorità culturale.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il serpente, la cesta chiusa, l'ulivo sacro.</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene (Acropoli)</strong> — Eretteo, Pandroseion, Arreforion.</li>
+        <li><strong>Atene (Partenone)</strong> — il frontone occidentale con la contesa Atena-Poseidone.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="mitologia-creature">
+  <h2 class="group-title">Creature<span class="group-count">6</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="le amazzoni" data-greek="ἀμαζόνες">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Le Amazzoni<span class="site-greek">Ἀμαζόνες</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origine e discendenza.</strong> Popolo leggendario di donne guerriere, discendenti da Ares e dalla ninfa Armonia. Vivevano presso il fiume Termodonte, sul Mar Nero, in una società interamente femminile: gli uomini ammessi solo per la procreazione.</p>
+      <p><strong>Le regine amazzoni.</strong> La prima regina fu Otrera; le sue figlie più celebri Ippolita (custode di una cintura magica) e Pentesilea.</p>
+      <p><strong>Eracle e la cintura di Ippolita.</strong> Nona fatica di Eracle: Era, travestita da amazzone, scatenò un attacco a sorpresa contro la nave di Eracle; Ippolita fu uccisa, la cintura presa.</p>
+      <p><strong>Teseo e Antiope.</strong> Teseo rapì la regina Antiope, scatenando l'invasione amazzone dell'Attica (l'Amazzonomachia), combattuta sotto le mura dell'Acropoli.</p>
+      <p><strong>Pentesilea e la guerra di Troia.</strong> Condusse le Amazzoni in soccorso dei Troiani; fu uccisa in duello da Achille, che si innamorò di lei nell'istante in cui le tolse l'elmo.</p>
+      <p><em>Versioni alternative:</em> Erodoto propose un'origine storica, identificandole con popolazioni scitiche o sarmatiche realmente esistite.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> l'ascia bipenne (labrys), l'arco, lo scudo a mezzaluna (pelta), la cintura di Ippolita.</p>
+      <p><strong>Dove trovarle nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — Amazzonomachia nel Partenone, Stoa Poikile, spedizione di Teseo.</li>
+        <li><strong>Delfi</strong> — le metope del Tesoro degli Ateniesi.</li>
+        <li><strong>Olimpia</strong> — decorazioni del Tempio di Zeus.</li>
+        <li><strong>Micene</strong> — Pentesilea contro Achille nella guerra di Troia.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="i centauri" data-greek="κένταυροι">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">I Centauri<span class="site-greek">Κένταυροι</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>L'origine.</strong> Issione, re dei Lapiti, tentò di sedurre Era; Zeus plasmò una nuvola (Nefele) a sua immagine. Dall'unione nacque Centauro, che accoppiandosi con le giumente del Monte Pelio generò l'intera razza dei Centauri.</p>
+      <p><strong>Chirone, l'eccezione.</strong> A differenza dei simili selvaggi, Chirone discendeva direttamente da Crono, saggio e civile, maestro di innumerevoli eroi (Achille, Asclepio).</p>
+      <p><strong>La Centauromachia.</strong> Invitati al matrimonio di Piritoo e Ippodamia, i Centauri ubriachi tentarono di rapire le donne presenti. Ne seguì una battaglia contro i Lapiti, a cui partecipò anche Teseo; i Lapiti vinsero, cacciando i Centauri dal Pelio.</p>
+      <p><strong>Significato simbolico:</strong> la Centauromachia divenne metafora dello scontro tra civiltà e barbarie, spesso associata simbolicamente alla vittoria greca sui Persiani.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> l'arco, la coppa di vino, il Monte Pelio.</p>
+      <p><strong>Dove trovarli nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — Centauromachia nel frontone occidentale del Tempio di Zeus.</li>
+        <li><strong>Atene</strong> — metope meridionali del Partenone.</li>
+        <li><strong>Epidauro, Micene</strong> — Chirone come maestro di Asclepio e Achille.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="i giganti" data-greek="γίγαντες">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">I Giganti<span class="site-greek">Γίγαντες</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>La nascita dal sangue di Urano.</strong> Quando Crono evirò Urano, dal sangue caduto su Gea nacquero i Giganti — creature immani, spesso con gambe a coda di serpente.</p>
+      <p><strong>La Gigantomachia.</strong> Gea aizzò i Giganti contro l'Olimpo per vendicare i Titani. Una profezia rivelò che potevano essere uccisi solo con l'aiuto di un eroe mortale: Zeus chiamò Eracle.</p>
+      <p><strong>Gli scontri principali:</strong> Zeus sconfisse Porfirione; Atena schiacciò Encelado sotto la Sicilia e scuoiò Pallante per la propria egida; Poseidone creò l'isola di Nisyros scagliandola contro Polibote. Le frecce di Eracle resero decisiva la vittoria.</p>
+      <p><em>Versioni alternative:</em> spesso confusi con Titani ed Ecatonchiri; l'iconografia a coda di serpente si consolidò solo in epoca ellenistica.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> le gambe a coda di serpente, macigni come armi, il fulmine di Zeus.</p>
+      <p><strong>Dove trovarli nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Olimpia</strong> — Gigantomachia sul frontone orientale del Tempio di Zeus.</li>
+        <li><strong>Atene</strong> — metope orientali del Partenone; le statue colossali dell'Odeon di Agrippa.</li>
+        <li><strong>Delfi</strong> — decorazioni del Tesoro dei Sifni.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il minotauro" data-greek="μινώταυρος">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Minotauro<span class="site-greek">Μινώταυρος</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>L'origine: il Toro di Creta e Pasifae.</strong> Minosse trattenne per sé un toro dovuto in sacrificio a Poseidone, che per punizione fece innamorare la moglie Pasifae dell'animale. Con l'aiuto di Dedalo, Pasifae si unì al toro, generando il Minotauro.</p>
+      <p><strong>Il Labirinto.</strong> Dedalo costruì il Labirinto per rinchiudervi il mostro, nutrito con un tributo di sette fanciulli e sette fanciulle ateniesi.</p>
+      <p><strong>La morte per mano di Teseo,</strong> aiutato dal filo di Arianna.</p>
+      <p><strong>Il destino di Dedalo:</strong> imprigionato con il figlio Icaro, fuggì con ali di cera; Icaro, volando troppo vicino al sole, precipitò in mare.</p>
+      <p><em>Versioni alternative:</em> alcuni studiosi collegano il mito a memorie distorte di riti minoici (il "salto del toro") osservati dai Greci continentali.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il Labirinto, il filo di Arianna, la doppia ascia (labrys).</p>
+      <p><strong>Dove trovarlo nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Atene</strong> — Teseo, Tempio di Efesto, Stoa Poikile.</li>
+        <li><strong>Museo Archeologico Nazionale</strong> — reperti della civiltà minoica.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="medusa e le gorgoni" data-greek="μέδουσα">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Medusa e le Gorgoni<span class="site-greek">Μέδουσα</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Le tre sorelle.</strong> Le Gorgoni — Steno, Euriale e Medusa (unica mortale) — erano mostri dalla nascita secondo Esiodo, dal potere pietrificante.</p>
+      <p><strong>La versione "romantica".</strong> Secondo Ovidio, Medusa era una bella sacerdotessa di Atena, violentata da Poseidone nel tempio della dea; Atena, punendo la vittima, le trasformò i capelli in serpenti.</p>
+      <p><strong>La decapitazione per mano di Perseo,</strong> già raccontata nella sua scheda; dal collo reciso nacquero Pegaso e Crisaore.</p>
+      <p><strong>Il potere della testa recisa,</strong> usata da Perseo come arma; il sangue versato aveva proprietà opposte — veleno da una vena, potere curativo dall'altra, forse donato ad Asclepio.</p>
+      <p><strong>L'egida di Atena,</strong> con il Gorgoneion come emblema apotropaico, diffuso in tutta l'arte greca.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> il Gorgoneion, l'egida di Atena, lo scudo riflettente.</p>
+      <p><strong>Metamorfosi:</strong> Medusa da fanciulla a mostro; Polidette e il mostro marino pietrificati.</p>
+      <p><strong>Dove trovarla nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Argo</strong> — la sua morte per mano di Perseo.</li>
+        <li><strong>Atene</strong> — il Gorgoneion sull'egida di Atena, Partenone.</li>
+        <li><strong>Corinto</strong> — Pegaso, nato dal suo sangue.</li>
+        <li><strong>Epidauro</strong> — possibile origine dei poteri di Asclepio.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="i ciclopi" data-greek="κύκλωπες">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">I Ciclopi<span class="site-greek">Κύκλωπες</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Il Mito</button><button class="tab" onclick="switchTab(this)">Simboli, Metamorfosi e Luoghi</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>I Ciclopi primordiali,</strong> figli di Urano e Gea (Bronte, Sterope, Arge), liberati da Zeus durante la Titanomachia: forgiarono il fulmine di Zeus, il tridente di Poseidone, l'elmo di Ade.</p>
+      <p><strong>I Ciclopi pastori,</strong> razza omerica di giganti monocoli primitivi; il più celebre, Polifemo, figlio di Poseidone, accecato da Ulisse.</p>
+      <p><strong>I Ciclopi costruttori ("Gasterocheires"),</strong> chiamati in Argolide per erigere le mura di Tirinto e Micene — mito eziologico nato per spiegare blocchi di pietra troppo grandi per mani umane.</p>
+      <p><em>Versioni alternative:</em> già gli autori antichi notavano la contraddizione tra le tre tradizioni, senza mai armonizzarle del tutto.</p></div><div class="tab-panel"><p><strong>Simboli:</strong> l'occhio singolo, il fulmine, il palo arroventato (Polifemo), i blocchi ciclopici.</p>
+      <p><strong>Dove trovarli nel viaggio:</strong></p>
+      <ul>
+        <li><strong>Tirinto</strong> — Mura Ciclopiche e gallerie a volta.</li>
+        <li><strong>Micene</strong> — Porta dei Leoni e mura.</li>
+        <li><strong>Argo (Museo Archeologico)</strong> — il cratere con l'accecamento di Polifemo.</li>
+        <li><strong>Olimpia</strong> — fabbri del fulmine di Zeus.</li>
+      </ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessuna voce trovata.</p>
+</main>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
