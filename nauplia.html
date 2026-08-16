@@ -4,15 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nauplia — I Miei Viaggi</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fdfcfa;
+    --bg:#f8f6ee;
     --bg-panel:#ffffff;
-    --line:#eae7e0;
-    --text:#565048;
-    --text-soft:#8c8579;
-    --accent:#8a9a8b;
+    --line:#e3ddd0;
+    --text:#2b2620;
+    --text-soft:#6b6459;
+    --accent:#6b7a2f;
     --accent-soft:#eef2ee;
   }
   *{box-sizing:border-box;}
@@ -20,7 +20,7 @@
     margin:0;
     background:var(--bg);
     color:var(--text);
-    font-family:'EB Garamond', serif;
+    font-family:'Lora', serif;
     font-size:18px;
     line-height:1.55;
   }
@@ -40,11 +40,11 @@
     border-bottom:1px solid var(--line);
   }
   header h1{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:700;
     font-size:2.6rem;
     margin:0 0 2px;
-    color:#3d3830;
+    color:#1f2318;
   }
   header .greek-title{
     font-style:italic;
@@ -59,7 +59,7 @@
   #search{
     width:100%;
     padding:13px 18px;
-    font-family:'EB Garamond', serif;
+    font-family:'Public Sans', sans-serif;
     font-size:1.05rem;
     border:1px solid var(--line);
     border-radius:8px;
@@ -119,10 +119,10 @@
     align-items:center;
     justify-content:space-between;
     cursor:pointer;
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-size:1.15rem;
     font-weight:600;
-    color:#3d3830;
+    color:#1f2318;
   }
   .intro-body{
     max-height:0;
@@ -140,10 +140,10 @@
 
   .group{ margin:34px 0 0; scroll-margin-top:78px; }
   .group-title{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:1.4rem;
-    color:#3d3830;
+    color:#1f2318;
     display:flex;
     align-items:center;
     gap:10px;
@@ -155,7 +155,7 @@
     font-size:0.8rem;
     font-style:italic;
     color:var(--text-soft);
-    font-family:'EB Garamond', serif;
+    font-family:'Lora', serif;
   }
 
   .sites-list{ display:flex; flex-direction:column; gap:8px; }
@@ -176,13 +176,13 @@
     justify-content:space-between;
     cursor:pointer;
     text-align:left;
-    font-family:'EB Garamond', serif;
+    font-family:'Lora', serif;
   }
   .site-name{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:1.12rem;
-    color:#3d3830;
+    color:#1f2318;
     display:flex;
     flex-direction:column;
   }
@@ -190,7 +190,7 @@
     font-style:italic;
     font-size:0.78rem;
     color:var(--text-soft);
-    font-family:'EB Garamond', serif;
+    font-family:'Lora', serif;
     margin-top:1px;
   }
   .chev{
@@ -229,13 +229,14 @@
     border-bottom:2px solid transparent;
     padding:8px 4px 9px;
     margin-right:14px;
-    font-family:'EB Garamond', serif;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
     font-size:0.92rem;
     color:var(--text-soft);
     cursor:pointer;
   }
   .tab.active{
-    color:#3d3830;
+    color:#1f2318;
     border-bottom-color:var(--accent);
     font-weight:600;
   }

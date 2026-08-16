@@ -9,24 +9,25 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#fdfcfa;
+    --bg:#f8f6ee;
     --bg-panel:#ffffff;
-    --line:#eae7e0;
-    --text:#565048;
-    --text-soft:#8c8579;
-    --grecia:#8a9a8b;
-    --regno-unito:#8a95a8;
-    --francia:#b09a7a;
+    --line:#e3ddd0;
+    --text:#2b2620;
+    --text-soft:#6b6459;
+    --grecia:#6b7a2f;
+    --regno-unito:#5c4d8a;
+    --francia:#7d2f4a;
+    --italia:#8a5a1f;
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
     background:var(--bg);
     color:var(--text);
-    font-family:'EB Garamond', serif;
+    font-family:'Lora', serif;
     font-size:18px;
     line-height:1.55;
   }
@@ -36,11 +37,11 @@
     border-bottom:1px solid var(--line);
   }
   header h1{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:2.5rem;
     margin:0 0 6px;
-    color:#3d3830;
+    color:#1f2318;
     letter-spacing:0.01em;
   }
   header p{
@@ -57,8 +58,8 @@
   #search{
     width:100%;
     padding:14px 18px;
-    font-family:'EB Garamond', serif;
-    font-size:1.1rem;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
     border:1px solid var(--line);
     border-radius:8px;
     background:var(--bg-panel);
@@ -87,10 +88,10 @@
     line-height:1;
   }
   .project-title .name{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:1.5rem;
-    color:#3d3830;
+    color:#1f2318;
   }
   .project-title .count{
     margin-left:auto;
@@ -109,7 +110,7 @@
     display:flex;
     align-items:center;
     gap:8px;
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:1.1rem;
     color:var(--text);
@@ -150,17 +151,19 @@
     margin-top:3px;
   }
   .card .eyebrow{
-    font-size:0.7rem;
+    font-family:'Public Sans', sans-serif;
+    font-weight:600;
+    font-size:0.68rem;
     text-transform:uppercase;
-    letter-spacing:0.07em;
+    letter-spacing:0.06em;
     color:var(--text-soft);
     margin-bottom:4px;
   }
   .card .name{
-    font-family:'Cormorant Garamond', serif;
+    font-family:'Playfair Display', serif;
     font-weight:600;
     font-size:1.15rem;
-    color:#3d3830;
+    color:#1f2318;
   }
   .card .greek{
     font-style:italic;
@@ -171,6 +174,7 @@
   .proj-grecia .card{ border-left:3px solid var(--grecia); }
   .proj-regno-unito .card{ border-left:3px solid var(--regno-unito); }
   .proj-francia .card{ border-left:3px solid var(--francia); }
+  .proj-italia .card{ border-left:3px solid var(--italia); }
 
   .no-results{
     text-align:center;
