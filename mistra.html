@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mistrà — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+    --accent-soft:#eef2ee;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Cormorant Garamond', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#3d3830;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; }
+  .group-title{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#3d3830;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .site-name{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'EB Garamond', serif;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#3d3830;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Mistrà</h1>
+  <div class="greek-title">Μυστρᾶς</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<nav class="pills">
+    <a href="#citt-bassa" class="pill">Città Bassa</a>
+    <a href="#citt-alta" class="pill">Città Alta</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e mitologia sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro" id="intro-storico">
+    <button class="intro-head" onclick="toggleIntro('intro-storico')">Quadro storico generale <span class="chev">›</span></button>
+    <div class="intro-body"><p><strong>Perché è così importante.</strong> Mistrà rappresenta un salto temporale enorme rispetto a tutte le tappe precedenti del vostro viaggio: qui lasciamo il mondo classico e miceneo per entrare nell'ultima, splendida stagione dell'Impero Bizantino, quella del <strong>Despotato di Morea</strong> (XIV-XV secolo).</p>
+<p><strong>Perché conta così tanto:</strong></p>
+<ul>
+  <li>Fu fondata nel <strong>1249</strong> dal principe franco <strong>Guglielmo II di Villehardouin</strong>. Passò poi ai <strong>Bizantini</strong> nel 1262, diventando sede del <strong>Despotato di Morea</strong>.</li>
+  <li>Nel XIV-XV secolo divenne un <strong>centro intellettuale e artistico di primissimo piano</strong>, tanto da essere paragonata a una "seconda Costantinopoli": qui operò il filosofo neoplatonico <strong>Giorgio Gemisto Pletone</strong>, tra le menti più influenti nel trasmettere il pensiero classico greco all'Umanesimo italiano.</li>
+  <li>Fu l'<strong>ultima roccaforte bizantina</strong> a cadere: mentre Costantinopoli cadeva nel 1453, Mistrà resistette fino al <strong>1460</strong>, sotto il despota Demetrio Paleologo.</li>
+  <li>È stata dichiarata <strong>Patrimonio UNESCO</strong>, tra i complessi meglio conservati di architettura civile e religiosa tardo-bizantina al mondo.</li>
+  <li>Sorge ai piedi del <strong>Monte Taigeto</strong>, a pochi chilometri dall'antica Sparta.</li>
+</ul>
+<p><strong>Cosa "è" nel concreto:</strong> una città-fortezza costruita sul fianco di una collina ripida, organizzata su più livelli — la Città Bassa, ricca di chiese e monasteri decorati con affreschi di straordinaria qualità, e la Città Alta, dominata dal Palazzo dei Despoti e dal Castello in cima.</p></div>
+  </div>
+
+  <div class="intro" id="intro-mito">
+    <button class="intro-head" onclick="toggleIntro('intro-mito')">Mitologia del luogo <span class="chev">›</span></button>
+    <div class="intro-body"><p>A differenza di tutte le tappe precedenti, Mistrà non ha una mitologia propria: è un sito interamente bizantino, sorto nel XIII secolo, quando il mondo degli dèi olimpici era ormai da secoli sostituito dal cristianesimo.</p>
+<p>Vale però la pena ricordare il contesto mitico del territorio su cui sorge: Mistrà si trova ai piedi del <strong>Monte Taigeto</strong>, a pochissimi chilometri dall'antica <strong>Sparta</strong> — la terra di <strong>Elena</strong>, la donna la cui bellezza scatenò la guerra di Troia, e di suo marito <strong>Menelao</strong>, re di Sparta e fratello di Agamennone. La regione prende inoltre il nome dal mitico <strong>Lacedemone</strong>, figlio di Zeus e della ninfa Taigete (da cui il nome del monte), primo re della zona secondo la tradizione — motivo per cui gli antichi Spartani si definivano anche "Lacedemoni".</p></div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="citt-bassa">
+  <h2 class="group-title">Città Bassa<span class="group-count">4</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="metropoli (agios dimitrios)" data-greek="μητρόπολη (άγιος δημήτριος)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Metropoli (Agios Dimitrios)<span class="site-greek">Μητρόπολη (Άγιος Δημήτριος)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Metropoli, dedicata a <strong>Agios Dimitrios</strong>, è la chiesa più antica di Mistrà, fondata subito dopo il <strong>1262</strong>. Fu qui trasferita la sede della Metropolia di Lacedemonia, precedentemente a Sparta. Il momento di massima importanza storica arrivò il <strong>6 gennaio 1449</strong>, quando qui fu incoronato <strong>Costantino XI Paleologo</strong>, ultimo imperatore bizantino.</p></div><div class="tab-panel"><p>Costruita come basilica a tre navate, fu trasformata nel XV secolo con l'aggiunta di matronei secondo il "tipo di Mistrà". All'interno si conserva una lastra con l'<strong>aquila bicipite</strong> dei Paleologi, che segna il punto dell'incoronazione. Gli affreschi (XIII-XV secolo) sono espressione dell'arte macedone.</p></div><div class="tab-panel"><p>La Metropoli custodisce una leggenda popolare: Costantino XI non sarebbe mai morto, ma si sarebbe tramutato in marmo, in attesa in una grotta del risveglio di un nuovo impero bizantino — un mito "moderno" con funzione consolatoria simile ai grandi miti antichi.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monastero di vrontochion (afendiko)" data-greek="μονή βροντοχίου (αφεντικό)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monastero di Vrontochion (Afendiko)<span class="site-greek">Μονή Βροντοχίου (Αφεντικό)</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il più ricco e influente monastero di Mistrà, fondato alla fine del <strong>XIII secolo</strong>. Divenne il centro della vita intellettuale della città, con una delle biblioteche più importanti del tempo; qui insegnò il filosofo <strong>Pletone</strong>. Comprende due chiese: Agioi Theodoroi (1290-1295) e la Panagia Odegetria o <strong>Afendiko</strong> (1310-1320), costruita dall'abate Pachomios.</p></div><div class="tab-panel"><p>Nell'Afendiko fu applicato per la prima volta il <strong>"tipo di Mistrà"</strong>: basilica a tre navate al piano terra, chiesa a croce greca con cinque cupole al piano superiore — modello poi ripreso da Pantanassa e Metropoli. Gli affreschi (1311-1322) mostrano stretta parentela con l'arte del Monastero di Chora a Costantinopoli.</p></div><div class="tab-panel"><p>In questo monastero insegnò <strong>Pletone</strong>, il filosofo che più di ogni altro contribuì a mantenere viva la memoria filosofica del mondo classico, gettando un ponte verso il Rinascimento italiano.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monastero di peribleptos" data-greek="μονή περιβλέπτου">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monastero di Peribleptos<span class="site-greek">Μονή Περιβλέπτου</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato tra il <strong>1365 e il 1374</strong> dal despota <strong>Manuele Kantakouzenos</strong> e dalla moglie Isabelle de Lusignan. Concepito come monastero femminile, prende nome da un celebre monastero di Costantinopoli.</p></div><div class="tab-panel"><p>Costruito incastonato nel fianco di una collina rocciosa, sfruttando una cavità naturale — lo "stile di Mistrà". Gli <strong>affreschi</strong> (1348-1380) sono tra i rarissimi cicli tardo-bizantini giunti in stato di conservazione eccezionale, con il Pantocratore nella cupola.</p></div><div class="tab-panel"><p>La collocazione in una cavità rocciosa richiama, in chiave cristiana, l'idea già incontrata a Delfi di grotte come luoghi di contatto privilegiato tra dimensione umana e sacra.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="monastero di pantanassa" data-greek="μονή παντάνασσας">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monastero di Pantanassa<span class="site-greek">Μονή Παντάνασσας</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fondato da <strong>Giovanni Frangopoulos</strong>, alto funzionario del Despotato, e dedicato nel <strong>settembre 1428</strong> — l'ultimo grande edificio sacro costruito a Mistrà. È l'unico monastero ancora abitato, oggi da una comunità di monache.</p></div><div class="tab-panel"><p>Riprende il "tipo di Mistrà" con soluzioni proprie: cupole d'angolo appena sporgenti, festoni, archi a sesto acuto — chiara influenza gotica occidentale. Gli affreschi del piano superiore (metà XV secolo) mostrano un uso sperimentale di paesaggio, spazio e colore.</p></div><div class="tab-panel"><p>Il nome "Regina di tutti" è un epiteto tradizionale della Vergine nella tradizione ortodossa — un parallelo interessante con gli epiteti divini già incontrati nei santuari antichi.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="citt-alta">
+  <h2 class="group-title">Città Alta<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="palazzo dei despoti" data-greek="παλάτι των δεσποτών">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo dei Despoti<span class="site-greek">Παλάτι των Δεσποτών</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'unico complesso palaziale bizantino sopravvissuto in Grecia. Il nucleo più antico fu probabilmente costruito dai <strong>Franchi</strong>; si ampliò poi sotto Andronico II e sotto il despota <strong>Manuele Kantakouzenos</strong>. L'ultima fase è attribuita a <strong>Manuele II Paleologo</strong>. Riaperto al pubblico nel maggio 2026 dopo 42 anni di restauro.</p></div><div class="tab-panel"><p>L'elemento più spettacolare è la grande <strong>Sala del Trono</strong>, al piano superiore dell'ala dei Paleologi: un enorme ambiente per cerimonie, riscaldato da otto camini e illuminato da due file di finestre. Un ampio balcone permetteva al despota di rivolgersi alla popolazione.</p></div><div class="tab-panel"><p>La posizione al punto più alto della Città Alta richiama lo stesso principio di visibilità e autorità già incontrato nel megaron miceneo di Micene.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="santa sofia" data-greek="αγία σοφία">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Sofia<span class="site-greek">Αγία Σοφία</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Costruita attorno al <strong>1350</strong> dal despota <strong>Manuele Kantakouzenos</strong> come chiesa palatina, con nome che richiama deliberatamente la basilica di Costantinopoli. Divenne luogo di sepoltura per membri della famiglia imperiale, tra cui <strong>Cleopa Malatesta</strong>, moglie del despota Teodoro II Paleologo.</p></div><div class="tab-panel"><p>Pianta a croce greca con due colonne, cupola centrale ribassata, ampio nartece. Una torre a tre piani fu convertita in <strong>minareto</strong> in epoca ottomana. La decorazione scultorea, in gran parte di reimpiego, risale sorprendentemente al XII-XIII secolo.</p></div><div class="tab-panel"><p>Il nome, scelto per evocare la basilica di Costantinopoli, mostra come l'ultima Bisanzio sentisse il bisogno di richiamare la memoria della propria capitale e grandezza imperiale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="castello (kastro)" data-greek="κάστρο">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Castello (Kastro)<span class="site-greek">Κάστρο</span></span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il nucleo fondativo di tutta Mistrà, costruito nel <strong>1249</strong> dal principe franco <strong>Guglielmo II di Villehardouin</strong>, a circa 620 metri di altitudine. Passò ai <strong>Bizantini</strong> nel 1262 come parte del riscatto per la liberazione dello stesso Villehardouin.</p></div><div class="tab-panel"><p>Impianto tipicamente franco-crociato: unico ingresso fortificato sorvegliato da una torre quadrata, cinta muraria che segue l'andamento naturale del terreno. Dalla sommità si gode un panorama che spazia fino a Sparta.</p></div><div class="tab-panel"><p>La vista verso l'antica Sparta chiude il cerchio aperto nella mitologia generale: la terra di <strong>Elena</strong>, <strong>Menelao</strong> e del mitico <strong>Lacedemone</strong>.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+<script>
+function toggleIntro(id){
+  document.getElementById(id).classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f) || site.dataset.greek.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
