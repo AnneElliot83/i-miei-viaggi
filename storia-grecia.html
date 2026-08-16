@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storia della Grecia Antica — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdfcfa;
+    --bg-panel:#ffffff;
+    --line:#eae7e0;
+    --text:#565048;
+    --text-soft:#8c8579;
+    --accent:#8a9a8b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'EB Garamond', serif;
+    font-size:18px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#3d3830;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  header .intro-text{
+    max-width:600px;
+    margin:14px auto 0;
+    font-size:0.95rem;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'EB Garamond', serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.8rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .chapter{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .chapter-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:15px 16px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+    text-align:left;
+    font-family:'EB Garamond', serif;
+  }
+  .chapter-num{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.1rem;
+    color:var(--accent);
+    flex-shrink:0;
+    width:24px;
+  }
+  .chapter-title{
+    flex:1;
+    font-family:'Cormorant Garamond', serif;
+    font-weight:600;
+    font-size:1.18rem;
+    color:#3d3830;
+    display:flex;
+    flex-direction:column;
+  }
+  .chapter-luoghi{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'EB Garamond', serif;
+    margin-top:2px;
+    font-weight:400;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+  }
+  .chapter.open .chev{ transform:rotate(90deg); }
+  .chapter-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .chapter.open .chapter-body{ max-height:10000px; }
+  .chapter-body-inner{ padding:0 16px 18px; }
+  .chapter-body-inner p{ margin:0 0 12px; font-size:0.98rem; }
+  .chapter-body-inner p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Storia della Grecia Antica</h1>
+  <div class="greek-title">Ἱστορία Ἑλλάδος</div>
+  <div class="intro-text">Una traccia narrativa da leggere con calma, in ordine o a salti: ogni tappa racconta un momento storico e rimanda ai luoghi del viaggio dove quella storia si può vedere fisicamente.</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un periodo o un luogo...">
+</div>
+
+<nav class="pills">
+    <a href="#cap1" class="pill">Grecia preistorica e micenea</a>
+    <a href="#cap2" class="pill">Medioevo ellenico e nascita della polis</a>
+    <a href="#cap3" class="pill">La Magna Grecia</a>
+    <a href="#cap4" class="pill">Sparta e il modello spartano</a>
+    <a href="#cap5" class="pill">Atene arcaica e classica</a>
+    <a href="#cap6" class="pill">Delfi e la religione panellenica</a>
+    <a href="#cap7" class="pill">Olimpia e i giochi</a>
+    <a href="#cap8" class="pill">Corinto</a>
+    <a href="#cap9" class="pill">Guerra del Peloponneso e crisi della polis</a>
+    <a href="#cap10" class="pill">Dalla Grecia classica all'ellenismo</a>
+    <a href="#cap11" class="pill">Grecia romana e bizantina</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire o chiudere. I rimandi tra parentesi «così» collegano ad altri momenti della storia raccontati qui.</p>
+
+  <div id="chapters">
+    
+<div class="chapter" id="cap1" data-name="grecia preistorica e micenea">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">1</span>
+    <span class="chapter-title">
+      Grecia preistorica e micenea
+      <span class="chapter-luoghi">Micene · Tirinto · Argo</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Il contesto.</strong> Prima della Grecia "classica" (Atene, Sparta, i filosofi) esiste un mondo più antico e quasi leggendario: la civiltà micenea, fiorita tra il 1600 e il 1100 a.C. circa. È il mondo di Agamennone, di Achille, della guerra di Troia — la Grecia che Omero racconta secoli dopo, quando era ormai diventata mito.</p>
+      <p><strong>Prima ancora: i Minoici.</strong> Prima dei Micenei, a Creta fiorisce un'altra civiltà più antica: quella minoica (dal leggendario re Minosse), tra il 2700 e il 1450 a.C. circa. Sembra più pacifica e molto ricca, con palazzi enormi e labirintici (Cnosso su tutti) non fortificati — protetti dal mare. Da qui nasce il mito del Minotauro, ricordo distorto della complessità architettonica dei palazzi cretesi. Verso il 1450 a.C. Creta viene conquistata dai Micenei, che ne assorbono arte e cultura.</p>
+      <p><strong>La società micenea: come funzionava davvero.</strong> Non un regno unito, ma un insieme di regni-palazzo indipendenti (Micene, Tirinto, Pilo, Tebe...), ognuno governato da un <em>wanax</em>, sovrano-sacerdote con potere assoluto sull'economia: grano, olio, tessuti, metalli, tutto passava attraverso il palazzo, registrato da scribi su tavolette d'argilla — una burocrazia simile a quella degli imperi del Vicino Oriente.</p>
+      <p><strong>La scrittura: Lineare B.</strong> I Micenei scrivevano: un sistema chiamato Lineare B, decifrato solo nel 1952 — si scoprì che era una forma arcaica di greco, la lingua scritta più antica d'Europa. Ma la usavano solo per la contabilità di palazzo, non per poesie o racconti. Ecco perché, quando i palazzi bruciano, la scrittura sparisce con loro.</p>
+      <p><strong>Chi erano i Micenei.</strong> Guerrieri e costruttori di fortezze immense, ossessionati dall'oro. Le loro città sono cittadelle con mura così spesse che i Greci del periodo classico, guardandole secoli dopo, non credevano fossero opera umana: le chiamavano "mura ciclopiche". Le tombe (i "circoli delle tombe" di Micene) restituiscono corredi impressionanti: maschere d'oro, spade, elmi fatti con file di zanne di cinghiale cucite su cuoio, descritti perfino da Omero secoli dopo. Combattevano su carri da guerra leggeri, non a cavallo.</p>
+      <p><strong>Aneddoto.</strong> Nel 1876 l'archeologo tedesco Heinrich Schliemann scava a Micene convinto di trovare la tomba di Agamennone. Trova una splendida maschera funebre d'oro e telegrafa trionfante: "Ho guardato in faccia Agamennone". Oggi sappiamo che la maschera è di 300 anni più antica del presunto Agamennone — ma resta uno dei momenti più clamorosi della storia dell'archeologia. La "Maschera di Agamennone" si vede al Museo Archeologico Nazionale di Atene.</p>
+      <p><strong>La guerra di Troia: mito o storia?</strong> Lo stesso Schliemann aveva prima scavato un sito in Turchia identificandolo come Troia, trovando prove di una città distrutta violentemente proprio nel periodo giusto (circa 1180 a.C.). Oggi molti studiosi pensano che dietro il mito ci sia un conflitto reale, forse per il controllo commerciale dello stretto dei Dardanelli — ingigantito e romanzato nei secoli dalla tradizione orale, fino a diventare l'Iliade.</p>
+      <p><strong>Gli Atridi — la famiglia maledetta.</strong> Il mito lega Micene alla dinastia degli Atridi: Agamennone, la moglie Clitennestra, il figlio Oreste. Storia di sangue e vendetta: Agamennone sacrifica la figlia Ifigenia per avere venti favorevoli verso Troia, torna vittorioso e viene ucciso dalla moglie; il figlio poi vendica il padre uccidendo la madre. I Greci classici la conoscevano a memoria, e i grandi tragediografi (Eschilo su tutti) ci hanno costruito capolavori teatrali — l'intero ciclo è approfondito nel compendio di Mitologia.</p>
+      <p><strong>Perché crolla tutto.</strong> Intorno al 1200-1100 a.C., in tutto il Mediterraneo orientale, le grandi civiltà del Bronzo collassano quasi simultaneamente — Micene compresa. Cause dibattute (invasioni, terremoti, crisi climatica, rivolte interne); il risultato è netto: la scrittura si perde, i palazzi bruciano, la Grecia scivola nei "secoli bui" («Medioevo ellenico e nascita della polis»).</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Micene</strong>: Porta dei Leoni, Cerchia Tombale A, Tesoro di Atreo a tholos</li>
+        <li><strong>Tirinto</strong>: le mura ciclopiche meglio conservate di tutte</li>
+        <li><strong>Argo</strong>: una delle città-stato più antiche mai abitate ininterrottamente</li>
+      </ul>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap2" data-name="medioevo ellenico e nascita della polis">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">2</span>
+    <span class="chapter-title">
+      Medioevo ellenico e nascita della polis
+      <span class="chapter-luoghi">Trasversale — nessun sito specifico</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Quanto dura e cosa sappiamo.</strong> Circa tre secoli, dal 1100 all'800 a.C. Il termine "secoli bui" è oggi un po' contestato: buio soprattutto per noi, che abbiamo pochissime fonti — non necessariamente per chi ci viveva. Scavi come quello di Lefkandi, in Eubea, hanno rivelato più ricchezza e contatti commerciali con l'Oriente di quanto si pensasse: una tomba enorme, quasi un mini-palazzo, con un guerriero e una donna sepolti con oggetti d'oro.</p>
+      <p><strong>Bronzo che diventa ferro.</strong> Passaggio dall'età del Bronzo all'età del Ferro. Il ferro è più comune del rame e dello stagno (che dipendevano da commerci a lunga distanza ormai crollati): diventa il metallo di chi non ha più accesso alle reti commerciali di lusso di prima — segno indiretto della crisi.</p>
+      <p><strong>L'alfabeto: una rivoluzione democratica.</strong> Verso l'VIII secolo a.C. i Greci adottano e adattano l'alfabeto fenicio, aggiungendo le vocali (i Fenici scrivevano solo consonanti). A differenza della Lineare B micenea, complicata e riservata a pochi scribi di palazzo, l'alfabeto greco ha poche lettere semplici: chiunque, in teoria, può impararlo. Non più strumento di potere centralizzato, ma diffuso — con conseguenze enormi sulla cultura, la politica, perfino sulla nascita della democrazia.</p>
+      <p><strong>Omero e la questione omerica.</strong> Iliade e Odissea vengono messe per iscritto in questo periodo di passaggio (VIII secolo a.C.), ma nascono da secoli di tradizione orale precedente. I poemi sono pieni di "formule" — epiteti ripetuti come "Achille piè veloce" o "l'aurora dalle dita di rosa" — strumenti mnemonici che aiutavano l'aedo (il cantore) a improvvisare mantenendo il ritmo, cantando a memoria davanti a un pubblico, spesso con una lira. Se Omero sia stato una persona sola o il nome di una tradizione di più cantori resta dibattuto: è la "questione omerica".</p>
+      <p><strong>La nascita della polis.</strong> La polis non è solo un centro abitato: è un'idea politica. Ha tipicamente due poli fisici — l'acropoli (parte alta, fortificata, spesso sede dei templi principali) e l'agorà (piazza bassa, cuore della vita civile, commerciale e politica). Ogni polis è autosufficiente, con proprie leggi, proprio calendario religioso, propria cittadinanza — appartenere a una comunità politica non per sudditanza a un re, ma come cittadino con diritti e doveri.</p>
+      <p><strong>La rivoluzione militare: la falange oplitica.</strong> Nasce la falange, schieramento compatto di soldati-cittadini (opliti) armati di scudo e lancia, che combattono spalla a spalla. Prima la guerra era affare di pochi aristocratici su carri; ora ogni cittadino abbastanza ricco da permettersi l'equipaggiamento diventa un difensore della città — un seme che porterà, secoli dopo, alla democrazia ateniese.</p>
+      <p><strong>La colonizzazione.</strong> Tra l'VIII e il VI secolo a.C. si fondano centinaia di colonie in Sicilia, Italia meridionale (la "Magna Grecia" — Taranto, Siracusa, Crotone), coste del Mar Nero, Francia (Marsiglia è fondazione greca). Cause: pressione demografica, scarsità di terra coltivabile, ma anche conflitti politici interni — chi perdeva lotte di potere in patria spesso ripartiva da zero altrove. La Magna Grecia diventa così ricca da superare per un periodo la stessa madrepatria in prosperità. Non è un impero centralizzato: ogni colonia è una polis autonoma, figlia della madrepatria ma indipendente da subito.</p>
+      <p><strong>Primi santuari panellenici.</strong> In questo periodo, luoghi come Delfi e Olimpia cominciano a diventare punti d'incontro comuni a tutti i Greci, al di là delle rivalità tra polis — approfonditi nei capitoli dedicati.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap3" data-name="la magna grecia">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">3</span>
+    <span class="chapter-title">
+      La Magna Grecia
+      <span class="chapter-luoghi">Fuori itinerario — Sud Italia e Sicilia (Taranto, Siracusa, Crotone, Cuma...)</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Un'altra Grecia, più ricca della madrepatria.</strong> Tra l'VIII e il VI secolo a.C., come visto nel («Medioevo ellenico e nascita della polis»), i Greci fondano colonie in tutto il Mediterraneo per sovrappopolazione e scarsità di terra. Nel Sud Italia e in Sicilia le colonie diventano così numerose, ricche e potenti che i Romani stessi, secoli dopo, coniano il termine "Magna Grecia" — la "Grande Grecia" — perché per un periodo quella zona superò per prosperità e vivacità culturale la Grecia propriamente detta.</p>
+      <p><strong>Le fondazioni principali.</strong> Ogni colonia nasce da una specifica città madre (metropoli), a cui resta legata culturalmente ma da cui è politicamente indipendente fin da subito: Taranto (fondata da Sparta, unica sua colonia — eccezione per una polis poco incline a fondare colonie), Sibari e Crotone (fondate da Achei), Siracusa (fondata da Corinto, diventerà la più potente di tutte), Cuma in Campania (una delle primissime fondazioni, VIII secolo a.C., punto di contatto diretto con Etruschi e popoli italici).</p>
+      <p><strong>Aneddoto — la ricchezza scandalosa di Sibari.</strong> Sibari diventa così ricca e dedita al lusso che "sibarita" è arrivato fino a noi per indicare chi ama una vita di piaceri smodati. Si raccontava che i Sibariti allenassero i cavalli a danzare al suono della musica — e che i rivali Crotoniati, scopertolo, durante una battaglia facessero suonare musicisti sul campo, mandando in confusione i cavalli avversari. Vera o no, la storia racconta bene la reputazione che si erano costruiti. Sibari viene rasa al suolo dalla rivale Crotone nel 510 a.C.</p>
+      <p><strong>Crotone: non solo rivalità, anche pensiero.</strong> A Crotone si trasferisce, in esilio da Samo, il filosofo e matematico Pitagora, fondando la sua scuola filosofico-religiosa intorno al 530 a.C. — lo stesso del teorema studiato ancora oggi a scuola. La sua scuola era una vera comunità di vita, con regole rigide (persino alimentari, il celebre divieto di mangiare fave) e una visione del mondo basata sui numeri come chiave per comprendere l'universo.</p>
+      <p><strong>Siracusa: la superpotenza della Magna Grecia.</strong> Diventa la città più potente e popolosa di tutto il mondo greco, madrepatria compresa — rivaleggerà in ricchezza e potenza con Atene stessa. Governata a lungo da tiranni abili come Gelone e poi Dionisio I, capace di respingere ripetutamente i tentativi di conquista dei Cartaginesi, storico nemico che dalla vicina Cartagine ambiva a controllare tutta la Sicilia.</p>
+      <p><strong>Un fronte parallelo delle guerre persiane.</strong> Nel 480 a.C. — lo stesso anno delle Termopili e di Salamina — Gelone di Siracusa sconfigge un'enorme invasione cartaginese nella battaglia di Imera. I Greci antichi accostavano simbolicamente le due vittorie, come se il mondo greco avesse respinto nello stesso momento due minacce "barbare" su due fronti lontanissimi.</p>
+      <p><strong>La spedizione ateniese contro Siracusa (413 a.C.).</strong> È proprio contro Siracusa che Atene lancia la disastrosa spedizione siciliana durante la guerra del Peloponneso («Guerra del Peloponneso e crisi della polis») — segno di quanto la Magna Grecia fosse tutt'altro che periferica nella politica greca.</p>
+      <p><strong>Archimede: il genio dell'ultima Siracusa greca.</strong> Nel III secolo a.C., Siracusa dà i natali ad Archimede, forse il più grande scienziato dell'antichità — principio della leva, calcolo del volume tramite spostamento dei liquidi (l'aneddoto della vasca e dell'"eureka"), macchine da guerra ingegnose. Muore durante l'assedio romano di Siracusa (212 a.C.), ucciso da un soldato romano mentre, secondo la tradizione, era concentrato su un disegno geometrico tracciato a terra — immagine simbolo del contrasto tra il pensiero greco e la forza pratica di Roma che stava per sostituirlo.</p>
+      <p><strong>Pirro d'Epiro e l'ultima resistenza (280-275 a.C.).</strong> Quando Roma comincia a espandersi verso Sud, Taranto chiama in aiuto Pirro, re dell'Epiro, che sbarca in Italia con un esercito ed elefanti da guerra — novità assoluta per i Romani. Vince alcune battaglie, ma a costi altissimi — da qui l'espressione "vittoria di Pirro", per un successo ottenuto a un prezzo talmente alto da equivalere quasi a una sconfitta. Alla fine si ritira e Roma completa la conquista.</p>
+      <p><strong>272 a.C.: la fine dell'indipendenza greca in Italia.</strong> Taranto cade in mano romana nel 272 a.C. Non una distruzione violenta come quella di Corinto («Grecia romana e bizantina»): le città della Magna Grecia vengono progressivamente integrate nel sistema romano, mantenendo per secoli lingua, culti e usanze greche (ancora oggi, in Calabria, sopravvivono dialetti di origine greca, il "grico") — un'eredità che si intreccia direttamente con la storia stessa dell'Italia.</p>
+      <p><strong>Perché non troverete siti di questo capitolo nel vostro itinerario greco:</strong> la Magna Grecia si trova in Italia — Taranto, Siracusa, Crotone, Paestum, Metaponto sono mete di un viaggio a sé, più vicino e accessibile da casa vostra.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap4" data-name="sparta e il modello spartano">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">4</span>
+    <span class="chapter-title">
+      Sparta e il modello spartano
+      <span class="chapter-luoghi">Sparta · Mistrà (fase bizantina a parte, cap. 11)</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Una polis diversa da tutte le altre.</strong> Se Atene diventerà il simbolo della democrazia, Sparta rappresenta l'opposto quasi perfetto: società militare, rigida, chiusa. Si trova nel Peloponneso, in Laconia (da cui "laconico" — parlare poco e diretto).</p>
+      <p><strong>La conquista della Messenia.</strong> Tra il IX e il VII secolo a.C. Sparta conquista la vicina Messenia dopo due lunghe guerre. I Messeni sconfitti vengono ridotti in servitù collettiva: gli iloti, che coltivano la terra per gli Spartani consegnando gran parte del raccolto. Gli iloti superano di gran lunga in numero gli Spartani — Sparta vive nel terrore costante di una loro rivolta, e organizza l'intera società per tenerli sotto controllo.</p>
+      <p><strong>La società a tre livelli.</strong> Spartiati (cittadini a pieno titolo, unico mestiere: soldati), Perieci (liberi ma senza diritti politici, commercio e artigianato), Iloti (manodopera servile, proprietà collettiva dello stato).</p>
+      <p><strong>L'agoge.</strong> A 7 anni i maschi venivano tolti alle famiglie per l'agoge, addestramento collettivo durissimo: poco cibo (dovevano anche rubare per procurarsene, puniti se scoperti — non per il furto, ma per essersi fatti scoprire), niente scarpe, giacigli di canne raccolti da soli. Obiettivo: soldati capaci di sopportare qualunque privazione, non cittadini colti.</p>
+      <p><strong>Le donne spartane.</strong> Molta più libertà delle ateniesi: ginnastica ed esercizio fisico pubblico (scandaloso per le altre polis), potevano possedere ed ereditare terre. Funzione sociale: generare futuri guerrieri forti, per questo allenate fisicamente come gli uomini.</p>
+      <p><strong>Il governo.</strong> Sistema misto: due re contemporaneamente (diarchia, da due famiglie diverse, per bilanciarsi), un consiglio di anziani (Gherusia), un'assemblea dei cittadini (Apella), e gli efori, cinque magistrati annuali con enorme potere di controllo — anche sui re.</p>
+      <p><strong>La Lega del Peloponneso.</strong> Sparta non conquista militarmente le altre polis del Peloponneso: crea un sistema di alleanze in cui resta perno centrale ma le città alleate mantengono autonomia interna. Guiderà la resistenza contro i Persiani e poi la guerra contro Atene («Guerra del Peloponneso e crisi della polis»).</p>
+      <p><strong>Il mito e la realtà.</strong> Molto di ciò che sappiamo viene da fonti esterne o tardive (Plutarco scrive di Sparta 500 anni dopo la sua epoca d'oro), spesso idealizzate. Gli storici distinguono tra il "mirage spartiate" e ciò che archeologia e fonti più antiche suggeriscono davvero.</p>
+      <p><strong>Cosa vedrete sul posto:</strong> Sparta antica ha lasciato pochissime rovine monumentali — coerentemente, gli Spartani non investivano in edifici sontuosi. Sparta moderna sorge sopra l'antica. Mistrà è un sito completamente diverso e più tardo: città bizantina medievale («Grecia romana e bizantina»).</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap5" data-name="atene arcaica e classica">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">5</span>
+    <span class="chapter-title">
+      Atene arcaica e classica
+      <span class="chapter-luoghi">Atene — Acropoli, Museo dell'Acropoli, Tempio di Zeus Olimpio, Arco di Adriano</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Il punto di partenza.</strong> Anche Atene non nasce democratica: parte come le altre polis, con potere concentrato nelle mani di poche famiglie aristocratiche (gli Eupatridi, "i ben nati"). La democrazia è il punto d'arrivo di un percorso di quasi due secoli, tra crisi, riforme e colpi di mano.</p>
+      <p><strong>Dracone (VII secolo a.C.).</strong> Prima di lui, giustizia gestita in modo arbitrario dagli aristocratici. Dracone mette per iscritto un codice di leggi — progresso enorme, uguali per tutti e conoscibili — ma durissime, pena di morte anche per reati minori. Da qui l'aggettivo "draconiano".</p>
+      <p><strong>Solone (594 a.C.).</strong> Atene sull'orlo della guerra civile: contadini indebitati rischiavano la schiavitù per debiti. Solone cancella tutti i debiti e abolisce per sempre la schiavitù per debiti verso i cittadini ateniesi. Riorganizza la società in base al censo (ricchezza) e non più alla nascita nobile — primo passo verso la democrazia. Ritratto completo nel compendio dei Personaggi Storici.</p>
+      <p><strong>Pisistrato (metà VI secolo a.C.).</strong> Dopo anni instabili, il potere viene preso con la forza da Pisistrato, un "tiranno" (nel senso greco: chi prende il potere fuori dalle regole tradizionali, non necessariamente un despota crudele). Governa con relativo favore popolare: opere pubbliche, sostegno ai piccoli agricoltori; nascono le Grandi Panatenee e si sviluppa il teatro. Il figlio Ippia diventa un tiranno duro e viene rovesciato.</p>
+      <p><strong>Clistene (508-507 a.C.) — il padre della democrazia.</strong> Riorganizza la cittadinanza non più per famiglia (che favoriva le famiglie aristocratiche), ma per demi, unità territoriali che mescolano popolazione di zone diverse (costa, città, entroterra), indebolendo le vecchie fazioni. Crea l'ostracismo: un voto annuale (su un coccio, ostrakon) per esiliare per 10 anni chi fosse considerato una minaccia per la democrazia, anche senza reati commessi.</p>
+      <p><strong>Le guerre persiane (490-479 a.C.).</strong></p>
+      <ul>
+        <li><strong>Maratona (490 a.C.)</strong>: gli Ateniesi, quasi da soli, sconfiggono un esercito persiano più numeroso. Nasce la leggenda del soldato che corre ad Atene e muore per lo sforzo — origine del nome della gara sportiva moderna.</li>
+        <li><strong>Termopili (480 a.C.)</strong>: i 300 spartani di Leonida (con altri alleati) resistono giorni a un esercito persiano enormemente superiore in un passo stretto, prima di essere sopraffatti — sconfitta trasformata in simbolo di sacrificio.</li>
+        <li><strong>Salamina (480 a.C.)</strong>: vittoria navale decisiva, grazie alla flotta costruita su intuizione di Temistocle, che aveva convinto gli Ateniesi a investire i proventi di una miniera d'argento in navi da guerra.</li>
+      </ul>
+      <p><strong>L'età di Pericle (461-429 a.C. circa).</strong> Atene guida la Lega di Delo (alleanza anti-persiana trasformata progressivamente in impero ateniese) e vive il suo apice sotto Pericle. Con il tesoro della Lega finanzia la ricostruzione monumentale dell'Acropoli, distrutta dai Persiani: nasce il Partenone, tempio di Atena Parthenos, diretto dallo scultore Fidia. Secolo d'oro anche di tragedia (Eschilo, Sofocle, Euripide), commedia (Aristofane) e filosofia (Socrate).</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Acropoli</strong>: Partenone, Eretteo (con le cariatidi), Propilei, Tempio di Atena Nike</li>
+        <li><strong>Museo dell'Acropoli</strong>: dettagli e sculture difficili da vedere da vicino sul sito</li>
+        <li><strong>Tempio di Zeus Olimpio</strong>: iniziato in epoca arcaica, completato solo secoli dopo sotto i Romani ((«Grecia romana e bizantina»)</li>
+        <li><strong>Arco di Adriano</strong>: epoca romana, segna il confine simbolico tra la "vecchia" Atene greca e la "nuova" Atene di Adriano</li>
+      </ul>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap6" data-name="delfi e la religione panellenica">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">6</span>
+    <span class="chapter-title">
+      Delfi e la religione panellenica
+      <span class="chapter-luoghi">Delfi — Santuario, Museo, Teatro, Stadio, Tesoro degli Ateniesi, Tempio di Atena Pronaia</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Il luogo più sacro di tutta la Grecia.</strong> Delfi era terreno neutro, non appartenente a nessuna polis, gestito da un'organizzazione internazionale ante litteram, l'Anfizionia, un consiglio di rappresentanti di diverse popolazioni greche che ne garantiva protezione e neutralità anche in tempo di guerra.</p>
+      <p><strong>Il mito fondativo: l'ombelico del mondo.</strong> Zeus, per trovare il centro esatto della Terra, liberò due aquile da punti opposti del mondo, facendole volare l'una verso l'altra: si incontrarono sopra Delfi. Lì fu posta una pietra sacra, l'omphalos ("ombelico"), visibile ancora oggi (copia, l'originale è al museo) — per i Greci, il centro del mondo.</p>
+      <p><strong>L'oracolo: come funzionava.</strong> Il cuore di Delfi era il Tempio di Apollo, dove sedeva la Pizia, sacerdotessa che in una sorta di trance pronunciava responsi per conto del dio. Gli antichi parlavano di vapori da una fenditura nella roccia; studi geologici moderni hanno trovato tracce di gas come l'etilene nel sottosuolo, potenzialmente psicoattivo. Le risposte venivano poi messe in versi da sacerdoti maschi — quasi sempre volutamente ambigue, formulabili in più modi, così che l'oracolo non potesse mai risultare sbagliato.</p>
+      <p><strong>Aneddoto — il re Creso e l'oracolo ambiguo.</strong> Creso, ricchissimo re della Lidia (da cui "ricco come Creso"), prima di attaccare i Persiani chiede all'oracolo cosa accadrà. La Pizia risponde: "Se attraverserai il fiume, distruggerai un grande impero." Creso attacca — e viene sconfitto: l'impero distrutto era il suo. L'oracolo non aveva mentito, non aveva solo specificato quale impero.</p>
+      <p><strong>Un centro di potere politico.</strong> Nessuna polis prendeva decisioni importanti — fondare una colonia, dichiarare guerra, cambiare leggi — senza consultare l'oracolo. Questo dava ai sacerdoti di Delfi un'influenza politica enorme, spesso usata (secondo molti storici) in modo tutt'altro che neutrale.</p>
+      <p><strong>I Giochi Pitici.</strong> Delfi ospitava giochi panellenici, secondi per importanza solo a Olimpia, ogni quattro anni, con gare musicali e poetiche oltre che atletiche (in onore di Apollo, dio anche delle arti) — a differenza di Olimpia, dedicati più puramente allo sport.</p>
+      <p><strong>Il Tesoro degli Ateniesi.</strong> Lungo la Via Sacra, le polis più ricche costruivano piccoli edifici votivi, i "tesori", per mostrare devozione e ricchezza davanti a tutti gli altri Greci. Quello degli Ateniesi fu costruito per celebrare la vittoria di Maratona.</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Santuario di Apollo</strong>: Via Sacra, Tempio di Apollo (dove sedeva la Pizia), Tesoro degli Ateniesi</li>
+        <li><strong>Teatro</strong>: uno dei meglio conservati, vista incredibile sulla vallata</li>
+        <li><strong>Stadio</strong>: sede delle gare atletiche dei Giochi Pitici</li>
+        <li><strong>Museo Archeologico</strong>: l'Auriga di Delfi, tra le sculture in bronzo meglio conservate di tutta la Grecia antica</li>
+        <li><strong>Tempio di Atena Pronaia</strong>: con la celebre Tholos, struttura circolare la cui funzione esatta resta dibattuta</li>
+      </ul>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap7" data-name="olimpia e i giochi">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">7</span>
+    <span class="chapter-title">
+      Olimpia e i giochi
+      <span class="chapter-luoghi">Olimpia — Sito, Museo Archeologico, Museo della Storia delle Olimpiadi</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Non solo sport: una festa religiosa.</strong> I giochi olimpici erano prima di tutto una festa religiosa dedicata a Zeus, celebrata nel suo santuario più importante della Grecia continentale (Olimpia — non va confusa con l'Olimpo, la montagna degli dèi: sono due luoghi diversi).</p>
+      <p><strong>Le origini.</strong> La tradizione fissa la prima edizione al 776 a.C. — data così importante che i Greci la usavano come punto di partenza del proprio calendario storico ("dalla prima Olimpiade"). Il mito attribuisce la fondazione a Eracle (o a Pelope, secondo un'altra tradizione), in onore del padre Zeus. Dietro c'è probabilmente un culto locale più antico, poi codificato e reso panellenico nel tempo.</p>
+      <p><strong>La tregua olimpica.</strong> Mesi prima dei giochi, messaggeri (spondoforoi) partivano da Olimpia per annunciare la tregua sacra, l'ekecheiria: tutte le guerre in corso tra le polis dovevano fermarsi, per permettere ad atleti e spettatori di viaggiare in sicurezza. Non sempre rispettata alla lettera, ma l'idea che lo sport potesse sospendere la guerra è ripresa quasi identica dall'Olimpiade moderna.</p>
+      <p><strong>Chi poteva partecipare.</strong> Solo uomini greci liberi — non schiavi, non stranieri ("barbari": chi non parlava greco, senza il giudizio di valore che ha oggi). Le donne sposate non potevano nemmeno assistere, pena la morte secondo alcune fonti (regola discussa quanto fosse davvero applicata). Esisteva una gara parallela, gli Heraia, dedicata a Hera, per le ragazze non sposate.</p>
+      <p><strong>Aneddoto — Milone di Crotone.</strong> Lottatore di Crotone (Magna Grecia), vinse sei edizioni consecutive. La leggenda narra che si allenasse portando in spalla un vitello ogni giorno fin da piccolo, continuando anche da toro adulto — racconta bene l'ossessione greca per l'allenamento progressivo.</p>
+      <p><strong>Le gare.</strong> All'inizio un solo giorno, una sola gara: la corsa dello stadio (circa 192 metri). Con i secoli si aggiungono pentathlon (salto, disco, giavellotto, corsa, lotta), pugilato, pankration (lotta e pugilato quasi senza regole), corse di carri e cavalli — uniche gare aperte anche alle donne, ma solo come proprietarie dei cavalli, non come atlete.</p>
+      <p><strong>Il premio.</strong> Nessun denaro — solo una corona d'ulivo sacro. Ma tornare vincitore olimpico significava gloria eterna, statue dedicate, esenzione dalle tasse a vita in alcune polis, ricchi doni indiretti da concittadini orgogliosi.</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Sito archeologico</strong>: Tempio di Zeus (un tempo ospitava una delle Sette Meraviglie, la statua crisoelefantina di Zeus di Fidia, oggi perduta), Palestra, Ginnasio, Stadio originale — si può correre sulla stessa pista degli atleti antichi</li>
+        <li><strong>Museo Archeologico di Olimpia</strong>: i frontoni originali del Tempio di Zeus</li>
+        <li><strong>Museo dei Giochi Olimpici Antichi</strong>: evoluzione dei giochi fino al collegamento con l'Olimpiade moderna</li>
+      </ul>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap8" data-name="corinto">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">8</span>
+    <span class="chapter-title">
+      Corinto
+      <span class="chapter-luoghi">Antica Corinto (fase romana approfondita nel cap. 11)</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>La città del commercio per eccellenza.</strong> Corinto deve la sua importanza a un fattore geografico: si trova sull'istmo che collega il Peloponneso alla Grecia centrale, con un porto sul Golfo di Corinto (verso l'Italia) e uno sul Golfo Saronico (verso l'Egeo). Chi controllava Corinto controllava il passaggio commerciale più conveniente di tutta la Grecia, evitando la lunga e pericolosa circumnavigazione del Peloponneso.</p>
+      <p><strong>Il diolkos.</strong> I Corinzi costruirono il diolkos, una strada lastricata con solchi paralleli, lunga diversi chilometri, su cui le navi più piccole (o i loro carichi) venivano trascinate a secco da un golfo all'altro su carrelli di legno — soluzione ingegnosa, rimasta in uso per secoli.</p>
+      <p><strong>Ricchezza e reputazione.</strong> Corinto è tra le polis più ricche della Grecia arcaica e classica, ma con fama "particolare": l'espressione "non è per tutti navigare fino a Corinto" alludeva ai costi elevati della vita cittadina e, secondo alcune fonti antiche, a un tempio di Afrodite con pratiche di prostituzione sacra — tema su cui gli storici moderni sono molto cauti, fonti spesso esagerate.</p>
+      <p><strong>Un ruolo politico defilato ma cruciale.</strong> Corinto non aspira a diventare una superpotenza: è alleata di Sparta nella Lega del Peloponneso, ma con interessi commerciali propri, spesso in conflitto con quelli spartani (Corinto aveva fondato colonie importanti come Siracusa e Corcira, l'odierna Corfù).</p>
+      <p><strong>La scintilla della guerra del Peloponneso.</strong> Un conflitto tra Corinto e la sua colonia Corcira, in cui si inserisce Atene a sostegno di Corcira, sarà una delle cause scatenanti della guerra del Peloponneso («Guerra del Peloponneso e crisi della polis»).</p>
+      <p><strong>La Lega di Corinto: il nome ingannevole.</strong> La "Lega di Corinto" (337 a.C.) prende il nome dalla città dove fu firmata, ma è l'alleanza imposta da Filippo II di Macedonia (poi ereditata da Alessandro Magno) a tutte le polis greche dopo averle sconfitte — segna la fine dell'indipendenza politica delle città-stato classiche («Dalla Grecia classica all'ellenismo»).</p>
+      <p><strong>La distruzione romana.</strong> Nel 146 a.C. i Romani, dopo aver sconfitto la Lega Achea, rasero al suolo Corinto come punizione esemplare. Per un secolo resta disabitata. Sarà Giulio Cesare, un secolo dopo, a rifondarla come colonia romana — storia approfondita nel («Grecia romana e bizantina») insieme a Mistrà bizantina.</p>
+      <p><strong>Cosa vedrete sul posto:</strong> Antica Corinto conserva soprattutto resti del periodo romano («Grecia romana e bizantina»); il Tempio di Apollo — uno dei pochissimi templi dorici arcaici ancora in piedi, tra i più antichi di tutta la Grecia — è invece autenticamente dell'epoca greca trattata qui.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap9" data-name="guerra del peloponneso e crisi della polis">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">9</span>
+    <span class="chapter-title">
+      Guerra del Peloponneso e crisi della polis
+      <span class="chapter-luoghi">Epidauro — Teatro, Santuario di Asclepio</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Il conflitto che distrugge la Grecia classica dall'interno.</strong> La guerra del Peloponneso (431-404 a.C.) è l'opposto delle guerre persiane: Greci contro Greci, quasi trent'anni di conflitto che alla fine indebolisce tutti, vincitori compresi, aprendo la strada, decenni dopo, alla conquista macedone.</p>
+      <p><strong>Due superpotenze, due modelli opposti.</strong> Atene, potenza navale e democratica, a capo della Lega di Delo (ormai di fatto un impero); Sparta, potenza terrestre e oligarchica, a capo della Lega del Peloponneso. Uno scontro tra due visioni di società, con molte polis minori schierate con l'una o l'altra, spesso dividendo le stesse città al loro interno.</p>
+      <p><strong>Le cause: paura più che ambizione.</strong> Tucidide, storico che visse la guerra, la spiega con una frase divenuta celebre: la vera causa fu la crescita della potenza ateniese e la paura che provocò a Sparta. La disputa tra Corinto e Corcira («Corinto») fu solo la scintilla su una tensione già strutturale.</p>
+      <p><strong>La strategia di Pericle.</strong> Sapendo di non poter competere con la fanteria spartana in campo aperto, Pericle abbandona le campagne alle devastazioni spartane e rifugia la popolazione dentro le Lunghe Mura tra Atene e il porto del Pireo, confidando nella superiorità navale. Funziona militarmente, ma ha una conseguenza tragica.</p>
+      <p><strong>Aneddoto — la peste di Atene.</strong> Il sovraffollamento dentro le mura crea le condizioni per un'epidemia devastante (430 a.C.), che uccide forse un terzo della popolazione — tra le vittime lo stesso Pericle (429 a.C.). Tucidide, ammalato e sopravvissuto, ne lascia una descrizione clinica dettagliatissima, tra le prime testimonianze mediche della storia occidentale.</p>
+      <p><strong>La spedizione in Sicilia.</strong> Nel 415 a.C. Atene, spinta da Alcibiade, lancia una spedizione enorme contro Siracusa — mossa avventata e lontanissima dal territorio del conflitto originario. Disastro totale: flotta ed esercito ateniesi annientati nel 413 a.C. Atene non si riprenderà più del tutto.</p>
+      <p><strong>La fine (404 a.C.).</strong> Sparta, con l'aiuto economico dei Persiani (che finanziano una flotta spartana capace di competere con quella ateniese), sconfigge Atene. Le Lunghe Mura vengono abbattute, la flotta smantellata, la democrazia sostituita temporaneamente da un governo oligarchico imposto dagli Spartani (i "Trenta Tiranni").</p>
+      <p><strong>La vera eredità della guerra.</strong> Sparta vince militarmente, ma esce logorata quanto Atene. Nei decenni successivi nessuna polis riesce a imporsi stabilmente — Sparta, poi Tebe, si succedono in un'egemonia fragile. È questa Grecia esausta e divisa che diventerà terreno facile per la Macedonia di Filippo II («Dalla Grecia classica all'ellenismo»).</p>
+      <p><strong>Epidauro: una parentesi di pace.</strong> Santuario dedicato ad Asclepio, dio della medicina, considerato sacro e neutrale come Delfi e Olimpia: malati da tutta la Grecia, anche da polis in guerra tra loro, venivano a cercare guarigione. Il metodo curativo principale era l'incubazione: i pazienti dormivano nell'abaton, portico sacro, sperando che il dio apparisse in sogno suggerendo la cura, spesso poi eseguita dai sacerdoti-medici — un mix di religione e pratica medica che anticipa alcuni principi della medicina psicosomatica.</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Teatro di Epidauro</strong>: acustica straordinaria, tra i teatri antichi meglio conservati al mondo — si racconta che da centinaia di metri di distanza si senta distintamente una moneta cadere sulla scena</li>
+        <li><strong>Santuario di Asclepio</strong>: resti dell'abaton dell'incubazione e altri edifici legati al culto</li>
+      </ul>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap10" data-name="dalla grecia classica all'ellenismo">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">10</span>
+    <span class="chapter-title">
+      Dalla Grecia classica all'ellenismo
+      <span class="chapter-luoghi">Trasversale — nessun sito specifico nell'itinerario</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Il "barbaro del nord" che conquista la Grecia.</strong> I Greci delle polis classiche guardavano al regno di Macedonia con disprezzo e diffidenza: arretrato, tribale, non pienamente "greco" nella cultura politica. È da lì che arriva l'uomo che chiuderà per sempre l'epoca delle polis indipendenti: Filippo II di Macedonia.</p>
+      <p><strong>Filippo II: il vero genio strategico prima di Alessandro.</strong> Il padre Filippo (359-336 a.C.) trasforma un regno periferico e diviso in una macchina militare e politica capace di dominare la Grecia. Riforma l'esercito con la falange macedone, lance più lunghe (la sarissa, fino a 6 metri) e tattiche più flessibili. Usa abilmente anche diplomazia, corruzione e matrimoni politici.</p>
+      <p><strong>Cheronea (338 a.C.).</strong> Filippo sconfigge una coalizione di polis guidata da Atene e Tebe: fine dell'era delle polis autonome. Impone la Lega di Corinto («Corinto»), alleanza forzata di tutte le polis sotto la sua guida, con l'obiettivo di un'invasione congiunta contro l'impero persiano.</p>
+      <p><strong>L'assassinio di Filippo e l'ascesa di Alessandro (336 a.C.).</strong> Filippo viene assassinato mentre si preparava alla spedizione persiana — cause non chiare secondo le fonti antiche. Il figlio Alessandro, ventenne, eredita il trono, l'esercito più efficiente del mondo allora conosciuto e il piano di invasione già pronto.</p>
+      <p><strong>Aneddoto — il nodo di Gordio.</strong> Ad Alessandro viene mostrato un antico carro con un nodo complesso: chi lo avesse sciolto sarebbe diventato signore dell'Asia. Alessandro lo taglia con la spada. Da qui "tagliare il nodo gordiano" — soluzione drastica e diretta a un problema complicato.</p>
+      <p><strong>La conquista lampo dell'impero persiano.</strong> In poco più di un decennio (334-323 a.C.), Alessandro conquista l'intero impero persiano, arrivando fino all'attuale Pakistan e ai confini dell'India. Vittorie a Isso e Gaugamela contro Dario III, conquista dell'Egitto (dove fonda Alessandria), distruzione di Persepoli.</p>
+      <p><strong>Un impero, ma anche un progetto culturale.</strong> Alessandro fonda decine di città greche (spesso chiamate Alessandria) in tutto il territorio conquistato, centri di diffusione della cultura greca. Promuove fusione culturale — matrimoni misti, integrazione di nobili persiani — controversa tra i suoi stessi generali macedoni.</p>
+      <p><strong>Morte e frammentazione (323 a.C.).</strong> Alessandro muore a Babilonia a 32 anni, probabilmente per malattia, senza erede adulto chiaro. Alla domanda su chi dovesse succedergli avrebbe risposto "al più forte" — scatenando decenni di guerre tra i suoi generali (i Diadochi), che si spartiscono l'impero: Egitto ai Tolomei (dinastia di Cleopatra), Mesopotamia e gran parte dell'Asia ai Seleucidi, Macedonia agli Antigonidi.</p>
+      <p><strong>L'eredità ellenistica.</strong> Il periodo "ellenistico" dura fino alla conquista romana definitiva (l'ultimo regno, l'Egitto tolemaico, cade nel 30 a.C. con la morte di Cleopatra). Grande fioritura scientifica e culturale — Alessandria d'Egitto diventa centro intellettuale del mondo mediterraneo, con la celebre Biblioteca — ma progressivo declino politico delle vecchie polis greche, relegate a ruolo secondario rispetto ai grandi regni ellenistici e poi a Roma.</p>
+      <p><strong>Perché nessuna città di riferimento nell'itinerario:</strong> la vicenda di Filippo e Alessandro si svolge soprattutto fuori dai luoghi visitati (Macedonia, Asia, Egitto) — ma è il ponte narrativo per capire come si arriva, nel («Grecia romana e bizantina»), alla Grecia romana e bizantina di Corinto e Mistrà. Ritratti completi di Filippo (indirettamente, tramite il Filippeion di Olimpia) e Alessandro Magno nel compendio dei Personaggi Storici.</p>
+  </div></div>
+</div>
+
+<div class="chapter" id="cap11" data-name="grecia romana e bizantina">
+  <button class="chapter-head" onclick="toggleChapter(this)">
+    <span class="chapter-num">11</span>
+    <span class="chapter-title">
+      Grecia romana e bizantina
+      <span class="chapter-luoghi">Corinto (fase romana) · Mistrà</span>
+    </span>
+    <span class="chev">›</span>
+  </button>
+  <div class="chapter-body"><div class="chapter-body-inner">
+    
+      <p><strong>Un capitolo "ponte".</strong> Corinto e Mistrà hanno fasi storiche importanti che non rientrano nella Grecia classica raccontata finora. Qui chiudiamo il cerchio, dai Romani fino ai Bizantini.</p>
+      <p><strong>Come i Romani arrivano in Grecia.</strong> Dopo la frammentazione ellenistica («Dalla Grecia classica all'ellenismo»), Roma espande la propria influenza verso est per gradi, tra il III e il II secolo a.C., tramite le guerre macedoniche e alleanze trasformate in sottomissione. Il momento simbolico e definitivo è il 146 a.C.</p>
+      <p><strong>146 a.C.: la distruzione di Corinto.</strong> I Romani sconfiggono la Lega Achea e, come punizione esemplare, radono al suolo Corinto: uccidono gli uomini, riducono in schiavitù donne e bambini, saccheggiano opere d'arte da spedire a Roma. La Grecia libera delle polis indipendenti finisce simbolicamente qui.</p>
+      <p><strong>Un secolo di silenzio, poi la rinascita.</strong> Per circa cento anni Corinto resta disabitata. Nel 44 a.C. Giulio Cesare ordina la rifondazione come colonia romana, popolandola con veterani e liberti. Rinasce rapidamente grazie alla posizione strategica di sempre, diventando capitale della provincia romana di Acaia, ricchissima e cosmopolita.</p>
+      <p><strong>Aneddoto — San Paolo a Corinto.</strong> Questa Corinto romana viene visitata dall'apostolo Paolo intorno al 50-52 d.C., che vi fonda una delle prime comunità cristiane fuori dalla Palestina. Le sue due lettere ai Corinzi nascono da problemi concreti di quella comunità, in una città che un secolo prima era stata rasa al suolo — lo stesso episodio già raccontato al Bema di Corinto.</p>
+      <p><strong>Come finisce il mondo antico in Grecia.</strong> La Grecia resta parte dell'impero romano, poi (dopo la divisione del 395 d.C.) dell'impero romano d'Oriente, oggi chiamato impero bizantino — sebbene i suoi abitanti si considerassero semplicemente Romani ("Romaioi"), senza una rottura netta percepita. Con capitale Costantinopoli, prosegue per oltre mille anni, con il greco lingua ufficiale e culturale dominante.</p>
+      <p><strong>Mistrà: un salto temporale enorme.</strong> Nasce nel 1249 d.C., fondata dai Franchi (crociati occidentali dopo la Quarta Crociata del 1204) come fortezza. Passa sotto controllo bizantino e diventa, nei suoi ultimi due secoli (XIV-XV secolo), centro fiorentissimo di arte, cultura e potere politico — sede del Despotato di Morea, governato da membri della famiglia imperiale bizantina.</p>
+      <p><strong>L'ultimo splendore prima della fine.</strong> Mistrà rappresenta una delle ultime fioriture culturali del mondo bizantino, mentre Costantinopoli sta morendo lentamente. Qui insegna Giorgio Gemisto Pletone, filosofo neoplatonico che influenzerà il Rinascimento italiano (Concilio di Firenze 1438-39, ispirando l'Accademia Platonica di Firenze dei Medici) — un filo diretto tra questa città del Peloponneso e il Rinascimento fiorentino.</p>
+      <p><strong>1453 e la fine di un mondo.</strong> Costantinopoli cade in mano ottomana nel 1453. Mistrà resiste ancora come ultimo baluardo bizantino, ma cade a sua volta agli Ottomani nel 1460. Si chiude così, dopo quasi duemila anni ininterrotti (dai Micenei ai Bizantini), l'ultima fase della storia greca antica — la Grecia moderna nasce solo secoli dopo, con l'indipendenza dall'impero ottomano nel 1830.</p>
+      <p><strong>Cosa vedrete sul posto:</strong></p>
+      <ul>
+        <li><strong>Corinto (fase romana)</strong>: l'Agorà romana, la Fontana di Peirene, i resti dei negozi e degli edifici pubblici della città rifondata da Cesare — da affiancare al Tempio di Apollo greco visto nel («Corinto»)</li>
+        <li><strong>Mistrà</strong>: città-museo intera arroccata sulla collina, chiese bizantine affrescate (Pantanassa, Peribleptos, Metropoli), il Palazzo dei Despoti, le mura del castello franco in cima</li>
+      </ul>
+  </div></div>
+</div>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<script>
+function toggleChapter(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allChapters = Array.from(document.querySelectorAll('.chapter'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allChapters.forEach(ch => {
+    const text = ch.textContent.toLowerCase();
+    const match = !f || text.includes(f);
+    ch.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+    if (f && match) ch.classList.add('open'); else if (f) ch.classList.remove('open');
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
