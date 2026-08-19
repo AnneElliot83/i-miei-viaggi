@@ -234,7 +234,7 @@
   <h2 class="group-title">Origini<span class="group-count">3</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="storia della scozia">
+  <div class="site" id="storia-della-scozia" data-name="storia della scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Storia della Scozia</span>
       <span class="chev">›</span>
@@ -261,7 +261,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="geografia della scozia">
+  <div class="site" id="geografia-della-scozia" data-name="geografia della scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Geografia della Scozia</span>
       <span class="chev">›</span>
@@ -282,7 +282,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="geologia della scozia">
+  <div class="site" id="geologia-della-scozia" data-name="geologia della scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Geologia della Scozia</span>
       <span class="chev">›</span>
@@ -311,7 +311,7 @@
   <h2 class="group-title">Fuori Rotta<span class="group-count">3</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="il vallo di adriano">
+  <div class="site" id="il-vallo-di-adriano" data-name="il vallo di adriano">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Vallo di Adriano</span>
       <span class="chev">›</span>
@@ -321,7 +321,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="york">
+  <div class="site" id="york" data-name="york">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">York</span>
       <span class="chev">›</span>
@@ -331,7 +331,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="fountains abbey">
+  <div class="site" id="fountains-abbey" data-name="fountains abbey">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Fountains Abbey</span>
       <span class="chev">›</span>
@@ -377,6 +377,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

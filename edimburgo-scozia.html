@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="edimburgo — quadro storico generale">
+  <div class="site" id="edimburgo-quadro-storico-generale" data-name="edimburgo — quadro storico generale">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Edimburgo — quadro storico generale</span>
       <span class="chev">›</span>
@@ -256,7 +256,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il castello di edimburgo">
+  <div class="site" id="il-castello-di-edimburgo" data-name="il castello di edimburgo">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Castello di Edimburgo</span>
       <span class="chev">›</span>
@@ -277,7 +277,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="la cattedrale di st. giles">
+  <div class="site" id="la-cattedrale-di-st-giles" data-name="la cattedrale di st. giles">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">La Cattedrale di St. Giles</span>
       <span class="chev">›</span>
@@ -298,7 +298,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il palazzo di holyroodhouse">
+  <div class="site" id="il-palazzo-di-holyroodhouse" data-name="il palazzo di holyroodhouse">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Palazzo di Holyroodhouse</span>
       <span class="chev">›</span>
@@ -320,7 +320,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="dean village e il water of leith">
+  <div class="site" id="dean-village-e-il-water-of-leith" data-name="dean village e il water of leith">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Dean Village e il Water of Leith</span>
       <span class="chev">›</span>
@@ -376,6 +376,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

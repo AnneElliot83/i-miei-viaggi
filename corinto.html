@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -327,7 +328,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
+  <div class="site" id="tempio-di-apollo" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Apollo<span class="site-greek">Ναός του Απόλλωνα</span></span>
       <span class="chev">›</span>
@@ -340,7 +341,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="fontana di peirene" data-greek="πηγή πειρήνης">
+  <div class="site" id="fontana-di-peirene" data-name="fontana di peirene" data-greek="πηγή πειρήνης">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Fontana di Peirene<span class="site-greek">Πηγή Πειρήνης</span></span>
       <span class="chev">›</span>
@@ -353,7 +354,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="agorà e via di lechaion" data-greek="αγορά και οδός λεχαίου">
+  <div class="site" id="agor-e-via-di-lechaion" data-name="agorà e via di lechaion" data-greek="αγορά και οδός λεχαίου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Agorà e Via di Lechaion<span class="site-greek">Αγορά και Οδός Λεχαίου</span></span>
       <span class="chev">›</span>
@@ -366,7 +367,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="bema di corinto" data-greek="βήμα κορίνθου">
+  <div class="site" id="bema-di-corinto" data-name="bema di corinto" data-greek="βήμα κορίνθου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Bema di Corinto<span class="site-greek">Βήμα Κορίνθου</span></span>
       <span class="chev">›</span>
@@ -379,7 +380,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di corinto" data-greek="αρχαιολογικό μουσείο κορίνθου">
+  <div class="site" id="museo-archeologico-di-corinto" data-name="museo archeologico di corinto" data-greek="αρχαιολογικό μουσείο κορίνθου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Corinto<span class="site-greek">Αρχαιολογικό Μουσείο Κορίνθου</span></span>
       <span class="chev">›</span>
@@ -397,7 +398,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="acrocorinto" data-greek="ακροκόρινθος">
+  <div class="site" id="acrocorinto" data-name="acrocorinto" data-greek="ακροκόρινθος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Acrocorinto<span class="site-greek">Ακροκόρινθος</span></span>
       <span class="chev">›</span>
@@ -455,6 +456,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

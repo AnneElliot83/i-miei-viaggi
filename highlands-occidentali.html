@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="glencoe">
+  <div class="site" id="glencoe" data-name="glencoe">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Glencoe</span>
       <span class="chev">›</span>
@@ -251,7 +251,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="glen nevis e ben nevis">
+  <div class="site" id="glen-nevis-e-ben-nevis" data-name="glen nevis e ben nevis">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Glen Nevis e Ben Nevis</span>
       <span class="chev">›</span>
@@ -270,7 +270,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="isola di skye">
+  <div class="site" id="isola-di-skye" data-name="isola di skye">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Isola di Skye</span>
       <span class="chev">›</span>
@@ -292,7 +292,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il castello di eilean donan">
+  <div class="site" id="il-castello-di-eilean-donan" data-name="il castello di eilean donan">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Castello di Eilean Donan</span>
       <span class="chev">›</span>
@@ -314,7 +314,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="wester ross">
+  <div class="site" id="wester-ross" data-name="wester ross">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Wester Ross</span>
       <span class="chev">›</span>
@@ -372,6 +372,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

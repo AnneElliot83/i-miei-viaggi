@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -326,7 +327,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="tempio di zeus" data-greek="ναός του διός">
+  <div class="site" id="tempio-di-zeus" data-name="tempio di zeus" data-greek="ναός του διός">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Zeus<span class="site-greek">Ναός του Διός</span></span>
       <span class="chev">›</span>
@@ -337,7 +338,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tempio di hera (heraion)" data-greek="ναός της ήρας (ηραίο)">
+  <div class="site" id="tempio-di-hera-heraion" data-name="tempio di hera (heraion)" data-greek="ναός της ήρας (ηραίο)">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Hera (Heraion)<span class="site-greek">Ναός της Ήρας (Ηραίο)</span></span>
       <span class="chev">›</span>
@@ -348,7 +349,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="pelopion" data-greek="πελόπιον">
+  <div class="site" id="pelopion" data-name="pelopion" data-greek="πελόπιον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Pelopion<span class="site-greek">Πελόπιον</span></span>
       <span class="chev">›</span>
@@ -359,7 +360,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="metroon" data-greek="μητρώον">
+  <div class="site" id="metroon" data-name="metroon" data-greek="μητρώον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Metroon<span class="site-greek">Μητρώον</span></span>
       <span class="chev">›</span>
@@ -370,7 +371,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tesori" data-greek="θησαυροί">
+  <div class="site" id="tesori" data-name="tesori" data-greek="θησαυροί">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tesori<span class="site-greek">Θησαυροί</span></span>
       <span class="chev">›</span>
@@ -381,7 +382,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="stoa dell'eco" data-greek="στοά της ηχούς">
+  <div class="site" id="stoa-dell-eco" data-name="stoa dell'eco" data-greek="στοά της ηχούς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Stoa dell'Eco<span class="site-greek">Στοά της Ηχούς</span></span>
       <span class="chev">›</span>
@@ -392,7 +393,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="stoa meridionale" data-greek="νότια στοά">
+  <div class="site" id="stoa-meridionale" data-name="stoa meridionale" data-greek="νότια στοά">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Stoa Meridionale<span class="site-greek">Νότια Στοά</span></span>
       <span class="chev">›</span>
@@ -403,7 +404,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="bouleuterion" data-greek="βουλευτήριον">
+  <div class="site" id="bouleuterion" data-name="bouleuterion" data-greek="βουλευτήριον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Bouleuterion<span class="site-greek">Βουλευτήριον</span></span>
       <span class="chev">›</span>
@@ -414,7 +415,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="pritaneo (prytaneion)" data-greek="πρυτανείον">
+  <div class="site" id="pritaneo-prytaneion" data-name="pritaneo (prytaneion)" data-greek="πρυτανείον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Pritaneo (Prytaneion)<span class="site-greek">Πρυτανείον</span></span>
       <span class="chev">›</span>
@@ -425,7 +426,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="filippeion" data-greek="φιλιππείο">
+  <div class="site" id="filippeion" data-name="filippeion" data-greek="φιλιππείο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Filippeion<span class="site-greek">Φιλιππείο</span></span>
       <span class="chev">›</span>
@@ -436,7 +437,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="leonidaion" data-greek="λεωνιδαίον">
+  <div class="site" id="leonidaion" data-name="leonidaion" data-greek="λεωνιδαίον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Leonidaion<span class="site-greek">Λεωνιδαίον</span></span>
       <span class="chev">›</span>
@@ -447,7 +448,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="palestra" data-greek="παλαίστρα">
+  <div class="site" id="palestra" data-name="palestra" data-greek="παλαίστρα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Palestra<span class="site-greek">Παλαίστρα</span></span>
       <span class="chev">›</span>
@@ -458,7 +459,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="ginnasio" data-greek="γυμνάσιο">
+  <div class="site" id="ginnasio" data-name="ginnasio" data-greek="γυμνάσιο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Ginnasio<span class="site-greek">Γυμνάσιο</span></span>
       <span class="chev">›</span>
@@ -469,7 +470,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="theokoleon" data-greek="θεοκολεῖον">
+  <div class="site" id="theokoleon" data-name="theokoleon" data-greek="θεοκολεῖον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Theokoleon<span class="site-greek">Θεοκολεῖον</span></span>
       <span class="chev">›</span>
@@ -480,7 +481,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="officina di fidia" data-greek="εργαστήριο του φειδία">
+  <div class="site" id="officina-di-fidia" data-name="officina di fidia" data-greek="εργαστήριο του φειδία">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Officina di Fidia<span class="site-greek">Εργαστήριο του Φειδία</span></span>
       <span class="chev">›</span>
@@ -491,7 +492,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="terme del kladeos" data-greek="λουτρά του κλαδέου">
+  <div class="site" id="terme-del-kladeos" data-name="terme del kladeos" data-greek="λουτρά του κλαδέου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Terme del Kladeos<span class="site-greek">Λουτρά του Κλαδέου</span></span>
       <span class="chev">›</span>
@@ -502,7 +503,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="stadio" data-greek="στάδιο">
+  <div class="site" id="stadio" data-name="stadio" data-greek="στάδιο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Stadio<span class="site-greek">Στάδιο</span></span>
       <span class="chev">›</span>
@@ -513,7 +514,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="ippodromo" data-greek="ιππόδρομος">
+  <div class="site" id="ippodromo" data-name="ippodromo" data-greek="ιππόδρομος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Ippodromo<span class="site-greek">Ιππόδρομος</span></span>
       <span class="chev">›</span>
@@ -524,7 +525,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="ninfeo di erode attico" data-greek="νυμφαίο ηρώδη αττικού">
+  <div class="site" id="ninfeo-di-erode-attico" data-name="ninfeo di erode attico" data-greek="νυμφαίο ηρώδη αττικού">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Ninfeo di Erode Attico<span class="site-greek">Νυμφαίο Ηρώδη Αττικού</span></span>
       <span class="chev">›</span>
@@ -535,7 +536,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di olimpia" data-greek="αρχαιολογικό μουσείο ολυμπίας">
+  <div class="site" id="museo-archeologico-di-olimpia" data-name="museo archeologico di olimpia" data-greek="αρχαιολογικό μουσείο ολυμπίας">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Olimpia<span class="site-greek">Αρχαιολογικό Μουσείο Ολυμπίας</span></span>
       <span class="chev">›</span>
@@ -553,7 +554,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo dei giochi olimpici antichi" data-greek="μουσείο αρχαίων ολυμπιακών αγώνων">
+  <div class="site" id="museo-dei-giochi-olimpici-antichi" data-name="museo dei giochi olimpici antichi" data-greek="μουσείο αρχαίων ολυμπιακών αγώνων">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo dei Giochi Olimpici Antichi<span class="site-greek">Μουσείο Αρχαίων Ολυμπιακών Αγώνων</span></span>
       <span class="chev">›</span>
@@ -609,6 +610,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

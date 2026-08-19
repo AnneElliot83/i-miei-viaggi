@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -331,7 +332,7 @@
   <h2 class="group-title">Rocce e Monasteri<span class="group-count">7</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="le rocce di meteora (geologia e storia)" data-greek="οι βράχοι των μετεώρων">
+  <div class="site" id="le-rocce-di-meteora-geologia-e-storia" data-name="le rocce di meteora (geologia e storia)" data-greek="οι βράχοι των μετεώρων">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Le Rocce di Meteora (geologia e storia)<span class="site-greek">Οι Βράχοι των Μετεώρων</span></span>
       <span class="chev">›</span>
@@ -342,7 +343,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="grande meteora (trasfigurazione)" data-greek="μεγάλο μετέωρο">
+  <div class="site" id="grande-meteora-trasfigurazione" data-name="grande meteora (trasfigurazione)" data-greek="μεγάλο μετέωρο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Grande Meteora (Trasfigurazione)<span class="site-greek">Μεγάλο Μετέωρο</span></span>
       <span class="chev">›</span>
@@ -353,7 +354,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="varlaam" data-greek="μονή βαρλαάμ">
+  <div class="site" id="varlaam" data-name="varlaam" data-greek="μονή βαρλαάμ">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Varlaam<span class="site-greek">Μονή Βαρλαάμ</span></span>
       <span class="chev">›</span>
@@ -364,7 +365,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="rousanou (santa barbara)" data-greek="μονή ρουσάνου">
+  <div class="site" id="rousanou-santa-barbara" data-name="rousanou (santa barbara)" data-greek="μονή ρουσάνου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Rousanou (Santa Barbara)<span class="site-greek">Μονή Ρουσάνου</span></span>
       <span class="chev">›</span>
@@ -375,7 +376,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="san nicola anapafsas" data-greek="μονή αγίου νικολάου αναπαυσά">
+  <div class="site" id="san-nicola-anapafsas" data-name="san nicola anapafsas" data-greek="μονή αγίου νικολάου αναπαυσά">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">San Nicola Anapafsas<span class="site-greek">Μονή Αγίου Νικολάου Αναπαυσά</span></span>
       <span class="chev">›</span>
@@ -386,7 +387,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="santa trinità" data-greek="μονή αγίας τριάδος">
+  <div class="site" id="santa-trinit" data-name="santa trinità" data-greek="μονή αγίας τριάδος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Santa Trinità<span class="site-greek">Μονή Αγίας Τριάδος</span></span>
       <span class="chev">›</span>
@@ -397,7 +398,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="santo stefano" data-greek="μονή αγίου στεφάνου">
+  <div class="site" id="santo-stefano" data-name="santo stefano" data-greek="μονή αγίου στεφάνου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Santo Stefano<span class="site-greek">Μονή Αγίου Στεφάνου</span></span>
       <span class="chev">›</span>
@@ -414,7 +415,7 @@
   <h2 class="group-title">Borghi<span class="group-count">2</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="kalabaka" data-greek="καλαμπάκα">
+  <div class="site" id="kalabaka" data-name="kalabaka" data-greek="καλαμπάκα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Kalabaka<span class="site-greek">Καλαμπάκα</span></span>
       <span class="chev">›</span>
@@ -430,7 +431,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="kastraki" data-greek="καστράκι">
+  <div class="site" id="kastraki" data-name="kastraki" data-greek="καστράκι">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Kastraki<span class="site-greek">Καστράκι</span></span>
       <span class="chev">›</span>
@@ -492,6 +493,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

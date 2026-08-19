@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -329,7 +330,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="porta dei leoni e mura ciclopiche" data-greek="πύλη των λεόντων και κυκλώπεια τείχη">
+  <div class="site" id="porta-dei-leoni-e-mura-ciclopiche" data-name="porta dei leoni e mura ciclopiche" data-greek="πύλη των λεόντων και κυκλώπεια τείχη">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Porta dei Leoni e mura ciclopiche<span class="site-greek">Πύλη των Λεόντων και Κυκλώπεια Τείχη</span></span>
       <span class="chev">›</span>
@@ -342,7 +343,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
+  <div class="site" id="palazzo-e-megaron" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Palazzo e Megaron<span class="site-greek">Ανάκτορο και Μέγαρον</span></span>
       <span class="chev">›</span>
@@ -353,7 +354,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tesoro di atreo (tomba di agamennone)" data-greek="θησαυρός του ατρέα">
+  <div class="site" id="tesoro-di-atreo-tomba-di-agamennone" data-name="tesoro di atreo (tomba di agamennone)" data-greek="θησαυρός του ατρέα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tesoro di Atreo (Tomba di Agamennone)<span class="site-greek">Θησαυρός του Ατρέα</span></span>
       <span class="chev">›</span>
@@ -364,7 +365,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tomba di clitemnestra" data-greek="τάφος της κλυταιμνήστρας">
+  <div class="site" id="tomba-di-clitemnestra" data-name="tomba di clitemnestra" data-greek="τάφος της κλυταιμνήστρας">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tomba di Clitemnestra<span class="site-greek">Τάφος της Κλυταιμνήστρας</span></span>
       <span class="chev">›</span>
@@ -375,7 +376,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di micene" data-greek="αρχαιολογικό μουσείο μυκηνών">
+  <div class="site" id="museo-archeologico-di-micene" data-name="museo archeologico di micene" data-greek="αρχαιολογικό μουσείο μυκηνών">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Micene<span class="site-greek">Αρχαιολογικό Μουσείο Μυκηνών</span></span>
       <span class="chev">›</span>
@@ -438,6 +439,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

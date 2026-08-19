@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -331,7 +332,7 @@
   <h2 class="group-title">Città Bassa<span class="group-count">4</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="metropoli (agios dimitrios)" data-greek="μητρόπολη (άγιος δημήτριος)">
+  <div class="site" id="metropoli-agios-dimitrios" data-name="metropoli (agios dimitrios)" data-greek="μητρόπολη (άγιος δημήτριος)">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Metropoli (Agios Dimitrios)<span class="site-greek">Μητρόπολη (Άγιος Δημήτριος)</span></span>
       <span class="chev">›</span>
@@ -342,7 +343,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="monastero di vrontochion (afendiko)" data-greek="μονή βροντοχίου (αφεντικό)">
+  <div class="site" id="monastero-di-vrontochion-afendiko" data-name="monastero di vrontochion (afendiko)" data-greek="μονή βροντοχίου (αφεντικό)">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Monastero di Vrontochion (Afendiko)<span class="site-greek">Μονή Βροντοχίου (Αφεντικό)</span></span>
       <span class="chev">›</span>
@@ -353,7 +354,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="monastero di peribleptos" data-greek="μονή περιβλέπτου">
+  <div class="site" id="monastero-di-peribleptos" data-name="monastero di peribleptos" data-greek="μονή περιβλέπτου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Monastero di Peribleptos<span class="site-greek">Μονή Περιβλέπτου</span></span>
       <span class="chev">›</span>
@@ -364,7 +365,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="monastero di pantanassa" data-greek="μονή παντάνασσας">
+  <div class="site" id="monastero-di-pantanassa" data-name="monastero di pantanassa" data-greek="μονή παντάνασσας">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Monastero di Pantanassa<span class="site-greek">Μονή Παντάνασσας</span></span>
       <span class="chev">›</span>
@@ -381,7 +382,7 @@
   <h2 class="group-title">Città Alta<span class="group-count">3</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="palazzo dei despoti" data-greek="παλάτι των δεσποτών">
+  <div class="site" id="palazzo-dei-despoti" data-name="palazzo dei despoti" data-greek="παλάτι των δεσποτών">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Palazzo dei Despoti<span class="site-greek">Παλάτι των Δεσποτών</span></span>
       <span class="chev">›</span>
@@ -392,7 +393,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="santa sofia" data-greek="αγία σοφία">
+  <div class="site" id="santa-sofia" data-name="santa sofia" data-greek="αγία σοφία">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Santa Sofia<span class="site-greek">Αγία Σοφία</span></span>
       <span class="chev">›</span>
@@ -403,7 +404,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="castello (kastro)" data-greek="κάστρο">
+  <div class="site" id="castello-kastro" data-name="castello (kastro)" data-greek="κάστρο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Castello (Kastro)<span class="site-greek">Κάστρο</span></span>
       <span class="chev">›</span>
@@ -459,6 +460,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -327,7 +328,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="fortezza di palamidi" data-greek="φρούριο παλαμηδίου">
+  <div class="site" id="fortezza-di-palamidi" data-name="fortezza di palamidi" data-greek="φρούριο παλαμηδίου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Fortezza di Palamidi<span class="site-greek">Φρούριο Παλαμηδίου</span></span>
       <span class="chev">›</span>
@@ -340,7 +341,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="acronauplia" data-greek="ακροναυπλία">
+  <div class="site" id="acronauplia" data-name="acronauplia" data-greek="ακροναυπλία">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Acronauplia<span class="site-greek">Ακροναυπλία</span></span>
       <span class="chev">›</span>
@@ -351,7 +352,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="bourtzi" data-greek="μπούρτζι">
+  <div class="site" id="bourtzi" data-name="bourtzi" data-greek="μπούρτζι">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Bourtzi<span class="site-greek">Μπούρτζι</span></span>
       <span class="chev">›</span>
@@ -362,7 +363,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="città vecchia e piazza syntagma" data-greek="παλιά πόλη και πλατεία συντάγματος">
+  <div class="site" id="citt-vecchia-e-piazza-syntagma" data-name="città vecchia e piazza syntagma" data-greek="παλιά πόλη και πλατεία συντάγματος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Città vecchia e Piazza Syntagma<span class="site-greek">Παλιά Πόλη και Πλατεία Συντάγματος</span></span>
       <span class="chev">›</span>
@@ -418,6 +419,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

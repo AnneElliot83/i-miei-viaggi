@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="william wallace">
+  <div class="site" id="william-wallace" data-name="william wallace">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">William Wallace</span>
       <span class="chev">›</span>
@@ -256,7 +256,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="robert the bruce">
+  <div class="site" id="robert-the-bruce" data-name="robert the bruce">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Robert the Bruce</span>
       <span class="chev">›</span>
@@ -278,7 +278,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="maria stuarda">
+  <div class="site" id="maria-stuarda" data-name="maria stuarda">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Maria Stuarda</span>
       <span class="chev">›</span>
@@ -301,7 +301,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="john knox">
+  <div class="site" id="john-knox" data-name="john knox">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">John Knox</span>
       <span class="chev">›</span>
@@ -322,7 +322,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="rob roy macgregor">
+  <div class="site" id="rob-roy-macgregor" data-name="rob roy macgregor">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Rob Roy MacGregor</span>
       <span class="chev">›</span>
@@ -343,7 +343,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="bonnie prince charlie">
+  <div class="site" id="bonnie-prince-charlie" data-name="bonnie prince charlie">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Bonnie Prince Charlie</span>
       <span class="chev">›</span>
@@ -364,7 +364,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="sir walter scott">
+  <div class="site" id="sir-walter-scott" data-name="sir walter scott">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Sir Walter Scott</span>
       <span class="chev">›</span>
@@ -424,6 +424,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

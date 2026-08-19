@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -329,7 +330,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="santuario di apollo — via sacra e tesori votivi" data-greek="ιερό του απόλλωνα – ιερά οδός">
+  <div class="site" id="santuario-di-apollo-via-sacra-e-tesori-votivi" data-name="santuario di apollo — via sacra e tesori votivi" data-greek="ιερό του απόλλωνα – ιερά οδός">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Santuario di Apollo — Via Sacra e Tesori votivi<span class="site-greek">Ιερό του Απόλλωνα – Ιερά Οδός</span></span>
       <span class="chev">›</span>
@@ -343,7 +344,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tesoro degli ateniesi" data-greek="θησαυρός των αθηναίων">
+  <div class="site" id="tesoro-degli-ateniesi" data-name="tesoro degli ateniesi" data-greek="θησαυρός των αθηναίων">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tesoro degli Ateniesi<span class="site-greek">Θησαυρός των Αθηναίων</span></span>
       <span class="chev">›</span>
@@ -357,7 +358,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
+  <div class="site" id="tempio-di-apollo" data-name="tempio di apollo" data-greek="ναός του απόλλωνα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Apollo<span class="site-greek">Ναός του Απόλλωνα</span></span>
       <span class="chev">›</span>
@@ -371,7 +372,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="teatro" data-greek="θέατρο">
+  <div class="site" id="teatro" data-name="teatro" data-greek="θέατρο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Teatro<span class="site-greek">Θέατρο</span></span>
       <span class="chev">›</span>
@@ -385,7 +386,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="stadio" data-greek="στάδιο">
+  <div class="site" id="stadio" data-name="stadio" data-greek="στάδιο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Stadio<span class="site-greek">Στάδιο</span></span>
       <span class="chev">›</span>
@@ -398,7 +399,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tempio di atena pronaia (marmaria)" data-greek="ναός αθηνάς προναίας (μαρμαριά)">
+  <div class="site" id="tempio-di-atena-pronaia-marmaria" data-name="tempio di atena pronaia (marmaria)" data-greek="ναός αθηνάς προναίας (μαρμαριά)">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Atena Pronaia (Marmaria)<span class="site-greek">Ναός Αθηνάς Προναίας (Μαρμαριά)</span></span>
       <span class="chev">›</span>
@@ -411,7 +412,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di delfi" data-greek="αρχαιολογικό μουσείο δελφών">
+  <div class="site" id="museo-archeologico-di-delfi" data-name="museo archeologico di delfi" data-greek="αρχαιολογικό μουσείο δελφών">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Delfi<span class="site-greek">Αρχαιολογικό Μουσείο Δελφών</span></span>
       <span class="chev">›</span>
@@ -475,6 +476,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

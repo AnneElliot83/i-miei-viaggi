@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="tweed valley">
+  <div class="site" id="tweed-valley" data-name="tweed valley">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tweed Valley</span>
       <span class="chev">›</span>
@@ -254,7 +254,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="rosslyn chapel">
+  <div class="site" id="rosslyn-chapel" data-name="rosslyn chapel">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Rosslyn Chapel</span>
       <span class="chev">›</span>
@@ -273,7 +273,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="abbotsford house">
+  <div class="site" id="abbotsford-house" data-name="abbotsford house">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Abbotsford House</span>
       <span class="chev">›</span>
@@ -330,6 +330,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

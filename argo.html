@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -327,7 +328,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="aspis — l'acropoli" data-greek="ασπίδα (ακρόπολη)">
+  <div class="site" id="aspis-l-acropoli" data-name="aspis — l'acropoli" data-greek="ασπίδα (ακρόπολη)">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Aspis — l'acropoli<span class="site-greek">Ασπίδα (Ακρόπολη)</span></span>
       <span class="chev">›</span>
@@ -340,7 +341,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="teatro antico" data-greek="αρχαίο θέατρο">
+  <div class="site" id="teatro-antico" data-name="teatro antico" data-greek="αρχαίο θέατρο">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Teatro antico<span class="site-greek">Αρχαίο Θέατρο</span></span>
       <span class="chev">›</span>
@@ -353,7 +354,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="agorà e terme romane" data-greek="αγορά και ρωμαϊκά λουτρά">
+  <div class="site" id="agor-e-terme-romane" data-name="agorà e terme romane" data-greek="αγορά και ρωμαϊκά λουτρά">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Agorà e Terme romane<span class="site-greek">Αγορά και Ρωμαϊκά Λουτρά</span></span>
       <span class="chev">›</span>
@@ -365,7 +366,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di argo" data-greek="αρχαιολογικό μουσείο άργους">
+  <div class="site" id="museo-archeologico-di-argo" data-name="museo archeologico di argo" data-greek="αρχαιολογικό μουσείο άργους">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Argo<span class="site-greek">Αρχαιολογικό Μουσείο Άργους</span></span>
       <span class="chev">›</span>
@@ -428,6 +429,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

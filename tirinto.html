@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -328,7 +329,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="mura ciclopiche" data-greek="κυκλώπεια τείχη">
+  <div class="site" id="mura-ciclopiche" data-name="mura ciclopiche" data-greek="κυκλώπεια τείχη">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Mura Ciclopiche<span class="site-greek">Κυκλώπεια Τείχη</span></span>
       <span class="chev">›</span>
@@ -340,7 +341,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="propilei e rampa d'accesso" data-greek="προπύλαια και ράμπα πρόσβασης">
+  <div class="site" id="propilei-e-rampa-d-accesso" data-name="propilei e rampa d'accesso" data-greek="προπύλαια και ράμπα πρόσβασης">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Propilei e rampa d'accesso<span class="site-greek">Προπύλαια και Ράμπα Πρόσβασης</span></span>
       <span class="chev">›</span>
@@ -352,7 +353,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
+  <div class="site" id="palazzo-e-megaron" data-name="palazzo e megaron" data-greek="ανάκτορο και μέγαρον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Palazzo e Megaron<span class="site-greek">Ανάκτορο και Μέγαρον</span></span>
       <span class="chev">›</span>
@@ -364,7 +365,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="gallerie a volta e casematte" data-greek="θολωτές στοές και καζεμάτες">
+  <div class="site" id="gallerie-a-volta-e-casematte" data-name="gallerie a volta e casematte" data-greek="θολωτές στοές και καζεμάτες">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Gallerie a volta e casematte<span class="site-greek">Θολωτές Στοές και Καζεμάτες</span></span>
       <span class="chev">›</span>
@@ -421,6 +422,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

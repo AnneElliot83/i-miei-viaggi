@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="la città di stirling">
+  <div class="site" id="la-citta-di-stirling" data-name="la città di stirling">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">La Città di Stirling</span>
       <span class="chev">›</span>
@@ -253,7 +253,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il castello di stirling">
+  <div class="site" id="il-castello-di-stirling" data-name="il castello di stirling">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Castello di Stirling</span>
       <span class="chev">›</span>
@@ -275,7 +275,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="national wallace monument">
+  <div class="site" id="national-wallace-monument" data-name="national wallace monument">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">National Wallace Monument</span>
       <span class="chev">›</span>
@@ -330,6 +330,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

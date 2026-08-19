@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="i clan scozzesi">
+  <div class="site" id="i-clan-scozzesi" data-name="i clan scozzesi">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">I Clan Scozzesi</span>
       <span class="chev">›</span>
@@ -258,7 +258,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il tessuto tweed">
+  <div class="site" id="il-tessuto-tweed" data-name="il tessuto tweed">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il tessuto Tweed</span>
       <span class="chev">›</span>
@@ -283,7 +283,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="lo scotch whisky">
+  <div class="site" id="lo-scotch-whisky" data-name="lo scotch whisky">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Lo Scotch Whisky</span>
       <span class="chev">›</span>
@@ -308,7 +308,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="la birra scozzese">
+  <div class="site" id="la-birra-scozzese" data-name="la birra scozzese">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">La Birra Scozzese</span>
       <span class="chev">›</span>
@@ -330,7 +330,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="cosa mangiare in scozia">
+  <div class="site" id="cosa-mangiare-in-scozia" data-name="cosa mangiare in scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Cosa Mangiare in Scozia</span>
       <span class="chev">›</span>
@@ -356,7 +356,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="flora e fauna della scozia">
+  <div class="site" id="flora-e-fauna-della-scozia" data-name="flora e fauna della scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Flora e Fauna della Scozia</span>
       <span class="chev">›</span>
@@ -379,7 +379,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="le lingue della scozia">
+  <div class="site" id="le-lingue-della-scozia" data-name="le lingue della scozia">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Le Lingue della Scozia</span>
       <span class="chev">›</span>
@@ -401,7 +401,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tartan, kilt e simboli scozzesi">
+  <div class="site" id="tartan-kilt-e-simboli-scozzesi" data-name="tartan, kilt e simboli scozzesi">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tartan, Kilt e Simboli Scozzesi</span>
       <span class="chev">›</span>
@@ -460,6 +460,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

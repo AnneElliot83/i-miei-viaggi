@@ -134,6 +134,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -271,7 +272,7 @@
   <h2 class="group-title">Dèi<span class="group-count">13</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="zeus" data-greek="ζεύς">
+  <div class="site" id="zeus" data-name="zeus" data-greek="ζεύς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Zeus<span class="site-greek">Ζεύς</span></span>
       <span class="chev">›</span>
@@ -293,7 +294,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="era" data-greek="ήρα">
+  <div class="site" id="era" data-name="era" data-greek="ήρα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Era<span class="site-greek">Ήρα</span></span>
       <span class="chev">›</span>
@@ -314,7 +315,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="poseidone" data-greek="ποσειδῶν">
+  <div class="site" id="poseidone" data-name="poseidone" data-greek="ποσειδῶν">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Poseidone<span class="site-greek">Ποσειδῶν</span></span>
       <span class="chev">›</span>
@@ -335,7 +336,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="atena" data-greek="ἀθηνᾶ">
+  <div class="site" id="atena" data-name="atena" data-greek="ἀθηνᾶ">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Atena<span class="site-greek">Ἀθηνᾶ</span></span>
       <span class="chev">›</span>
@@ -357,7 +358,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="apollo" data-greek="ἀπόλλων">
+  <div class="site" id="apollo" data-name="apollo" data-greek="ἀπόλλων">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Apollo<span class="site-greek">Ἀπόλλων</span></span>
       <span class="chev">›</span>
@@ -380,7 +381,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="artemide" data-greek="ἄρτεμις">
+  <div class="site" id="artemide" data-name="artemide" data-greek="ἄρτεμις">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Artemide<span class="site-greek">Ἄρτεμις</span></span>
       <span class="chev">›</span>
@@ -401,7 +402,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="demetra" data-greek="δημήτηρ">
+  <div class="site" id="demetra" data-name="demetra" data-greek="δημήτηρ">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Demetra<span class="site-greek">Δημήτηρ</span></span>
       <span class="chev">›</span>
@@ -421,7 +422,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="dioniso" data-greek="διόνυσος">
+  <div class="site" id="dioniso" data-name="dioniso" data-greek="διόνυσος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Dioniso<span class="site-greek">Διόνυσος</span></span>
       <span class="chev">›</span>
@@ -443,7 +444,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="afrodite" data-greek="ἀφροδίτη">
+  <div class="site" id="afrodite" data-name="afrodite" data-greek="ἀφροδίτη">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Afrodite<span class="site-greek">Ἀφροδίτη</span></span>
       <span class="chev">›</span>
@@ -464,7 +465,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="ares" data-greek="ἄρης">
+  <div class="site" id="ares" data-name="ares" data-greek="ἄρης">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Ares<span class="site-greek">Ἄρης</span></span>
       <span class="chev">›</span>
@@ -485,7 +486,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="efesto" data-greek="ἥφαιστος">
+  <div class="site" id="efesto" data-name="efesto" data-greek="ἥφαιστος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Efesto<span class="site-greek">Ἥφαιστος</span></span>
       <span class="chev">›</span>
@@ -503,7 +504,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="ermes" data-greek="ἑρμῆς">
+  <div class="site" id="ermes" data-name="ermes" data-greek="ἑρμῆς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Ermes<span class="site-greek">Ἑρμῆς</span></span>
       <span class="chev">›</span>
@@ -522,7 +523,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="estia" data-greek="ἑστία">
+  <div class="site" id="estia" data-name="estia" data-greek="ἑστία">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Estia<span class="site-greek">Ἑστία</span></span>
       <span class="chev">›</span>
@@ -547,7 +548,7 @@
   <h2 class="group-title">Eroi<span class="group-count">7</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="eracle" data-greek="ἡρακλῆς">
+  <div class="site" id="eracle" data-name="eracle" data-greek="ἡρακλῆς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Eracle<span class="site-greek">Ἡρακλῆς</span></span>
       <span class="chev">›</span>
@@ -568,7 +569,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="teseo" data-greek="θησεύς">
+  <div class="site" id="teseo" data-name="teseo" data-greek="θησεύς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Teseo<span class="site-greek">Θησεύς</span></span>
       <span class="chev">›</span>
@@ -591,7 +592,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="perseo" data-greek="περσεύς">
+  <div class="site" id="perseo" data-name="perseo" data-greek="περσεύς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Perseo<span class="site-greek">Περσεύς</span></span>
       <span class="chev">›</span>
@@ -612,7 +613,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="pelope" data-greek="πέλοψ">
+  <div class="site" id="pelope" data-name="pelope" data-greek="πέλοψ">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Pelope<span class="site-greek">Πέλοψ</span></span>
       <span class="chev">›</span>
@@ -632,7 +633,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="bellerofonte" data-greek="βελλεροφῶν">
+  <div class="site" id="bellerofonte" data-name="bellerofonte" data-greek="βελλεροφῶν">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Bellerofonte<span class="site-greek">Βελλεροφῶν</span></span>
       <span class="chev">›</span>
@@ -649,7 +650,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="giasone" data-greek="ἰάσων">
+  <div class="site" id="giasone" data-name="giasone" data-greek="ἰάσων">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Giasone<span class="site-greek">Ἰάσων</span></span>
       <span class="chev">›</span>
@@ -669,7 +670,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="achille" data-greek="ἀχιλλεύς">
+  <div class="site" id="achille" data-name="achille" data-greek="ἀχιλλεύς">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Achille<span class="site-greek">Ἀχιλλεύς</span></span>
       <span class="chev">›</span>
@@ -695,7 +696,7 @@
   <h2 class="group-title">Cicli<span class="group-count">5</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="il ciclo degli atridi" data-greek="ἀτρεῖδαι">
+  <div class="site" id="il-ciclo-degli-atridi" data-name="il ciclo degli atridi" data-greek="ἀτρεῖδαι">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Ciclo degli Atridi<span class="site-greek">Ἀτρεῖδαι</span></span>
       <span class="chev">›</span>
@@ -717,7 +718,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="la guerra di troia" data-greek="τρωικὸς πόλεμος">
+  <div class="site" id="la-guerra-di-troia" data-name="la guerra di troia" data-greek="τρωικὸς πόλεμος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">La Guerra di Troia<span class="site-greek">Τρωικὸς Πόλεμος</span></span>
       <span class="chev">›</span>
@@ -739,7 +740,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il ciclo di argo (danao, perseo, io)" data-greek="ἄργος">
+  <div class="site" id="il-ciclo-di-argo-danao-perseo-io" data-name="il ciclo di argo (danao, perseo, io)" data-greek="ἄργος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Ciclo di Argo (Danao, Perseo, Io)<span class="site-greek">Ἄργος</span></span>
       <span class="chev">›</span>
@@ -758,7 +759,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="medea e giasone" data-greek="μήδεια">
+  <div class="site" id="medea-e-giasone" data-name="medea e giasone" data-greek="μήδεια">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Medea e Giasone<span class="site-greek">Μήδεια</span></span>
       <span class="chev">›</span>
@@ -776,7 +777,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="le origini di atene (cecrope, erittonio)" data-greek="κέκροψ">
+  <div class="site" id="le-origini-di-atene-cecrope-erittonio" data-name="le origini di atene (cecrope, erittonio)" data-greek="κέκροψ">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Le Origini di Atene (Cecrope, Erittonio)<span class="site-greek">Κέκροψ</span></span>
       <span class="chev">›</span>
@@ -801,7 +802,7 @@
   <h2 class="group-title">Creature<span class="group-count">6</span></h2>
   <div class="sites-list">
     
-  <div class="site" data-name="le amazzoni" data-greek="ἀμαζόνες">
+  <div class="site" id="le-amazzoni" data-name="le amazzoni" data-greek="ἀμαζόνες">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Le Amazzoni<span class="site-greek">Ἀμαζόνες</span></span>
       <span class="chev">›</span>
@@ -823,7 +824,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="i centauri" data-greek="κένταυροι">
+  <div class="site" id="i-centauri" data-name="i centauri" data-greek="κένταυροι">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">I Centauri<span class="site-greek">Κένταυροι</span></span>
       <span class="chev">›</span>
@@ -842,7 +843,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="i giganti" data-greek="γίγαντες">
+  <div class="site" id="i-giganti" data-name="i giganti" data-greek="γίγαντες">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">I Giganti<span class="site-greek">Γίγαντες</span></span>
       <span class="chev">›</span>
@@ -861,7 +862,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="il minotauro" data-greek="μινώταυρος">
+  <div class="site" id="il-minotauro" data-name="il minotauro" data-greek="μινώταυρος">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Minotauro<span class="site-greek">Μινώταυρος</span></span>
       <span class="chev">›</span>
@@ -880,7 +881,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="medusa e le gorgoni" data-greek="μέδουσα">
+  <div class="site" id="medusa-e-le-gorgoni" data-name="medusa e le gorgoni" data-greek="μέδουσα">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Medusa e le Gorgoni<span class="site-greek">Μέδουσα</span></span>
       <span class="chev">›</span>
@@ -902,7 +903,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="i ciclopi" data-greek="κύκλωπες">
+  <div class="site" id="i-ciclopi" data-name="i ciclopi" data-greek="κύκλωπες">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">I Ciclopi<span class="site-greek">Κύκλωπες</span></span>
       <span class="chev">›</span>
@@ -964,6 +965,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

@@ -231,7 +231,7 @@
   
   <div class="sites-list">
     
-  <div class="site" data-name="il great glen">
+  <div class="site" id="il-great-glen" data-name="il great glen">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Il Great Glen</span>
       <span class="chev">›</span>
@@ -254,7 +254,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="loch ness">
+  <div class="site" id="loch-ness" data-name="loch ness">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Loch Ness</span>
       <span class="chev">›</span>
@@ -277,7 +277,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="urquhart castle">
+  <div class="site" id="urquhart-castle" data-name="urquhart castle">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Urquhart Castle</span>
       <span class="chev">›</span>
@@ -298,7 +298,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="inverness">
+  <div class="site" id="inverness" data-name="inverness">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Inverness</span>
       <span class="chev">›</span>
@@ -353,6 +353,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

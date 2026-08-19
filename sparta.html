@@ -165,6 +165,7 @@
     border-left:3px solid var(--accent);
     border-radius:8px;
     overflow:hidden;
+    scroll-margin-top:78px;
   }
   .site-head{
     width:100%;
@@ -333,7 +334,7 @@
 <section class="group" id="tutti">
   <div class="sites-list">
     
-  <div class="site" data-name="teatro antico di sparta" data-greek="αρχαίο θέατρο σπάρτης">
+  <div class="site" id="teatro-antico-di-sparta" data-name="teatro antico di sparta" data-greek="αρχαίο θέατρο σπάρτης">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Teatro Antico di Sparta<span class="site-greek">Αρχαίο Θέατρο Σπάρτης</span></span>
       <span class="chev">›</span>
@@ -344,7 +345,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="acropoli" data-greek="ακρόπολη">
+  <div class="site" id="acropoli" data-name="acropoli" data-greek="ακρόπολη">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Acropoli<span class="site-greek">Ακρόπολη</span></span>
       <span class="chev">›</span>
@@ -355,7 +356,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="tempio di atena chalkioikos" data-greek="ναός αθηνάς χαλκιοίκου">
+  <div class="site" id="tempio-di-atena-chalkioikos" data-name="tempio di atena chalkioikos" data-greek="ναός αθηνάς χαλκιοίκου">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Tempio di Atena Chalkioikos<span class="site-greek">Ναός Αθηνάς Χαλκιοίκου</span></span>
       <span class="chev">›</span>
@@ -366,7 +367,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="museo archeologico di sparta" data-greek="αρχαιολογικό μουσείο σπάρτης">
+  <div class="site" id="museo-archeologico-di-sparta" data-name="museo archeologico di sparta" data-greek="αρχαιολογικό μουσείο σπάρτης">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Museo Archeologico di Sparta<span class="site-greek">Αρχαιολογικό Μουσείο Σπάρτης</span></span>
       <span class="chev">›</span>
@@ -383,7 +384,7 @@
     </div></div>
   </div>
 
-  <div class="site" data-name="menelaion" data-greek="μενελάειον">
+  <div class="site" id="menelaion" data-name="menelaion" data-greek="μενελάειον">
     <button class="site-head" onclick="toggleSite(this)">
       <span class="site-name">Menelaion<span class="site-greek">Μενελάειον</span></span>
       <span class="chev">›</span>
@@ -439,6 +440,16 @@ const backToTop = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
   backToTop.classList.toggle('visible', window.scrollY > 400);
 });
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {

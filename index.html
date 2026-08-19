@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<script src="search-index.js"></script>
 <style>
   :root{
     --bg:#faf8f2;
@@ -204,6 +205,47 @@
     color:var(--text-soft);
     padding:40px 0;
   }
+  .deep-results{
+    margin-top:14px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--bg-panel);
+    padding:16px 18px 18px;
+  }
+  .deep-results-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.1rem;
+    color:var(--text);
+    margin-bottom:4px;
+  }
+  .deep-results-sub{
+    font-size:0.82rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+  }
+  .deep-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .deep-chip{
+    display:block;
+    text-decoration:none;
+    color:var(--text);
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:0.9rem;
+  }
+  .deep-chip:hover{ border-color:#c9c3b8; }
+  .deep-chip .deep-context{
+    display:block;
+    font-size:0.72rem;
+    color:var(--text-soft);
+    margin-top:1px;
+  }
 </style>
 </head>
 <body>
@@ -392,6 +434,9 @@ function render(filter=""){
   const searching = tokens.length > 0;
   let anyVisible = false;
 
+  // Nomi già mostrati tra le card normali, per non ripeterli nei "risultati nei contenuti"
+  const shownNames = new Set();
+
   data.forEach(proj => {
     const section = document.createElement('div');
     section.className = 'project proj-' + proj.key;
@@ -406,6 +451,7 @@ function render(filter=""){
       if (matching.length > 0){
         sectionHasContent = true;
         projCount += matching.length;
+        matching.forEach(it => shownNames.add(it.name.toLowerCase()));
         bodyInner.appendChild(buildCards(matching));
       }
     }
@@ -416,6 +462,7 @@ function render(filter=""){
         if (matching.length === 0) return;
         sectionHasContent = true;
         projCount += matching.length;
+        matching.forEach(it => shownNames.add(it.name.toLowerCase()));
 
         const subDiv = document.createElement('div');
         subDiv.className = 'subsection';
@@ -451,6 +498,35 @@ function render(filter=""){
       anyVisible = true;
     }
   });
+
+  // Risultati dall'indice profondo (singoli luoghi/voci dentro le pagine)
+  if (searching && typeof deepIndex !== 'undefined'){
+    const deepMatches = deepIndex.filter(d => {
+      if (shownNames.has(d.name.toLowerCase())) return false;
+      const text = (d.name + ' ' + d.context).toLowerCase();
+      return tokens.every(tok => text.includes(tok));
+    });
+    if (deepMatches.length > 0){
+      anyVisible = true;
+      const wrap = document.createElement('div');
+      wrap.className = 'deep-results';
+      wrap.innerHTML = `
+        <div class="deep-results-title">Trovato dentro le pagine</div>
+        <div class="deep-results-sub">${deepMatches.length} voc${deepMatches.length===1?'e':'i'} — tocca per aprire direttamente nel punto giusto</div>
+      `;
+      const list = document.createElement('div');
+      list.className = 'deep-list';
+      deepMatches.slice(0, 40).forEach(d => {
+        const a = document.createElement('a');
+        a.className = 'deep-chip';
+        a.href = d.id ? `${d.file}#${d.id}` : d.file;
+        a.innerHTML = `${d.name}<span class="deep-context">${d.context}</span>`;
+        list.appendChild(a);
+      });
+      wrap.appendChild(list);
+      main.appendChild(wrap);
+    }
+  }
 
   if (!anyVisible){
     main.innerHTML = `<div class="no-results">Nessun risultato per «${filter}»</div>`;
