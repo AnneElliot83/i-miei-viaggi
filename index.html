@@ -70,18 +70,23 @@
   main{
     max-width:940px;
     margin:0 auto;
-    padding:44px 24px 80px;
+    padding:32px 24px 80px;
   }
   .project{
-    margin-bottom:44px;
+    margin-bottom:14px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    background:var(--bg-panel);
+    overflow:hidden;
   }
   .project-title{
     display:flex;
     align-items:center;
     gap:10px;
-    margin-bottom:16px;
-    padding-bottom:8px;
-    border-bottom:1px solid var(--line);
+    padding:16px 18px;
+    cursor:pointer;
+    -webkit-user-select:none;
+    user-select:none;
   }
   .flag{
     font-size:1.3rem;
@@ -90,7 +95,7 @@
   .project-title .name{
     font-family:'Playfair Display', serif;
     font-weight:600;
-    font-size:1.5rem;
+    font-size:1.4rem;
     color:#1f2318;
   }
   .project-title .count{
@@ -99,9 +104,26 @@
     font-style:italic;
     color:var(--text-soft);
   }
+  .project-title .proj-chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+  }
+  .project.open .proj-chev{ transform:rotate(90deg); }
+  .project-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .project.open .project-body{ max-height:20000px; }
+  .project-body-inner{
+    padding:0 18px 20px;
+    border-top:1px solid var(--line);
+    padding-top:16px;
+  }
   .subsection{
     margin-bottom:20px;
-    margin-left:8px;
   }
   .subsection:last-child{
     margin-bottom:0;
@@ -182,15 +204,6 @@
     color:var(--text-soft);
     padding:40px 0;
   }
-  .note{
-    max-width:940px;
-    margin:0 auto;
-    padding:0 24px;
-    text-align:center;
-    color:var(--text-soft);
-    font-style:italic;
-    font-size:0.9rem;
-  }
 </style>
 </head>
 <body>
@@ -204,14 +217,12 @@
   <input type="text" id="search" placeholder="Cerca: es. Acropoli, Meteora, Edimburgo...">
 </div>
 
-<p class="note" style="margin-top:14px;">Versione 3 — con sottosezioni (Regno Unito › Scozia, Francia › Borgogna)</p>
-
 <main id="main"></main>
 
 <script>
 // Ogni "project" è una nazione/macro-area.
 // Se un project ha "subsections", i contenuti sono raggruppati sotto ciascuna regione.
-// Se un project ha "items" diretti (come Grecia per ora), restano semplici.
+// Se un project ha "items" diretti (come Grecia), restano semplici.
 const data = [
   {
     project: "Grecia",
@@ -236,7 +247,6 @@ const data = [
       {name:"Mistrà", greek:"Μυστρᾶς", eyebrow:"Guida città", file:"mistra.html"},
       {name:"Olimpia", greek:"Ὀλυμπία", eyebrow:"Guida città", file:"olimpia.html"},
     ]
-    // Nota: qui in futuro suddivideremo per regione (Attica, Peloponneso, Grecia centrale...)
   },
   {
     project: "Regno Unito",
@@ -248,7 +258,7 @@ const data = [
         flag: "svg:scozia",
         items: [
           {name:"Itinerario", greek:"", eyebrow:"Panoramica"},
-          {name:"Scozia — Storia e Geografia", greek:"", eyebrow:"Panoramica", file:"scozia-generale.html"},
+          {name:"Storia e Geografia", greek:"", eyebrow:"Panoramica", file:"scozia-generale.html"},
           {name:"Edimburgo", greek:"", eyebrow:"Guida città", file:"edimburgo-scozia.html"},
           {name:"Stirling", greek:"", eyebrow:"Guida città", file:"stirling.html"},
           {name:"I Trossachs", greek:"", eyebrow:"Guida regione", file:"trossachs.html"},
@@ -257,9 +267,11 @@ const data = [
           {name:"Great Glen", greek:"", eyebrow:"Guida regione", file:"great-glen.html"},
           {name:"Highlands Occidentali", greek:"", eyebrow:"Guida regione", file:"highlands-occidentali.html"},
           {name:"Personaggi Scozzesi", greek:"", eyebrow:"Compendio", file:"personaggi-scozia.html"},
-          {name:"Extra — Cultura e Tradizioni", greek:"", eyebrow:"Compendio", file:"extra-scozia.html"},
+          {name:"Cultura e Tradizioni", greek:"", eyebrow:"Compendio", file:"extra-scozia.html"},
         ]
-      }
+      },
+      { name: "Inghilterra", flag: "", items: [] },
+      { name: "Galles", flag: "", items: [] },
     ]
   },
   {
@@ -278,7 +290,12 @@ const data = [
           {name:"Il romanico borgognone", greek:"", eyebrow:"Approfondimento", file:"borgogna-romanico.html"},
           {name:"I Climats di Borgogna", greek:"", eyebrow:"Approfondimento", file:"borgogna-climats.html"},
         ]
-      }
+      },
+      { name: "Normandia", flag: "", items: [] },
+      { name: "Île-de-France", flag: "", items: [] },
+      { name: "Loira", flag: "", items: [] },
+      { name: "Provenza", flag: "", items: [] },
+      { name: "Bretagna", flag: "", items: [] },
     ]
   },
   {
@@ -327,11 +344,19 @@ const data = [
 const main = document.getElementById('main');
 const searchInput = document.getElementById('search');
 
-function itemMatches(it, proj, sub, f){
-  return it.name.toLowerCase().includes(f) ||
-         it.eyebrow.toLowerCase().includes(f) ||
-         proj.project.toLowerCase().includes(f) ||
-         (sub && sub.name.toLowerCase().includes(f));
+// Nazioni aperte manualmente (tap sull'intestazione). Vuoto = tutte chiuse di default.
+const manuallyOpen = new Set();
+
+// Ricerca "a parole": ogni parola digitata deve trovarsi da qualche parte
+// (nome, sottotitolo greco, etichetta, sottosezione, nazione) — in qualsiasi ordine.
+function buildSearchText(it, proj, sub){
+  return [it.name, it.greek, it.eyebrow, proj.project, sub ? sub.name : '']
+    .join(' ').toLowerCase();
+}
+function itemMatches(it, proj, sub, tokens){
+  if (tokens.length === 0) return true;
+  const text = buildSearchText(it, proj, sub);
+  return tokens.every(tok => text.includes(tok));
 }
 
 function buildCards(items){
@@ -354,11 +379,18 @@ function buildCards(items){
   return cardsWrap;
 }
 
+function flagHtmlFor(sub){
+  if (sub.flag === 'svg:scozia'){
+    return `<svg width="18" height="14" viewBox="0 0 18 14" style="flex-shrink:0;"><rect width="18" height="14" fill="#0065bf"/><path d="M0,0 L18,14 M18,0 L0,14" stroke="white" stroke-width="2.4"/></svg>`;
+  }
+  return sub.flag ? `<span class="flag-small">${sub.flag}</span>` : '';
+}
+
 function render(filter=""){
   main.innerHTML = "";
-  const f = filter.trim().toLowerCase();
+  const tokens = filter.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  const searching = tokens.length > 0;
   let anyVisible = false;
-  let totalCount = 0;
 
   data.forEach(proj => {
     const section = document.createElement('div');
@@ -366,22 +398,21 @@ function render(filter=""){
     let sectionHasContent = false;
     let projCount = 0;
 
-    const title = document.createElement('div');
-    title.className = 'project-title';
-    section.appendChild(title);
+    const bodyInner = document.createElement('div');
+    bodyInner.className = 'project-body-inner';
 
     if (proj.items){
-      const matching = proj.items.filter(it => itemMatches(it, proj, null, f));
+      const matching = proj.items.filter(it => itemMatches(it, proj, null, tokens));
       if (matching.length > 0){
         sectionHasContent = true;
         projCount += matching.length;
-        section.appendChild(buildCards(matching));
+        bodyInner.appendChild(buildCards(matching));
       }
     }
 
     if (proj.subsections){
       proj.subsections.forEach(sub => {
-        const matching = sub.items.filter(it => itemMatches(it, proj, sub, f));
+        const matching = sub.items.filter(it => itemMatches(it, proj, sub, tokens));
         if (matching.length === 0) return;
         sectionHasContent = true;
         projCount += matching.length;
@@ -390,21 +421,34 @@ function render(filter=""){
         subDiv.className = 'subsection';
         const subTitle = document.createElement('div');
         subTitle.className = 'subsection-title';
-        const flagHtml = sub.flag === 'svg:scozia'
-          ? `<svg width="18" height="14" viewBox="0 0 18 14" style="flex-shrink:0;"><rect width="18" height="14" fill="#0065bf"/><path d="M0,0 L18,14 M18,0 L0,14" stroke="white" stroke-width="2.4"/></svg>`
-          : (sub.flag ? `<span class="flag-small">${sub.flag}</span>` : '');
-        subTitle.innerHTML = `${flagHtml}${sub.name}`;
+        subTitle.innerHTML = `${flagHtmlFor(sub)}${sub.name}`;
         subDiv.appendChild(subTitle);
         subDiv.appendChild(buildCards(matching));
-        section.appendChild(subDiv);
+        bodyInner.appendChild(subDiv);
       });
     }
 
     if (sectionHasContent){
-      title.innerHTML = `<span class="flag">${proj.flag}</span><span class="name">${proj.project}</span><span class="count">${projCount} contenut${projCount===1?'o':'i'}</span>`;
+      const isOpen = searching ? true : manuallyOpen.has(proj.key);
+      section.classList.toggle('open', isOpen);
+
+      const title = document.createElement('div');
+      title.className = 'project-title';
+      title.innerHTML = `<span class="flag">${proj.flag}</span><span class="name">${proj.project}</span><span class="count">${projCount} contenut${projCount===1?'o':'i'}</span><span class="proj-chev">›</span>`;
+      title.addEventListener('click', () => {
+        if (manuallyOpen.has(proj.key)) manuallyOpen.delete(proj.key);
+        else manuallyOpen.add(proj.key);
+        render(searchInput.value);
+      });
+      section.appendChild(title);
+
+      const body = document.createElement('div');
+      body.className = 'project-body';
+      body.appendChild(bodyInner);
+      section.appendChild(body);
+
       main.appendChild(section);
       anyVisible = true;
-      totalCount += projCount;
     }
   });
 
