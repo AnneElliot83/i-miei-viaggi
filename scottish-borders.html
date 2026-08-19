@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scottish Borders — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Scottish Borders</h1>
+  <div class="subtitle">Scozia 2026 — Tweed Valley e dintorni</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="scottish-borders">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="tweed valley">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tweed Valley</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La porta gentile della Scozia</h4>
+<p>Chi arriva in Scozia da sud, attraversando il confine con l'Inghilterra, incontra per primo non le brughiere selvagge delle Highlands ma un paesaggio più dolce e raccolto: la <strong>Tweed Valley</strong>, la valle scavata dal fiume Tweed nel cuore dei <strong>Scottish Borders</strong>. È una regione di colline verdi, boschi e pascoli, punteggiata da piccole cittadine di pietra e da alcune delle rovine monastiche più belle di tutto il Regno Unito. Qui la bellezza non si impone: si lascia scoprire poco alla volta, senza fretta.</p>
+<h4>Il fiume che dà il nome a un tessuto</h4>
+<p>Il <strong>Tweed</strong> nasce nelle Lowther Hills, vicino al villaggio di Tweedsmuir, nelle Southern Uplands, e scorre per circa 156 chilometri verso est fino al Mare del Nord, tracciando per un tratto il confine naturale con l'Inghilterra. Più che un semplice corso d'acqua, è stato per secoli una linea di scambi e conflitti fra le due nazioni. Ed è lungo le sue rive che si sviluppò la lavorazione dell'omonimo tessuto di lana: il nome <strong>tweed</strong>, curiosamente, nasce da un errore tipografico — un mercante londinese lesse male la parola scozzese <em>tweel</em> (twill, il tipo di tessitura) come "tweed", associandola per assonanza al fiume, e il nome, sbagliato ma fortunato, rimase.</p>
+<h4>Terra di confine, terra di guerra</h4>
+<p>Per gran parte del Medioevo i Borders non furono una linea tracciata su una mappa, ma una fascia di terra di nessuno, dove il potere della corona scozzese e di quella inglese si facevano sentire debolmente. Qui prosperarono i <strong>Border Reivers</strong>, famiglie di predoni a cavallo che per secoli razziarono bestiame e beni da entrambi i lati del confine, incuranti di quale re dicessero di servire — un fenomeno così radicato da lasciare tracce persino nella lingua inglese: parole come <em>bereaved</em> e <em>blackmail</em> affondano le radici proprio in questa cultura di razzie e "pizzo" pagato per evitarle.</p>
+<h4>Le grandi abbazie del Tweed</h4>
+<p>È proprio per proteggere e consolidare questa terra instabile che nel XII secolo il re <strong>Davide I di Scozia</strong> promosse la fondazione di una serie di grandi abbazie lungo la valle. <strong>Melrose Abbey</strong>, oggi una splendida rovina gotica, è tra le più belle di Scozia e conserva, secondo la tradizione confermata da un ritrovamento archeologico, il cuore di <strong>Robert the Bruce</strong>: il re, morente, aveva chiesto che il proprio cuore fosse portato in crociata in Terra Santa, e dopo un viaggio travagliato tornò infine a riposare qui. Poco distante, <strong>Dryburgh Abbey</strong>, immersa nel verde, è il luogo di sepoltura di <strong>Sir Walter Scott</strong>, che scelse questa quiete per la propria tomba; nei pressi sorge anche una grande statua dedicata a <strong>William Wallace</strong>. Entrambe le abbazie furono colpite duramente dalle guerre con l'Inghilterra — Melrose fu incendiata più volte, l'ultima dalle truppe di Enrico VIII durante la brutale campagna nota come "Rough Wooing".</p>
+<h4>Cittadine e dimore lungo il fiume</h4>
+<p>Più a ovest si incontra <strong>Peebles</strong>, cittadina accogliente con un ponte sul fiume e architetture vittoriane, dal ritmo quotidiano e rilassato, lontana dai circuiti turistici più battuti. Non lontano, <strong>Innerleithen</strong> è nota per le attività sportive e ciclistiche, ma ospita anche <strong>Traquair House</strong>, considerata la più antica residenza continuamente abitata di Scozia — un edificio che unisce architettura storica, giardini formali, un antico birrificio e un labirinto verde.</p>
+<h4>Un fiume che ha ispirato la letteratura</h4>
+<p>Fu proprio ad <strong>Abbotsford</strong>, non lontano da qui, che <strong>Sir Walter Scott</strong> costruì la propria dimora e trasse ispirazione per buona parte della sua opera, contribuendo non poco a costruire l'immagine romantica della Scozia che ancora oggi attira i visitatori.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="rosslyn chapel">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Rosslyn Chapel</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Una cattedrale rimasta a metà</h4>
+<p>Non lontano da Edimburgo, nel villaggio di <strong>Roslin</strong>, affacciata sulla valle del fiume <strong>North Esk</strong>, sorge una delle chiese più affascinanti e misteriose di Scozia: la <strong>Rosslyn Chapel</strong>, il cui nome ufficiale è <strong>Collegiate Chapel of St Matthew</strong>. Fu fondata nel <strong>1446</strong> da <strong>William Sinclair</strong>, nobile della potente famiglia Sinclair, con l'ambizione di farne parte di una grande cattedrale gotica — un progetto che però non venne mai completato. Ciò che resta, paradossalmente, non ha bisogno di nulla in più: la cappella fu costruita con una tale cura e ricchezza di dettagli da bastare interamente a se stessa.</p>
+<h4>Un libro scolpito nella pietra</h4>
+<p>Chi entra rimane subito colpito: ogni pietra sembra raccontare una storia, ogni colonna è una pagina di un libro scolpito nella roccia. All'interno si incontrano figure bibliche, motivi floreali, creature fantastiche e simboli esoterici — angeli che suonano strumenti musicali, piante tropicali che fanno capolino tra le colonne, geometrie studiate per giocare con la luce in modi sempre diversi. Il dettaglio più celebre è la <strong>Colonna dell'Apprendista</strong>, legata a una leggenda secondo cui il giovane scalpellino che la scolpì fu ucciso dal proprio maestro, accecato dalla gelosia per un'opera così perfetta. Altrettanto discusse sono alcune decorazioni che sembrano raffigurare pannocchie di mais — una pianta all'epoca ancora sconosciuta in Europa — dando adito a ipotesi (mai dimostrate) di contatti transoceanici precedenti a Colombo.</p>
+<h4>Misteri templari e leggende</h4>
+<p>Rosslyn è nota in tutto il mondo anche per i misteri che la avvolgono: c'è chi parla di legami con i <strong>Templari</strong>, di messaggi nascosti nelle sculture, di connessioni con i <strong>Rosacroce</strong> o persino del <strong>Santo Graal</strong> celato in una delle sue cripte. Non esistono prove concrete a sostegno di nessuna di queste teorie, ma la straordinaria complessità simbolica della cappella ha alimentato per secoli l'immaginazione — ben prima che diventasse un fenomeno globale.</p>
+<h4>Un set cinematografico</h4>
+<p>Nel 2006 la Rosslyn Chapel è balzata alla ribalta del grande pubblico grazie al film <strong>Il Codice da Vinci</strong>, diventando l'ultima tappa del viaggio di Robert Langdon. La notorietà cinematografica ha attirato migliaia di visitatori da tutto il mondo e, non da ultimo, ha permesso di finanziare importanti restauri, che oggi restituiscono la chiesa nel suo splendore originario.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="abbotsford house">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Abbotsford House</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La casa che costruì un mito</h4>
+<p>Sulle rive del Tweed, non lontano da Melrose, sorge <strong>Abbotsford House</strong>, la dimora che <strong>Sir Walter Scott</strong> costruì per sé a partire dal 1817, plasmandola pezzo per pezzo secondo la propria immaginazione. Non è soltanto una casa: è l'autoritratto in pietra dell'uomo che, più di ogni altro, inventò l'idea romantica della Scozia che ancora oggi affascina il mondo.</p>
+<h4>Un romanziere che si costruisce un castello</h4>
+<p>Scott acquistò nel 1811 una modesta fattoria chiamata Cartleyhole, che ribattezzò Abbotsford in onore di un antico guado usato dai monaci dell'abbazia di Melrose. Con il crescente successo dei suoi romanzi storici — da <em>Waverley</em> a <em>Ivanhoe</em> — trasformò gradualmente la proprietà in una sontuosa residenza in stile baronale scozzese, mescolando liberamente elementi gotici, medievali e rinascimentali: torrette, merlature, vetrate piombate, il tutto costruito non per fedeltà storica, ma per pura invenzione scenografica. È considerata una delle prime e più influenti case in stile "Scottish Baronial", un genere architettonico che Scott stesso contribuì a rendere di moda in tutto il paese.</p>
+<h4>Una casa-museo ante litteram</h4>
+<p>Scott riempì Abbotsford di cimeli storici e oggetti che raccontavano il suo amore per il passato scozzese: la spada di Rob Roy, la pistola di Bonnie Prince Charlie, armature, arazzi, e una delle prime biblioteche private più ricche di Scozia, con oltre 9.000 volumi. La casa era concepita fin dall'inizio come un luogo da mostrare agli ospiti — un vero e proprio museo vivente della storia e delle leggende scozzesi, ben prima che il concetto di casa-museo diventasse comune.</p>
+<h4>L'uomo dietro il mito</h4>
+<p>Ma Abbotsford racconta anche una storia più amara. Scott si indebitò pesantemente per costruire e arredare la casa dei suoi sogni, e quando nel 1826 la casa editrice a cui era legato fallì, si trovò a dover ripagare debiti colossali. Rifiutando la bancarotta, scrisse freneticamente per anni pur di onorare quei debiti con il proprio lavoro — uno sforzo che ne minò la salute e contribuì probabilmente alla sua morte, nel 1832, proprio ad Abbotsford, nella stanza con vista sul Tweed che aveva sempre amato.</p>
+<h4>Un luogo ancora vivo</h4>
+<p>Oggi Abbotsford è aperta al pubblico, gestita da un trust dedicato alla memoria dello scrittore. Passeggiare tra le sue stanze, i giardini terrazzati affacciati sul fiume e la biblioteca stipata di libri significa entrare nell'immaginazione dell'uomo che, con la sua opera, contribuì più di chiunque altro a trasformare la Scozia — e in particolare le Highlands — da terra periferica e un po' temuta a meta romantica sognata da tutta Europa.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

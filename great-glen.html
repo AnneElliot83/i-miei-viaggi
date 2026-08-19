@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Great Glen — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Great Glen</h1>
+  <div class="subtitle">Scozia 2026 — Great Glen, Loch Ness, Urquhart Castle, Inverness</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="great-glen">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="il great glen">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Great Glen</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La grande spaccatura che taglia la Scozia</h4>
+<p>Immaginate una linea retta che attraversa la Scozia da sud-ovest a nord-est, da Fort William fino a Inverness. È il <strong>Great Glen</strong>, una valle lunga, profonda e diritta, che sembra tracciata con una spada sulla carta geografica. Ma non è opera dell'uomo: è una cicatrice della Terra, una frattura nata circa 400 milioni di anni fa, durante lo scontro tra antichi continenti che chiuse l'oceano Iapeto — lo stesso evento, l'orogenesi caledoniana, che sollevò le Highlands.</p>
+<p>Questa faglia geologica — la <strong>Great Glen Fault</strong> — ha modellato un corridoio naturale che oggi ospita laghi scuri, boschi, castelli e un canale che unisce mari diversi. È un luogo che parla di geologia, ma anche di storia, ingegno e bellezza. Curiosamente, gli studi geologici mostrano che i due lati della faglia si sono spostati orizzontalmente l'uno rispetto all'altro per decine di chilometri nel corso di centinaia di milioni di anni — un movimento laterale simile, per meccanismo, a quello della celebre faglia di Sant'Andrea in California.</p>
+<h4>I laghi del Great Glen</h4>
+<p>Nel cuore del Great Glen scorrono le acque di quattro laghi principali: il <strong>Loch Linnhe</strong>, aperto verso il mare; il <strong>Loch Lochy</strong>, tranquillo e poco frequentato; il <strong>Loch Oich</strong>, intimo e romantico, immerso nei boschi; e infine il <strong>Loch Ness</strong>, profondo, leggendario, misterioso. Tutti allineati come perle lungo la spaccatura, collegati tra loro da un capolavoro dell'ingegneria ottocentesca: il <strong>Canale di Caledonia</strong>.</p>
+<h4>Il Canale di Caledonia: un sogno d'ingegneria</h4>
+<p>Fu <strong>Thomas Telford</strong> a progettarlo, tra il 1803 e il 1822, per permettere alle imbarcazioni di evitare le acque tempestose della costa nord-occidentale — un tragitto che altrimenti avrebbe costretto le navi a circumnavigare l'intera Scozia settentrionale, affrontando i pericolosi fondali di Pentland Firth. Il canale misura quasi cento chilometri, con tratti naturali (i laghi stessi) e tratti scavati, 29 chiuse, ponti mobili e la famosa <strong>Neptune's Staircase</strong>: 8 chiuse consecutive vicino a Fort William, uno spettacolo per gli occhi e per chi ama la tecnica — resta ancora oggi la scala di chiuse più lunga di tutta la Gran Bretagna.</p>
+<h4>La Great Glen Way</h4>
+<p>Oggi il Canale di Caledonia è un percorso lento e suggestivo: lo si può esplorare in battello o seguire a piedi, magari percorrendo la <strong>Great Glen Way</strong>, un sentiero che collega Fort William a Inverness, attraversando villaggi, foreste e rive solitarie. È una delle vie più silenziose e affascinanti per attraversare le Highlands.</p>
+<h4>Una frattura che unisce</h4>
+<p>Eppure, il Great Glen non è solo una valle. È un simbolo: di frattura e di connessione. Divide le Highlands occidentali da quelle orientali, ma le unisce. Un tempo, era via di comunicazione e difesa. Oggi è ponte tra la Scozia delle rocce e quella dei miti, tra le Highlands più selvagge e quelle più accessibili.</p>
+<p>Camminando lungo le sue sponde o guardando le acque ferme dei suoi laghi, si ha la sensazione che tutto qui sia antico, eppure sempre vivo. Il Great Glen è una ferita della Terra che è diventata strada, specchio e racconto.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="loch ness">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Loch Ness</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il lago del mistero eterno</h4>
+<p>Nel cuore delle Highlands scozzesi, lungo la linea del Great Glen, si stende una distesa d'acqua lunga e profonda, silenziosa e scura. È <strong>Loch Ness</strong>: il lago più celebre di Scozia, forse del mondo. Ma non è solo il lago di Nessie. È un luogo di atmosfere antiche, di riflessi che cambiano con il cielo, di storie che si mescolano alla geologia.</p>
+<h4>Grande, lungo, impressionante</h4>
+<p>Lungo 37 chilometri, da Fort Augustus a Inverness, Loch Ness sembra non finire mai. È parte della grande frattura che attraversa la Scozia da parte a parte, ma è diverso dagli altri laghi. È più profondo, più cupo, più enigmatico. Le sue acque torbide, ricche di torba, non lasciano filtrare la luce. Ed è forse proprio questo buio che ha alimentato per secoli la leggenda di Nessie.</p>
+<p>E poi c'è l'acqua. Ferma, profonda, immensa. Con i suoi oltre 230 metri di profondità, Loch Ness è il lago più voluminoso del Regno Unito: contiene più acqua di tutti i laghi d'Inghilterra e Galles messi insieme. E a volte, osservandolo, si ha la sensazione che lì sotto possa davvero nascondersi qualcosa. Forse non un mostro. Ma un senso di mistero, quello sì.</p>
+<h4>Nessie: tra mito e marketing</h4>
+<p>Il mostro di Loch Ness compare nei racconti da oltre mille anni — la prima testimonianza scritta risale addirittura al VII secolo, in una vita agiografica di San Colombano, il monaco irlandese che avrebbe scacciato una creatura acquatica minacciosa dal fiume Ness. Ma è nel 1933 che tutto cambia: un avvistamento della coppia Mackay, riportato dal giornale locale <em>Inverness Courier</em>, riaccende l'interesse popolare, seguito a novembre dalla prima fotografia mai scattata del presunto mostro, a opera di Hugh Gray. L'anno successivo, nel 1934, arriva l'immagine destinata a diventare icona mondiale: la cosiddetta "Surgeon's Photograph", un profilo ambiguo sull'acqua attribuito al chirurgo londinese Robert Kenneth Wilson — una foto che per decenni fu considerata la prova definitiva, prima che negli anni Novanta uno dei presunti coautori confessasse si trattasse di un falso, ottenuto con un piccolo modellino.</p>
+<p>Da allora, Nessie è entrata nell'immaginario collettivo. C'è chi cerca prove, chi sorride, chi ci crede davvero. Ma in fondo, il mostro è diventato parte del paesaggio: una creatura invisibile che abita più le fantasie che le acque, e che contribuisce al fascino del luogo.</p>
+<h4>Il lago da vivere</h4>
+<p>Loch Ness, però, non è solo da ammirare. È un luogo da vivere. Si può solcare in battello, seguire in bicicletta o a piedi lungo i sentieri delle sue rive, fermarsi per respirare il silenzio o per ascoltare i racconti degli abitanti. A <strong>Drumnadrochit</strong>, un centro visitatori ne raccoglie le storie: quelle vere, quelle leggendarie, quelle ancora da scrivere.</p>
+<p>In ogni stagione, Loch Ness cambia volto. La nebbia d'inverno lo vela come un sogno. Il sole d'estate ne accende i riflessi. L'autunno lo avvolge di silenzi. Sempre uguale, eppure sempre diverso.</p>
+<p>In fondo, è questo il suo vero segreto. Nessie è solo un pretesto. Il mistero, quello vero, è il lago stesso.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="urquhart castle">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Urquhart Castle</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il guardiano di Loch Ness</h4>
+<p>Sulle sponde occidentali del Loch Ness, tra colline morbide e acque profonde, si ergono le rovine di un castello che sembra nato per dominare il silenzio. <strong>Urquhart Castle</strong> è uno dei luoghi più iconici della Scozia: non solo per la sua posizione spettacolare, ma per le storie che racconta anche senza voce. Le sue mura spezzate, le torri senza tetto e le scale che salgono nel vuoto sono ciò che resta di secoli di lotte, di conquiste, di attese. Ma sono anche ciò che lo rende indimenticabile. Qui, tra vento e pietra, si sente ancora l'eco dei clan, dei re, dei soldati che cercarono di controllare il Great Glen e il passaggio lungo il lago.</p>
+<h4>Una storia lunga e travagliata</h4>
+<p>Il sito era abitato fin dai tempi dei Pitti, ma la fortezza vera e propria sorse nel XIII secolo. E da allora, fu contesa più volte. Durante le Guerre d'Indipendenza, fu preso e perso da inglesi e scozzesi. Re Edoardo I d'Inghilterra lo conquistò, e i MacDonald, signori delle Isole, tentarono più volte di farne una loro roccaforte.</p>
+<h4>L'esplosione finale</h4>
+<p>Era un punto strategico, e proprio per questo, nel 1692, fu fatto esplodere dai soldati lealisti per impedirne l'uso da parte dei giacobiti. Quel gesto ne segnò la fine, ma anche l'inizio della sua leggenda. Da rovina abbandonata, divenne simbolo romantico: pittori, poeti e viaggiatori lo cercarono, attratti dalla sua malinconia.</p>
+<h4>Cosa vedere oggi</h4>
+<p>Oggi, Urquhart è visitabile attraverso un percorso suggestivo: un centro multimediale introduce la storia, un tunnel moderno conduce all'ingresso, e poi si è liberi di esplorare. Ci si arrampica tra torri, cortili, bastioni, si sale fino alla <strong>Grant Tower</strong> per ammirare il panorama, e si respira un tempo che non passa mai del tutto.</p>
+<h4>Leggende e panorami</h4>
+<p>E poi c'è Nessie. Molte delle presunte apparizioni del leggendario mostro di Loch Ness sarebbero avvenute proprio nei pressi del castello. Ma il fascino del luogo non ha bisogno di creature fantastiche. Basta guardare il lago, sentire il vento, appoggiare la mano sulla pietra. È tutto lì.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="inverness">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Inverness</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La capitale delle Highlands</h4>
+<p>Inverness è la capitale delle Highlands, e si trova proprio là dove il fiume Ness sfocia nel Moray Firth, nel cuore della Scozia settentrionale. È una città che unisce il carattere celtico delle Highlands con l'energia moderna di un centro vitale, in continua crescita. Il suo nome significa letteralmente "alla foce del Ness", e da sempre rappresenta un ponte naturale tra le montagne e la costa nord-orientale.</p>
+<h4>Una storia turbolenta</h4>
+<p>Nonostante oggi appaia tranquilla e ben organizzata, ha alle spalle una storia turbolenta. Era un centro importante già ai tempi dei Pitti, e nell'Alto Medioevo ospitava una fortezza reale — secondo la tradizione, fu proprio qui che il re pitto Brude accolse (o respinse) San Colombano, lo stesso monaco a cui si attribuisce il primo incontro leggendario con la creatura di Loch Ness. Nei secoli successivi fu distrutta e ricostruita più volte, tra guerre tra clan, tensioni con gli inglesi e rivolte interne. Dopo la battaglia di Culloden nel 1746, combattuta a poche miglia dalla città, Inverness venne occupata dalle truppe del duca di Cumberland e divenne uno dei simboli della fine del sogno giacobita — le sue prigioni si riempirono di ribelli catturati, molti dei quali giustiziati o deportati nelle settimane successive.</p>
+<h4>Il volto vittoriano della città</h4>
+<p>Oggi, il centro conserva ancora molti edifici ottocenteschi che raccontano il periodo vittoriano, mentre i nuovi quartieri si allargano verso la foresta e la costa. Tra le cose da vedere, vale la pena fermarsi davanti all'<strong>Inverness Castle</strong>, in stile neogotico, costruito nel XIX secolo sul fiume: non si può visitare all'interno, ma da qui si gode una splendida vista sulla città. Poco distante, la <strong>Old High Church</strong> domina il paesaggio con la sua atmosfera gotica e il piccolo cimitero che la circonda. Il percorso lungo il fiume Ness è perfetto per una passeggiata rilassante tra ponti sospesi, isolotti pedonali e giardini silenziosi. Da non perdere anche il <strong>Victorian Market</strong>, un piccolo mercato coperto con negozietti dall'aria d'altri tempi, e il <strong>Museum and Art Gallery</strong>, utile per comprendere meglio la storia delle Highlands, con ingresso gratuito.</p>
+<h4>Il crocevia delle Highlands</h4>
+<p>Oggi Inverness è una città giovane e vivibile, crocevia turistico per chi viaggia verso l'Isola di Skye, il Great Glen o il nord più estremo. Ci sono ristoranti, pub, un piccolo teatro e molti servizi utili. È anche il centro culturale gaelico più a nord della Scozia continentale, e qui si trovano corsi, spettacoli e cartelli bilingue. È una tappa perfetta per una sosta breve ma significativa e permette di respirare l'atmosfera di una città scozzese vera, ma con un ritmo rilassato.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edimburgo — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Edimburgo</h1>
+  <div class="subtitle">Scozia 2026 — quadro storico e luoghi della città</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="edimburgo">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="edimburgo — quadro storico generale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Edimburgo — quadro storico generale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Una città nata dai vulcani</h4>
+<p>Edimburgo sorge su una serie di colline di origine vulcanica, che l'hanno resa naturalmente difendibile fin dall'antichità. Non è un caso che il suo castello si trovi proprio in cima a uno sperone roccioso — il tappo di un vulcano spento, eroso dai ghiacciai fino a lasciare solo la roccia più dura — una posizione strategica che ospitava già una fortificazione ai tempi dei Celti e dei Romani.</p>
+<h4>Le origini e il nome</h4>
+<p>Il nome Edimburgo compare per la prima volta nell'XI secolo, in relazione a <strong>re Davide I</strong>, che promosse la nascita di una comunità religiosa e fece costruire una nuova chiesa fortificata. Da quel primo nucleo, chiamato <strong>"burh"</strong> (termine anglosassone per insediamento fortificato, da cui deriva la seconda parte del nome "Edin-burgh"), si sviluppò la cittadella medievale, oggi ancora riconoscibile nel tracciato della <strong>Royal Mile</strong>, che collega il castello al palazzo di Holyroodhouse.</p>
+<h4>Una capitale tardiva</h4>
+<p>Durante il Medioevo, Edimburgo era un centro importante ma non ancora la capitale del regno. Fu solo nel XIV secolo che assunse stabilmente quel ruolo, quando <strong>Scone</strong> — antico sito di incoronazione dei re scozzesi — cedette il passo alla nuova capitale.</p>
+<h4>Una città cresciuta in verticale</h4>
+<p>Qui si riuniva il parlamento, qui si stabilì la corte reale. La città, però, rimaneva piccola e affollata, racchiusa entro mura che ne limitavano l'espansione — le stesse mura difensive erette dopo la disastrosa sconfitta di Flodden contro gli inglesi nel 1513. Per questo motivo Edimburgo crebbe in verticale, con edifici molto alti, scale ripide e vicoli stretti: è da questo sviluppo in altezza che nasce l'aspetto "a strati" della città vecchia, ancora visibile oggi, e che valse alla città il soprannome popolare di <strong>"Auld Reekie"</strong> ("vecchia fumosa"), per il fumo dei tantissimi camini stipati in così poco spazio.</p>
+<h4>Il secolo dei Lumi</h4>
+<p>Nel corso del Seicento e del Settecento, mentre la Scozia affrontava l'unione politica con l'Inghilterra, Edimburgo si affermò anche come centro culturale di primo piano. Fu in questo periodo che prese forma l'<strong>Illuminismo scozzese</strong>, con pensatori come <strong>David Hume</strong> e <strong>Adam Smith</strong>, che resero la città uno dei principali centri intellettuali d'Europa — al punto da guadagnarsi l'appellativo di "Atene del Nord".</p>
+<h4>Old Town e New Town</h4>
+<p>Fu proprio in questo clima che nacque anche la <strong>New Town</strong>, il quartiere nuovo costruito in stile neoclassico, con una struttura regolare e aperta, edificato in parte prosciugando l'antico <strong>Nor Loch</strong>, il lago paludoso che un tempo separava e proteggeva il castello. La New Town nasce in netto contrasto con la complessità medievale della <strong>Old Town</strong>, e questo dialogo fra i due volti della città — tanto riconosciuto da valere a Edimburgo il titolo di Patrimonio dell'Umanità UNESCO — resta ancora oggi il suo tratto distintivo.</p>
+<h4>Una città che vive nel presente</h4>
+<p>Nel tempo, Edimburgo ha saputo tenere insieme passato e presente. Le case annerite dal tempo convivono con i palazzi eleganti, <strong>Calton Hill</strong> offre silenzio e panorama, mentre i pub del centro animano la sera con musica e voci. Oggi la città è una capitale sobria e vivibile, dove ogni angolo racconta una storia, senza mai diventare una semplice vetrina del passato.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il castello di edimburgo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Castello di Edimburgo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il guardiano di pietra</h4>
+<p>Il castello di Edimburgo non è solo il monumento più visitato della Scozia, ma soprattutto un simbolo. È una fortezza viva, un guardiano di pietra che veglia sulla città dall'alto di una rupe vulcanica. Sorto su un antico cono eruttivo, noto come <strong>Castle Rock</strong>, ha occupato per secoli una posizione strategica e praticamente inespugnabile: chi controllava il castello, controllava Edimburgo. E spesso, l'intera Scozia.</p>
+<h4>Un castello da guerra e da corona</h4>
+<p>Le origini di questa fortificazione risalgono almeno al VII secolo, ma la prima menzione scritta compare intorno al 600 d.C. con il nome di <strong>Din Eidyn</strong>, in lingua brittonica antica, nel poema gallese <em>Y Gododdin</em>. Col passare dei secoli, il castello venne ampliato e rafforzato, diventando residenza reale e centro militare, soprattutto tra il dodicesimo e il sedicesimo secolo.</p>
+<p>Tra le sue mura vennero incoronati e sepolti re, vi si rifugiò <strong>Maria Stuarda</strong> e furono custoditi i tesori simbolo della monarchia scozzese: la corona, lo scettro, la spada e la leggendaria <strong>Pietra del Destino</strong>. Durante le guerre d'indipendenza fu più volte assediato, conteso tra scozzesi e inglesi, e persino riconquistato con assalti notturni da veri acrobati della storia — tanto da guadagnarsi la fama, non del tutto immeritata, di luogo più assediato di tutta la Gran Bretagna.</p>
+<p>Quando perse il ruolo di dimora reale, mantenne però quello di roccaforte e prigione. Durante i due conflitti mondiali ospitò detenuti e installazioni militari. Ancora oggi, sorprendentemente, è una caserma attiva: una delle poche in Europa ad accogliere turisti pur rimanendo in uso all'esercito.</p>
+<h4>Architettura e spazi interni</h4>
+<p>Il castello non segue uno stile architettonico preciso: è un mosaico di pietra, costruito nel corso dei secoli, mescolando edifici medievali, torri difensive e caserme georgiane. L'ingresso avviene attraverso un ponte levatoio che immette nell'<strong>Esplanade</strong>, sorvegliata da due statue moderne di <strong>William Wallace</strong> e <strong>Robert the Bruce</strong>. Da lì si prosegue tra bastioni panoramici, come l'<strong>Argyle Battery</strong>, la minuscola <strong>Cappella di Santa Margherita</strong> — il più antico edificio di tutta Edimburgo, risalente al XII secolo e sopravvissuto quasi intatto a tutti gli assedi successivi — il <strong>Salone d'Onore</strong> con il suo soffitto ligneo, e il <strong>Palazzo Reale</strong>, dove nacque <strong>Giacomo VI di Scozia</strong>, destinato a diventare <strong>Giacomo I d'Inghilterra</strong>. La <strong>Crown Room</strong> custodisce ancora oggi le <strong>Insegne Reali</strong> di Scozia (gli Honours of Scotland), fra i più antichi gioielli della corona sopravvissuti in tutte le Isole Britanniche.</p>
+<h4>Un luogo da scoprire passo dopo passo</h4>
+<p>Non manca un museo militare ricavato negli ex alloggi delle truppe, e il celebre cannone — noto come <strong>One O'Clock Gun</strong> — che ogni giorno, puntualmente alle tredici, spara un colpo a salve per mantenere viva una tradizione nata per aiutare le navi nel porto a regolare i propri orologi. Il complesso è interamente costruito in pietra grigia locale, armonizzato con il profilo della rupe. Non si presenta come un singolo palazzo, ma come un piccolo villaggio murato, fatto di cortili irregolari, scale strette e passaggi sospesi — un luogo che non si impone con grandiosità, ma si lascia scoprire passo dopo passo, come una storia da percorrere.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="la cattedrale di st. giles">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Cattedrale di St. Giles</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La cattedrale non cattedrale</h4>
+<p>Camminando lungo la Royal Mile, poco prima di arrivare al cuore della Old Town, ci si imbatte in un edificio che sembra abbracciare la città: è la chiesa di <strong>St Giles</strong>, spesso chiamata "la Cattedrale di Edimburgo". Ma a voler essere precisi, non è una vera cattedrale: la <strong>Chiesa di Scozia</strong> non ha vescovi, quindi tecnicamente non esistono cattedrali nel senso tradizionale. Eppure, St Giles ne ha tutta la maestosità, la storia e il ruolo simbolico.</p>
+<h4>Una storia di riforme, martiri e incoronazioni</h4>
+<p>La sua fondazione risale con ogni probabilità al XII secolo, dedicata a <strong>San Giles</strong>, protettore dei poveri e degli emarginati. All'inizio era una chiesa cattolica in stile gotico, ma col passare dei secoli è diventata molto di più. Qui, nel Cinquecento, predicava <strong>John Knox</strong>, il grande riformatore protestante, figura centrale della storia scozzese: le sue parole cambiarono il corso della religione in Scozia e resero St Giles il centro della <strong>Riforma</strong>. Un secolo dopo, proprio davanti all'altare di St Giles, la lettura forzata di un nuovo libro di preghiere anglicano scatenò una rivolta popolare che sfociò nel <strong>National Covenant</strong> del 1638 — il patto con cui gli scozzesi difesero la propria fede presbiteriana, primo passo verso le guerre civili britanniche. Nei secoli successivi, la chiesa subì modifiche, danneggiamenti, restauri: specchio fedele di una nazione in cambiamento.</p>
+<h4>Architettura tra Medioevo e restauri</h4>
+<p>Oggi, l'edificio si presenta con una facciata severa, in pietra grigia. Ma basta alzare lo sguardo per notare uno degli elementi più iconici del profilo di Edimburgo: la <strong>crown steeple</strong>, la guglia a forma di corona cava che svetta al centro. Una struttura unica, in pietra traforata, che sembra sospesa sopra la navata.</p>
+<h4>Un capolavoro nascosto: la Thistle Chapel</h4>
+<p>All'interno, l'atmosfera è sobria ma solenne. Si cammina sotto arcate gotiche, tra cappelle laterali e vetrate istoriate che raccontano episodi biblici e patriottici. E poi c'è lei, la <strong>Thistle Chapel</strong>, la cappella dell'<strong>Ordine del Cardo</strong> — il più importante ordine cavalleresco scozzese, dedicato al patrono nazionale Sant'Andrea: un piccolo capolavoro di intaglio gotico, costruito nel primo Novecento, dove ogni sedile, ogni dettaglio in legno racconta simboli e storie di Scozia.</p>
+<h4>Un crocevia della storia scozzese</h4>
+<p>St Giles non è solo un edificio religioso. È un crocevia della storia scozzese: teatro di cerimonie, proteste, commemorazioni. Persino nel 2022, qui è stata esposta la salma della regina Elisabetta II, vegliata in silenzio dalla sua famiglia. Un luogo che non divide, ma unisce: fedi, epoche, destini.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il palazzo di holyroodhouse">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Palazzo di Holyroodhouse</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Tra storia e tragedia</h4>
+<p>Alla fine della Royal Mile, proprio dove Edimburgo sembra aprirsi ai prati e al cielo, sorge il <strong>Palazzo di Holyroodhouse</strong>, la residenza ufficiale del sovrano britannico in Scozia. Ma Holyrood non è solo un palazzo reale: è un luogo dove la storia si è impressa con forza, tra monaci, regine, amori, tradimenti e sangue versato.</p>
+<h4>Da monastero a palazzo</h4>
+<p>Tutto ebbe inizio nel dodicesimo secolo, quando <strong>Davide I</strong> fondò l'<strong>Abbazia di Holyrood</strong>, la "Santa Croce" — secondo la leggenda, in ricordo di un cervo apparsogli in visione durante una battuta di caccia, con una croce splendente tra le corna. Accanto a questo monastero nacque una prima residenza reale, semplice, usata per la caccia e le cerimonie.</p>
+<h4>Il dramma di Rizzio</h4>
+<p>Fu solo nel Cinquecento che l'edificio si trasformò davvero in un palazzo rinascimentale, e fu lì che si compì una delle pagine più oscure della storia scozzese: l'assassinio di <strong>David Rizzio</strong>, segretario e confidente di <strong>Maria Stuarda</strong>, massacrato davanti agli occhi della regina incinta, per mano del marito geloso, Lord Darnley, e dei suoi uomini. Quelle stanze, ancora visitabili, sembrano trattenere l'eco di quel dramma.</p>
+<h4>Architettura e visita</h4>
+<p>Il palazzo di oggi ha una pianta quadrata, torri agli angoli, uno stile sobrio ma elegante, frutto di ampliamenti successivi, da <strong>Giacomo VI</strong> fino all'attuale <strong>Carlo III</strong>. Al suo interno, gli <strong>Appartamenti di Stato</strong>, la grande galleria cerimoniale, la camera da letto di Maria Stuarda e i saloni storici raccontano secoli di protocollo, potere e vita privata. Fu proprio qui, nel 1745, che <strong>Bonnie Prince Charlie</strong> tenne corte per alcune settimane durante la sua marcia verso l'Inghilterra, organizzando balli e ricevimenti nel breve momento di massima speranza della rivolta giacobita.</p>
+<h4>I giardini e l'abbazia in rovina</h4>
+<p>Fuori, i giardini reali si affacciano su <strong>Arthur's Seat</strong> e conducono alle rovine suggestive dell'antica abbazia: una navata gotica senza più tetto, aperta al cielo scozzese, malinconica e maestosa — danneggiata prima dalle truppe inglesi nel Cinquecento e poi spogliata del piombo del tetto nel Settecento, fino al crollo definitivo.</p>
+<p>Holyrood è questo: un luogo dove il silenzio parla, dove la pietra conserva la memoria, e dove passato e presente si incontrano, ogni volta che un sovrano torna a varcarne la soglia.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="dean village e il water of leith">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Dean Village e il Water of Leith</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il volto segreto di Edimburgo</h4>
+<p>A pochi minuti a piedi dal centro di Edimburgo, tra Princes Street e Stockbridge, si apre un angolo fuori dal tempo: <strong>Dean Village</strong>. Il nome deriva dallo scozzese <em>dene</em>, "valle profonda" — e infatti il villaggio si nasconde in un avvallamento tanto discreto da restare quasi invisibile a chi cammina sui ponti che lo sovrastano. Un tempo borgo industriale, oggi è un quartiere incantevole, silenzioso e romantico, affacciato sul corso verde del <strong>Water of Leith</strong> (pron. wòter ov li:th), il fiume che attraversa la città. Passeggiarci è come entrare in una cartolina ottocentesca, con case in pietra, mulini antichi, ponticelli, giardini segreti e il solo suono dell'acqua a fare da sottofondo.</p>
+<h4>Un villaggio dentro la città</h4>
+<p>Dean Village nasce nel XII secolo come insediamento di mugnai, con concessione reale per sfruttare l'energia del fiume. Per secoli fu un centro produttivo attivo, con oltre settanta mulini ad acqua e magazzini per la farina. Nel XIX secolo, con la rivoluzione industriale, il villaggio perse la sua funzione e decadde, fino a essere completamente restaurato nel Novecento, diventando uno dei quartieri residenziali più affascinanti di Edimburgo — riscoperto in particolare dagli artisti, che ne apprezzarono la luce e la quiete. Oggi, tra le viuzze ciottolate e le case dai tetti spioventi, si respira un'atmosfera intima e silenziosa, lontana dal turismo frenetico del Royal Mile.</p>
+<h4>Sopra il villaggio: il Dean Bridge</h4>
+<p>A dominare la valle dall'alto è il <strong>Dean Bridge</strong>, un elegante ponte in pietra a quattro arcate costruito nel 1832 su progetto di <strong>Thomas Telford</strong>, uno dei più celebri ingegneri civili scozzesi. Attraversarlo regala uno scorcio spettacolare sul villaggio sottostante, e segna il confine simbolico tra la vita quotidiana della città sopra e il tempo sospeso di Dean Village più in basso.</p>
+<h4>Il Water of Leith: un fiume urbano tra natura e storia</h4>
+<p>Il Water of Leith è il fiume principale di Edimburgo: nasce nelle Pentland Hills e corre per circa 32 km, attraversando l'intera città fino al porto di Leith. Il tratto che attraversa Dean Village è uno dei più suggestivi, incorniciato da alberi ad alto fusto, muretti in pietra ricoperti di muschio, ponti di ferro o pietra, e case affacciate sull'acqua, come nel nord Europa. Poco più a valle si incontra anche <strong>St Bernard's Well</strong>, un delizioso tempietto neoclassico a colonne costruito nel Settecento sopra una sorgente ritenuta un tempo curativa, oggi uno dei punti più fotografati della passeggiata.</p>
+<p>Il percorso pedonale che lo costeggia, chiamato <strong>Water of Leith Walkway</strong>, è lungo circa 20 km e attraversa anche Stockbridge (con i suoi negozietti chic), i Giardini Botanici Reali, e arriva fino al porto di Leith. È perfetto per una passeggiata o un'escursione in bicicletta, con diversi punti d'ingresso e segnaletica chiara.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cairngorms & Highlands Orientali — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Cairngorms & Highlands Orientali</h1>
+  <div class="subtitle">Scozia 2026 — Cairngorms, Balmoral Castle, Blair Castle</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="cairngorms-highlands-orientali">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="i cairngorms">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">I Cairngorms</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Cuore selvaggio delle Highlands</h4>
+<p>Nel nord-est della Scozia si estende una vasta regione montuosa chiamata <strong>Cairngorms</strong>, un altopiano aspro e magnifico che rappresenta il cuore selvaggio delle Highlands. Tra Inverness e l'Aberdeenshire, questa zona ospita il parco nazionale più grande del Regno Unito, fatto di brughiere silenziose, foreste millenarie, fiumi impetuosi e cime battute dal vento. È una terra di pastori, di cacciatori, di re e ribelli, attraversata da antiche strade militari e sentieri tracciati dai clan.</p>
+<h4>Un massiccio antico</h4>
+<p>Le montagne dei Cairngorms fanno parte delle <strong>Grampian Mountains</strong> e comprendono alcune delle vette più alte della Scozia, come <strong>Ben Macdui</strong>, la seconda montagna più alta del paese, <strong>Cairn Gorm</strong>, che dà il nome all'intero gruppo montuoso, <strong>Braeriach</strong>, <strong>Cairn Toul</strong> e <strong>Sgor an Lochain Uaine</strong>. I loro nomi in gaelico sembrano poesie, e i loro profili levigati raccontano una storia lunga milioni di anni, fatta di ghiacci e graniti. Non hanno l'imponenza delle Alpi, ma emanano un fascino silenzioso e misterioso che lascia il segno — non a caso, a differenza delle altre Highlands modellate soprattutto dall'erosione glaciale, i Cairngorms conservano vaste distese di altopiano sommitale pressoché intatte, tra le più estese ed elevate di tutte le Isole Britanniche, che regalano un senso di spazio quasi artico.</p>
+<h4>Natura unica e antica</h4>
+<p>Il <strong>Cairngorms National Park</strong> protegge non solo le montagne, ma anche una natura unica: le antichissime <strong>Caledonian Pinewoods</strong>, le ultime foreste di pini scozzesi preistorici, e una fauna straordinaria che include cervi, aquile reali, galli cedroni, lepri artiche e i rarissimi <strong>gatti selvatici</strong> — il predatore autoctono più minacciato di tutta la Gran Bretagna, di cui sopravvivono forse solo poche centinaia di esemplari puri. I fiumi come il <strong>Dee</strong>, lo <strong>Spey</strong> e l'<strong>Avon</strong> scorrono limpidi, ricchi di salmone, tra le valli scolpite dal tempo. In estate, i prati si colorano di erica in fiore, mentre in inverno la neve ricopre le alture trasformando alcune zone in rare località sciistiche scozzesi.</p>
+<h4>Luoghi da conoscere</h4>
+<p>All'interno del parco si incontrano piccoli villaggi e residenze nobiliari, ognuno con una propria storia. <strong>Aviemore</strong> è la base ideale per esplorare la zona, con strutture turistiche, sport all'aria aperta e un trenino panoramico che attraversa la valle. <strong>Braemar</strong> è legato alla monarchia ed è celebre per i <strong>Braemar Highland Games</strong>, spesso frequentati dalla famiglia reale. <strong>Ballater</strong> è un elegante borgo non lontano dal castello di Balmoral. <strong>Kingussie</strong> e <strong>Newtonmore</strong> conservano invece il fascino delle Highlands tradizionali, con musei all'aperto e tracce di una vita semplice e antica.</p>
+<h4>Balmoral e la regina Vittoria</h4>
+<p>Proprio nel cuore dei Cairngorms si trova <strong>Balmoral</strong>, residenza estiva della famiglia reale britannica dal XIX secolo. Fu la regina Vittoria, insieme al principe Alberto, ad acquistare questa tenuta e a farne il centro di un rinnovato amore per la Scozia. Qui nacque la moda del tartan, del tweed e delle feste tradizionali, che ancora oggi fanno parte dell'immaginario scozzese. I paesaggi intorno a Balmoral, con i boschi, le colline e i torrenti, divennero simbolo di un'identità romantica e regale.</p>
+<h4>Atmosfere da Highlands</h4>
+<p>Camminare nei Cairngorms è come entrare in un'altra epoca. I sentieri si snodano tra rocce grigie e licheni, i villaggi appaiono silenziosi, le nuvole scendono rapide e improvvise, e tutto sembra sospeso nel tempo. È una terra di pochi suoni ma di emozioni forti, dove il cielo cambia umore in un attimo e il vento racconta storie antiche.</p>
+<p>I Cairngorms sono il volto montano della Scozia, fatto di pietra, vento, pini e aquile. Un luogo che non si attraversa in fretta, ma si esplora con lentezza e rispetto, lasciando che siano gli occhi, e il cuore, a raccoglierne il significato.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="balmoral castle">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Balmoral Castle</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La dimora delle Highlands</h4>
+<p>Nel cuore dei Cairngorms, circondato da boschi silenziosi, cervi al pascolo e acque cristalline, si trova il <strong>Castello di Balmoral</strong> (pron. Bàl-mo-ràl), residenza privata della famiglia reale britannica in Scozia. Non è solo un castello, ma un luogo del cuore, legato alla storia e alla memoria affettiva della monarchia, fin da quando la Regina Vittoria e il Principe Alberto lo resero simbolo della Scozia romantica dell'Ottocento.</p>
+<h4>Origini e costruzione</h4>
+<p>L'edificio originale risale al XIV secolo, ma la vera svolta arrivò nel 1852, quando Vittoria acquistò l'intera tenuta. Innamorata dei paesaggi scozzesi, trovò il vecchio castello troppo piccolo e inadatto, così decise con il marito di costruirne uno nuovo poco più in là. Nel 1856 fu completato il Balmoral che vediamo oggi: un elegante edificio di granito grigio, in stile baronale scozzese, con torrette, tetti spioventi, bovindi e una torre centrale diventata il suo emblema.</p>
+<h4>Architettura e interni</h4>
+<p>A differenza di Buckingham Palace o Windsor, Balmoral non è un palazzo ufficiale, ma una proprietà personale del sovrano, come Sandringham in Inghilterra. Anche l'architettura riflette questo spirito: sobria ma maestosa, solida ma ricca di dettagli decorativi. Gli interni, aperti al pubblico solo in parte, conservano lo stile vittoriano con arredi in legno scuro, trofei di caccia, tartan ovunque e ritratti di famiglia. Ma il vero tesoro di Balmoral è il paesaggio che lo circonda. L'intera tenuta copre oltre 20.000 ettari, un territorio fatto di colline, foreste, sentieri, fiumi e pascoli, utilizzato ancora oggi per attività tradizionali come la caccia al cervo, la pesca al salmone, le passeggiate a cavallo e la conservazione ambientale.</p>
+<h4>Vittoria, Alberto e la Scozia</h4>
+<p>Per la Regina Vittoria, Balmoral fu molto più di un rifugio. Qui scrisse pagine dei suoi diari, si immerse nei boschi per ore, cavalcò sulle colline e visse il dolore più profondo dopo la morte di Alberto nel 1861 — da allora, e per il resto della sua lunga vita, continuò a tornarvi ogni anno, portando il lutto anche in questi luoghi che tanto amava insieme a lui. Fu proprio Alberto a ideare il "tweed di Balmoral", un tessuto personale, non legato a nessun clan, considerato uno dei primi tartan a uso esclusivamente privato. Con questo gesto, la coppia reale contribuì a rendere popolare il tartan e a consolidare l'immagine romantica della Scozia in epoca vittoriana.</p>
+<h4>Una residenza viva</h4>
+<p>Ancora oggi, Balmoral è una residenza viva, non un museo. I membri della famiglia reale lo frequentano regolarmente, soprattutto in estate. La Regina Elisabetta II vi trascorse molti momenti felici e vi è morta l'8 settembre 2022, evento che ha rafforzato ulteriormente il legame tra la monarchia e questa terra scozzese.</p>
+<p>Durante i mesi primaverili ed estivi, alcune aree del castello sono aperte al pubblico. Si può visitare la sala da ballo, l'unica stanza accessibile all'interno, passeggiare nei giardini curati dai reali stessi e scoprire mostre dedicate alla storia del castello.</p>
+<p>Balmoral non è solo un'attrazione turistica. È una casa che vive ancora, un frammento autentico dell'identità britannica, un luogo dove la Scozia e la monarchia si incontrano nel paesaggio e nei ricordi.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="blair castle">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Blair Castle</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il bianco castello dei duchi di Atholl</h4>
+<p>Nel cuore del Perthshire, tra colline boscose, cervi rossi e giardini curati, si alza il profilo candido e imponente di <strong>Blair Castle</strong>, uno dei castelli più scenografici e affascinanti della Scozia. Le sue pareti bianche, le torri aguzze e il grande parco alberato ne fanno una sintesi perfetta tra la Scozia medievale e quella georgiana, tra le guerre dei clan e il gusto raffinato della nobiltà vittoriana.</p>
+<h4>Una storia lunga sette secoli</h4>
+<p>La sua storia inizia intorno al 1269, quando <strong>John Comyn</strong>, approfittando dell'assenza del legittimo signore partito per le Crociate, costruì qui una fortezza senza autorizzazione. Questo atto segnò l'inizio di una lunga serie di dispute territoriali, che portarono il castello nelle mani del <strong>Clan Murray</strong>, destinato a diventare uno dei più potenti delle Highlands centrali. I Murray ricevettero in seguito il titolo di <strong>duchi d'Atholl</strong>, e Blair Castle è ancora oggi legato a questa casata.</p>
+<p>Nel corso dei secoli, Blair Castle fu fortezza, residenza nobiliare e quartier generale militare. Ospitò re e generali, ma anche figure leggendarie come <strong>Bonnie Prince Charlie</strong>, che vi soggiornò durante la rivolta giacobita del 1745. Dopo la sua partenza, il castello fu occupato per oltre dieci anni dalle truppe governative. È uno dei pochissimi castelli scozzesi ad essere stato utilizzato sia dai giacobiti che dagli hanoveriani.</p>
+<h4>L'ultimo esercito privato d'Europa</h4>
+<p>Blair Castle è anche famoso per un primato unico in Europa: è l'unica residenza nobiliare britannica ad avere ancora oggi un esercito privato. Si tratta degli <strong>Atholl Highlanders</strong>, un reggimento cerimoniale in tartan armato di fucili, autorizzato direttamente dalla Regina Vittoria nel 1845 in segno di gratitudine per l'ospitalità ricevuta — durante una visita in cui il duca dell'epoca aveva messo a disposizione della sovrana una guardia d'onore di guardiacaccia armati, così ben accolta da Vittoria da meritare il riconoscimento ufficiale. Ancora oggi sfilano durante le cerimonie nel parco del castello, mantenendo viva una tradizione singolare.</p>
+<h4>Architettura e interni</h4>
+<p>Dal punto di vista architettonico, Blair Castle unisce stili diversi in un insieme armonioso. Si notano elementi medievali, rinascimentali e vittoriani, ma l'effetto finale è coerente e suggestivo. Gli interni sono eleganti e ricchi di fascino: si possono visitare circa 30 sale, arredate con mobili d'epoca, ritratti di famiglia, arazzi, porcellane, una ricca collezione di armi e una spettacolare sala da ballo con soffitto ligneo scolpito.</p>
+<h4>Giardini e tenuta</h4>
+<p>All'esterno, la bellezza continua nei giardini e nei boschi che circondano il castello. Il <strong>Diana's Grove</strong> è un'antica area boschiva che ospita alcuni degli alberi più alti del Regno Unito, mentre l'<strong>Hercules Garden</strong> è un giardino murato in stile georgiano, con statue, laghetti, frutteti e aiuole perfettamente disegnate. La tenuta include anche riserve naturali, fiumi per la pesca, sentieri escursionistici e piccoli villaggi rurali.</p>
+<p>Blair Castle è la tappa ideale per chiudere in bellezza un viaggio nei Cairngorms: un castello che unisce la fierezza militare alla delicatezza dei giardini, dove la Scozia dei clan e quella aristocratica si incontrano in un perfetto equilibrio.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stirling — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Stirling</h1>
+  <div class="subtitle">Scozia 2026 — la città e il castello</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="stirling">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="la città di stirling">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Città di Stirling</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La chiave del regno</h4>
+<p>Per secoli, chi controllava Stirling controllava la Scozia. Non è un'esagerazione: questa città, oggi tranquilla e raccolta, era un tempo considerata "la chiave del regno", per la sua posizione strategica e il suo ruolo nei momenti più decisivi della storia nazionale.</p>
+<p>Sorge proprio dove le Highlands cominciano a salire e le Lowlands iniziano a farsi colline. È il punto in cui il <strong>fiume Forth</strong> si stringe, formando un passaggio obbligato tra nord e sud. Per questo, fin dall'antichità, chi voleva entrare o uscire dal cuore della Scozia doveva passare da qui.</p>
+<h4>Due battaglie, un solo destino</h4>
+<p>Non a caso, proprio vicino a Stirling si sono svolte due delle battaglie più importanti per l'indipendenza scozzese. Nel 1297, la <strong>Battaglia del Ponte di Stirling</strong> vide la grande vittoria di <strong>William Wallace</strong>, che sfruttò con astuzia la strettoia del ponte medievale sul Forth per annientare un esercito inglese molto più numeroso, colpendolo mentre attraversava il fiume in colonna. E nel 1314, la <strong>Battaglia di Bannockburn</strong> consacrò il trionfo di <strong>Robert the Bruce</strong>, in uno scontro campale che resta ancora oggi la più grande vittoria militare della storia scozzese. In entrambi i casi, la posta in gioco era la stessa: il controllo di Stirling... e quindi del Paese.</p>
+<h4>La città vecchia, ai piedi del castello</h4>
+<p>Ai piedi della rupe si sviluppa la <strong>Old Town</strong>, uno dei centri storici meglio conservati di Scozia, cinto un tempo da mura difensive di cui restano ancora tratti visibili. Le sue stradine acciottolate salgono ripide verso il castello, fiancheggiate da case borghesi del Sei e Settecento, come la splendida <strong>Argyll's Lodging</strong>, una delle residenze cittadine rinascimentali meglio conservate del paese.</p>
+<h4>La Church of the Holy Rude</h4>
+<p>Poco sotto il castello sorge la <strong>Church of the Holy Rude</strong>, chiesa medievale che vanta un primato più unico che raro: è l'unica chiesa in Scozia, oltre alla Abbazia di Westminster a Londra, ad aver ospitato l'incoronazione di un sovrano ancora regnante — quella del piccolissimo <strong>Giacomo VI</strong>, nel 1567, appena un anno di età, dopo l'abdicazione forzata della madre Maria Stuarda. Il suo magnifico tetto ligneo medievale, a doppia navata, è tra i meglio conservati di tutta la Scozia.</p>
+<h4>Il vecchio ponte sul Forth</h4>
+<p>Non lontano dal centro si trova ancora l'<strong>Old Stirling Bridge</strong>, un ponte in pietra del XV secolo che sostituì quello di legno teatro della battaglia di Wallace — pur non essendo lo stesso ponte del 1297, sorge nello stesso punto strategico e resta un simbolo tangibile di quel passaggio conteso per secoli.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il castello di stirling">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Castello di Stirling</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il Castello di Stirling</h4>
+<p>Se c'è un castello che può davvero rivaleggiare con quello di Edimburgo per importanza storica e simbolica, è il <strong>Castello di Stirling</strong>. Non è solo una fortezza: è una reggia, un bastione difensivo, una scenografia del potere scozzese. Un luogo dove si faceva la storia... e la si celebrava con splendore.</p>
+<h4>Costruito sulla roccia, affacciato sulla Scozia</h4>
+<p>Come il Castello di Edimburgo, anche quello di Stirling si trova su uno sperone roccioso di origine vulcanica, a dominio del fiume Forth e della pianura circostante. Da qui si ha una delle viste più vaste di tutta la Scozia centrale: si vedono le Highlands a nord, le colline di Campsie a ovest, e i campi dove si combatterono battaglie decisive. Questa posizione elevata lo rese strategico per il controllo del territorio, tanto che fu conteso in numerosi assedi: il castello cambiò bandiera più di otto volte durante le guerre di indipendenza.</p>
+<h4>Una corte di re e regine</h4>
+<p>Ma il Castello di Stirling non fu solo un bastione militare. Dal XV al XVII secolo fu anche una delle principali residenze reali della monarchia scozzese. Qui vissero e governarono diversi sovrani della <strong>dinastia degli Stewart</strong>, e qui fu incoronata <strong>Maria Stuarda</strong> nel 1543, all'età di nove mesi.</p>
+<p>Il castello fu scelto non solo per la sua sicurezza, ma per la sua centralità geografica: era comodo da raggiungere da ogni angolo della Scozia, un luogo perfetto per tenere corte, accogliere ambasciatori, organizzare cerimonie fastose... e tenere i nemici sotto controllo.</p>
+<h4>Architettura e ambienti da visitare</h4>
+<p>Il Castello di Stirling è uno dei migliori esempi di architettura rinascimentale in Scozia. Il suo aspetto attuale risale soprattutto al regno di <strong>Giacomo IV</strong> e <strong>Giacomo V</strong>, che vollero trasformarlo in una residenza elegante, degna di un re europeo. Tra le sezioni più significative troviamo la <strong>Great Hall</strong>, costruita da Giacomo IV: era la più grande sala da banchetti del paese. È stata restaurata con il suo intonaco color ocra originale e il magnifico tetto ligneo a vista.</p>
+<p>Il <strong>Royal Palace</strong> è il cuore del castello. Le stanze reali di Giacomo V e <strong>Maria di Guisa</strong> sono state ricostruite e arredate per mostrare lo sfarzo della corte rinascimentale scozzese. La <strong>Chapel Royal</strong>, edificata da <strong>Giacomo VI</strong> per il battesimo del principe Henry nel 1594, è decorata con affreschi vivaci e motivi araldici. Le facciate del palazzo sono ornate da statue, tra cui spiccano i volti dei re scozzesi: non solo decorazione, ma messaggi politici in pietra.</p>
+<p>Il castello include anche aree espositive, tra cui il <strong>Museo degli Araldi</strong>, una sezione dedicata alla vita quotidiana nel castello, e una galleria dei famosi <strong>Stirling Heads</strong>: intagli in legno che adornavano i soffitti delle stanze reali.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="national wallace monument">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">National Wallace Monument</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Un monumento nato dal popolo</h4>
+<p>Su una collina rocciosa chiamata <strong>Abbey Craig</strong>, poco a nord di Stirling, si staglia contro il cielo una torre gotica alta oltre 67 metri: il <strong>National Wallace Monument</strong>, eretto per celebrare <strong>William Wallace</strong>, l'eroe che nel 1297 guidò la resistenza scozzese contro l'occupazione inglese. Non è un caso che sia stato costruito proprio qui: da questa altura, secondo la tradizione, Wallace osservò lo schieramento dell'esercito inglese prima di scendere a sorprenderlo alla Battaglia del Ponte di Stirling, poche centinaia di metri più in basso.</p>
+<h4>Un simbolo dell'Ottocento romantico</h4>
+<p>Il monumento non è medievale, ma vittoriano: fu costruito tra il 1861 e il 1869, in un'epoca in cui la Scozia riscopriva con orgoglio la propria identità nazionale, alimentata dal successo dei romanzi di Sir Walter Scott e dal fascino romantico delle Highlands. La sua realizzazione fu un vero progetto popolare: i fondi vennero raccolti attraverso una sottoscrizione pubblica a cui parteciparono migliaia di scozzesi comuni, oltre a comunità scozzesi emigrate in tutto il mondo, dagli Stati Uniti all'Australia — a testimonianza di quanto la figura di Wallace fosse (e resti) un simbolo identitario capace di attraversare oceani.</p>
+<h4>Architettura e simbolismo</h4>
+<p>Il monumento fu progettato dall'architetto <strong>John Thomas Rochead</strong> in stile neogotico, ispirato alle torri medievali scozzesi, e culmina in una corona di pietra che richiama quella del monumento a Robert Burns e, più in generale, l'iconografia della corona imperiale scozzese. All'interno, una scala a chiocciola di 246 gradini conduce fino alla sommità, attraversando diverse sale espositive: la <strong>Hall of Arms</strong>, dedicata alle guerre d'indipendenza; la <strong>Hall of Heroes</strong>, una galleria di busti che celebra grandi figure della storia e cultura scozzese, da Robert the Bruce a Robert Burns; e, salendo ancora, la <strong>camera della spada di Wallace</strong>, dove è custodita un'enorme spada a due mani lunga oltre un metro e sessanta, tradizionalmente attribuita al condottiero stesso (anche se gli storici concordano che l'elsa attuale sia una ricostruzione ottocentesca).</p>
+<h4>La vista dalla cima</h4>
+<p>Chi affronta la salita dei gradini viene ricompensato in cima da un panorama che si estende a perdita d'occhio sulla valle del Forth, le Ochil Hills, i campi di Bannockburn e persino, nelle giornate limpide, fino al Ben Lomond. Salire il monumento significa ripercorrere fisicamente il gesto simbolico di Wallace: guardare dall'alto la terra per cui combatté, e capire, con un solo sguardo, perché il controllo di questo territorio valesse tanto sangue.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

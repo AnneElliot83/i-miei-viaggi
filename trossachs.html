@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Trossachs — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>I Trossachs</h1>
+  <div class="subtitle">Scozia 2026 — Loch Lomond, Loch Katrine e dintorni</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="i-trossachs">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="i trossachs — quadro generale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">I Trossachs — quadro generale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La porta delle Highlands romantiche</h4>
+<p>I Trossachs sono una delle porte d'ingresso più affascinanti delle Highlands. Qui le Lowlands cominciano a trasformarsi in colline, laghi e boschi, anticipando la maestosità del nord con un paesaggio più dolce, ma altrettanto suggestivo. È un territorio che ha ispirato poeti, scrittori e pittori, primo fra tutti <strong>Sir Walter Scott</strong>, che ambientò qui il suo celebre romanzo <em>La donna del lago</em>, trasformando questi luoghi in icona romantica della Scozia — al punto che fu proprio il successo di quel poema narrativo, pubblicato nel 1810, a innescare il primo vero boom del turismo scozzese, richiamando visitatori da tutta la Gran Bretagna desiderosi di vedere di persona i paesaggi descritti. Oggi l'area rientra nel <strong>Loch Lomond and The Trossachs National Park</strong>, il primo parco nazionale istituito in Scozia, nel 2002.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="loch lomond">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Loch Lomond</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il lago più amato</h4>
+<p>Loch Lomond è il lago più grande della Gran Bretagna per estensione e uno dei più amati dagli scozzesi. A nord si stringe tra le montagne, somigliando a un fiordo; a sud si apre in un bacino punteggiato di isole verdi, dove la natura domina ancora il ritmo delle giornate. Intorno si snodano villaggi tranquilli come <strong>Luss</strong> e <strong>Balmaha</strong>, e da <strong>Balloch</strong> partono le crociere turistiche che permettono di esplorare le acque e scorgere il <strong>Ben Lomond</strong> riflesso nello specchio del lago — la sua vetta, alta 974 metri, è una delle Munro (le cime scozzesi sopra i 3.000 piedi) più scalate del paese, proprio per la relativa facilità di accesso e la vista che regala sul lago sottostante. Il lago ha dato il nome anche a una delle canzoni scozzesi più celebri al mondo, <em>The Bonnie Banks o' Loch Lomond</em>, la cui melodia malinconica racconta — secondo un'interpretazione diffusa — di un soldato giacobita giustiziato lontano da casa dopo la rivolta del 1745.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="loch katrine">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Loch Katrine</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Dove nacque il mito romantico</h4>
+<p>Loch Katrine, più piccolo ma carico di fascino, ha un'aura più poetica e raccolta. Navigarlo a bordo dello storico battello a vapore <strong>Sir Walter Scott</strong>, tra colline ricoperte di pini e sentieri silenziosi, è come entrare in un dipinto romantico dell'Ottocento. L'atmosfera è intima, i paesaggi sembrano custodire un racconto antico, fatto di quiete, bellezza e leggende. Non è un caso che sia proprio questo il lago in cui Scott ambientò <em>La donna del lago</em>: le sue rive furono anche, dal 1859, scelte per fornire l'acqua potabile a Glasgow, attraverso un audace acquedotto vittoriano che attraversa gran parte della Scozia centrale.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="duke's pass e aberfoyle">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Duke's Pass e Aberfoyle</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La strada panoramica dei poeti</h4>
+<p>La strada che collega Aberfoyle a Loch Katrine, nota come <strong>Duke's Pass</strong>, è una delle più spettacolari di Scozia. Serpeggia tra i boschi con curve panoramiche che si aprono su vallate verdeggianti, corsi d'acqua scintillanti e vette lontane. Fu costruita proprio per facilitare l'accesso ai luoghi resi celebri dalla letteratura, e oggi è un'esperienza da vivere lentamente, fermandosi a ogni scorcio.</p>
+<h4>Aberfoyle, tra fate e leggende celtiche</h4>
+<p>Aberfoyle, all'ingresso dei Trossachs, è un piccolo villaggio tranquillo ma con un'anima leggendaria. Si racconta che nei boschi vicini vivessero le fate, e che un poeta medievale — il reverendo <strong>Robert Kirk</strong>, autore nel Seicento di un celebre trattato sul "regno segreto" delle fate scozzesi — avesse varcato i confini del loro regno incantato, per non farvi più ritorno. Oggi è un punto di partenza perfetto per chi vuole scoprire i sentieri del parco nazionale o semplicemente immergersi nel silenzio dei boschi antichi.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="balquhidder">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Balquhidder</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il paese di Rob Roy</h4>
+<p>Poco più a nord si trova Balquhidder, un villaggio immerso in una valle stretta e verdissima, famoso per essere il luogo di sepoltura di <strong>Rob Roy MacGregor</strong>. La sua tomba, accanto alla vecchia chiesa, reca una scritta che è tutto un programma: <em>MacGregor, nonostante loro</em>. È una sfida alle autorità che lo perseguitarono, ma anche un omaggio alla fierezza del popolo scozzese. Camminare in questa valle, tra il suono dell'acqua e il vento tra gli alberi, è un'esperienza che lascia un'impronta profonda.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

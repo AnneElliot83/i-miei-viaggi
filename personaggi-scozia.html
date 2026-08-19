@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Personaggi Scozzesi — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Personaggi Scozzesi</h1>
+  <div class="subtitle">Scozia 2026 — Wallace, Bruce, Maria Stuarda, Knox, Rob Roy, Bonnie Prince Charlie, Walter Scott</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="personaggi">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="william wallace">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">William Wallace</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>L'uomo che sfidò l'impero</h4>
+<p>Per molti, William Wallace è l'eroe dal volto dipinto con la spada in pugno, reso celebre dal film <em>Braveheart</em>. Ma dietro la leggenda, c'è la storia reale di un uomo che osò sfidare l'Inghilterra nel momento in cui sembrava inarrestabile.</p>
+<h4>Origini oscure, spirito di rivolta</h4>
+<p>Le sue origini sono incerte: forse figlio di un piccolo nobile, Wallace nacque intorno al 1270 nella Scozia centrale. In quegli anni, il regno scozzese era precipitato nel caos dopo la morte di re Alessandro III. Edoardo I d'Inghilterra colse l'occasione per occupare la Scozia, imponendo il suo dominio.</p>
+<p>Fu allora che Wallace entrò in scena. Non era un generale, né un principe, ma un leader carismatico. Le sue prime azioni furono rapide, mirate, condotte contro i presidi inglesi — la scintilla, secondo la tradizione, fu l'uccisione dello sceriffo inglese di Lanark, William Heselrig, in risposta a un torto subito. Con coraggio e astuzia, riuscì a radunare attorno a sé uomini comuni e nobili delusi. La sua rivolta crebbe fino a diventare un movimento nazionale.</p>
+<h4>La battaglia di Stirling Bridge</h4>
+<p>Nel 1297, Wallace e <strong>Andrew de Moray</strong> guidarono l'esercito scozzese nella battaglia del ponte di Stirling. Fu una vittoria clamorosa. Wallace sfruttò l'imbuto naturale del ponte per colpire le truppe inglesi una alla volta, infliggendo loro pesanti perdite. Andrew de Moray, però, rimase gravemente ferito nello scontro e morì poche settimane dopo, lasciando Wallace come unico comandante. Dopo questa impresa, venne nominato <strong>Guardiano del Regno di Scozia</strong>, governando in nome del re in esilio John Balliol.</p>
+<h4>Tradimento e fine</h4>
+<p>Ma la sua parabola fu breve. Nel 1298, Edoardo I tornò con un esercito più forte e sconfisse Wallace nella battaglia di Falkirk. Wallace sopravvisse, ma perse il comando. Continuò a combattere, lontano dai riflettori, finché nel 1305 fu tradito, catturato nei pressi di Glasgow e consegnato agli inglesi.</p>
+<p>Fu processato a Londra, accusato di tradimento. Lui respinse l'accusa: non aveva mai giurato fedeltà al re inglese. Ma la sua sorte era segnata. Venne giustiziato con una brutalità spietata, come monito per tutti: impiccato, sventrato, squartato. Le sue spoglie furono esposte in varie città.</p>
+<h4>Eredità e memoria</h4>
+<p>Eppure, Wallace non fu dimenticato. Non vide la libertà della Scozia, ma preparò il terreno. La vittoria definitiva, a Bannockburn nel 1314, fu merito di Robert the Bruce. Ma Wallace rimane il primo a dimostrare che resistere era possibile.</p>
+<p>Oggi, la sua figura è onorata nel National Wallace Monument a Stirling, che conserva — forse — la sua spada. A Londra, una targa segna il luogo della sua esecuzione. Wallace fu uomo, guerriero, simbolo. Non re, ma guida. E nella memoria scozzese, è immortale.</p>
+<p><em>(Vale la pena ricordare che il film Braveheart, pur avendo contribuito enormemente a diffondere la sua fama nel mondo, prende numerose libertà storiche — dal kilt indossato secoli prima che diventasse d'uso comune, a vicende personali romanzate senza basi documentarie.)</em></p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="robert the bruce">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Robert the Bruce</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il re che fece la Scozia libera</h4>
+<p>Se William Wallace fu l'eroe ribelle, Robert the Bruce fu il re stratega. La sua vita è la storia di una lotta ostinata, fatta di sconfitte, riscatti e infine vittoria. È lui, più di ogni altro, a incarnare l'indipendenza scozzese conquistata sul campo.</p>
+<h4>Le origini: un nobile diviso</h4>
+<p>Nato nel 1274, Robert proveniva da una famiglia nobile con radici profonde sia in Scozia che in Inghilterra. Aveva legami dinastici con i re scozzesi, ma per anni si muove tra alleanze ambigue, tra realismo politico e ambizione personale — cambiando più volte schieramento tra la causa scozzese e la sottomissione a Edoardo I, secondo quello che sembrava di volta in volta il calcolo più vantaggioso. Il momento di svolta arriva nel 1306, quando uccide il rivale <strong>John Comyn</strong> in una chiesa a Dumfries — un duplice sacrilegio, l'omicidio e la profanazione di un luogo sacro, che gli costò la scomunica papale. È un atto scioccante, ma che apre la strada alla sua incoronazione a re di Scozia all'abbazia di Scone.</p>
+<h4>La lunga guerra e la rinascita</h4>
+<p>I primi anni del suo regno sono disastrosi. Bruce è braccato, costretto alla fuga, mentre la sua famiglia viene catturata dagli inglesi — tre delle sue donne, tra cui la sorella, furono rinchiuse in gabbie di ferro esposte pubblicamente, un trattamento di crudeltà eccezionale anche per gli standard dell'epoca. Vive da esiliato, nascosto nelle isole o tra le montagne. Ma non cede. Inizia una guerra di guerriglia, colpendo le postazioni inglesi e riconquistando castelli. La leggenda vuole che, durante l'esilio, Bruce abbia osservato un ragno tentare più volte di tessere la sua ragnatela, traendo ispirazione dalla sua ostinazione.</p>
+<h4>Bannockburn: la vittoria decisiva</h4>
+<p>La vera svolta arriva nel 1314, con la battaglia di Bannockburn. Lì, le sue truppe — in netta inferiorità numerica — infliggono una sconfitta epocale all'esercito inglese guidato da Edoardo II. È una vittoria che cambia la storia. Bruce consolida il suo potere, rafforza l'unità del paese, e nel 1320 ottiene la Dichiarazione di Arbroath: un documento con cui i nobili scozzesi dichiarano solennemente la volontà di essere liberi, anche a costo della vita — un testo che, nella sua celebre formula "non è per la gloria, la ricchezza o gli onori che combattiamo, ma per la sola libertà", è considerato tra le prime affermazioni europee del principio di sovranità popolare.</p>
+<h4>Morte e mito</h4>
+<p>Robert the Bruce muore nel 1329, dopo aver visto riconosciuto il suo regno dal Papa e dalla corona inglese. È sepolto a Dunfermline, ma il suo cuore, come desiderava, fu portato in Terrasanta dal suo fedele alleato, Sir James Douglas, per poi riportarlo in Scozia, nell'abbazia di Melrose — Douglas, però, morì combattendo contro i Mori in Spagna lungo il tragitto, e fu un altro cavaliere a riportare infine il cuore in patria.</p>
+<p>Oggi, Bruce è considerato il vero artefice dell'indipendenza scozzese. La sua figura vive nei monumenti, nei racconti popolari e nel cuore di una nazione che non ha mai dimenticato chi, con coraggio e pazienza, le ha restituito la libertà.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="maria stuarda">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Maria Stuarda</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Regina, martire, leggenda</h4>
+<p>Maria Stuarda nacque l'8 dicembre 1542 nel Palazzo di Linlithgow, e diventò regina di Scozia appena sei giorni dopo, quando morì suo padre, Giacomo V. Iniziava così una delle vite più drammatiche e leggendarie della storia scozzese, fatta di amori, intrighi, tradimenti e scelte difficili, che ancora oggi continuano a dividere storici e appassionati.</p>
+<h4>Infanzia e regno in Francia</h4>
+<p>Per proteggerla dalle turbolenze del suo regno, fu mandata in Francia quando aveva solo sei anni, promessa sposa fin dall'infanzia al delfino di Francia nell'ambito della storica alleanza franco-scozzese nota come "Auld Alliance". Alla corte dei Valois ricevette un'educazione raffinata, divenne regina consorte sposando il delfino Francesco, e per un breve periodo fu anche regina di Francia. Ma tutto cambiò con la morte prematura del marito nel 1560. Rimasta vedova a diciotto anni, Maria tornò in una Scozia che non conosceva più.</p>
+<h4>Ritorno in Scozia e tensioni religiose</h4>
+<p>Il paese era profondamente cambiato: la Riforma protestante aveva sconvolto l'equilibrio religioso e politico. Maria, cattolica convinta, cercò di regnare con tolleranza, ma dovette affrontare forti tensioni, soprattutto con il riformatore John Knox, che la attaccò pubblicamente dal pulpito con parole durissime.</p>
+<h4>Matrimoni, scandali e abdicazione</h4>
+<p>Nel 1565 sposò Henry Stuart, Lord Darnley, suo cugino e pretendente al trono d'Inghilterra. Il matrimonio si rivelò un disastro: Darnley era violento e ambizioso, e la loro unione si trasformò presto in un incubo — culminato nell'assassinio del segretario di Maria, David Rizzio, compiuto sotto i suoi stessi occhi da Darnley e i suoi complici. Dopo il successivo assassinio dello stesso Darnley, avvenuto in circostanze misteriose, Maria sposò James Hepburn, conte di Bothwell, principale sospettato del delitto. Lo scandalo fu enorme. La nobiltà le voltò le spalle, costringendola ad abdicare in favore del figlio di appena un anno, Giacomo. Fuggì allora in Inghilterra, sperando nell'appoggio della cugina Elisabetta I.</p>
+<h4>Prigionia e condanna</h4>
+<p>Invece di aiutarla, Elisabetta la fece imprigionare. Maria passò diciannove anni in varie prigioni inglesi, sorvegliata e sospettata. Alla fine fu accusata di cospirazione contro la regina, nel famoso complotto di Babington. Condannata per tradimento, venne giustiziata l'otto febbraio 1587 nel castello di Fotheringhay.</p>
+<h4>Un'eredità che sopravvive</h4>
+<p>La sua morte fece scalpore in tutta Europa. Ma la sua eredità fu più forte del suo destino. Suo figlio Giacomo salì al trono d'Inghilterra nel 1603 con il nome di Giacomo I, unificando per la prima volta le corone di Scozia e Inghilterra. Maria Stuarda, sconfitta in vita, trionfò nella memoria: oggi è vista come martire cattolica, regina tragica, vittima e stratega, madre e simbolo. In Scozia, il suo volto appare nei libri, nelle rovine, nei ritratti e nei racconti. È ancora lì, sospesa tra realtà e leggenda.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="john knox">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">John Knox</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il fuoco della Riforma scozzese</h4>
+<p>In un'epoca in cui la religione era una questione di vita o di morte, John Knox divenne il volto della Riforma in Scozia. Non fu solo un predicatore, ma un combattente: un uomo che parlava come un fuoco acceso, deciso a purificare il suo Paese dal "falso culto".</p>
+<h4>Dall'altare cattolico al pulpito riformato</h4>
+<p>Nato intorno al 1514 a Haddington, nell'East Lothian, iniziò la sua vita religiosa come sacerdote cattolico. Ma nel giro di pochi anni, influenzato dalle idee di Lutero e soprattutto di Calvino, si schierò con forza contro Roma. Fu allievo del riformatore George Wishart, e quando questi venne giustiziato — bruciato sul rogo per eresia nel 1546 — Knox decise di non voltarsi indietro. Poco dopo, coinvolto negli scontri seguiti all'assassinio del cardinale David Beaton, Knox fu catturato dai francesi alleati della corona scozzese e ridotto in schiavitù come galeotto, remando incatenato sulle navi per quasi due anni — un'esperienza che ne temprò ulteriormente la determinazione.</p>
+<h4>Un predicatore senza paura</h4>
+<p>Imprigionato come galeotto dai francesi, poi rifugiato in Inghilterra e a Ginevra — dove strinse un legame diretto con Calvino, definendo la città "la più perfetta scuola di Cristo sulla terra dai tempi degli apostoli" — tornò infine in Scozia con una convinzione incrollabile: il popolo doveva convertirsi alla "vera fede". Nel 1559 iniziò a predicare apertamente contro la messa cattolica, l'idolatria e il sistema dei vescovi. Le sue parole erano potenti, dure, senza compromessi. Nel 1560, il Parlamento scozzese approvò la nascita ufficiale della Chiesa protestante di Scozia. Knox contribuì direttamente alla sua struttura: niente vescovi, ma consigli locali; niente immagini sacre, ma Bibbia e predicazione; niente messe latine, ma culto in lingua comprensibile a tutti.</p>
+<h4>Il confronto con Maria Stuarda</h4>
+<p>Ma il nome di Knox è legato anche a uno dei confronti più celebri della storia scozzese: quello con Maria Stuarda. I due si incontrarono più volte, e i loro dialoghi — documentati dallo stesso Knox — sembrano oggi scene teatrali: lui, convinto che Maria fosse la rovina del Paese; lei, decisa a difendere il proprio diritto a regnare. Lui la accusava di idolatria; lei lo rimproverava per l'arroganza e l'intolleranza. Nonostante tutto, Knox non partecipò ai complotti che portarono alla caduta della regina.</p>
+<h4>Eredità</h4>
+<p>Morì nel 1572. La tradizione vuole che sia sepolto proprio davanti alla Cattedrale di St Giles, dove aveva predicato per anni. Oggi, il suo nome si legge su una targa metallica nel parcheggio adiacente: una fine discreta per una vita che fu tutto tranne che silenziosa. Ma l'eredità di John Knox è ovunque nella Scozia moderna: dalla Chiesa presbiteriana all'istruzione pubblica, dall'etica del lavoro all'identità religiosa. Un uomo che ha diviso, acceso, trasformato. Un riformatore che ha inciso la sua voce nella pietra della nazione.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="rob roy macgregor">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Rob Roy MacGregor</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il Robin Hood delle Highlands</h4>
+<p>Rob Roy MacGregor è una delle figure più leggendarie della storia scozzese. Vissuto tra il 1671 e il 1734, fu un uomo al confine tra storia e mito: fuorilegge per la legge, eroe per il popolo. La sua vita attraversa gli sconvolgimenti delle Highlands del XVIII secolo, tra ribellioni giacobite, lotte per la sopravvivenza dei clan e antichi codici d'onore che sfidavano la modernità.</p>
+<h4>Un allevatore divenuto fuorilegge</h4>
+<p>Nacque in seno al clan MacGregor, un nome che per secoli fu maledetto e perseguitato: tanto che per lunghi periodi, in Scozia, era illegale persino portarlo — il clan era stato messo fuorilegge fin dal 1603, dopo una sanguinosa faida con il clan Colquhoun, con un editto che proibiva a chiunque di usare il cognome MacGregor, pena la morte. All'inizio fu un semplice allevatore, attivo nel commercio del bestiame, ma un'accusa di appropriazione indebita da parte di un nobile potente — forse infondata — lo rese un ricercato. Da lì in poi la sua vita cambiò radicalmente: visse da latitante, muovendosi nei Trossachs, conducendo attacchi a fattorie, sfidando i ricchi e aiutando i poveri. Un Highlander fiero, temuto dai padroni e amato dal popolo, che cominciò a vederlo come un vero e proprio Robin Hood scozzese.</p>
+<h4>In mezzo alle ribellioni giacobite</h4>
+<p>Visse nel cuore dell'epoca giacobita, il periodo in cui gli Stuart cercarono più volte di riconquistare il trono. Non fu presente in tutte le battaglie, ma fu un sostenitore convinto della causa, e questo bastò a renderlo scomodo. Venne arrestato, imprigionato, condannato, e infine graziato da re Giorgio I nel 1727.</p>
+<h4>Una tomba semplice, una fama enorme</h4>
+<p>Gli ultimi anni li trascorse nella sua amata vallata di Balquhidder, dove oggi riposa. Sulla sua lapide, semplice ma potente, si legge ancora il motto del suo clan: "MacGregor Despite Them" — MacGregor, nonostante loro — una sfida silenziosa a tutti coloro che tentarono di cancellare la sua identità.</p>
+<h4>Dalla storia al mito</h4>
+<p>Nel 1817, Sir Walter Scott gli dedicò un romanzo: <em>Rob Roy</em>. Il successo fu immediato. L'eroe popolare divenne leggenda romantica: un ribelle dal cuore nobile, simbolo della Scozia indomita. La sua figura ispirò opere, film e racconti. Ma dietro le pagine e i riflettori, restò l'uomo. Un uomo che scelse la libertà, la lealtà, e l'orgoglio di appartenere a un nome proibito. Rob Roy MacGregor: Highlander, ribelle, icona.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="bonnie prince charlie">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Bonnie Prince Charlie</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il sogno spezzato della Scozia giacobita</h4>
+<p>Il suo nome vero era Charles Edward Stuart, ma per la Scozia è semplicemente Bonnie Prince Charlie: il "bel principe Carlo", l'ultimo, romantico pretendente della dinastia Stuart al trono di Gran Bretagna. Nato a Roma nel 1720 da James Francis Edward Stuart, chiamato The Old Pretender, era nipote dell'ultimo re Stuart d'Inghilterra, Giacomo II, deposto con la Gloriosa Rivoluzione del 1688. Cresciuto in esilio, Carlo si considerava l'erede legittimo della corona, e crebbe alimentando un'unica speranza: riconquistare il trono per la sua famiglia.</p>
+<h4>Il 1745: la rivolta giacobita</h4>
+<p>Nel 1745, a soli venticinque anni, Carlo sbarcò nelle Highlands occidentali, vicino a Glenfinnan, dando inizio alla Seconda Rivolta Giacobita. Fu un'impresa folle, ma inizialmente trionfale. Con l'appoggio di numerosi clan delle Highlands, tra cui i MacDonald, i Cameron e i MacGregor, sconfisse le truppe inglesi a Prestonpans e marciò fino a Derby, in Inghilterra, minacciando Londra. Ma l'appoggio promesso dalla Francia non arrivò, e anche molti scozzesi delle Lowlands e degli ambienti protestanti rifiutarono di seguirlo. Carlo fu costretto a ritirarsi.</p>
+<h4>Culloden, la fine del sogno</h4>
+<p>Il sedici aprile 1746, nei pressi di Inverness, si combatté la tragica battaglia di Culloden. Le truppe giacobite, stanche, disorganizzate e inferiori di numero, furono massacrate dall'esercito governativo guidato dal Duca di Cumberland. Fu l'ultima grande battaglia combattuta su suolo britannico. Dopo la sconfitta, Carlo fuggì, inseguito da taglie e pattuglie. Vagò per settimane nelle Highlands, nascosto da contadini e fedelissimi.</p>
+<h4>La fuga leggendaria</h4>
+<p>La sua fuga entrò nella leggenda. Travestito da donna, si fece aiutare da una giovane eroina, Flora MacDonald, che lo portò in salvo sull'isola di Skye. Da lì riuscì infine a tornare in Francia, ma non tornò mai più in Scozia. Visse il resto dei suoi giorni tra l'Italia e il continente, sempre più amareggiato, fino alla morte nel 1788 a Roma — è sepolto, insieme al padre e al fratello, nelle Grotte Vaticane della Basilica di San Pietro, sotto un monumento funebre scolpito da Antonio Canova.</p>
+<h4>Eredità di un principe</h4>
+<p>Bonnie Prince Charlie non fu un grande stratega, eppure il suo carisma conquistò migliaia di cuori. Per molti scozzesi, rappresentò l'ultima speranza di indipendenza, di onore, di riscossa. La sua immagine, giovane, vestito in tartan, dritto sul campo di battaglia, divenne simbolo di una Scozia che non si è mai arresa completamente. Il mito del bel principe continua a vivere: nelle ballate popolari come <em>The Skye Boat Song</em>, nei memoriali di Glenfinnan, nelle canzoni che parlano di giustizia e nostalgia. Bonnie Prince Charlie non riconquistò mai il trono, ma conquistò l'immaginario di un popolo. E in Scozia, dove le leggende camminano accanto alla storia, forse è questo che conta di più.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="sir walter scott">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Sir Walter Scott</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Lo scrittore che inventò la Scozia</h4>
+<p>Se oggi la Scozia è vista nel mondo come una terra di laghi misteriosi, castelli avvolti nella nebbia, eroi ribelli e clan in kilt... lo si deve in gran parte a Sir Walter Scott. Poeta, romanziere e storico, fu il primo autore a rendere popolare l'epica scozzese in forma moderna, trasformando la memoria storica in un racconto nazionale. Con i suoi romanzi storici e le sue ballate, Scott rese celebri luoghi prima ignorati, come Loch Katrine o la Valle di Glencoe, e contribuì a costruire l'immaginario romantico che ancora oggi affascina milioni di visitatori.</p>
+<h4>Dalle Highlands alla pagina stampata</h4>
+<p>Nato a Edimburgo nel 1771 da una famiglia borghese, Scott studiò legge ma si appassionò presto alla letteratura e al folklore scozzese. Colpito da una poliomielite infantile, che gli lasciò una gamba indebolita, passò molto tempo in campagna, dove sviluppò un amore profondo per le storie dei clan, le ballate orali e le tradizioni gaeliche. Il suo primo successo arrivò con <em>The Lay of the Last Minstrel</em>, un poema epico che mescolava amore, superstizione e identità scozzese.</p>
+<h4>I grandi romanzi storici</h4>
+<p>Ma fu con i romanzi storici, a partire da <em>Waverley</em>, che divenne un autore celebre in tutta Europa. Tra i suoi titoli più famosi ci sono <em>Rob Roy</em>, <em>The Lady of the Lake</em>, <em>The Heart of Midlothian</em> e perfino <em>Ivanhoe</em>, ambientato in Inghilterra ma pieno dello spirito scozzese.</p>
+<h4>Scott non solo scrisse la Scozia: la costruì</h4>
+<p>Fu tra i primi a esaltare pubblicamente il valore culturale del tartan e dei clan, in un'epoca in cui portare il kilt era ancora proibito dalle leggi post-giacobite (introdotte dopo Culloden e abrogate solo nel 1782). Collaborò all'organizzazione della visita del re Giorgio IV a Edimburgo nel 1822, la prima di un sovrano britannico dopo oltre 150 anni: un evento in cui Scott mise in scena un'identità scozzese visiva, cerimoniale e fortemente romantica, destinata a rimanere impressa nell'immaginario collettivo — fu in quell'occasione, non a caso, che perfino lo stesso re Giorgio IV apparve pubblicamente vestito in un sontuoso kilt di tartan, sancendo la definitiva riabilitazione di un simbolo fino a poco prima perseguitato.</p>
+<h4>La Scozia romantica prende forma</h4>
+<p>Anche grazie a lui, luoghi prima considerati remoti divennero mete di pellegrinaggio culturale: pensiamo al Loch Katrine, reso celebre dalla poesia <em>The Lady of the Lake</em>, o alla figura di Rob Roy, trasformato da bandito a eroe popolare.</p>
+<h4>Abbotsford House e l'eredità</h4>
+<p>Scott costruì la sua casa ideale sul fiume Tweed, ad Abbotsford: un vero castello neogotico pieno di libri, armature e reliquie scozzesi. Oggi è un museo che riflette il suo spirito: storico ma romantico, curioso e profondamente scozzese.</p>
+<p>Morì nel 1832. Fu sepolto nell'Abbazia di Dryburgh, ma la sua memoria sopravvive ovunque: nel gigantesco Scott Monument a Edimburgo, nei nomi di vie, scuole, teatri... e soprattutto nelle pagine che hanno fatto sognare generazioni di lettori. Sir Walter Scott non ha solo narrato la Scozia: l'ha messa in scena. Ha trasformato battaglie e leggende in epica letteraria, ponendo le basi per il modo in cui ancora oggi il Paese si racconta e si mostra al mondo. Nel bene e nel male, è stato l'inventore della Scozia romantica.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

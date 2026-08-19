@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scozia — Storia e Geografia — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Scozia — Storia e Geografia</h1>
+  <div class="subtitle">Tracker di lavoro — Origini · Extra · Personaggi · Fuori Rotta</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<nav class="pills">
+    <a href="#origini" class="pill">Origini</a>
+    <a href="#fuori-rotta" class="pill">Fuori Rotta</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="origini">
+  <h2 class="group-title">Origini<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="storia della scozia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Storia della Scozia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Le origini: Caledoni e il Vallo di Adriano</h4>
+<p>La Scozia, prima di essere Scozia, è terra di popoli che i Romani non riuscirono mai a domare del tutto. Quando le legioni di Agricola spinsero il confine dell'impero fin quasi alle Highlands, nell'83 d.C., trovarono ad aspettarli i <strong>Caledoni</strong>, una confederazione di tribù che Roma non conquistò mai stabilmente. Non a caso, decenni dopo, l'imperatore Adriano scelse di costruire un vallo — non per spingersi oltre, ma per arginare chi stava a nord. È il primo indizio di un tratto che accompagnerà la Scozia per tutta la sua storia: essere terra di confine, difficile da sottomettere, difficile da unificare persino dall'interno.</p>
+<h4>Pitti, Scoti, Britanni e Angli: un mosaico di popoli</h4>
+<p>Nei secoli successivi, sul territorio scozzese convivono e si scontrano quattro popoli distinti. I <strong>Pitti</strong>, eredi diretti dei Caledoni, dominano il nord e l'est, lasciando dietro di sé enigmatiche pietre incise di simboli che ancora oggi non sappiamo leggere del tutto. Gli <strong>Scoti</strong>, arrivati dall'Irlanda, fondano nel sud-ovest il regno di <strong>Dalriada</strong> — e sono proprio loro a dare il nome "Scotia" a tutta la regione. I <strong>Britanni</strong> occupano le zone meridionali, mentre gli <strong>Angli</strong>, provenienti dal sud, si insediano nel sud-est.</p>
+<h4>La nascita del Regno di Alba</h4>
+<p>È dalla fusione — spesso violenta — di questi mondi che nasce, nell'843, il <strong>Regno di Alba</strong>, quando Kenneth MacAlpin unifica Pitti e Scoti sotto un'unica corona. È l'atto di nascita, convenzionale ma reale, della Scozia come entità politica.</p>
+<h4>Le Guerre d'Indipendenza: Wallace e Bruce</h4>
+<p>Per i tre secoli successivi il regno si consolida, ma è con la fine del Duecento che la storia scozzese trova il suo momento più drammatico e fondativo. Alla morte di Alessandro III, senza eredi diretti, il trono resta vacante e l'Inghilterra di <strong>Edoardo I</strong> — soprannominato non a caso "Martello degli Scozzesi" — coglie l'occasione per imporre la propria sovranità. Sono gli anni delle <strong>Guerre d'Indipendenza scozzese</strong>: prima la rivolta di <strong>William Wallace</strong>, capace di sconfiggere gli inglesi a Stirling Bridge nel 1297 prima di essere catturato e giustiziato a Londra nel modo più brutale che il diritto medievale contemplasse; poi la riscossa guidata da <strong>Robert the Bruce</strong>, che dopo anni di guerriglia ottiene la vittoria decisiva a <strong>Bannockburn</strong> nel 1314 e, con la Dichiarazione di Arbroath del 1320, fa scrivere ai suoi nobili una delle prime affermazioni europee del diritto di un popolo all'autodeterminazione.</p>
+<h4>La dinastia Stuart e Maria Stuarda</h4>
+<p>L'indipendenza riconquistata non porta però stabilità. Il regno passa alla dinastia <strong>Stuart</strong>, segnata da un'impressionante sequenza di re saliti al trono da bambini e morti giovani o in battaglia — un'instabilità cronica che culmina nella vicenda di <strong>Maria Stuarda</strong>: regina a sei giorni di vita, educata alla corte di Francia, tornata in una Scozia dilaniata dalla Riforma protestante guidata da <strong>John Knox</strong>, infine costretta all'abdicazione e giustiziata in Inghilterra nel 1587 per ordine della cugina Elisabetta I. È una delle storie più romanzate — e più tragiche — di tutta la storia europea.</p>
+<h4>L'Unione delle Corone e l'Act of Union</h4>
+<p>Il paradosso finale arriva nel 1603: è proprio il figlio di Maria, <strong>Giacomo VI di Scozia</strong>, a ereditare anche il trono inglese, diventando Giacomo I d'Inghilterra e unendo le due corone nella stessa persona, pur restando i due regni formalmente separati. L'unione politica vera e propria arriva un secolo dopo, nel 1707, con l'<strong>Act of Union</strong>: i due parlamenti si fondono, nasce il Regno di Gran Bretagna, e la Scozia perde la propria indipendenza parlamentare — una decisione tuttora controversa, presa in un momento di grave crisi economica scozzese e non priva di sospetti di corruzione tra i nobili che la votarono.</p>
+<h4>Le rivolte giacobite e Culloden</h4>
+<p>Ma la fiamma dell'indipendenza non si spegne. Nel corso del Settecento la casa <strong>Stuart</strong>, ormai in esilio, tenta più volte di riprendersi il trono attraverso le <strong>rivolte giacobite</strong>. La più celebre resta quella del 1745-46, guidata dal giovane <strong>Bonnie Prince Charlie</strong>, che sbarca in Scozia, raccoglie l'appoggio di diversi clan delle Highlands e arriva a minacciare Londra prima di essere annientato nella sanguinosa battaglia di <strong>Culloden</strong> — l'ultima battaglia campale mai combattuta sul suolo britannico, e la fine definitiva delle speranze giacobite. Da lì in poi la corona britannica smantella sistematicamente la cultura dei clan: viene proibito il kilt, vietato il possesso di armi, spezzato il potere dei capiclan.</p>
+<h4>Il mito romantico delle Highlands</h4>
+<p>È paradossalmente proprio dopo questa repressione che nasce il mito romantico delle Highlands che ancora oggi affascina i visitatori: nell'Ottocento, scrittori come <strong>Sir Walter Scott</strong> e la stessa monarchia britannica — con la regina Vittoria innamorata di Balmoral — reinventano la Scozia come terra di leggenda, tartan e paesaggi sublimi, trasformando ciò che era stato soppresso in simbolo nazionale. Un'eredità ambivalente, ma è anche il motivo per cui, ancora oggi, la Scozia si racconta attraverso castelli, clan e battaglie prima ancora che attraverso la sua storia contemporanea.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="geografia della scozia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Geografia della Scozia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Tre Scozie in una</h4>
+<p>Chi arriva in Scozia pensando di trovare un paesaggio uniforme si sbaglia di grosso: il paese si divide, con nettezza quasi geologica prima ancora che geografica, in tre fasce ben distinte. A sud ci sono le <strong>Lowlands</strong>, colline dolci e terra coltivabile, dove si concentrano le due grandi città, Edimburgo e Glasgow, e la gran parte della popolazione. Subito sopra, una linea di faglia — la <strong>Highland Boundary Fault</strong> — separa le Lowlands dalle <strong>Highlands</strong>, il territorio che nell'immaginario internazionale è "la Scozia" per eccellenza: montagne, brughiere, laghi stretti e lunghi, distanze che si misurano in ore anche per pochi chilometri. Infine, al largo delle coste settentrionali e occidentali, si allunga un arcipelago fatto di centinaia di isole — Ebridi, Orcadi, Shetland — ciascuna con un proprio carattere, spesso più vicino culturalmente alla Scandinavia che al resto del paese.</p>
+<h4>Le Highlands: un rilievo antico e spezzato</h4>
+<p>Le Highlands non sono una catena montuosa nel senso alpino del termine, ma un altopiano eroso da centinaia di milioni di anni di storia geologica, tagliato da una frattura enorme: il <strong>Great Glen</strong>, una faglia che attraversa la Scozia da costa a costa in linea quasi retta, lungo la quale si allineano i grandi laghi, Loch Ness fra tutti. Qui si trova anche <strong>Ben Nevis</strong>, la vetta più alta delle Isole Britanniche con i suoi 1.345 metri — una quota modesta sulla carta, ma che in queste latitudini e con questo clima si traduce in condizioni spesso alpine, con neve possibile in ogni mese dell'anno.</p>
+<h4>Loch: non laghi come gli altri</h4>
+<p>Il termine scozzese <em>loch</em> indica sia i laghi d'acqua dolce sia i bracci di mare che si insinuano profondamente nella terraferma, i cosiddetti <em>sea loch</em>. Questa distinzione non è un vezzo linguistico: racconta come in Scozia il confine fra terra e mare sia costantemente sfumato, con coste frastagliate da fiordi che ricordano quelli norvegesi — non a caso, in epoca vichinga, buona parte della costa occidentale e settentrionale fu colonizzata proprio dai Norreni.</p>
+<h4>Un arcipelago di mondi diversi</h4>
+<p>Le isole scozzesi non sono un'appendice marginale, ma un pezzo essenziale dell'identità del paese. L'<strong>Isola di Skye</strong>, con i suoi pinnacoli di roccia vulcanica come i celebri Cuillin, è oggi la più visitata. Le <strong>Ebridi Esterne</strong> conservano ancora oggi il gaelico come lingua viva. Le <strong>Orcadi</strong> e le <strong>Shetland</strong>, molto più a nord, furono per secoli territorio danese-norvegese prima di passare alla corona scozzese nel 1468 come pegno di una dote matrimoniale mai pagata — e ancora oggi il loro paesaggio, la loro architettura e persino i toponimi tradiscono quel passato scandinavo.</p>
+<h4>Un clima scolpito dall'Atlantico</h4>
+<p>La posizione della Scozia, esposta in pieno all'Oceano Atlantico e attraversata dalla Corrente del Golfo, produce un clima temperato ma estremamente instabile: piogge frequenti, cieli mutevoli, temperature miti anche d'inverno rispetto alla latitudine (Edimburgo è più a nord di Mosca, eppure gli inverni sono nettamente più dolci). È un clima che ha plasmato tanto il paesaggio — brughiere, torbiere, foreste rade — quanto il carattere e le abitudini di chi ci vive, abituato a portare sempre con sé un impermeabile anche in piena estate.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="geologia della scozia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Geologia della Scozia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Un continente che ha viaggiato</h4>
+<p>Molto prima dei castelli, dei clan e dei romani — e perfino dei dinosauri — la Scozia esisteva già, non come nazione ma come frammento di crosta terrestre in continuo movimento. Per centinaia di milioni di anni le rocce che oggi formano le Highlands facevano parte di un continente diverso, <strong>Laurenzia</strong>, mentre le Lowlands appartenevano a un blocco separato, <strong>Avalonia</strong>. I due blocchi si scontrarono circa 400 milioni di anni fa in quella che i geologi chiamano <strong>orogenesi caledoniana</strong>, chiudendo l'antico oceano Iapeto e dando origine a una vasta catena montuosa che si estendeva dalla Norvegia fino alla Scozia e oltre, attraverso l'Atlantico, fino al Nord America. Le Highlands sono ciò che resta di quella catena: un tempo montagne altissime, forse paragonabili all'Himalaya, oggi dolci e arrotondate, levigate da centinaia di milioni di anni di vento, pioggia e ghiaccio. Non è un caso che, paragonate alle Alpi — nate "solo" 30-40 milioni di anni fa e ancora in fase di sollevamento — le montagne scozzesi appaiano più basse: non lo sono per altezza originaria, ma perché sono semplicemente molto più antiche, erose, stabili.</p>
+<h4>Le rocce più antiche d'Europa</h4>
+<p>Nel nord-ovest del paese, soprattutto nelle Ebridi Esterne e nel Wester Ross, affiorano alcune tra le rocce più antiche del pianeta: il <strong>gneiss lewisiano</strong>, che supera in alcuni punti i 3 miliardi di anni di età — una delle formazioni rocciose più antiche d'Europa, risalente a un'epoca in cui la vita sulla Terra era agli albori.</p>
+<h4>La cicatrice del Great Glen</h4>
+<p>Il punto di sutura fra Laurenzia e Avalonia non è scomparso: è ancora visibile nella faglia del <strong>Great Glen</strong>, che taglia la Scozia in diagonale da Fort William a Inverness. Lungo questa linea di debolezza i ghiacciai hanno eroso più facilmente la roccia, scavando la sequenza di laghi allungati — Loch Ness compreso — che oggi la percorre quasi in linea retta.</p>
+<h4>Antichi vulcani</h4>
+<p>Anche il fuoco ha avuto un ruolo importante nel modellare la Scozia. La collina di <strong>Arthur's Seat</strong>, che sovrasta Edimburgo, è il cono di un antico vulcano spento, risalente a circa 340 milioni di anni fa. <strong>Ben Nevis</strong>, oggi la vetta più alta delle Isole Britanniche, era in origine una grande caldera vulcanica, poi collassata su se stessa e lentamente erosa fino alla forma attuale. Più tardi, circa 60 milioni di anni fa, mentre l'Atlantico settentrionale iniziava ad aprirsi separando l'Europa dal Nord America, una nuova fase di intenso vulcanismo interessò la costa occidentale: sono di questa origine i <strong>Cuillin</strong> dell'Isola di Skye, dalle cime scure e frastagliate, e le spettacolari colonne di basalto esagonali che si trovano lungo la costa scozzese e, dall'altra parte del mare, in Irlanda del Nord al <strong>Selciato del Gigante</strong> — resti della medesima colata di lava.</p>
+<h4>Ghiaccio, valli e laghi</h4>
+<p>Il paesaggio che vediamo oggi, però, è opera soprattutto delle glaciazioni del <strong>Pleistocene</strong>, l'ultima delle quali terminata solo circa 11.000 anni fa. I ghiacciai scavarono valli a forma di U — come <strong>Glencoe</strong> e <strong>Glen Nevis</strong> — e trasformarono le antiche valli fluviali in laghi lunghi e stretti, i <em>loch</em>, fra cui Loch Ness e Loch Lomond. Anche i fiordi della costa occidentale, i <em>sea loch</em>, sono valli glaciali oggi invase dal mare.</p>
+<h4>Un paesaggio che racconta</h4>
+<p>Ogni elemento del paesaggio scozzese porta impressa questa storia geologica: le pietre dei castelli provengono dalle stesse rocce che formano i rilievi circostanti, i sentieri fra i laghi seguono antichi letti glaciali, e persino i colori del paesaggio — il grigio delle rocce, il verde scuro dei muschi, il viola dell'erica — derivano direttamente dai minerali presenti nel suolo. Non stupisce che la Scozia sia stata un laboratorio fondamentale per la nascita della geologia moderna: fu qui, alla fine del Settecento, che <strong>James Hutton</strong>, osservando a <strong>Siccar Point</strong> rocce di età radicalmente diverse accostate l'una all'altra, intuì per primo che la Terra fosse incommensurabilmente più antica di quanto si credesse, gettando le basi della geologia come scienza.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="fuori-rotta">
+  <h2 class="group-title">Fuori Rotta<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" data-name="il vallo di adriano">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Vallo di Adriano</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      <p class="empty-note">Contenuto non ancora sviluppato.</p>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="york">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">York</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      <p class="empty-note">Contenuto non ancora sviluppato.</p>
+    </div></div>
+  </div>
+
+  <div class="site" data-name="fountains abbey">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Fountains Abbey</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      <p class="empty-note">Contenuto non ancora sviluppato.</p>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

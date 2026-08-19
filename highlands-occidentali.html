@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Highlands Occidentali — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#5c4d8a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Highlands Occidentali</h1>
+  <div class="subtitle">Scozia 2026 — Glencoe, Glen Nevis, Skye, Eilean Donan, Wester Ross</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="highlands-occidentali">
+  
+  <div class="sites-list">
+    
+  <div class="site" data-name="glencoe">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Glencoe</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La valle del silenzio e del sangue</h4>
+<p>C'è un luogo in Scozia dove la bellezza è così intensa da far quasi male. Una valle profonda, stretta tra montagne scure e taglienti, dove le nuvole scorrono basse e il vento fischia tra le rocce. Questa è <strong>Glencoe</strong>: paesaggio mozzafiato, ma anche ferita nella storia scozzese. La sua fama deriva tanto dalla sua natura quanto da un evento tragico che vi si consumò: il massacro del clan MacDonald, nel 1692. Non a caso, in gaelico, la valle porta anche il nome di <strong>Glen Comhann</strong>, "valle del pianto".</p>
+<h4>Una valle scolpita dal ghiaccio</h4>
+<p>Glencoe si trova nelle Highlands occidentali, nella contea di Argyll, ed è stata modellata da antichi ghiacciai. La sua forma a U perfetta è tipica delle valli glaciali, e le sue montagne — le <strong>Three Sisters</strong>, il <strong>Bidean nam Bian</strong>, l'imponente <strong>Aonach Eagach</strong> — si ergono come guardiani silenziosi su un paesaggio che alterna dramma e poesia. È un luogo che cambia con il tempo: nella nebbia diventa cupo e misterioso, al tramonto si incendia di riflessi dorati. In ogni stagione, Glencoe commuove.</p>
+<h4>La tragedia del clan MacDonald</h4>
+<p>Il 13 febbraio 1692, all'alba, la valle divenne teatro di uno dei più infami tradimenti nella storia della Scozia. Il clan MacDonald di Glencoe, che aveva tardato di pochi giorni a giurare fedeltà a re Guglielmo d'Orange, fu punito con la forza. Un contingente di soldati del clan rivale <strong>Campbell</strong> — che era stato ospitato e nutrito per dodici giorni secondo le antiche leggi scozzesi dell'ospitalità — ricevette l'ordine segreto di sterminare i loro ospitanti. Fu un atto di tradimento spietato: uomini uccisi nel sonno, donne e bambini in fuga nella neve. Si contarono almeno 38 morti, ma molti altri perirono di freddo nei giorni seguenti. L'evento passò alla storia come il <strong>Massacro di Glencoe</strong>.</p>
+<p>La Scozia ne rimase sconvolta. Non solo per la violenza, ma per la violazione del codice morale più sacro: l'ospitalità. Non fu un caso isolato di odio tribale, ma un'operazione politica calcolata dal governo di Edimburgo per dare un esempio ai clan giacobiti riluttanti a sottomettersi alla nuova corona — il che rese il tradimento ancora più gelido agli occhi degli scozzesi. Ancora oggi, in alcuni pub scozzesi, si leggono cartelli con scritto: <em>"No hawkers or Campbells"</em>. E lo stemma stesso del clan MacDonald porta un motto che sembra rispondere a quella notte: <em>Per ferro, non per fato</em> — inciso ancora oggi attorno al pugnale che lo caratterizza.</p>
+<h4>Glencoe oggi: bellezza e memoria</h4>
+<p>Oggi Glencoe è una delle mete più fotografate della Scozia. È un paradiso per escursionisti, scalatori, fotografi e sognatori. È apparsa in film famosi come <em>Skyfall</em> — dove fa da sfondo agli scontri finali del film, e dove ancora oggi si può vedere la strada percorsa dall'Aston Martin di James Bond — e <em>Harry Potter</em>: l'ambientazione della capanna di Hagrid fu costruita nei dintorni. C'è anche un visitor centre, che racconta la storia geologica e umana della valle. Ma la cosa più potente che si può fare è... fermarsi in silenzio.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="glen nevis e ben nevis">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Glen Nevis e Ben Nevis</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Dove la Scozia tocca il cielo</h4>
+<p>Appena a sud di Fort William, si apre una delle valli più suggestive delle Highlands: <strong>Glen Nevis</strong>. Qui la natura sembra parlare in scala maggiore, con pareti rocciose, boschi fitti, cascate impetuose... e sopra tutto, il <strong>Ben Nevis</strong>, la vetta più alta della Scozia.</p>
+<h4>Un fiume che nasce tra le nuvole</h4>
+<p>Il fiume Nevis scorre limpido attraverso la valle, seguendo il solco lasciato da un antico ghiacciaio. Tra le sue curve si nascondono pozze cristalline e luoghi incantati, come la <strong>Steall Waterfall</strong>: una cascata alta, sottile, che pare disegnata nel paesaggio — con i suoi circa 120 metri di salto, è una delle cascate più alte di tutta la Gran Bretagna. Ogni passo lungo i sentieri regala nuove prospettive, nuovi silenzi, nuovi respiri.</p>
+<h4>Ben Nevis: il gigante silenzioso</h4>
+<p>E poi, si alza lui: il Ben Nevis. Con i suoi 1345 metri, domina l'orizzonte con una calma solenne. Un tempo vulcano, oggi montagna dalle mille facce: nebbiosa e aspra, oppure serena e lucente. Salirlo è un'impresa da affrontare con rispetto — il percorso più semplice, il <strong>Mountain Track</strong> (noto anche come "Tourist Path" o "Pony Path", costruito nell'Ottocento per rifornire un osservatorio meteorologico oggi in rovina sulla vetta), richiede comunque diverse ore e condizioni meteo spesso estreme anche in piena estate, con neve possibile in ogni mese dell'anno. Ma anche solo ammirarlo dalla valle è un'esperienza profonda.</p>
+<h4>Fort William: il campo base delle Highlands</h4>
+<p>Fort William è la città più importante della zona, affacciata sul <strong>Loch Linnhe</strong>. È spesso chiamata la capitale dell'outdoor scozzese, perché da qui partono decine di sentieri, scalate, itinerari in bicicletta o a piedi. Il suo nome deriva da una fortificazione costruita nel Seicento per contenere le ribellioni giacobite. Il forte non esiste più, ma Fort William è ancora oggi una base strategica per chi vuole esplorare l'ovest scozzese. Offre alloggi per tutte le tasche, pub tradizionali, negozi e, soprattutto, la stazione del <strong>Jacobite Steam Train</strong> — il famoso treno a vapore che attraversa il <strong>Viadotto di Glenfinnan</strong>, reso celebre dalla saga di Harry Potter come "Hogwarts Express". Da qui parte anche la <strong>West Highland Way</strong>, uno dei trekking più amati di tutta la Scozia, che collega Milngavie (vicino Glasgow) a Fort William in circa 150 km attraverso alcuni dei paesaggi più spettacolari del paese. Fort William non è solo un punto d'appoggio: è il cuore pulsante di un territorio che invita all'avventura, alla scoperta, al contatto pieno con la natura.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="isola di skye">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Isola di Skye</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Terra di nebbia, pietra e leggende</h4>
+<p>C'è un'isola, al largo della costa nord-occidentale della Scozia, che ha il potere di incantare con i suoi silenzi, le sue montagne frastagliate, i suoi cieli in movimento. È l'<strong>Isola di Skye</strong>, la più grande delle <strong>Ebridi Interne</strong>, collegata alla terraferma da un ponte, ma separata dal mondo da qualcosa di più sottile: l'atmosfera.</p>
+<p>Skye non si lascia descrivere facilmente. È un'isola di contrasti: aspra e dolce, battuta dal vento ma capace di quiete assoluta, remota ma viva. Il suo nome potrebbe derivare dal norreno <em>Skýey</em>, l'isola delle nuvole. E in effetti, le nuvole qui non passano: abitano. Si adagiano sui rilievi, accarezzano le brughiere, si accoccolano nei glen.</p>
+<h4>Le Cuillin Hills: il cuore roccioso dell'isola</h4>
+<p>Nel cuore dell'isola si ergono le <strong>Cuillin Hills</strong>, due catene montuose dalle personalità opposte. Le <strong>Black Cuillin</strong>, nere, taglienti, nate da antiche eruzioni vulcaniche. E le <strong>Red Cuillin</strong>, più rotonde e pallide, modellate dal granito. Le prime sono considerate le montagne più spettacolari e temute della Scozia: terreno di sfida per escursionisti esperti, ma anche visione potente per chi le osserva da lontano, magari dal <strong>ponte di Sligachan</strong> o dalle <strong>spiagge di Glenbrittle</strong>.</p>
+<h4>Old Man of Storr e le Fairy Pools</h4>
+<p>A nord dell'isola, la penisola di Trotternish custodisce uno dei paesaggi più fotografati di Scozia: l'<strong>Old Man of Storr</strong>, un pinnacolo di roccia scuro che si staglia solitario contro il cielo, resto di un antico smottamento geologico. La leggenda vuole che sia il pollice pietrificato di un gigante, sepolto sotto la collina. Poco distante, il <strong>Quiraing</strong>, un paesaggio lunare fatto di guglie, terrazze e altopiani nascosti, continua ancora oggi lentamente a muoversi sotto l'effetto di antiche frane. Ai piedi delle Cuillin, invece, si trovano le <strong>Fairy Pools</strong>, una serie di pozze e cascatelle di un azzurro quasi irreale, alimentate dal disgelo delle montagne — secondo la tradizione, luogo di incontro tra il mondo umano e quello delle fate.</p>
+<h4>Portree e i castelli dei clan</h4>
+<p><strong>Portree</strong>, con le sue case colorate affacciate sul porto, è la piccola capitale dell'isola. Skye fu per secoli terra di due grandi clan rivali, i <strong>MacLeod</strong> e i <strong>MacDonald</strong>: ancora oggi il <strong>Castello di Dunvegan</strong>, sede dei capi clan MacLeod ininterrottamente dal Medioevo, custodisce tra le sue mura la leggendaria <strong>Fairy Flag</strong>, una bandiera di seta che la tradizione vuole donata da un essere fatato, capace di salvare il clan nei momenti di massimo pericolo.</p>
+<h4>Un'isola da bere</h4>
+<p>Skye è anche patria di uno dei whisky più celebri di Scozia, il <strong>Talisker</strong>, distillato dal 1830 sulle rive del Loch Harport, con il suo caratteristico aroma affumicato e marino — il sapore stesso dell'isola, distillato in un bicchiere.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="il castello di eilean donan">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Castello di Eilean Donan</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Il castello tra le acque</h4>
+<p>C'è un'immagine che più di tutte sembra racchiudere l'essenza romantica della Scozia: un castello di pietra grigia, posato su un isolotto, circondato dalle acque di tre loch, collegato alla terraferma da un piccolo ponte in pietra. È <strong>Eilean Donan Castle</strong>, forse il castello più fotografato e sognato di tutta la Scozia.</p>
+<p>Siamo nel nord-ovest delle Highlands, vicino al villaggio di <strong>Dornie</strong>. Qui, dove si incontrano il <strong>Loch Duich</strong>, il <strong>Loch Long</strong> e il <strong>Loch Alsh</strong>, si erge questo luogo sospeso nel tempo, che appare come un miraggio tra le nebbie e i riflessi del cielo sull'acqua. Ma Eilean Donan non è solo bellezza: è storia, è simbolo, è memoria.</p>
+<h4>Il nome e l'isola</h4>
+<p>Il nome in gaelico significa "isola di Donan", in onore di un monaco celtico vissuto nel VII secolo, che secondo la tradizione fondò qui una piccola cella eremitica prima di essere martirizzato sull'isola di Eigg. L'isoletta fu a lungo accessibile solo con la bassa marea, finché non fu costruito il ponte che la collega oggi alla terraferma. Fin dal Medioevo, questo piccolo lembo di terra fu considerato strategico, e qui sorse un primo fortilizio nel XIII secolo per difendere la regione dalle incursioni norrene.</p>
+<h4>Una storia di lotte e rinascite</h4>
+<p>Nel corso dei secoli, il castello passò di mano tra vari clan, soprattutto i <strong>MacKenzie</strong> e i loro fedeli alleati, i <strong>MacRae</strong>. Conobbe battaglie, assedi, ampliamenti e crolli, finché nel <strong>1719</strong> fu ridotto in macerie durante una delle rivolte giacobite: il castello, presidiato da un piccolo contingente di soldati spagnoli alleati dei giacobiti, fu bombardato dalle navi britanniche in un violento scontro navale.</p>
+<h4>La ricostruzione del sogno</h4>
+<p>Per oltre due secoli rimase in rovina: un rudere poetico, meta di pittori romantici e viaggiatori affascinati dalla sua malinconia. Ma agli inizi del Novecento, il sogno della rinascita prese forma. <strong>John MacRae-Gilstrap</strong>, discendente del clan MacRae, acquistò l'isola e avviò una ricostruzione minuziosa, durata vent'anni. Seguendo disegni e documenti storici, il castello venne riportato in vita con grande fedeltà, ma anche con qualche tocco moderno — incluso, secondo la tradizione, un passaggio segreto fatto costruire appositamente per ispirarsi al fascino dei castelli leggendari.</p>
+<h4>Celebrità e bellezza</h4>
+<p>Oggi Eilean Donan non è più un rudere: è un castello vivo, visitabile, simbolo identitario e luogo di grande fascino. Al suo interno si trovano stanze arredate, armi antiche, una cappella e una piccola esposizione sulla storia del clan MacRae. Non a caso è stato scelto come set per film come <em>Highlander</em>, <em>007 - Il mondo non basta</em> e <em>Elizabeth: The Golden Age</em>. Ma nessuna pellicola può restituire davvero ciò che si prova vedendolo dal vivo. Perché Eilean Donan, più che un luogo, è un'emozione.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" data-name="wester ross">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Wester Ross</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>La Scozia primordiale</h4>
+<p>Ci sono luoghi dove il paesaggio non è solo uno sfondo, ma una presenza. Il <strong>Wester Ross</strong> è uno di questi. Una delle regioni più remote e incontaminate delle Highlands nord-occidentali, dove l'oceano Atlantico incontra montagne antichissime, e la natura detta ancora le sue regole, senza cedere nulla all'uomo.</p>
+<p>Non è una terra di castelli o città. È fatta di spazi vuoti, di silenzi profondi, di curve che si perdono tra le valli, e di una luce che cambia in continuazione, dipingendo il cielo con improvvisi chiaroscuri. È una Scozia geografica e sensoriale, che si scopre lentamente, curva dopo curva.</p>
+<h4>Una terra scolpita nel tempo</h4>
+<p>Qui affiorano le rocce più antiche d'Europa: il <strong>Lewisian Gneiss</strong>, una formazione risalente a oltre tre miliardi di anni fa. È un paesaggio scolpito nel tempo, levigato da ere glaciali e piogge incessanti. Le colline sono tonde e brulle, i laghi profondi e immobili, le coste frastagliate come lembi strappati di una terra che si getta nel mare. Il Wester Ross fa parte del <strong>North West Highlands Geopark</strong>, riconosciuto dall'UNESCO. È un archivio vivente della storia geologica del pianeta, e lo si percepisce camminando lungo i sentieri, dove ogni pietra sembra raccontare qualcosa di remoto e irreversibile.</p>
+<h4>Le tappe più note</h4>
+<p>Tra i luoghi più noti ci sono il passo <strong>Bealach na Bà</strong>, considerato una delle strade panoramiche più spettacolari del Regno Unito (il nome significa letteralmente "passo del bestiame", ricordando l'antica funzione di via per la transumanza), <strong>Applecross</strong>, piccolo villaggio isolato tra brughiere e rocce nude, e <strong>Loch Maree</strong>, un lago profondo e leggendario, punteggiato di isole boscose — su una delle quali, secondo un'antica tradizione, si trovava un pozzo sacro un tempo meta di pellegrinaggi per la guarigione della follia. E poi le <strong>montagne di Torridon</strong>, che si riflettono nei laghi sottostanti con una potenza quasi mitologica, e il villaggio costiero di <strong>Gairloch</strong>, che guarda verso le Ebridi Esterne.</p>
+<h4>Natura protetta e rara</h4>
+<p>La biodiversità è sorprendente. Qui vivono aquile reali, cervi rossi, lontre europee, e specie rare di licheni e fiori adattati alle altitudini e al clima rigido. Nelle zone più riparate sopravvivono lembi di antica foresta di <strong>pini caledoniani</strong>, residui di quella che un tempo era una distesa verde che copriva gran parte della Scozia. Tutta la regione è inclusa nella <strong>Wester Ross Biosphere</strong>, un'area protetta riconosciuta dall'UNESCO per l'equilibrio tra l'attività umana e l'ecosistema naturale. Qui si coltiva un'idea diversa di vita: più lenta, più silenziosa, più in sintonia con i ritmi del paesaggio.</p>
+<h4>Una Scozia fuori dal tempo</h4>
+<p>Il Wester Ross non è fatto per chi ha fretta. Le distanze sono ingannevoli, il meteo può cambiare in pochi minuti, e i servizi sono pochi. Ma chi lo attraversa non cerca comodità: cerca un'esperienza più profonda. Una Scozia fuori dal tempo, che parla con la voce delle pietre, del vento, della pioggia. Una Scozia che non ha bisogno di parole.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
