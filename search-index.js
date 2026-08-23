@@ -1447,5 +1447,59 @@ const deepIndex = [
     "file": "borgogna-climats.html",
     "id": null,
     "context": "Borgogna — Approfondimento"
+  },
+  {
+    "name": "Storia di Brescia",
+    "file": "brescia.html",
+    "id": "storia-di-brescia",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Parco Archeologico di Brescia Romana",
+    "file": "brescia.html",
+    "id": "parco-archeologico-di-brescia-romana",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Pinacoteca Tosio Martinengo",
+    "file": "brescia.html",
+    "id": "pinacoteca-tosio-martinengo",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Castello di Brescia",
+    "file": "brescia.html",
+    "id": "castello-di-brescia",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Duomo Vecchio (la Rotonda)",
+    "file": "brescia.html",
+    "id": "duomo-vecchio-la-rotonda",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Duomo Nuovo",
+    "file": "brescia.html",
+    "id": "duomo-nuovo",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Broletto e Torre del Popolo",
+    "file": "brescia.html",
+    "id": "broletto-e-torre-del-popolo",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Monastero di San Salvatore-Santa Giulia",
+    "file": "brescia.html",
+    "id": "monastero-di-san-salvatore-santa-giulia",
+    "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Torri viscontee",
+    "file": "brescia.html",
+    "id": "torri-viscontee",
+    "context": "Brescia (Lombardia)"
   }
 ];

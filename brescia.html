@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brescia — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel .tabs{ margin-top:4px; }
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Brescia</h1>
+  <div class="subtitle">Lombardia</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<nav class="pills">
+    <a href="#profilo-storico" class="pill">Profilo Storico</a>
+    <a href="#monumenti" class="pill">Monumenti</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="profilo-storico">
+  <h2 class="group-title">Profilo Storico<span class="group-count">1</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="storia-di-brescia" data-name="storia di brescia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Storia di Brescia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Preromana</button>
+<button class="tab" onclick="switchTab(this)">Romana</button>
+<button class="tab" onclick="switchTab(this)">Longobarda</button>
+<button class="tab" onclick="switchTab(this)">Comunale</button>
+<button class="tab" onclick="switchTab(this)">Veneziana</button>
+<button class="tab" onclick="switchTab(this)">Austriaca</button>
+<button class="tab" onclick="switchTab(this)">Risorgimento</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<h4>Le origini preromane</h4>
+<p>Il territorio è abitato fin dall'età del Bronzo (XII secolo a.C. circa), con i primi insediamenti sul colle Cidneo. La tradizione attribuisce la fondazione della città a Ercole, di ritorno dalle sue fatiche in Occidente — leggenda che spiega perché il Capitolium fu a lungo scambiato per un tempio dedicato all'eroe. In epoca storica il centro è occupato dai Cenomani, popolazione celtica che nel 194 a.C. stringe un trattato di alleanza con Roma come <em>socii federati</em>.</p>
+</div><div class="tab-panel">
+<h4>Brixia romana</h4>
+<p>Nell'89 a.C., con la concessione del <em>ius Latii</em>, Brixia ottiene il suo primo assetto urbanistico organico: nasce il foro, dominato a nord dal santuario tardo-repubblicano. Tra il 49 e il 42 a.C. la città diventa <em>municipium romanum</em>, e sotto Augusto i suoi abitanti acquisiscono la piena cittadinanza romana.</p>
+<p>Nel 73 d.C. l'imperatore Vespasiano fa costruire, sopra il vecchio santuario a quattro celle, il grande Capitolium, dedicato alla Triade Capitolina — Giove, Giunone e Minerva. Accanto sorge il Teatro Romano, capace di ospitare fino a 15.000 spettatori.</p>
+<p>Con l'ascesa di Mediolanum come capitale dell'Impero d'Occidente sotto Diocleziano, Brixia viene progressivamente oscurata. Nel IV-V secolo le mura si estendono a occidente e sorgono le prime chiese cristiane dopo l'editto del 313 d.C. La città viene saccheggiata da Attila e il Capitolium gravemente danneggiato; distrutto poi da un incendio durante le invasioni barbariche, viene infine sepolto da una frana del colle Cidneo nel Medioevo. Riemergerà solo nel 1823 grazie agli scavi dell'Ateneo di Brescia. Oggi è Patrimonio UNESCO ("Longobardi in Italia: i luoghi del potere").</p>
+</div><div class="tab-panel">
+<h4>Alto Medioevo: Longobardi e Franchi</h4>
+<p>Dopo la caduta dell'Impero d'Occidente, Brescia entra nell'orbita longobarda e diventa una delle città più importanti del regno. Nel 753 il re Desiderio e la moglie Ansa fondano il Monastero di San Salvatore-Santa Giulia, che insieme al Capitolium forma il sito UNESCO bresciano. Nel IX secolo il vescovo Ramperto trasla nella cripta del futuro Duomo Vecchio le reliquie di San Filastrio, primo vescovo della città.</p>
+</div><div class="tab-panel">
+<h4>L'età comunale (XII-XIII secolo)</h4>
+<p>Nel 1120 Brescia si costituisce in Comune libero. Si edifica il Broletto (1223-1227) con la Torre del Popolo, sede del potere civile. Sui resti della basilica paleocristiana di Santa Maria Maggiore sorge, tra fine XI e XII secolo, il Duomo Vecchio ("la Rotonda"), forse ispirato al Santo Sepolcro di Gerusalemme.</p>
+<p>Le lotte tra guelfi e ghibellini dilaniano la città. Tra il 1298 e il 1308 il vescovo-signore Berardo Maggi pacifica temporaneamente le fazioni (il suo sarcofago è nel Duomo Vecchio); dopo la sua morte le ostilità riprendono (tragica fine di Tebaldo Brusato) e la città passa sotto varie signorie — Angioini, Della Scala, Malatesta, infine i Visconti di Milano (1313-1426), che lasciano cittadella fortificata e torri difensive.</p>
+</div><div class="tab-panel">
+<h4>Repubblica di Venezia (1426-1797)</h4>
+<p>Per quasi quattro secoli Brescia fa parte della Repubblica di Venezia, diventando uno dei centri più ricchi della Terraferma. Nel 1512 subisce il drammatico Sacco di Brescia da parte delle truppe francesi; nel dopoguerra il Comune investe nella decorazione del Duomo, chiamando artisti come Floriano Ferramola e Alessandro Bonvicino, il Moretto, protagonista della scuola pittorica bresciana del Cinquecento. Nel 1604 si pone la prima pietra del Duomo Nuovo, la cui cupola — completata solo nel 1825 da Rodolfo Vantini — è la terza più alta d'Italia dopo San Pietro e il Duomo di Firenze. Il dominio veneziano lascia anche il Castello nella sua veste moderna, più volte ampliato come fortezza di confine.</p>
+</div><div class="tab-panel">
+<h4>Dal Settecento all'annessione austriaca</h4>
+<p>Con la caduta della Repubblica di Venezia (1797) e le guerre napoleoniche, Brescia passa sotto il dominio francese e poi, dopo il Congresso di Vienna (1815), sotto l'Impero austriaco come parte del Regno Lombardo-Veneto.</p>
+</div><div class="tab-panel">
+<h4>L'Ottocento: Brescia diventa la Leonessa d'Italia</h4>
+<p>Tra il 23 marzo e il 1° aprile 1849, mentre l'esercito piemontese viene sconfitto a Novara, i bresciani insorgono contro il dominio austriaco nelle Dieci Giornate, guidati da Tito Speri. La scintilla è il rifiuto di pagare una tassa imposta dal maresciallo Haynau — "Non oro, ma piombo". Dieci giorni di resistenza si concludono con la resa, ma lasciano sul campo circa 1.000 morti e 16 patrioti giustiziati, tra cui lo stesso Speri, impiccato nel 1853 a Belfiore.</p>
+<p>Aleardo Aleardi conia per primo l'appellativo "Leonessa d'Italia" nei <em>Canti patrii</em> (1857); la fortuna definitiva arriva con Giosuè Carducci, che nel 1877 scrive: "Brescia la forte, Brescia la ferrea, Brescia leonessa d'Italia beverata nel sangue nemico." Nel 1899 la città riceve la medaglia d'oro come "benemerita del Risorgimento nazionale". Lo stemma cittadino — un leone rampante, non una leonessa — è in realtà precedente a questi fatti, ma è ormai la Leonessa a essere entrata nell'immaginario collettivo.</p>
+</div></div>
+
+
+
+
+
+
+
+
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="monumenti">
+  <h2 class="group-title">Monumenti<span class="group-count">8</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="parco-archeologico-di-brescia-romana" data-name="parco archeologico di brescia romana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Parco Archeologico di Brescia Romana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Introduzione</button>
+<button class="tab" onclick="switchTab(this)">Santuario Repubblicano</button>
+<button class="tab" onclick="switchTab(this)">Foro Romano</button>
+<button class="tab" onclick="switchTab(this)">Capitolium</button>
+<button class="tab" onclick="switchTab(this)">Teatro Romano</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Percorrendo via dei Musei, nel cuore di Brescia, ci si trova davanti a un fenomeno raro: il più grande e meglio conservato complesso archeologico romano del Nord Italia, incastonato senza soluzione di continuità nel tessuto urbano medievale e rinascimentale che gli è cresciuto intorno per secoli. Non è un parco isolato da recinti, ma un dialogo continuo tra epoche — le colonne del Capitolium svettano a pochi passi da palazzi cinquecenteschi, e il decumano massimo su cui camminavano i romani è oggi la stessa via su cui si affacciano le vetrine bresciane. Dal 2011 l'area, insieme al Monastero di Santa Giulia, è Patrimonio UNESCO come parte del sito seriale "Longobardi in Italia: i luoghi del potere" — un riconoscimento che lega curiosamente il nome del sito ai Longobardi, pur trattandosi di un impianto interamente romano: la ragione sta nelle fornaci per ceramica longobarda ritrovate proprio accanto al tempio.</p>
+<p>Il cuore del complesso è Piazza del Foro, crocevia tra l'antico decumano (est-ovest) e il cardo (nord-sud), centro della vita civile, politica e commerciale di Brixia. Gli scavi, iniziati nel 1823 grazie a una sottoscrizione pubblica promossa dall'Ateneo di Scienze Lettere e Arti, hanno riportato alla luce quattro grandi ambiti che oggi si visitano in un unico percorso.</p>
+</div><div class="tab-panel">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Sotto il Capitolium e Casa Pallaveri si conservano i resti di un santuario databile ai primi decenni del I secolo a.C. — il monumento più antico dell'intero complesso archeologico bresciano. Il santuario fu realizzato da maestranze di alto livello provenienti dall'Italia centrale in occasione della concessione del diritto latino nell'89 a.C. — lo stesso evento che diede a Brixia il suo primo assetto urbanistico.</p>
+<p>La vita del santuario fu breve: l'edificio subì una radicale ristrutturazione in età augustea e venne infine demolito nel 73 d.C., quando al suo posto fu costruito il Capitolium voluto da Vespasiano — non uno smantellamento seguito da abbandono, ma la sepoltura diretta di un edificio sacro sotto un altro, più grande e dedicato alla Triade Capitolina.</p>
+<p>Il sito era già stato individuato nel 1823 durante le prime campagne di scavo dell'Ateneo, e scavato a più riprese nei decenni successivi, ma è stato reso visitabile al pubblico solo nel 2015. Durante gli scavi degli anni '90 del Novecento, in un condotto, fu ritrovato un deposito di vetri decorati, a conferma che l'area continua ancora oggi a restituire scoperte.</p>
+</div><div class="tab-panel">
+<p>Il santuario si presenta come una soluzione più unica che rara nel Nord Italia: quattro ampie aule rettangolari affiancate su un unico podio comune, ciascuna con ingresso indipendente e un proprio pronao, disposte su una terrazza rivolta verso il decumano. Le quattro celle erano separate da intercapedini coperte; scale distinte, allineate con le porte di ciascuna aula, conducevano ai rispettivi pronai. Un fregio in pietra decorava l'architrave dei quattro edifici, con festoni di fiori e frutti sorretti da nastri e sospesi a teste di bue cinte da bende.</p>
+<p>Le pareti esterne erano rivestite da un intonaco bianco avorio finissimo, con lesene in stucco su basi in pietra tenera agli angoli dell'edificio, coronate da capitelli corinzio-italici decorati con foglie d'acanto. Il pavimento del pronao era in cementizio rosso arricchito da scaglie di marmi policromi. All'interno, ogni cella presentava su tre lati banchine rivestite in mosaico policromo, mentre sulle pareti laterali colonne scanalate erano riprodotte ad affresco.</p>
+<p>L'elemento più straordinario resta la pittura: gli affreschi policromi costituiscono l'unico esempio di pittura monumentale romana di età repubblicana conservato nel Nord Italia, in stile pompeiano di transizione. La loro sopravvivenza si deve a una tecnica sorprendente: furono rivestiti con uno strato di cera d'api unita a olio d'oliva come protezione, lo stesso trattamento usato per rendere brillanti le superfici dipinte a imitazione di pietra e marmo. Tra i soggetti pittorici spicca un affresco con un paesaggio marino raffigurante due imbarcazioni, rocce e un faro, proveniente dall'aula occidentale.</p>
+</div></div>
+
+
+</div>
+</div><div class="tab-panel">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Lo spazio dove sarebbe sorto il foro era frequentato fin dall'Età del Ferro, come dimostrano le testimonianze emerse negli scavi di Palazzo Martinengo Cesaresco Novarino. La città passa sotto Roma repubblicana nel 196 a.C., ma la vera riorganizzazione urbana arriva solo in età augustea, con un primo foro dominato sul fronte nord dal tempio repubblicano.</p>
+<p>La trasformazione decisiva arriva sotto Vespasiano: durante il I secolo d.C. l'area conosce un'intensa attività edilizia che porta il foro alla sua forma definitiva — spianato il vecchio tempio repubblicano, al suo posto viene eretto il monumentale Capitolium, mentre sul lato sud sorge la basilica civile. I due edifici sono collegati da due lunghi porticati che, delimitando la piazza a est e ovest, creano un ambiente architettonico unitario. Sul lato ovest, al posto di un'antica domus, viene costruito un vasto complesso termale, mentre a nord-est sorge il teatro.</p>
+<p>Con la caduta del governo romano il foro perde rilevanza e viene lentamente occupato da nuovi edifici, ma non perde mai del tutto il proprio ruolo urbanistico, restando tangibile come spazio urbano fino a oggi, nell'attuale Piazza del Foro.</p>
+</div><div class="tab-panel">
+<p>Il foro voluto da Vespasiano seguiva un modulo preciso: una grande piazza larga 40 metri e lunga 120, in proporzione 1:3 — la stessa del foro di Pompei. Il lato sud era occupato dalla basilica civile, un grande edificio colonnato con tre ampie aperture e decorazioni lapidee, collegata a un lungo colonnato che delimitava la piazza sui due lati lunghi; sotto il colonnato si aprivano gli edifici commerciali, probabilmente alti almeno due piani.</p>
+<p>Sul fronte nord si ergeva il Capitolium, raggiungibile con un percorso complesso: dal foro si poteva scendere una scalinata per raggiungere il livello della piazza, oppure salirne un'altra per arrivare al piano del tempio, separate dal decumano che correva a un livello intermedio. I due colonnati della piazza incrociavano perpendicolarmente il decumano e, con una soluzione ancora non del tutto chiarita, lo scavalcavano per proseguire verso il tempio.</p>
+<p>Sul lato ovest si sviluppava il vasto complesso termale, costruito in età flavia demolendo e in parte riutilizzando la domus augustea preesistente. Oggi la piazza originaria è ricalcata dall'attuale Piazza del Foro, mentre i resti della maggior parte degli edifici sono visibili all'esterno o nei sotterranei dei palazzi circostanti — un dettaglio che rende la visita in parte "sotterranea".</p>
+</div></div>
+
+
+</div>
+</div><div class="tab-panel">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>La costruzione è da attribuire a Vespasiano, nel 73 d.C., come confermato dall'iscrizione originale sul frontone. Il tempio fu realizzato sopra il precedente santuario repubblicano in occasione della vittoria di Vespasiano sul generale Vitellio nella pianura tra Goito e Cremona: Brescia aveva contribuito allo scontro inviando un cospicuo numero di uomini, e fu premiata con questo dono monumentale — un atto politico di riconoscenza verso una città alleata.</p>
+<p>Il Capitolium fu distrutto da un incendio durante le incursioni barbariche del IV secolo e non venne mai più ricostruito, finendo sepolto da uno smottamento del colle Cidneo durante il Medioevo. Riemerse nel 1823 grazie al sostegno del Comune, di privati e dell'Ateneo di Brescia. Fu proprio durante questi scavi che, nel 1826, nell'intercapedine del muraglione che isola il tempio dal colle Cidneo, fu rinvenuto il gruppo dei bronzi romani, comprendente i cinque Busti Aurei e la Vittoria Alata, verosimilmente sepolti per nasconderli dalla violenza di un assedio o saccheggio.</p>
+<p>Il tempio come lo vediamo oggi è in gran parte una ricostruzione moderna: tra il 1935 e il 1938 fu parzialmente ricomposto con l'uso di laterizi, che permisero di ricostruire le colonne corinzie, parte del pronao e le tre celle posteriori. Il progetto originario, molto più ambizioso, non fu mai realizzato integralmente.</p>
+</div><div class="tab-panel">
+<p>Il tempio si affaccia sulla Piazza del Foro, rialzata di circa 4,5 metri rispetto al livello delle rovine, che si trovano all'altezza dell'antico decumano massimo. L'impianto è quello del classico capitolium romano a tre celle, di tipo prostilo: dietro l'avancorpo della facciata esastila in stile corinzio, si aprono tre celle separate da intercapedini, ciascuna con un altare dedicato a Minerva, Giove e Giunone.</p>
+<p>La soglia della cella centrale, la più ampia, è in marmo di Botticino e si è conservata molto bene; qui si trova anche il più imponente dei tre podi. La cella centrale e quella di sinistra conservano la pavimentazione originale in marmo e breccia africana, con mosaici ben conservati. La cella centrale ospita alle pareti un esteso lapidario, istituito nel 1830, con are, iscrizioni onorarie e sepolcrali, stele funerarie e basi di monumenti.</p>
+<p>È quasi certa la presenza di una quarta cella, più a est, e resta visitabile anche una cella dell'antico tempio repubblicano su cui il Capitolium fu edificato, aperta al pubblico dal 2015 dopo il restauro degli affreschi. Delle colonne originali, una sola è giunta integra: la prima a sinistra, riconoscibile perché interamente bianca, non completata con i mattoni della ricostruzione novecentesca.</p>
+</div></div>
+
+
+</div>
+</div><div class="tab-panel">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il teatro fu edificato in età augustea, sfruttando la naturale pendenza del colle Cidneo — una scelta che avvicina l'impianto bresciano più ai teatri greci che a quelli romani classici. Subì un sostanziale riordino in età flavia, quando fu costruito anche il Capitolium, al quale il teatro era collegato tramite un porticato, e venne rimaneggiato ulteriormente durante il principato di Settimio Severo, nel III secolo. In questa fase di massimo splendore il teatro poteva ospitare fino a 15.000 spettatori.</p>
+<p>Il declino arriva in più fasi: l'edificio fu probabilmente danneggiato dallo stesso incendio che nel IV secolo colpì il Capitolium, e da un terremoto nel V secolo che distrusse la scena e il muro affacciato sulla strada. Nonostante i danni, continuò a essere utilizzato fino al 1173 circa. Per secoli l'area divenne una cava di materiale da costruzione, fino alla costruzione di Palazzo Maggi nel XIV secolo, che riutilizzò ampiamente le strutture romane preesistenti.</p>
+<p>Il teatro fu riportato alla luce insieme al Capitolium nell'Ottocento. Nel 2023 la Soprintendenza ha avviato nuove campagne di scavo che stanno riportando alla luce il settore orientale dell'edificio, con lavori previsti in conclusione entro la primavera del 2027 — un progetto di recupero firmato dallo Studio David Chipperfield Milano.</p>
+</div><div class="tab-panel">
+<p>Gli elementi principali erano la cavea, appoggiata al pendio del colle, articolata in tre settori orizzontali di gradoni, collegati da scale e corridoi concentrici. Il fronte scena era organizzato su tre piani, decorati con colonne, archi, statue e marmi policromi che arricchivano il calcare locale di Botticino; due aditus, a est e a ovest, permettevano l'accesso alle file inferiori, mentre i vomitoria servivano gli ordini superiori.</p>
+<p>L'edificio scenico era articolato in tre grandi nicchie, con quella centrale di dimensioni maggiori. Il pulpito era coperto da assi lignee per amplificare i dialoghi degli attori; di fronte a esso si conservano nove pozzetti destinati alle aste telescopiche che permettevano di manovrare il sipario dal basso verso l'alto.</p>
+<p>Oggi sono visibili i resti della cavea, della scena e del muro originario affacciato sulla strada, mentre altri resti si trovano nell'area di Palazzo Maggi o inglobati nell'edificio stesso. Il sito si inserisce oggi lungo il Corridoio UNESCO che collega il Capitolium al Museo di Santa Giulia.</p>
+</div></div>
+
+
+</div>
+</div></div>
+
+
+
+
+
+
+    </div></div>
+  </div>
+
+  <div class="site" id="pinacoteca-tosio-martinengo" data-name="pinacoteca tosio martinengo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Pinacoteca Tosio Martinengo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h4>Storia</h4>
+<p>La Pinacoteca ha origine nel 1851, quando apre nel Palazzo Tosio grazie al lascito del 1832 del conte Paolo Tosio, collezionista raffinato e cosmopolita che non si limitò alla pittura antica, ma acquistò anche opere di protagonisti del neoclassicismo contemporaneo, come Antonio Canova e Berthel Thorvaldsen. Nel 1884 il conte Leopardo Martinengo da Barco arricchì ulteriormente la collezione, lasciando in eredità alla città anche il proprio palazzo — l'attuale sede — insieme a una biblioteca. Nel 1889, dopo un'importante ristrutturazione diretta dall'architetto Antonio Tagliaferri, Palazzo Martinengo da Barco divenne sede della Pinacoteca Civica Martinengo, per ospitare in modo più razionale le oltre seicento opere che affollavano le sale di Palazzo Tosio. Nel 1903 l'amministrazione comunale, per ragioni economiche, decise di fondere le due pinacoteche civiche in una sola, proprio a Palazzo Martinengo da Barco; dopo un complesso lavoro di riorganizzazione, la Pinacoteca Tosio Martinengo aprì definitivamente al pubblico il 27 settembre 1914.</p>
+<p>Il museo, oggi parte dei Civici Musei di Arte e Storia, ha riaperto il 17 marzo 2018 dopo un importante progetto di rinnovamento durato nove anni.</p>
+<h4>Opere principali</h4>
+<p>Il percorso espositivo, organizzato in 21 sale, occupa l'intero piano nobile del palazzo con un ordinamento cronologico che parte dall'arte gotica del Trecento.</p>
+<p>Il vanto assoluto della collezione sono i capolavori giovanili di Raffaello: il Cristo Redentore benedicente (1505-1506) e l'Angelo (1501), entrambi opere giovanili, insieme alla più matura Madonna dei garofani (1520-1530). L'Angelo ha una storia particolarmente avventurosa: è uno dei frammenti superstiti della Pala Baronci, una grande ancona commissionata nel 1500 a un Raffaello diciassettenne per la chiesa di Sant'Agostino a Città di Castello, dispersa dopo il terremoto del 1789 che danneggiò gravemente l'edificio — gli altri frammenti sono oggi sparsi tra Louvre, Capodimonte, Detroit e Pisa. Il conte Tosio acquistò l'opera senza sapere che si trattasse di un vero Raffaello: gli venne venduta come un semplice ritratto di giovane, con le ali nascoste.</p>
+<p>Accanto a Raffaello, il cuore della Pinacoteca è la pittura bresciana del Rinascimento, con i suoi principali interpreti: Vincenzo Foppa, Giovanni Gerolamo Savoldo, Girolamo Romanino e Alessandro Moretto. Tra le opere più amate figurano l'Adorazione dei pastori di Lorenzo Lotto, acquistata da Paolo Tosio tra il 1824 e il 1825, e Gli abitanti di Parga abbandonano la loro patria di Francesco Hayez.</p>
+<p>Il percorso si conclude con l'Ottocento, con opere di Andrea Appiani, Antonio Canova e Francesco Hayez, e comprende anche sculture, bronzetti, medaglie, arredi liturgici e raffinati vetri veneziani, in ambienti rivestiti da preziosi velluti colorati e decorati da affreschi.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="castello-di-brescia" data-name="castello di brescia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Castello di Brescia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Museo delle Armi Marzoli</button>
+<button class="tab" onclick="switchTab(this)">Museo del Risorgimento</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il colle Cidneo, su cui sorge il Castello, ha una vocazione difensiva antichissima: i primi insediamenti risalgono all'età del Bronzo (IX secolo a.C.), quando vi sorgeva un piccolo tempio dedicato alla divinità celtica Bergimus. Furono i Romani, alla fine del I secolo a.C., a riorganizzare il colle inserendolo nella cinta muraria cittadina, erigendovi nel I secolo d.C. un grande tempio.</p>
+<p>La vera trasformazione in fortezza avviene in epoca comunale (XII-XIII secolo), quando risale la torre Mirabella, ancora oggi visibile. Il salto decisivo arriva nel Trecento: nel 1343 Luchino e Giovanni Visconti fanno costruire ex novo il Mastio — proprio sopra le rovine del tempio romano — circondato da sei torri e passaggi coperti, incluso il Torrione dei Prigionieri. Tra le sale del Mastio si conservano ancora frammenti di affreschi con gli stemmi dei due fratelli, che permettono di datare con precisione questa fase costruttiva.</p>
+<p>Con l'ingresso di Brescia nel dominio della Repubblica di Venezia (1426), il Castello viene profondamente modernizzato: la vecchia torre viscontea a pianta quadrata diventa la rotonda Torre dei Prigionieri, e viene costruita la nuova Torre Coltrina. Il momento più drammatico arriva nel 1512, durante la Guerra della Lega di Cambrai: le truppe francesi di Gaston de Foix, introdotte di nascosto nel Castello attraverso la segreta "Strada del Soccorso", sferrano da lì l'attacco che porterà al Sacco di Brescia. Tornata Venezia, tra Cinque e Seicento il Castello viene ulteriormente rafforzato con possenti bastioni (San Faustino e San Marco) e il portale d'ingresso monumentale, ancora oggi sormontato dal Leone di San Marco.</p>
+<p>Oggi il Castello si presenta come una fortezza "a cipolla": una cinta bassa e rinascimentale, pensata per resistere alle armi da fuoco, racchiude il nucleo medievale più alto, con mura merlate e ponte levatoio — due fortificazioni sovrapposte che raccontano quattro secoli di evoluzione militare in un unico luogo.</p>
+</div><div class="tab-panel">
+<p>Il museo si trova nel trecentesco Mastio Visconteo, uno dei complessi fortificati più affascinanti d'Italia, e ospita una delle raccolte europee di armi e armature antiche più ricche e importanti, nata dal lascito testamentario del 1965 dell'imprenditore Luigi Marzoli di Palazzolo sull'Oglio, che donò al Comune la collezione privata raccolta in un cinquantennio di ricerche. Inaugurato nel 1988 con l'allestimento di Carlo Scarpa, il museo espone oltre 1.400 pezzi tra armi bianche, armi da fuoco, armi difensive e artiglieria, dal XV al XIX secolo. Tra i pezzi più significativi spiccano le armature cinquecentesche, i corsaletti da fante, e le celebri canne gardonesi — simbolo internazionale della produzione armiera bresciana.</p>
+</div><div class="tab-panel">
+<p>Il museo occupa gli spazi del Grande e Piccolo Miglio del Castello ed è stato completamente rinnovato, riaprendo nel gennaio 2023 dopo vent'anni di chiusura, con un allestimento innovativo e immersivo. Il percorso espositivo copre un arco che va dal 1789, anno della Rivoluzione francese, al 1870, anno della presa di Roma, passando per la Repubblica Bresciana del 1797, le guerre d'indipendenza italiane e la spedizione dei Mille — con un focus particolare sulle Dieci Giornate di Brescia del 1849, l'episodio che diede alla città il suo celebre soprannome. Il racconto si regge su tre pilastri: i reperti storici (oltre un centinaio tra dipinti, sculture, cimeli, armi, bandiere, uniformi e medaglie), le opere d'arte che hanno costruito l'immaginario collettivo sul Risorgimento, e una ricca collezione digitale che arricchisce la visita con contenuti altrimenti non esponibili.</p>
+</div></div>
+
+
+
+
+    </div></div>
+  </div>
+
+  <div class="site" id="duomo-vecchio-la-rotonda" data-name="duomo vecchio (la rotonda)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Duomo Vecchio (la Rotonda)</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Gli scavi condotti alla fine del XIX secolo hanno mostrato che l'area su cui sorge il Duomo Vecchio era già utilizzata in età romana: nella zona del presbiterio e del transetto sono stati rinvenuti vani e resti di strutture forse appartenenti a un edificio termale del I-III secolo d.C. — un'eco della stessa Brixia romana raccontata nel Parco Archeologico. Su quest'area sorge, probabilmente già in epoca paleocristiana (forse VI-VII secolo), l'antica basilica di Santa Maria Maggiore de Dom, così chiamata per la vicinanza alla domus episcopale dove risiedeva il vescovo — l'attuale palazzo vescovile.</p>
+<p>Quella basilica paleocristiana fu distrutta dall'incendio che devastò Brescia nel 1095, e fu al suo posto, all'inizio del XII secolo, che venne costruita l'attuale Rotonda, quando un'antica corporazione di muratori ne prese in carico la costruzione. Il corpo originale, in stile romanico lombardo, ha conosciuto ampliamenti nel tempo, ma è stato sostanzialmente conservato. Verso la fine dell'Ottocento, sotto la guida dell'architetto Luigi Arcioni, un intervento di restauro riportò alla luce l'aspetto medievale dell'edificio.</p>
+<p>Un episodio curioso segna la storia recente della chiesa: in corrispondenza dell'attuale portale si innalzava un tempo una torre campanaria, che nel 1708 fu bucata per ricavarne un nuovo ingresso — necessario perché il livello del terreno della piazza esterna si era progressivamente alzato, rendendo inutilizzabili gli accessi originali. L'intervento indebolì però talmente la struttura che la torre crollò quello stesso anno — ancora oggi, entrando, si vedono ai lati le scalette che un tempo permettevano di salirvi.</p>
+</div><div class="tab-panel">
+<p>La struttura è molto semplice, costituita da due corpi cilindrici sovrapposti. Ha una forma circolare divenuta rara dopo il Concilio di Trento, che è valsa alla chiesa il soprannome di "Rotonda" — uno dei più importanti esempi di rotonde in Italia e uno dei più significativi esempi dell'architettura romanica lombarda. La struttura, in pietra locale di Medolo, è composta da due corpi cilindrici sovrapposti: la parte inferiore è un vasto ambulacro, scandito da una sequenza di finestre binate, sul quale si imposta il tamburo superiore con finestre più piccole, intervallate da lesene. In corrispondenza dei punti cardinali, queste finestre sono sostituite da oculi circolari, a eccezione di quello occidentale, nascosto dal campanile vicino.</p>
+<p>La pianta circolare richiama un'altra architettura fondamentale: Santa Maria Rotonda, il Pantheon di Roma — un tempio pagano poi trasformato in tempio cristiano, modello ideale per una chiesa nata anch'essa come reinterpretazione cristiana della pianta centrale antica. Secondo alcuni studiosi, la pianta circolare si ispirava anche al Santo Sepolcro di Gerusalemme. L'interno riserva una sorpresa con un suggestivo vano centrale, composto da otto pilastri che sorreggono archi ellittici, sormontati da una cupola priva di decorazioni.</p>
+<p>L'edificio custodisce alcune delle testimonianze artistiche più importanti della città: resti di mosaici dell'antica basilica paleocristiana, affreschi rinascimentali, opere di Romanino, Moretto e Cossali, il sarcofago in marmo rosso di Verona del vescovo Berardo Maggi — già incontrato nella Storia di Brescia come pacificatore delle fazioni cittadine — oltre a quello del vescovo Balduino Lambertini, un altare maggiore trecentesco e l'organo cinquecentesco di Giangiacomo Antegnati. Si conserva inoltre la cripta di San Filastrio, risalente al X secolo circa — il primo vescovo di Brescia, le cui reliquie, come racconta la Storia della città, furono traslate qui nel IX secolo dal vescovo Ramperto.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="duomo-nuovo" data-name="duomo nuovo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Duomo Nuovo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il Duomo Nuovo sorge sull'area dell'antica basilica paleocristiana di San Pietro de Dom, edificata tra il V e il VI secolo — la cattedrale estiva della città, che sorgeva accanto alla basilica invernale di Santa Maria Maggiore de Dom, l'attuale Duomo Vecchio (il nome "de Dom" derivava dalla vicinanza di entrambe alla domus episcopale, la residenza del vescovo). Nel 1599, per le pessime condizioni dell'edificio, il Comune ne decreta la demolizione, e nel 1603 Agostino Avanzo — incaricato di progettare la nuova cattedrale — rileva l'antica basilica per avere una visione completa dell'area disponibile. La nuova chiesa doveva rispondere alle esigenze architettoniche della Controriforma, più monumentali e in linea con i tempi.</p>
+<p>I lavori, iniziati nel 1604, procedono con estrema lentezza per oltre un secolo: nel 1719 subentra Antonio Biasio, che rivede il progetto della facciata ma alla sua morte (1758) riesce a completarne solo la parte inferiore. È solo nel 1727, quando il vescovo Angelo Maria Querini — già fondatore della biblioteca Queriniana — dà nuovo impulso alla fabbrica, chiamando l'architetto Giovan Battista Marchetti (e poi il figlio Antonio) a completare presbiterio e navate laterali. Il progetto della facciata viene infine rivisto in chiave neoclassica dai Marchetti, con l'inserimento del frontone triangolare oggi esistente.</p>
+<p>L'elemento che avrebbe reso celebre l'edificio arriva per ultimo: la grande cupola, disegnata da Luigi Cagnola e realizzata da Rodolfo Vantini — lo stesso architetto che curò gli scavi del Capitolium e che avrebbe firmato anche il Cimitero Vantiniano — viene completata solo nel 1825, dopo lavori iniziati nel 1815. Nonostante la lunga gestazione, la chiesa fu consacrata ufficialmente solo nel 1914. Durante la Seconda Guerra Mondiale, il bombardamento alleato del 13 luglio 1944 causò gravi danni alla cupola, poi ricostruita.</p>
+</div><div class="tab-panel">
+<p>La facciata, imponente e grandiosa, è in marmo bianco di Botticino, a doppio ordine di colonne composite corinzie, coronata da un timpano triangolare su cui spicca lo stemma della città e da statue; sul portale centrale è collocato il busto del cardinale Angelo Maria Querini. La commistione di stili tradisce i tre secoli di cantiere: il corpo principale è secentesco, la facciata settecentesca, la cupola neoclassica.</p>
+<p>L'interno, a pianta quadrata con inscritta una croce greca, a tre navate con vasto presbiterio, è coperto dall'ampia cupola, alta circa 80 metri — la terza più grande d'Italia dopo quella di San Pietro a Roma e quella di Santa Maria del Fiore a Firenze (un primato in realtà da ridimensionare, dato che non tiene conto della Mole Antonelliana di Torino, più alta). La struttura è sorretta da alte colonne scanalate corinzie, che reggono un cornicione decorato da fregi a girali di foglie d'acanto, su cui si impostano le volte.</p>
+<p>Tra le opere conservate all'interno spiccano gli altari di gusto neoclassico disegnati dallo stesso Rodolfo Vantini, insieme a opere di Palma il Giovane e di Girolamo Romanino — gli stessi maestri già incontrati nel Duomo Vecchio — e il monumento al papa bresciano Paolo VI, realizzato da Raffaele Scorzelli nel 1984. Tra le testimonianze più antiche, un crocifisso ligneo quattrocentesco e l'arca dei Santi Apollonio e Filastrio, opera rinascimentale di gusto veneziano del 1510 — un'ulteriore eco del culto per il primo vescovo bresciano già raccontato a proposito del Duomo Vecchio.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="broletto-e-torre-del-popolo" data-name="broletto e torre del popolo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Broletto e Torre del Popolo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il Broletto è il più antico palazzo pubblico della città, sede delle magistrature civiche fin dall'età comunale, e occupa oggi un intero isolato attorno a una corte centrale costruita in più fasi, dal Medioevo fino al Seicento. Il primo elemento a sorgere fu la torre — non si conosce con esattezza la data né l'origine della costruzione, ma alcuni manoscritti del XII secolo ne sottolineano la particolare resistenza: la torre resistette a un violento terremoto del 1222, di magnitudo 6.05, che provocò circa 20.000 morti. Ai suoi piedi, nel 1178, nacque la Laubia lignorum, la primissima sede del governo cittadino — un edificio ligneo, precursore del palazzo in pietra che sarebbe seguito.</p>
+<p>Tra il 1223 e il 1227 viene costruito il nucleo vero e proprio, il Palatium Novum Maius, che costituirà il braccio meridionale del complesso; segue il corpo est, il Palatium Novum Minus (1232), e quello ovest, che inglobò la già esistente Torre del Pègol. Durante la signoria del vescovo Berardo Maggi — già incontrato nella Storia di Brescia come pacificatore delle fazioni cittadine — a partire dal 1298 il complesso si amplia notevolmente, inglobando a nord la preesistente chiesa di Sant'Agostino. In questa stessa zona, tra il 1404 e il 1421, Pandolfo III Malatesta fa innalzare la Loggia Malatestiana, apportando ulteriori modifiche alla struttura.</p>
+<p>Con l'arrivo dei Visconti, i magistrati del popolo vengono scacciati dal palazzo, trasformato in residenza signorile e reso più sicuro con la costruzione del Volto della Carità, un passaggio coperto che ancora oggi supera via dei Musei. Sotto il dominio veneziano (dal 1426), il Broletto viene progressivamente oscurato dalla costruzione di Palazzo della Loggia, la nuova sede podestarile e centro identitario del potere veneziano, e viene destinato a sede del capitano, la giurisdizione prefettizia. Sulla torre vengono eseguiti numerosi interventi in questo periodo: il rialzo attorno al 1434, l'installazione dell'orologio della Rotonda nel 1490, la sostituzione della scala lignea con una in pietra. Nel 1610 il podestà Giovanni da Lezze fa erigere un monumentale scalone e il portale occidentale su Piazza Paolo VI, entrambi opera dell'architetto Giovan Battista Lantana — lo stesso che avrebbe progettato il Duomo Nuovo.</p>
+<p>La torre, che nel corso delle Dieci Giornate del 1849 fu utilizzata dagli austriaci come roccaforte, resta ancora oggi uno dei simboli più riconoscibili della città. Oggi il Broletto è sede di uffici del Comune, della Provincia e della Prefettura.</p>
+</div><div class="tab-panel">
+<p>Il complesso ha un impianto quadrangolare a corte, compatto e chiuso verso l'esterno, porticato all'interno: chiude a nord il margine orientale di Piazza Paolo VI, di fronte al Duomo Vecchio e al Duomo Nuovo. La lunga facciata in pietra sul lato sud, su via Cardinale Querini, corrisponde all'antico Palatium Novum Maius del 1223-1227; l'ala occidentale ha un aspetto più gotico, e qui si trova l'accesso alla cappella del palazzo.</p>
+<p>Accanto al complesso si erge la Torre del Popolo (o del Pègol), alta circa 54 metri, uno dei simboli più ammirati della città. Si compone di quattro livelli: il primo, al piano terra, è formato da un grande basamento in pietra bianca di Botticino; il secondo è percorso da uno stretto tunnel interno; il terzo è collegato al quarto da una scala interna. Nel 1235 fu arricchita di una pesante campana da 800 kg, la Campana Militum — che fungeva da richiamo per le truppe cittadine in caso di attacco — poi fusa per ricavare le quattro campane più piccole ancora oggi presenti.</p>
+<p>Attraverso un portale romanico, con aggiunte barocche, si accede al cortile interno, con due lati porticati a sesto acuto — quello sud impreziosito da due trifore e due grandi quadrifore — e ornato al centro da una fontana in marmo di Botticino di epoca settecentesca. In un secondo cortile si trova la notevole Loggia Malatestiana, ad archi acuti del primo Quattrocento.</p>
+<p>Il tesoro nascosto del Broletto è però la Sala dei Cavalieri, al primo piano del Palazzo Novum Majus: custodisce il ciclo di affreschi profani più lungo d'Italia, 52 metri che ripercorrono episodi della vita cittadina della seconda metà del Duecento — tra cui scene di giuramento pubblico, con la folla e la Torre del Pègol raffigurata ancora nella sua forma originaria, munita di un aggetto ligneo oggi scomparso. L'affresco è stato restaurato tra il 2012 e il 2013.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="monastero-di-san-salvatore-santa-giulia" data-name="monastero di san salvatore-santa giulia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Monastero di San Salvatore-Santa Giulia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il monastero sorge in via dei Musei, sull'antico decumano massimo della Brixia romana, in un'area già occupata in epoca romana da un esteso quartiere residenziale, con case decorate da mosaici e affreschi e un tratto di strada pubblica, parzialmente recuperati negli scavi recenti. È su questo strato romano che nel 753 d.C. il duca longobardo Desiderio — che nel 757 sarebbe diventato l'ultimo re dei Longobardi — e la moglie Ansa, nobile di origini bresciane, fondano il monastero femminile benedettino di San Salvatore, destinato a diventare uno dei più potenti e influenti del Nord Italia. La basilica di San Salvatore fu consacrata personalmente da Papa Paolo I, e proprio qui trovarono sepoltura la regina Ansa e altri membri della famiglia reale longobarda. Prima badessa fu Anselperga, figlia primogenita della coppia regale.</p>
+<p>Il monastero mantenne un ruolo religioso, politico ed economico di primo piano anche dopo la sconfitta dei Longobardi per mano di Carlo Magno, accogliendo nei secoli vedove, sorelle e figlie di famiglie nobili, la cui ricchezza personale contribuì ad arricchire progressivamente il complesso. È proprio in questo luogo che la tradizione — ripresa da Alessandro Manzoni nelle pagine finali della tragedia Adelchi — colloca la morte di Ermengarda, figlia di Desiderio e sposa ripudiata di Carlo Magno: secondo il racconto, la donna spira sotto un tiglio in uno dei chiostri di Santa Giulia.</p>
+<p>Il complesso conobbe numerosi ampliamenti e ricostruzioni nel corso di oltre mille anni di storia: particolarmente significativi quelli di età comunale nel XII secolo (ricostruzione dei chiostri, ampliamento della cripta di San Salvatore), mentre l'aspetto attuale del monastero deriva principalmente dai rifacimenti operati tra XV e XVI secolo. La storia millenaria si interrompe bruscamente nel 1798, quando la soppressione degli ordini monastici voluta da Napoleone costringe le religiose ad abbandonare i chiostri: il complesso viene adibito a caserma, il tesoro quasi interamente disperso, e i beni fondiari venduti all'incanto.</p>
+<p>Oggi il monastero ospita il Museo di Santa Giulia, il principale museo della città, e dal 2011 fa parte, insieme al Capitolium, del sito seriale UNESCO "Longobardi in Italia: i luoghi del potere" — sette luoghi che documentano l'arte longobarda in Italia.</p>
+</div><div class="tab-panel">
+<p>Il complesso è articolato attorno a tre chiostri e tre chiese dell'ex convento benedettino, un intreccio visibile di epoche diverse — romana, longobarda, romanica, rinascimentale — che si fondono senza soluzione di continuità. Tra gli spazi monumentali più significativi: un'area archeologica con due domus di età romana (I-III secolo d.C.), la basilica longobarda di San Salvatore (VIII secolo), con le sue colonne in marmo policromo, il Coro delle monache (inizio XVI secolo), elegante ambiente affrescato da cui le monache benedettine assistevano — senza essere viste — alle funzioni religiose, e l'Oratorio romanico di Santa Maria in Solario (XII secolo), dove le monache custodivano il tesoro del monastero.</p>
+<p>Proprio in Santa Maria in Solario si conservano ancora oggi i due pezzi più preziosi di quel tesoro: la Lipsanoteca, un raffinato cofanetto eburneo per reliquie di età tardoantica, e la Croce di Desiderio, una croce processionale ornata da 212 gemme, capolavoro di oreficeria carolingia. Nella stessa Santa Maria in Solario si trova anche una cripta, probabilmente costruita nel 762-763 e ampliata nel XII secolo per l'aumentato numero di reliquie custodite, che conserva tra l'altro i frammenti di una lastra con un pavone, opera scultorea che unisce il gusto bizantino a un certo naturalismo tardoantico, propri della cultura longobarda; lungo la parete destra si apre una nicchia affrescata, tradizionalmente attribuita come tomba della regina Ansa.</p>
+<p>Nella chiesa di Santa Giulia si trovano affreschi attribuiti a Paolo da Caylina il Giovane, mentre alla base del campanile sono conservati affreschi del Romanino con episodi della vita di Sant'Obizio, databili attorno al 1525 — lo stesso maestro già incontrato più volte nel percorso bresciano.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="torri-viscontee" data-name="torri viscontee">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Torri viscontee</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Delle torri che un tempo scandivano la cinta muraria medievale di Brescia, oggi ne sopravvivono integre solo due: la Torre di Porta Bruciata e la Torre della Pallata — le altre, come la Torre Teofila, risucchiata all'interno di Palazzo Martinengo Palatini, o Porta Paganora, di cui spunta oggi solo una porzione quasi invisibile sopra i portici di via X Giornate, sono state inglobate in edifici successivi o ne restano solo tracce nei basamenti.</p>
+<p>La Torre di Porta Bruciata sorge all'estremità ovest di via dei Musei, esattamente sul decumano massimo della Brixia romana: in epoca romana questo era il punto in cui la città finiva, la Porta Mediolanensis, che segnava l'uscita verso Milano. Il nome "Porta Milanese" resistette fino al 1184, quando un violento incendio, partito dalla zona di Sant'Agata, devastò mezza città, distruggendo anche il popoloso quartiere circostante — da quel momento la porta fu ribattezzata "Bruciata". Fu proprio in quell'anno che il Comune, nell'ambito dei lavori di ampliamento e rinnovamento delle mura romane, costruì la torre che, più o meno rimaneggiata, possiamo ammirare ancora oggi. Accanto alla torre, nel XII secolo, sorse la chiesa di San Faustino in Riposo, costruita come santuario votivo nel luogo dove, secondo la tradizione, sostarono le salme dei santi patroni Faustino e Giovita durante la loro traslazione nell'843.</p>
+<p>La Torre della Pallata, sull'angolo tra via Pace e corso Mameli, fu costruita in pietra verso la metà del Duecento (1254) come bastione nel quartiere di San Giovanni, collegata all'omonima porta nelle prime mura cittadine. Il nome deriverebbe forse da palizzata, la palizzata difensiva che la precedette, oppure — secondo un'altra teoria — da Pallade Atena, le cui pietre di un tempio a lei dedicato sarebbero state riutilizzate per la costruzione. Nel corso dei secoli la torre ospitò anche le volte di un banco di pegni, il Monte di Pietà cittadino.</p>
+</div><div class="tab-panel">
+<p>La Torre di Porta Bruciata è alta circa 30 metri e si sviluppa su sette piani: conserva alla base la struttura originaria del XII secolo, mentre il coronamento con beccatelli e merlatura ghibellina risale a un intervento trecentesco, in epoca viscontea. Le mensole ancora visibili sporgenti servivano un tempo a creare un piano di camminamento forato, da cui i soldati potevano far cadere proiettili sugli assedianti — una difesa detta "piombante", perché colpiva dall'alto verso il basso. Alla base, la torre funge ancora oggi da passaggio tra Piazza della Loggia e via dei Musei, attraverso un grande voltone a crociera; agli ingressi si conservano ancora i cardini in ferro delle antiche porte lignee, e sotto lo stesso voltone si apre l'ingresso principale alla chiesa di San Faustino in Riposo.</p>
+<p>La Torre della Pallata è alta 32 metri. Nel corso dei secoli fu arricchita di elementi decorativi: un orologio nel 1461, merli e una piccola torretta sommitale tra il 1476 e il 1481. Nel 1597 sul lato ovest fu aggiunta una fontana in stile manierista, su disegno e iconografia di Pier Maria Bagnadore — lo stesso architetto che avrebbe lavorato anche al Duomo Nuovo. Un tempo la torre era legata a una tradizione popolare curiosa e ormai scomparsa: la "corsa delle cossere" (le gambe, in dialetto bresciano), una gara annuale tra donne che partiva proprio dalla Pallata, dove si trovava la prigione femminile, e terminava alla Torre di Porta Bruciata — corsa poi messa al bando dalla Chiesa.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll(':scope > .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll(':scope > .tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
