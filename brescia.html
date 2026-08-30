@@ -164,6 +164,17 @@
   .site.open .site-body{ max-height:20000px; }
   .site-body-inner{ padding:0 16px 16px; }
 
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
   .tabs{
     display:flex;
     gap:4px;
@@ -190,16 +201,6 @@
   .tab-panel{ display:none; }
   .tab-panel.active{ display:block; }
   .tab-panel .tabs{ margin-top:4px; }
-  .narrative h4{
-    font-family:'Playfair Display', serif;
-    font-weight:600;
-    font-size:1.08rem;
-    color:var(--text);
-    margin:18px 0 7px;
-  }
-  .narrative h4:first-child{ margin-top:0; }
-  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
-  .narrative p:last-child{ margin-bottom:0; }
 
   .note{
     text-align:center;
@@ -609,11 +610,13 @@ function toggleSite(headEl){
   headEl.parentElement.classList.toggle('open');
 }
 function switchTab(btn){
-  const idx = Array.from(btn.parentElement.children).indexOf(btn);
-  btn.parentElement.querySelectorAll(':scope > .tab').forEach(t=>t.classList.remove('active'));
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   const panelsWrap = btn.parentElement.nextElementSibling;
-  panelsWrap.querySelectorAll(':scope > .tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
 }
 
 const searchInput = document.getElementById('search');
@@ -648,7 +651,6 @@ if (location.hash) {
     setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
   }
 }
-
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
