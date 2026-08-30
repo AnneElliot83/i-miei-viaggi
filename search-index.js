@@ -95,7 +95,7 @@ const deepIndex = [
   {
     "name": "Stoa di Attalo (e Museo dell'Agorà)",
     "file": "atene.html",
-    "id": "stoa-di-attalo-e-museo-dell-agora",
+    "id": "stoa-di-attalo-e-museo-dell-agor",
     "context": "Atene"
   },
   {
@@ -173,7 +173,7 @@ const deepIndex = [
   {
     "name": "Agorà Romana",
     "file": "atene.html",
-    "id": "agora-romana",
+    "id": "agor-romana",
     "context": "Atene"
   },
   {
@@ -323,7 +323,7 @@ const deepIndex = [
   {
     "name": "Agorà e Terme romane",
     "file": "argo.html",
-    "id": "agora-e-terme-romane",
+    "id": "agor-e-terme-romane",
     "context": "Argo"
   },
   {
@@ -419,7 +419,7 @@ const deepIndex = [
   {
     "name": "Agorà e Via di Lechaion",
     "file": "corinto.html",
-    "id": "agora-e-via-di-lechaion",
+    "id": "agor-e-via-di-lechaion",
     "context": "Corinto"
   },
   {
@@ -461,7 +461,7 @@ const deepIndex = [
   {
     "name": "Città vecchia e Piazza Syntagma",
     "file": "nauplia.html",
-    "id": "citta-vecchia-e-piazza-syntagma",
+    "id": "citt-vecchia-e-piazza-syntagma",
     "context": "Nauplia"
   },
   {
@@ -689,7 +689,7 @@ const deepIndex = [
   {
     "name": "Santa Trinità",
     "file": "meteora.html",
-    "id": "santa-trinita",
+    "id": "santa-trinit",
     "context": "Meteora"
   },
   {
@@ -1425,30 +1425,6 @@ const deepIndex = [
     "context": "Borgogna"
   },
   {
-    "name": "La storia della Borgogna in sette epoche",
-    "file": "borgogna-storia.html",
-    "id": null,
-    "context": "Borgogna — Approfondimento"
-  },
-  {
-    "name": "Cluny e Cîteaux: due modelli opposti",
-    "file": "borgogna-cluny-citeaux.html",
-    "id": null,
-    "context": "Borgogna — Approfondimento"
-  },
-  {
-    "name": "Il romanico borgognone",
-    "file": "borgogna-romanico.html",
-    "id": null,
-    "context": "Borgogna — Approfondimento"
-  },
-  {
-    "name": "I Climats di Borgogna",
-    "file": "borgogna-climats.html",
-    "id": null,
-    "context": "Borgogna — Approfondimento"
-  },
-  {
     "name": "Storia di Brescia",
     "file": "brescia.html",
     "id": "storia-di-brescia",
@@ -1501,5 +1477,113 @@ const deepIndex = [
     "file": "brescia.html",
     "id": "torri-viscontee",
     "context": "Brescia (Lombardia)"
+  },
+  {
+    "name": "Storia di Genova",
+    "file": "genova.html",
+    "id": "storia-di-genova",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Le grandi famiglie di Genova",
+    "file": "genova.html",
+    "id": "le-grandi-famiglie-di-genova",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Musei di Strada Nuova",
+    "file": "genova.html",
+    "id": "musei-di-strada-nuova",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Palazzo Rosso",
+    "file": "genova.html",
+    "id": "palazzo-rosso",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Palazzo Bianco",
+    "file": "genova.html",
+    "id": "palazzo-bianco",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Palazzo Doria Tursi",
+    "file": "genova.html",
+    "id": "palazzo-doria-tursi",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Caruggi (Centro Storico)",
+    "file": "genova.html",
+    "id": "caruggi-centro-storico",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Palazzo Reale",
+    "file": "genova.html",
+    "id": "palazzo-reale",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Chiesa della Santissima Annunziata del Vastato",
+    "file": "genova.html",
+    "id": "chiesa-della-santissima-annunziata-del-vastato",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Cattedrale di San Lorenzo",
+    "file": "genova.html",
+    "id": "cattedrale-di-san-lorenzo",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Porto Antico",
+    "file": "genova.html",
+    "id": "porto-antico",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Palazzo Spinola",
+    "file": "genova.html",
+    "id": "palazzo-spinola",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Acquario di Genova",
+    "file": "genova.html",
+    "id": "acquario-di-genova",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "Galata Museo del Mare",
+    "file": "genova.html",
+    "id": "galata-museo-del-mare",
+    "context": "Genova (Liguria)"
+  },
+  {
+    "name": "La storia della Borgogna in sette epoche",
+    "file": "borgogna-storia.html",
+    "id": null,
+    "context": "Borgogna — Approfondimento"
+  },
+  {
+    "name": "Cluny e Cîteaux",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": null,
+    "context": "Borgogna — Approfondimento"
+  },
+  {
+    "name": "Il romanico borgognone",
+    "file": "borgogna-romanico.html",
+    "id": null,
+    "context": "Borgogna — Approfondimento"
+  },
+  {
+    "name": "I Climats di Borgogna",
+    "file": "borgogna-climats.html",
+    "id": null,
+    "context": "Borgogna — Approfondimento"
   }
 ];

@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Genova — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel .tabs{ margin-top:4px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Genova</h1>
+  <div class="subtitle">Liguria</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<nav class="pills">
+    <a href="#profilo-storico" class="pill">Profilo Storico</a>
+    <a href="#musei-di-strada-nuova-via-garibaldi" class="pill">Musei di Strada Nuova · Via Garibaldi</a>
+    <a href="#altri-palazzi-e-luoghi-di-genova" class="pill">Altri Palazzi e Luoghi di Genova</a>
+    <a href="#musei-moderni" class="pill">Musei Moderni</a>
+</nav>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="profilo-storico">
+  <h2 class="group-title">Profilo Storico<span class="group-count">2</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="storia-di-genova" data-name="storia di genova">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Storia di Genova</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Preistoria e origini liguri</button>
+<button class="tab" onclick="switchTab(this)">Età romana</button>
+<button class="tab" onclick="switchTab(this)">Alto Medioevo</button>
+<button class="tab" onclick="switchTab(this)">Comune e Repubblica marinara</button>
+<button class="tab" onclick="switchTab(this)">Il secolo dei genovesi</button>
+<button class="tab" onclick="switchTab(this)">Dal declino all'Unità</button>
+<button class="tab" onclick="switchTab(this)">Età contemporanea</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Le tracce più antiche di presenza umana nell'area genovese sono un piccolo insediamento neolitico nella zona di Brignole, databile fra il V e il IV millennio a.C., e un muro a secco di terrazzamento di età del Bronzo presso la foce del Bisagno. L'origine urbana vera e propria si colloca però sul colle di Castello, sopra l'attuale zona di Sarzano, dove agli inizi del V secolo a.C. sorse un oppidum fortificato fondato dai Liguri, in particolare dalla popolazione dei Genuati: la necropoli preromana rinvenuta sull'adiacente colle di Sant'Andrea, scavata fra il 1898 e il 1910, ne conferma l'antichità.</p>
+<p>I reperti archeologici, oggi conservati al Museo Archeologico di Genova, testimoniano contatti commerciali con Greci, Etruschi e Cartaginesi già in questa fase: lo storico greco Strabone definirà in seguito l'insediamento un "emporio dei Liguri". Anche l'origine del nome sembra rimandare a questa vocazione: derivato forse da una radice celtica che indicava una "bocca" o un accesso, alluderebbe al ruolo della città come porta sul mare verso l'entroterra dell'Italia settentrionale — una funzione che avrebbe mantenuto per i millenni successivi.</p>
+</div><div class="tab-panel">
+<p>Genova strinse presto un'alleanza con Roma, che le sarebbe costata cara: nel 218 a.C. Publio Cornelio Scipione ne fece una base d'appoggio contro l'invasione di Annibale, e proprio per questa fedeltà, nel 205 a.C., la città fu rasa al suolo da Magone, fratello dello stesso Annibale. La ricostruzione fu rapida: il pretore romano Spurio Lucrezio vi portò migliaia di lavoratori per riedificarla, ampliarne il porto e dotarla di nuove mura, mentre nel 197 a.C. Quinto Minucio Rufo liberò il retroterra dalle ultime tribù liguri ancora ostili.</p>
+<p>Da allora Genova rimase un centro fedele a Roma, ma il suo ruolo restò essenzialmente commerciale più che politico: un emporio e uno snodo verso le colonie romane della Pianura Padana, come Piacenza e Cremona, piuttosto che una città di primo piano nella gerarchia amministrativa dell'Impero.</p>
+</div><div class="tab-panel">
+<p>Con la caduta dell'Impero Romano d'Occidente, Genova rimase relativamente stabile sotto gli Ostrogoti di Teodorico, conservando una fiorente comunità ebraica segno della vitalità dei suoi commerci. Fu poi conquistata dal generale bizantino Belisario, diventando parte dell'impero d'Oriente e capoluogo della provincia della Liguria marittima. Nel 641 il re longobardo Rotari la conquistò e la distrusse; nel 773 entrò a far parte dell'impero di Carlo Magno, che ne riconobbe l'importanza strategica per il controllo di un Mediterraneo sempre più insidiato dalle incursioni musulmane.</p>
+<p>Fra IX e X secolo la città dovette affrontare ripetuti attacchi saraceni, respinti con difficoltà crescente — un'incursione del 934 fu superata, ma un attacco ancora più imponente arrivò appena due anni dopo. Fu probabilmente la necessità di organizzarsi contro queste minacce a spingere Genova, fra X e XI secolo, verso una progressiva autonomia comunale: la premessa diretta della futura Repubblica marinara.</p>
+</div><div class="tab-panel">
+<p>Fra XI e XII secolo Genova si affermò come una delle grandi repubbliche marinare, insieme a Venezia, Pisa e Amalfi. Furono le Crociate a segnare la svolta decisiva: le flotte genovesi offrirono trasporto e appoggio militare alle spedizioni verso la Terrasanta, ottenendo in cambio privilegi commerciali e interi quartieri nelle città conquistate del Mediterraneo orientale — fra i beni portati in patria da queste spedizioni, come si è visto, il Sacro Catino e le ceneri di san Giovanni Battista, oggi custoditi nella Cattedrale di San Lorenzo. Nacque così una fitta rete di colonie e fondachi commerciali che si estendeva fino al Mar Nero, di cui il quartiere di Galata a Costantinopoli — da cui prende oggi il nome l'area del Porto Antico dedicata al museo del mare — fu uno dei più celebri.</p>
+<p>La rivalità con Pisa per il controllo dei mari tirrenici culminò nella decisiva battaglia navale della Meloria del 1284, che spezzò per sempre la potenza marittima pisana. Meno fortunato fu invece lo scontro con Venezia nella guerra di Chioggia (1378-1381), che segnò l'inizio di un lento spostamento del primato commerciale verso la rivale adriatica. All'interno, il governo della città restò per secoli instabile, conteso fra le grandi famiglie nobiliari — Fieschi, Doria, Grimaldi, Spinola e altre — divise anche dalle fazioni guelfa e ghibellina, in una competizione che avrebbe lasciato il segno anche nell'urbanistica cittadina.</p>
+</div><div class="tab-panel">
+<p>Il momento di massimo splendore arrivò nel Cinquecento, e non fu di natura militare ma finanziaria. Fu l'ammiraglio Andrea Doria, negoziando nel 1528 l'alleanza di Genova con la Spagna e riformando la costituzione cittadina, ad aprire la stagione che gli storici chiamano "il secolo dei genovesi": per circa settant'anni, dal 1557 al 1627 circa, i banchieri genovesi finanziarono le guerre e le imprese coloniali della Corona di Spagna, accumulando fortune colossali e diventando di fatto i banchieri dell'intero impero spagnolo.</p>
+<p>Fu proprio questa ricchezza a finanziare la grande trasformazione urbanistica della città che questo stesso dossier racconta: la costruzione di Strada Nuova e delle altre "strade nuove", con i loro palazzi dei Rolli. Il nome deriva dalle liste ufficiali — appunto i "rolli" — istituite a partire dal 1576, che catalogavano i palazzi più prestigiosi della città in base al proprio rango: attraverso un sorteggio pubblico, questi edifici erano tenuti a ospitare, a turno, gli ambasciatori e i dignitari stranieri in visita ufficiale alla Repubblica, secondo un livello di prestigio proporzionato a quello dell'ospite. Un sistema che trasformava di fatto i palazzi privati dell'aristocrazia in una rete di residenze di Stato, e che oggi dà il nome al sito UNESCO che riunisce Strada Nuova e gli altri quartieri di "strade nuove" della città. Genova mantenne per tutto il periodo la propria indipendenza come repubblica aristocratica oligarchica, governata da una ristretta cerchia di grandi famiglie.</p>
+</div><div class="tab-panel">
+<p>Fra Sei e Settecento il baricentro dei commerci europei si spostò progressivamente verso l'Atlantico e le potenze coloniali del Nord Europa, avviando per Genova un lento declino relativo — pur restando la città benestante grazie a finanza e navigazione. Nel 1684 la debolezza militare della Repubblica fu resa evidente dal bombardamento della flotta francese durante la guerra della Lega di Augusta; nel 1768 Genova cedette alla Francia la Corsica, possedimento ormai difficile da amministrare.</p>
+<p>Nel 1797 Napoleone Bonaparte abolì la millenaria Repubblica di Genova, sostituendola con la effimera Repubblica Ligure. Il Congresso di Vienna del 1815 sancì poi l'annessione della città al Regno di Sardegna dei Savoia, contro le diffuse speranze locali di indipendenza — una decisione che lasciò a lungo un profondo risentimento fra i genovesi. Nonostante ciò, l'Ottocento vide Genova protagonista del Risorgimento: vi nacque Giuseppe Mazzini, e proprio da Quarto, alle porte della città, salpò nel 1860 la spedizione dei Mille di Giuseppe Garibaldi.</p>
+</div><div class="tab-panel">
+<p>Fra la fine dell'Ottocento e i primi del Novecento Genova visse una rapida industrializzazione, con la crescita dell'industria siderurgica e cantieristica — su tutte l'Ansaldo — e un grande ampliamento delle infrastrutture portuali moderne. La Seconda guerra mondiale colpì duramente la città: i bombardamenti aerei e navali alleati, fra cui l'attacco della Force H britannica del febbraio 1941 già ricordato a proposito della Cattedrale di San Lorenzo, devastarono buona parte del centro storico e delle aree portuali.</p>
+<p>Alla ricostruzione postbellica e alla ripresa industriale del dopoguerra seguì, nella seconda metà del secolo, una fase di crisi industriale e di progressivo declino del vecchio bacino portuale, ormai inadeguato al traffico commerciale moderno. La svolta arrivò nel 1992, con le celebrazioni colombiane e la riqualificazione del Porto Antico firmata da Renzo Piano: un intervento che ha restituito alla città il proprio rapporto con il mare e ha ridefinito, ancora una volta, l'identità di Genova per il nuovo millennio.</p>
+</div></div>
+
+
+
+
+
+
+
+
+    </div></div>
+  </div>
+
+  <div class="site" id="le-grandi-famiglie-di-genova" data-name="le grandi famiglie di genova">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Le grandi famiglie di Genova</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Introduzione</button>
+<button class="tab" onclick="switchTab(this)">I Doria</button>
+<button class="tab" onclick="switchTab(this)">Gli Spinola</button>
+<button class="tab" onclick="switchTab(this)">I Fieschi</button>
+<button class="tab" onclick="switchTab(this)">I Grimaldi</button>
+<button class="tab" onclick="switchTab(this)">Le famiglie del secolo dei genovesi</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Quattro casate dominarono la scena politica genovese per tutto il Medioevo — Doria e Spinola, ghibellini, contro Fieschi e Grimaldi, guelfi — in una rivalità che per secoli scandì la vita della città, dividendone i quartieri, le alleanze e persino gli stemmi scolpiti sui portali dei caruggi. Solo nel Cinquecento e Seicento, con l'apertura del "secolo dei genovesi" e la nuova ricchezza generata dalla finanza al servizio della Spagna, una diversa aristocrazia del denaro — Balbi, Durazzo, Lomellini, Brignole-Sale — si affiancò alle antiche stirpi feudali, costruendo i grandi palazzi già raccontati in questo stesso dossier.</p>
+</div><div class="tab-panel">
+<p>Originari di Oneglia, i Doria compaiono nelle fonti genovesi a partire dal XII secolo — i primi nomi certi, Martino e Gherardo, sono attestati in un documento del 1110, e lo stesso Martino fondò nel 1125 la chiesa di San Matteo come parrocchia gentilizia della famiglia. Fino al Trecento furono, insieme agli Spinola, i principali esponenti del partito ghibellino, in costante rivalità con i guelfi Fieschi e Grimaldi; con l'istituzione del dogato popolare nel 1339 persero il predominio politico diretto, ma mantennero intatto il proprio prestigio militare e navale.</p>
+<p>Fu Andrea Doria (1466-1560), ammiraglio e statista, a riportare la famiglia al vertice assoluto della vita cittadina: nel 1528 negoziò l'alleanza di Genova con la Spagna e riformò la costituzione della Repubblica, aprendo la stagione di ricchezza finanziaria — il "secolo dei genovesi" — già raccontata nel profilo storico di questo dossier. I Doria diedero alla Repubblica sei dogi nel corso dei secoli, oltre a numerosi cardinali e vescovi, e restano ancora oggi una delle casate più note della storia cittadina — il loro nome è legato, fra gli altri edifici, a Palazzo Doria Tursi su Strada Nuova.</p>
+</div><div class="tab-panel">
+<p>Come i Doria, gli Spinola furono a lungo alla testa del partito ghibellino, schierati contro i guelfi Fieschi e Grimaldi in una rivalità che attraversò l'intera età comunale e podestarile. Nel 1270 Oberto Doria e Oberto Spinola, rappresentanti delle due più importanti famiglie ghibelline, furono nominati congiuntamente Capitani del Popolo, di fatto governatori della città — un potere condiviso che sarebbe rimasto, con alterne fortune, un modello ricorrente nei decenni successivi.</p>
+<p>Fra il 1445 e il 1459 gli Spinola fecero edificare Palazzo Spinola dei Marmi, con una facciata interamente rivestita di marmo a strisce bianche e nere: un privilegio decorativo riservato per legge soltanto alle quattro maggiori famiglie nobiliari della città — Doria, Spinola, Fieschi e Grimaldi. Fu poi un ramo più tardo della famiglia a ereditare, secoli dopo, il Palazzo Spinola di Pellicceria già raccontato in questo dossier, donato allo Stato nel 1958 insieme alla sua straordinaria quadreria.</p>
+</div><div class="tab-panel">
+<p>Conti di Lavagna e leader storici del partito guelfo insieme ai Grimaldi, i Fieschi furono una delle famiglie più potenti e meglio inserite nelle gerarchie ecclesiastiche di Genova: espressero due papi, Innocenzo IV (1243-1254) e Adriano V (1276), oltre a numerosi cardinali. Il loro episodio più drammatico resta però la celebre congiura del 1547: Gian Luigi Fieschi, alla testa di un ampio gruppo di nobili insoddisfatti del predominio ormai quasi assoluto degli anziani Andrea Doria e del nipote Giannettino, organizzò un colpo di mano notturno per rovesciare il governo doriano e restituire centralità politica alle antiche famiglie guelfe.</p>
+<p>La congiura fallì nel modo più imprevedibile: nel pieno dell'azione, mentre passava da una galea all'altra nel porto, lo stesso Gian Luigi Fieschi cadde in acqua e annegò, appesantito dall'armatura. Privata in un solo istante della propria guida, l'intera cospirazione si sgretolò nel giro di poche ore — un episodio che è rimasto proverbiale nella memoria cittadina come esempio di un destino ribaltato da un semplice incidente.</p>
+</div><div class="tab-panel">
+<p>Anche i Grimaldi, guelfi come i Fieschi, furono fra le famiglie più antiche e influenti della Repubblica: il loro nome ricorre in molti dei palazzi già raccontati in questo dossier, da Palazzo Bianco — costruito per Luca Grimaldi — a Palazzo Doria Tursi, eretto per il banchiere Niccolò Grimaldi. Ma è un episodio del tutto particolare a rendere i Grimaldi la più duratura delle grandi casate genovesi: nel 1297 Francesco Grimaldi, detto "il Malizia", si impadronì con l'inganno della fortezza di Monaco, travestito da monaco francescano per farsi aprire le porte e introdurre così i propri armati.</p>
+<p>Da quell'episodio, dopo secoli di alterne vicende, discende la dinastia dei Grimaldi che governa ancora oggi il Principato di Monaco — rendendo questa famiglia genovese, in un certo senso, l'unica delle quattro grandi casate medievali ad aver conservato fino al presente un potere sovrano diretto, sia pure lontano dalla Genova che le diede origine.</p>
+</div><div class="tab-panel">
+<p>Accanto alle quattro antiche casate feudali, il "secolo dei genovesi" vide affermarsi una nuova aristocrazia, arricchitasi non con le armi ma con la finanza al servizio della Corona di Spagna: sono le famiglie che hanno lasciato l'impronta più visibile sui palazzi raccontati in questo stesso dossier. I Balbi finanziarono e costruirono, a metà Seicento, il primo nucleo di quello che sarebbe diventato Palazzo Reale; i Durazzo lo acquistarono nel 1679 e lo ampliarono fino alle dimensioni attuali, oltre a rilevare in seguito anche Palazzo Bianco. I Lomellini, arricchitisi con la concessione della pesca del corallo sull'isola tunisina di Tabarca, finanziarono il rinnovo barocco della Chiesa della Santissima Annunziata del Vastato, di cui detennero a lungo il giuspatronato. I Brignole-Sale, infine, fecero costruire Palazzo Rosso nel 1671, prima di ereditare per acquisto anche Palazzo Bianco: fu proprio l'ultima erede della famiglia, Maria Brignole Sale De Ferrari, duchessa di Galliera, a donare entrambi i palazzi al Comune di Genova fra Otto e Novecento, gesto che pose le basi degli attuali Musei di Strada Nuova.</p>
+</div></div>
+
+
+
+
+
+
+
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="musei-di-strada-nuova-via-garibaldi">
+  <h2 class="group-title">Musei di Strada Nuova · Via Garibaldi<span class="group-count">4</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="musei-di-strada-nuova" data-name="musei di strada nuova">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Musei di Strada Nuova</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia della via</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Nel 1550 il centro di Genova era ancora un intrico di caruggi medievali, stretti fra il porto e la collina, dove le grandi famiglie mercantili vivevano ammassate in case-torri che non rispecchiavano più la ricchezza ormai raggiunta dalla città. Il 17 marzo di quell'anno il Senato della Repubblica emanò il decreto che sanciva la nascita di una strada interamente nuova: fu scelta un'area allora semiperiferica, il pendio inferiore della collina di Castelletto, destinata a ospitare "molti edifici bellissimi" — formula che, nello stesso testo del decreto, prometteva alla città non solo utilità ma anche bellezza.</p>
+<p>Il disegno urbanistico fu affidato a Bernardino Cantone, architetto del Comune e allievo di Galeazzo Alessi, il grande architetto manierista perugino giunto a Genova nel 1548. Sebbene la paternità del piano stradale resti formalmente di Cantone, l'impronta di Alessi è evidente nella tipologia dei palazzi che sorsero lungo la via — corpo di fabbrica su più livelli, atrio d'ingresso, cortile, scalone monumentale e giardino terrazzato sul retro — uno schema distributivo che divenne il modello dell'intera architettura patrizia genovese del secondo Cinquecento.</p>
+<p>La costruzione dei palazzi si protrasse per circa tre decenni, tra il 1558 e il 1588, finanziata dall'enorme ricchezza che l'aristocrazia genovese aveva accumulato come banchieri della Corona di Spagna, in particolare sostenendo con i propri capitali le costose campagne militari spagnole nelle Fiandre. Originariamente chiamata Strada Maggiore e poi Strada Nuova, la via fu nota fino all'Ottocento anche come Via Aurea, per lo sfarzo delle facciate e la ricchezza che vi si era riversata; solo nel 1882 ricevette il nome attuale, dedicato a Giuseppe Garibaldi.</p>
+<p>È lunga appena 250 metri e larga 7,5 — dimensioni che oggi sorprendono, viste la densità e la qualità dei palazzi che racchiude — e fu concepita non solo come quartiere residenziale, ma come vera e propria vetrina diplomatica della Repubblica. A partire dal 1576, infatti, un sistema di liste ufficiali dette "rolli" stabiliva quali palazzi della città fossero tenuti a ospitare, secondo un sorteggio pubblico, i personaggi di rango che la Repubblica riceveva in visita di Stato: un sistema che è stato paragonato, non senza ragione, a una rete di alloggi di Stato distribuiti, dove il prestigio dell'edificio determinava il rango dell'ospite che vi sarebbe stato alloggiato.</p>
+<p>Nel 2006 Strada Nuova, insieme alle successive via Balbi (Seicento) e via Cairoli (Settecento, un tempo Strada Nuovissima), è stata iscritta dall'UNESCO nel Patrimonio dell'Umanità come "Le Strade Nuove e il sistema dei Palazzi dei Rolli di Genova"; una targa commemorativa fu posta a metà della via il 20 gennaio 2007. Oggi tre dei suoi palazzi più importanti — Palazzo Rosso, Palazzo Bianco e Palazzo Doria Tursi — sono riuniti nel percorso museale unico dei Musei di Strada Nuova.</p>
+</div></div>
+
+</div>
+<div class="sub-list">
+<details class="topic" data-status="done">
+<summary><span class="status-dot done"></span><span class="topic-name">Palazzo Rosso</span><span class="status-text">Fatto</span></summary>
+<div class="topic-content">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Nel 1671 i fratelli Francesco e Rodolfo Brignole-Sale commissionarono all'architetto Pier Antonio Corradi la costruzione di una nuova residenza al civico 18 di Strada Nuova, accanto al palazzo di un altro ramo della stessa famiglia — quello di Maria Durazzo Brignole-Sale, che diventerà in seguito Palazzo Bianco. Fu il penultimo dei grandi palazzi della via a essere edificato, completato nel 1677: la costruzione durò dunque circa sei anni.</p>
+<p>La residenza rimase proprietà della famiglia Brignole-Sale per due secoli, fino al 1874, quando l'ultima erede, Maria Brignole Sale De Ferrari, duchessa di Galliera, decise di donarla al Comune di Genova insieme a tutte le collezioni d'arte che vi erano custodite, "per accrescere il decoro e l'utile" della città e per tramandare per sempre la memoria della propria famiglia.</p>
+<p>Danneggiato dai bombardamenti della Seconda guerra mondiale, il palazzo fu oggetto di un celebre intervento di restauro fra il 1952 e il 1961, condotto dall'architetto Franco Albini: un allestimento museografico entrato nella storia del design italiano del Novecento, di cui resta ancora oggi un segno distintivo il feltro rosso che riveste la scala ottagonale. Un ultimo intervento di adeguamento impiantistico, nel 2022, ha in parte ripristinato proprio questo elemento, rimosso in un successivo allestimento degli anni Novanta insieme al resto della veste albiniana, quando il museo tornò a un'ambientazione più fedele al Settecento storico descritto dal Ratti.</p>
+<p>Oggi Palazzo Rosso costituisce la prima tappa del percorso dei Musei di Strada Nuova, insieme a Palazzo Bianco e Palazzo Doria Tursi.</p>
+</div><div class="tab-panel">
+<p>Il palazzo si sviluppa su una pianta a "U", con due ali unite da logge che racchiudono un cortile interno a pianta quadrata, decorato da un portico sorretto da colonne di marmo di ordine dorico. La facciata, alta tre piani, è scandita da lesene giganti di ordine corinzio ed è rivestita da un intonaco color minio — un rosso acceso — da cui deriva il soprannome con cui il palazzo è universalmente conosciuto: una scelta cromatica pensata fin dall'inizio per renderlo immediatamente riconoscibile come "marchio" della famiglia lungo la strada.</p>
+<p>L'edificio dispone di due piani nobili, una soluzione insolitamente generosa dettata dalle esigenze della committenza: le sale di rappresentanza occupano il primo piano nobile, una biblioteca il secondo, mentre gli appartamenti privati si trovavano al terzo livello, sotto un mezzanino.</p>
+<p>La decorazione interna fu affidata ai massimi esponenti della pittura barocca genovese, in due campagne successive: la prima, avviata nel 1679, vide protagonisti Domenico Piola e Gregorio De Ferrari; la seconda, iniziata nel 1691, fu condotta da Giovanni Andrea Carlone, Carlo Antonio Tavella e Bartolomeo Guidobono, con interventi successivi anche di Domenico Parodi. Ne risultarono cicli affrescati di soggetto mitologico, allegorico e religioso — tra cui le celebri Sale delle Stagioni al secondo piano — che in larga parte conservano ancora oggi la decorazione e l'arredo originali: pavimenti marmorei, stucchi dorati, soffitti dipinti.</p>
+<p>Il pezzo più celebre della quadreria è il gruppo di sette dipinti di Antoon Van Dyck, eseguiti durante il lungo soggiorno genovese del pittore fiammingo (1621-1627) — allievo di Rubens e ritrattista prediletto della grande aristocrazia cittadina —, tra cui il celebre ritratto equestre di Anton Giulio Brignole-Sale. Vi si aggiungono capolavori come il San Sebastiano di Guido Reni, la Cleopatra di Guercino, la Giuditta di Veronese e la Cuoca di Bernardo Strozzi.</p>
+</div></div>
+
+
+</div>
+</div>
+</details>
+<details class="topic" data-status="done">
+<summary><span class="status-dot done"></span><span class="topic-name">Palazzo Bianco</span><span class="status-text">Fatto</span></summary>
+<div class="topic-content">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Palazzo Bianco è, per una curiosa contraddizione, insieme il più antico e il più recente fra i grandi edifici di Strada Nuova. Fu eretto fra il 1530 e il 1540 per Luca Grimaldi, esponente di una delle famiglie più influenti di Genova, ma in un'epoca in cui la via non esisteva ancora: la costruzione, dall'aspetto sobrio, si affacciava su una zona ancora suburbana, sulla salita che portava alla chiesa di San Francesco di Castelletto. Alla morte di Luca, nel 1580, un omonimo erede proseguì alcuni lavori, ma l'edificio restò modesto — tanto che non comparve nemmeno fra i palazzi genovesi più sontuosi rilevati e pubblicati da Rubens nel 1622.</p>
+<p>Nel 1658 la proprietà passò alla famiglia De Franchi; nel 1711 gli eredi indebitati di Federico De Franchi furono costretti a cederla alla loro principale creditrice, Maria Durazzo Brignole-Sale — già proprietaria, dall'altro lato della via, di Palazzo Rosso. Fu lei a commissionare all'architetto Giacomo Viano, fra il 1711 e il 1716, la ristrutturazione decisiva: un nuovo ingresso fu aperto direttamente su Strada Nuova, e l'edificio fu riorganizzato secondo il sistema atrio-scala-cortile ormai tipico dei palazzi della via. Da questo intervento derivò anche il nome con cui il palazzo è conosciuto: "Bianco", per il colore chiaro della nuova facciata, in aperto contrasto — e in dialogo cromatico — con il rosso della dimora di fronte, appartenuta allo stesso casato.</p>
+<p>Nel 1884 l'ultima discendente della famiglia, Maria Brignole Sale De Ferrari, duchessa di Galliera, dispose per testamento che il palazzo fosse destinato al Comune di Genova per la formazione di una galleria pubblica; la pinacoteca aprì al pubblico nel 1892. Gravemente danneggiato dai bombardamenti aerei del 1942, l'edificio fu ricostruito nelle sue forme settecentesche e riaperto nel 1950 con una mostra dedicata al pittore Alessandro Magnasco, in un nuovo allestimento museografico curato dall'architetto Franco Albini insieme a Caterina Marcenaro, allora alla guida dell'Ufficio Belle Arti e Storia del Comune — lo stesso architetto che, in quegli stessi anni, firmava anche il celebre restauro di Palazzo Rosso. Dal 2004 Palazzo Bianco fa parte, insieme a Palazzo Rosso e Palazzo Doria Tursi, del percorso unificato dei Musei di Strada Nuova.</p>
+</div><div class="tab-panel">
+<p>Dell'originaria dimora cinquecentesca di Luca Grimaldi sopravvive oggi un solo elemento visibile: le due grandi statue di Giove e Giano, opera dello scultore Pierre Franqueville (1585), che ancora dominano lo scalone del palazzo — testimonianza silenziosa di un edificio che il resto della ristrutturazione settecentesca ha completamente trasformato.</p>
+<p>L'aspetto attuale, infatti, è in massima parte il risultato dell'intervento di Giacomo Viano nel primo Settecento, che lavorò sui moduli architettonici e formali già collaudati negli edifici cinquecenteschi della via, dotando il palazzo di un nuovo accesso su Strada Nuova e di un impianto atrio-scala-cortile in linea con la tipologia degli altri palazzi del Rolli. La facciata chiara che ne risultò fu concepita in esplicito contrasto con quella color minio di Palazzo Rosso, proprio di fronte: due dimore della stessa famiglia, in dialogo cromatico attraverso la strada.</p>
+<p>L'allestimento museale attuale porta la firma di Franco Albini, che nel dopoguerra intervenne sul palazzo con lo stesso linguaggio museografico moderno sperimentato a Palazzo Rosso, inserendo soluzioni espositive contemporanee entro le sale storiche. La collezione, arricchita nel tempo da donazioni e acquisizioni del Comune, spazia dalla pittura genovese a quella veneta, lombarda, fiamminga e spagnola, dal Quattrocento al Settecento.</p>
+</div></div>
+
+
+</div>
+</div>
+</details>
+<details class="topic" data-status="done">
+<summary><span class="status-dot done"></span><span class="topic-name">Palazzo Doria Tursi</span><span class="status-text">Fatto</span></summary>
+<div class="topic-content">
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>È il più grande dei palazzi di Strada Nuova, l'unico costruito accorpando tre distinti lotti di terreno. I lavori iniziarono nel 1565 per volontà di Niccolò Grimaldi, facoltoso banchiere genovese, su progetto dei fratelli Domenico e Giovanni Ponzello, architetti manieristi allievi di Galeazzo Alessi — anche se il conoscitore settecentesco Carlo Giuseppe Ratti attribuì invece l'intero edificio a Rocco Lurago, riservando ai fratelli Ponzello e a Taddeo Carlone solo gli ornati scultorei di porte e finestre: un'incertezza attributiva che accompagna, non a caso, diversi cantieri della via.</p>
+<p>La vicenda del committente segnò profondamente il destino del palazzo: caduto in difficoltà finanziarie, Niccolò Grimaldi si trasferì a Madrid nel tentativo di recuperare le proprie sostanze, e fu costretto a interrompere ogni lavoro edilizio e, soprattutto, decorativo — ragione per cui l'edificio, a differenza di molti altri palazzi della via, non conserva un ciclo di affreschi cinquecenteschi. Venduto nel 1593, passò poi a Gio. Andrea Doria, principe di Melfi, che lo volle come dimora del ramo cadetto della propria famiglia, quello di Carlo I, duca di Tursi (1576-1649) — è da questo titolo nobiliare che deriva il nome con cui il palazzo è ancora oggi conosciuto. Fu in questa fase che vennero aggiunte le ampie logge affacciate sulla strada.</p>
+<p>Il 13 gennaio 1820 Casa Savoia acquisì il palazzo da Maria Giovanna Doria, quinta duchessa di Tursi, aprendo la cosiddetta "fase piemontese" della sua storia: in questo periodo l'edificio fu completato sul retro, fu costruita la torretta dell'orologio, e agli interni venne data quella veste decorativa ottocentesca che in gran parte li caratterizza ancora oggi. Dal 1848 Palazzo Doria Tursi è sede del Comune di Genova, e dal 2006 fa parte, insieme a Palazzo Rosso e Palazzo Bianco, del sito UNESCO delle Strade Nuove e dei Palazzi dei Rolli.</p>
+</div><div class="tab-panel">
+<p>La facciata combina tre materiali lapidei diversi — pietra rosa di Finale, ardesia grigio-nera di Valfontanabuona e marmo bianco di Carrara — in un accostamento cromatico che da solo basta a distinguere il palazzo lungo tutta la via. Ratti, colpito dall'effetto d'insieme, la descrisse come "tutto eretto di marmi da sommo ad imo".</p>
+<p>La soluzione distributiva interna è considerata fra le più originali e innovative dell'intera Strada Nuova: alla sequenza atrio-scalone si affianca un cortile rettangolare rialzato rispetto al livello del portico, collegato da una scala a doppia rampa — un impianto che genera un gioco di luce e prospettiva di grande effetto scenico, al punto che lo stesso Ratti lo paragonò a "una vaga scena di teatro". Le ampie logge affacciate sulla strada, aggiunte nella fase Doria-Tursi del primo Seicento, completano oggi la lettura della facciata.</p>
+<p>Proprio a causa dell'interruzione dei lavori voluta da Niccolò Grimaldi, l'apparato decorativo interno che oggi si ammira — compreso il soffitto dipinto del Salone di Rappresentanza — appartiene in gran parte alla successiva fase ottocentesca sabauda, non a quella cinquecentesca originaria. Fra le curiosità conservate nel palazzo, oggi sede del Municipio, spiccano il celebre violino "il Cannone" appartenuto a Niccolò Paganini e una lettera autografa di Cristoforo Colombo.</p>
+</div></div>
+
+
+</div>
+</div>
+</details>
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-rosso" data-name="palazzo rosso">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo Rosso</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Nel 1671 i fratelli Francesco e Rodolfo Brignole-Sale commissionarono all'architetto Pier Antonio Corradi la costruzione di una nuova residenza al civico 18 di Strada Nuova, accanto al palazzo di un altro ramo della stessa famiglia — quello di Maria Durazzo Brignole-Sale, che diventerà in seguito Palazzo Bianco. Fu il penultimo dei grandi palazzi della via a essere edificato, completato nel 1677: la costruzione durò dunque circa sei anni.</p>
+<p>La residenza rimase proprietà della famiglia Brignole-Sale per due secoli, fino al 1874, quando l'ultima erede, Maria Brignole Sale De Ferrari, duchessa di Galliera, decise di donarla al Comune di Genova insieme a tutte le collezioni d'arte che vi erano custodite, "per accrescere il decoro e l'utile" della città e per tramandare per sempre la memoria della propria famiglia.</p>
+<p>Danneggiato dai bombardamenti della Seconda guerra mondiale, il palazzo fu oggetto di un celebre intervento di restauro fra il 1952 e il 1961, condotto dall'architetto Franco Albini: un allestimento museografico entrato nella storia del design italiano del Novecento, di cui resta ancora oggi un segno distintivo il feltro rosso che riveste la scala ottagonale. Un ultimo intervento di adeguamento impiantistico, nel 2022, ha in parte ripristinato proprio questo elemento, rimosso in un successivo allestimento degli anni Novanta insieme al resto della veste albiniana, quando il museo tornò a un'ambientazione più fedele al Settecento storico descritto dal Ratti.</p>
+<p>Oggi Palazzo Rosso costituisce la prima tappa del percorso dei Musei di Strada Nuova, insieme a Palazzo Bianco e Palazzo Doria Tursi.</p>
+</div><div class="tab-panel">
+<p>Il palazzo si sviluppa su una pianta a "U", con due ali unite da logge che racchiudono un cortile interno a pianta quadrata, decorato da un portico sorretto da colonne di marmo di ordine dorico. La facciata, alta tre piani, è scandita da lesene giganti di ordine corinzio ed è rivestita da un intonaco color minio — un rosso acceso — da cui deriva il soprannome con cui il palazzo è universalmente conosciuto: una scelta cromatica pensata fin dall'inizio per renderlo immediatamente riconoscibile come "marchio" della famiglia lungo la strada.</p>
+<p>L'edificio dispone di due piani nobili, una soluzione insolitamente generosa dettata dalle esigenze della committenza: le sale di rappresentanza occupano il primo piano nobile, una biblioteca il secondo, mentre gli appartamenti privati si trovavano al terzo livello, sotto un mezzanino.</p>
+<p>La decorazione interna fu affidata ai massimi esponenti della pittura barocca genovese, in due campagne successive: la prima, avviata nel 1679, vide protagonisti Domenico Piola e Gregorio De Ferrari; la seconda, iniziata nel 1691, fu condotta da Giovanni Andrea Carlone, Carlo Antonio Tavella e Bartolomeo Guidobono, con interventi successivi anche di Domenico Parodi. Ne risultarono cicli affrescati di soggetto mitologico, allegorico e religioso — tra cui le celebri Sale delle Stagioni al secondo piano — che in larga parte conservano ancora oggi la decorazione e l'arredo originali: pavimenti marmorei, stucchi dorati, soffitti dipinti.</p>
+<p>Il pezzo più celebre della quadreria è il gruppo di sette dipinti di Antoon Van Dyck, eseguiti durante il lungo soggiorno genovese del pittore fiammingo (1621-1627) — allievo di Rubens e ritrattista prediletto della grande aristocrazia cittadina —, tra cui il celebre ritratto equestre di Anton Giulio Brignole-Sale. Vi si aggiungono capolavori come il San Sebastiano di Guido Reni, la Cleopatra di Guercino, la Giuditta di Veronese e la Cuoca di Bernardo Strozzi.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-bianco" data-name="palazzo bianco">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo Bianco</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Palazzo Bianco è, per una curiosa contraddizione, insieme il più antico e il più recente fra i grandi edifici di Strada Nuova. Fu eretto fra il 1530 e il 1540 per Luca Grimaldi, esponente di una delle famiglie più influenti di Genova, ma in un'epoca in cui la via non esisteva ancora: la costruzione, dall'aspetto sobrio, si affacciava su una zona ancora suburbana, sulla salita che portava alla chiesa di San Francesco di Castelletto. Alla morte di Luca, nel 1580, un omonimo erede proseguì alcuni lavori, ma l'edificio restò modesto — tanto che non comparve nemmeno fra i palazzi genovesi più sontuosi rilevati e pubblicati da Rubens nel 1622.</p>
+<p>Nel 1658 la proprietà passò alla famiglia De Franchi; nel 1711 gli eredi indebitati di Federico De Franchi furono costretti a cederla alla loro principale creditrice, Maria Durazzo Brignole-Sale — già proprietaria, dall'altro lato della via, di Palazzo Rosso. Fu lei a commissionare all'architetto Giacomo Viano, fra il 1711 e il 1716, la ristrutturazione decisiva: un nuovo ingresso fu aperto direttamente su Strada Nuova, e l'edificio fu riorganizzato secondo il sistema atrio-scala-cortile ormai tipico dei palazzi della via. Da questo intervento derivò anche il nome con cui il palazzo è conosciuto: "Bianco", per il colore chiaro della nuova facciata, in aperto contrasto — e in dialogo cromatico — con il rosso della dimora di fronte, appartenuta allo stesso casato.</p>
+<p>Nel 1884 l'ultima discendente della famiglia, Maria Brignole Sale De Ferrari, duchessa di Galliera, dispose per testamento che il palazzo fosse destinato al Comune di Genova per la formazione di una galleria pubblica; la pinacoteca aprì al pubblico nel 1892. Gravemente danneggiato dai bombardamenti aerei del 1942, l'edificio fu ricostruito nelle sue forme settecentesche e riaperto nel 1950 con una mostra dedicata al pittore Alessandro Magnasco, in un nuovo allestimento museografico curato dall'architetto Franco Albini insieme a Caterina Marcenaro, allora alla guida dell'Ufficio Belle Arti e Storia del Comune — lo stesso architetto che, in quegli stessi anni, firmava anche il celebre restauro di Palazzo Rosso. Dal 2004 Palazzo Bianco fa parte, insieme a Palazzo Rosso e Palazzo Doria Tursi, del percorso unificato dei Musei di Strada Nuova.</p>
+</div><div class="tab-panel">
+<p>Dell'originaria dimora cinquecentesca di Luca Grimaldi sopravvive oggi un solo elemento visibile: le due grandi statue di Giove e Giano, opera dello scultore Pierre Franqueville (1585), che ancora dominano lo scalone del palazzo — testimonianza silenziosa di un edificio che il resto della ristrutturazione settecentesca ha completamente trasformato.</p>
+<p>L'aspetto attuale, infatti, è in massima parte il risultato dell'intervento di Giacomo Viano nel primo Settecento, che lavorò sui moduli architettonici e formali già collaudati negli edifici cinquecenteschi della via, dotando il palazzo di un nuovo accesso su Strada Nuova e di un impianto atrio-scala-cortile in linea con la tipologia degli altri palazzi del Rolli. La facciata chiara che ne risultò fu concepita in esplicito contrasto con quella color minio di Palazzo Rosso, proprio di fronte: due dimore della stessa famiglia, in dialogo cromatico attraverso la strada.</p>
+<p>L'allestimento museale attuale porta la firma di Franco Albini, che nel dopoguerra intervenne sul palazzo con lo stesso linguaggio museografico moderno sperimentato a Palazzo Rosso, inserendo soluzioni espositive contemporanee entro le sale storiche. La collezione, arricchita nel tempo da donazioni e acquisizioni del Comune, spazia dalla pittura genovese a quella veneta, lombarda, fiamminga e spagnola, dal Quattrocento al Settecento.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-doria-tursi" data-name="palazzo doria tursi">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo Doria Tursi</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>È il più grande dei palazzi di Strada Nuova, l'unico costruito accorpando tre distinti lotti di terreno. I lavori iniziarono nel 1565 per volontà di Niccolò Grimaldi, facoltoso banchiere genovese, su progetto dei fratelli Domenico e Giovanni Ponzello, architetti manieristi allievi di Galeazzo Alessi — anche se il conoscitore settecentesco Carlo Giuseppe Ratti attribuì invece l'intero edificio a Rocco Lurago, riservando ai fratelli Ponzello e a Taddeo Carlone solo gli ornati scultorei di porte e finestre: un'incertezza attributiva che accompagna, non a caso, diversi cantieri della via.</p>
+<p>La vicenda del committente segnò profondamente il destino del palazzo: caduto in difficoltà finanziarie, Niccolò Grimaldi si trasferì a Madrid nel tentativo di recuperare le proprie sostanze, e fu costretto a interrompere ogni lavoro edilizio e, soprattutto, decorativo — ragione per cui l'edificio, a differenza di molti altri palazzi della via, non conserva un ciclo di affreschi cinquecenteschi. Venduto nel 1593, passò poi a Gio. Andrea Doria, principe di Melfi, che lo volle come dimora del ramo cadetto della propria famiglia, quello di Carlo I, duca di Tursi (1576-1649) — è da questo titolo nobiliare che deriva il nome con cui il palazzo è ancora oggi conosciuto. Fu in questa fase che vennero aggiunte le ampie logge affacciate sulla strada.</p>
+<p>Il 13 gennaio 1820 Casa Savoia acquisì il palazzo da Maria Giovanna Doria, quinta duchessa di Tursi, aprendo la cosiddetta "fase piemontese" della sua storia: in questo periodo l'edificio fu completato sul retro, fu costruita la torretta dell'orologio, e agli interni venne data quella veste decorativa ottocentesca che in gran parte li caratterizza ancora oggi. Dal 1848 Palazzo Doria Tursi è sede del Comune di Genova, e dal 2006 fa parte, insieme a Palazzo Rosso e Palazzo Bianco, del sito UNESCO delle Strade Nuove e dei Palazzi dei Rolli.</p>
+</div><div class="tab-panel">
+<p>La facciata combina tre materiali lapidei diversi — pietra rosa di Finale, ardesia grigio-nera di Valfontanabuona e marmo bianco di Carrara — in un accostamento cromatico che da solo basta a distinguere il palazzo lungo tutta la via. Ratti, colpito dall'effetto d'insieme, la descrisse come "tutto eretto di marmi da sommo ad imo".</p>
+<p>La soluzione distributiva interna è considerata fra le più originali e innovative dell'intera Strada Nuova: alla sequenza atrio-scalone si affianca un cortile rettangolare rialzato rispetto al livello del portico, collegato da una scala a doppia rampa — un impianto che genera un gioco di luce e prospettiva di grande effetto scenico, al punto che lo stesso Ratti lo paragonò a "una vaga scena di teatro". Le ampie logge affacciate sulla strada, aggiunte nella fase Doria-Tursi del primo Seicento, completano oggi la lettura della facciata.</p>
+<p>Proprio a causa dell'interruzione dei lavori voluta da Niccolò Grimaldi, l'apparato decorativo interno che oggi si ammira — compreso il soffitto dipinto del Salone di Rappresentanza — appartiene in gran parte alla successiva fase ottocentesca sabauda, non a quella cinquecentesca originaria. Fra le curiosità conservate nel palazzo, oggi sede del Municipio, spiccano il celebre violino "il Cannone" appartenuto a Niccolò Paganini e una lettera autografa di Cristoforo Colombo.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="altri-palazzi-e-luoghi-di-genova">
+  <h2 class="group-title">Altri Palazzi e Luoghi di Genova<span class="group-count">6</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="caruggi-centro-storico" data-name="caruggi (centro storico)">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Caruggi (Centro Storico)</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>I caruggi sono la fitta rete di vicoli medievali che costituisce il centro storico di Genova, uno dei nuclei medievali più estesi e densamente abitati d'Europa: circa 113 ettari di tessuto urbano pressoché intatto, che un tempo ospitavano fino a 20.000 abitanti in circa 5.000 edifici. Sull'origine del nome non c'è accordo unanime: alcuni lo fanno derivare da radici legate al latino, altri da una parola araba, "kharuj", che significa "uscita" — un possibile riferimento al fatto che questi vicoli conducono, quasi tutti, verso il porto.</p>
+<p>La conformazione attuale del centro storico si definì fra l'anno Mille e il Trecento, quando le famiglie che avevano trovato fortuna nel commercio marittimo — le stesse che secoli dopo avrebbero costruito i palazzi di Strada Nuova — costruirono la città proteggendosi con alte mura e un arsenale interno, addensando le abitazioni in uno spazio ristretto fra il porto e la collina. Sotto le viuzze e gli edifici odierni si conservano tracce di stratificazioni ancora più antiche: sotto la Cattedrale di San Lorenzo, ad esempio, sono stati rinvenuti resti di una chiesa paleocristiana, mosaici bizantini e fondazioni romane.</p>
+<p>Nel Novecento, ai pesanti danni subiti durante i bombardamenti della Seconda guerra mondiale, seguì una lunga fase di degrado e abbandono che per decenni ha reso il centro storico una delle zone più difficili della città; solo negli ultimi decenni, di pari passo con la riqualificazione del Porto Antico, i caruggi hanno recuperato centralità nella vita cittadina.</p>
+</div><div class="tab-panel">
+<p>I caruggi si presentano come un dedalo di vicoli strettissimi — spesso larghi meno di due metri — fra edifici alti che si sviluppano in verticale proprio per la scarsità di spazio orizzontale disponibile entro le mura. Il risultato è un gioco costante di luce e ombra, con il cielo ridotto a una sottile striscia azzurra fra i cornicioni, interrotto all'improvviso da piccole piazzette inaspettate — spesso legate, come le chiese che vi si affacciano, a importanti famiglie nobili del quartiere.</p>
+<p>Un tratto caratteristico sono i portici che fiancheggiano molti vicoli: pur essendo di uso pubblico, venivano costruiti autonomamente dal proprietario di ciascun edificio, tanto che lo stile della copertura cambia visibilmente passando da un palazzo all'altro — una sorta di firma architettonica involontaria lasciata da secoli di edilizia privata cresciuta senza un piano urbanistico unitario. Nelle zone più collinari del centro storico, ai caruggi veri e propri si affiancano le "creuze": stradine strette e spesso a gradoni, incassate fra alti muri, tipiche dell'edilizia ligure e rese celebri anche in canzone da Fabrizio De André.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-reale" data-name="palazzo reale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo Reale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Palazzo Reale nasce come grande dimora patrizia dei Balbi, che la costruirono fra il 1643 e il 1650. Fu Stefano Balbi, ricco finanziere della Repubblica, a volerla, nell'ambito di un progetto più ampio: l'apertura della "Strada nobilium de Balbis" — l'odierna via Balbi — che avrebbe collegato il porto al centro cittadino sostituendo l'angusta via Prè. L'operazione fu concepita come una sorta di scambio: i Balbi si offrirono di costruire a proprie spese la nuova strada, ottenendo in cambio dalla Repubblica il permesso di edificarvi i propri palazzi. L'impianto seicentesco originario comprendeva soltanto l'attuale corpo centrale, su due piani nobili e tre ammezzati.</p>
+<p>La peste del 1657 segnò la fine del ruolo di primo piano della famiglia: scomparvero sia Stefano sia il figlio Giovanni Battista, e nel 1679 il palazzo fu acquistato da Eugenio Durazzo (1630-1705), fra i senatori più ricchi della città, finanziere, ambasciatore a Milano e raffinato committente d'arte. Fu lui a volere l'ampliamento dell'edificio fino a occupare un intero isolato cittadino, con una facciata di quasi cento metri che ne fece la più estesa fra le dimore aristocratiche genovesi; ai lavori fu chiamato un architetto di fama internazionale, Carlo Fontana.</p>
+<p>Gran parte delle decorazioni che ancora oggi si ammirano si devono però al successore di Eugenio, il nipote Gerolamo Ignazio Durazzo (1676-1747), che si avvalse ripetutamente di Domenico Parodi — pittore, scultore e specialista in allestimenti scenografici — per il rinnovamento degli interni. Fu proprio Gerolamo a commissionare a Parodi la decorazione della Galleria degli Specchi, destinata a diventare l'ambiente più prestigioso dell'intero palazzo, il luogo deputato a ricevere gli ospiti di maggior rango.</p>
+<p>Alla fine del Settecento il potere finanziario dei Durazzo si ridimensionò sensibilmente, costringendo la famiglia ad alienare alcuni pezzi importanti della propria quadreria; all'inizio dell'Ottocento, afflitti da una crisi economica ormai conclamata, misero l'intero palazzo in vendita. Il primo a interessarsene fu Napoleone Bonaparte, ma fu infine il re di Sardegna Carlo Felice ad aggiudicarselo, nel 1824: da quel momento l'edificio divenne davvero "Reale", residenza della corte sabauda a Genova.</p>
+</div><div class="tab-panel">
+<p>La facciata, che si sviluppa per quasi cento metri, occupa un intero isolato ed è scandita da due piani nobili sottolineati da cornici marcapiano e da tre ammezzati, di cui il primo al livello della strada. Il bugnato che oggi le conferisce un aspetto severo e imponente fu voluto dai Durazzo nel corso del Settecento, sovrapposto a una superficie forse originariamente liscia; sopra il portale centrale, sormontato da un balcone, campeggia lo stemma sabaudo, aggiunto naturalmente dopo l'acquisto del 1824.</p>
+<p>Dall'atrio si aprono, per inquadrature successive, le viste sul cortile e sul giardino, separati da una tripla arcata — una sequenza scenografica tipica dell'architettura genovese del periodo. Due logge simmetriche, raggiungibili tramite gli scaloni monumentali, erano in origine aperte e furono chiuse da ampie finestre solo nella seconda metà del Settecento. Sul retro, affacciato verso il porto, si estende un giardino pensile.</p>
+<p>Fra gli affreschi più importanti spiccano La fama dei Balbi di Valerio Castello e Andrea Seghizzi, La primavera che spinge lontano l'inverno dei maestri bolognesi Angelo Michele Colonna e Agostino Mitelli, e Giove che manda giustizia sulla Terra di Giovanni Battista Carlone. Ma l'ambiente più celebre resta la Galleria degli Specchi, giunta pressoché intatta nella decorazione voluta da Gerolamo II Durazzo: un insieme unitario di pittura, scultura e architettura che fu concepito in aperta emulazione delle gallerie dei palazzi Colonna e Doria Pamphilj a Roma e della Galerie des Glaces di Versailles. Vi è esposta anche la collezione di sculture classiche dei Durazzo, per lo più originali romani integrati con parti mancanti in epoca barocca.</p>
+<p>Il percorso museale prosegue con il Salone del Trono, un tempo destinato a ricevere ambasciatori e dignitari, e con la Cappella privata. Nella quadreria, che raccoglie dipinti dal XVI al XVIII secolo, spicca il Ritratto di Caterina Balbi Durazzo di Van Dyck.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="chiesa-della-santissima-annunziata-del-vastato" data-name="chiesa della santissima annunziata del vastato">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Chiesa della Santissima Annunziata del Vastato</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>La basilica sorge sul sito di una piccola chiesa duecentesca dedicata a Santa Marta, con annesso convento. Nel Cinquecento l'edificio fu intitolato a San Francesco d'Assisi e, poco dopo, in seguito a un avvicendamento fra ordini religiosi, alla Santissima Annunziata: furono infatti i Frati Francescani Osservanti, costretti a lasciare il convento della Santissima Annunziata di Portoria per far posto a nuovi lavori alle mura cittadine, a portare con sé nella nuova sede l'intitolazione della chiesa che avevano appena abbandonato. Il nome "del Vastato" deriva con ogni probabilità dalle tagliate esterne alle mura — spazi lasciati volutamente sgombri per motivi difensivi — poiché l'area ospitava fin dal 1155 un tratto della cinta muraria della città.</p>
+<p>Verso la fine del Cinquecento, per finanziare il rinnovo pressoché totale richiesto dal Concilio di Trento, la cappella maggiore fu venduta in giuspatronato alla famiglia Lomellini, che ne fece prima una cappella di famiglia e poi una vera parrocchia gentilizia. Sotto la loro guida la chiesa assunse le forme barocche che in gran parte conserva ancora oggi, grazie dapprima a Taddeo Carlone e, dal 1615, a Giovanni Domenico Casella detto "Scorticone" e a Giacomo Porta: per consentire l'ampliamento furono acquistati e demoliti gli edifici che sorgevano di fronte, permettendo alla chiesa di allungarsi di una campata e mezza verso l'attuale piazza della Nunziata. Anche il convento fu ingrandito fra il 1620 e il 1650, con nuovi chiostri voluti e finanziati da Giacomo Lomellini "il Moro".</p>
+<p>Fu ancora un Lomellini a volere, poco dopo, la decorazione della cupola affidata ad Andrea Ansaldo — uno degli episodi più spettacolari della pittura genovese del primo Seicento. Non stupisce che l'Annunziata sia una delle quattro chiese aggiunte da Pieter Paul Rubens nella seconda edizione del suo trattato sui Palazzi di Genova, attorno al 1626, sebbene la facciata da lui rappresentata corrispondesse in realtà a un progetto mai realizzato: fino all'Ottocento, infatti, la parte anteriore della chiesa restò semplicemente murata, priva di un prospetto degno dell'interno.</p>
+<p>Nel 1861 le leggi di soppressione del governo sabaudo costrinsero i francescani a lasciare la basilica; solo agli inizi del Novecento l'arcivescovo Tommaso Reggio la riaffidò ai Frati Minori. Nel frattempo, nel 1867, prese finalmente forma la facciata attuale, su un progetto elaborato nel 1834 da Carlo Barabino e portato a compimento, dopo la sua morte, da Giovanni Battista Resasco.</p>
+</div><div class="tab-panel">
+<p>Per volumetria, l'Annunziata è la chiesa più grande di Genova. La facciata neoclassica che oggi la caratterizza — con un maestoso pronao a sei colonne ioniche preceduto da un'ampia scalinata in marmo e affiancato da due campanili — fu progettata da Carlo Barabino nel 1834 e realizzata solo nel 1867, su rielaborazione di Giovanni Battista Resasco: un rivestimento tardo ottocentesco che si sovrappone a una struttura barocca ben più antica.</p>
+<p>L'interno, interamente rivestito d'oro, è considerato da molti il più bello di Genova. Il punto culminante della decorazione è la cupola, dove Andrea Ansaldo costruì una complessa "macchina prospettica": affreschi a trompe-l'œil si fondono con figure dorate a tutto tondo in una composizione dal forte slancio verticale. Ai quattro pennacchi, le grandi figure degli Evangelisti aprono la sequenza; più in alto, coppie di giovani nudi reggono lo stemma mariano, mentre le finestre del tamburo sono incorniciate da cariatidi dorate che sembrano sorreggere fisicamente la cupola. Architetture dipinte — colonne tortili, balaustre da cui sporgono apostoli illusionisticamente affacciati — proseguono lo spazio reale della chiesa fino a un arcone da cui si scorge l'Assunta, in un vortice ascensionale che si conclude, nel piccolo cupolino sommitale, con la figura di Dio Padre.</p>
+<p>Il presbiterio e il coro, fra stucchi e affreschi, portano la firma di Giulio Benso, mentre lungo le navate e sugli altari si susseguono opere di alcuni fra i maggiori nomi della pittura genovese e non solo: Luca Cambiaso, Bernardo Strozzi, Domenico Piola, Gregorio De Ferrari, Domenico Fiasella, Giovanni Battista Paggi, la famiglia Carlone, fino a un Guercino. Un insieme che testimonia, meglio di molti palazzi, quanto lo sfarzo decorativo barocco genovese trovasse spazio anche — e soprattutto — nei luoghi di culto voluti dalle grandi famiglie patrizie della città.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="cattedrale-di-san-lorenzo" data-name="cattedrale di san lorenzo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Cattedrale di San Lorenzo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il sito aveva già funzione di cattedrale a partire dal IX secolo, ma la costruzione che oggi vediamo affonda le radici nei primi due decenni dell'XI secolo, quando un primo edificio romanico-pisano sostituì l'antica basilica dei Santi Siro e Romolo come chiesa madre della città: di quella fase più antica restano ancora oggi la pianta basilicale a tre navate, le murature perimetrali inferiori e parte degli arconi che separano le navate. Nel 1098 presero avvio i grandi lavori di ricostruzione in forme romaniche, alimentati anche dai proventi delle Crociate, che portarono alla solenne consacrazione dell'edificio il 10 ottobre 1118 da parte di papa Gelasio II — allora fuggito da Roma per evitare lo scontro con l'imperatore Enrico V.</p>
+<p>Il terremoto del 1222 e, più avanti nel secolo, un incendio del 1296 imposero un rinnovamento profondo in chiave gotica: la facciata fu affiancata da due torri, l'interno fu dotato di un endonartece e le navate furono coperte da volte scaricate a terra tramite pilastri a fascio. Dei due portali laterali — quello di San Giovanni a sinistra, quello di San Gottardo a destra — si conserva ancora oggi l'opera romanica dei Maestri Antelami, giunti dalla Val d'Intelvi, mentre il portale centrale, di gusto pienamente gotico, fu arricchito da un ricco apparato scultoreo.</p>
+<p>A metà del Quattrocento fu realizzata, lungo la navata sinistra, la Cappella di San Giovanni Battista: capolavoro rinascimentale dello scultore ticinese Domenico Gagini da Bissone, formatosi alla scuola di Brunelleschi, coadiuvato dal nipote Elia. La cappella fu costruita per custodire le ceneri del santo patrono di Genova, portate in città nel 1098 dal condottiero Guglielmo Embriaco al ritorno dalla conquista di Cesarea, dopo averle sottratte a un convento greco nei pressi di Myra, nell'odierna Turchia — lo stesso Embriaco che, dalla medesima spedizione, riportò a Genova anche il Sacro Catino. Nel Cinquecento l'architetto Galeazzo Alessi intervenne su parte dell'edificio, ridisegnando navate, pavimento, cupola e abside, mentre in questi stessi anni la torre campanaria di destra raggiunse la sua altezza definitiva di 60 metri.</p>
+<p>Fra gli episodi più drammatici della sua storia recente c'è la domenica del 9 febbraio 1941, quando la flotta britannica della Force H, al comando dell'ammiraglio James Somerville e salpata da Gibilterra, colpì il porto di Genova nell'operazione "Grog": una granata raggiunse la cattedrale ma non esplose, e resta oggi esposta in una teca di vetro in una delle navate laterali — un'improbabile sopravvissuta al bombardamento navale che distrusse metà del centro storico. In occasione del Giubileo del 2000 furono avviati ampi lavori di consolidamento e restauro, conclusi con la consacrazione di un nuovo altare l'11 novembre 2001.</p>
+</div><div class="tab-panel">
+<p>La cattedrale si presenta come una stratificazione di stili — romanico-pisano, gotico di ispirazione francese, rinascimento alessiano, manierismo — che convive in un equilibrio fragile ma riuscito. Il tratto più riconoscibile resta la facciata bicroma, a fasce orizzontali alternate di marmo bianco di Carrara e pietra nera di Promontorio: un motivo cromatico di derivazione islamica, diffusosi lungo le rotte del commercio marittimo medievale e ben noto anche all'architettura toscana coeva.</p>
+<p>L'interno è organizzato in tre navate scandite da colonne con capitelli romanici, sovrastate da matronei e coperte da volte gotiche. Dei due portali laterali romanici sopravvive l'opera dei Maestri Antelami, mentre il portale centrale, gotico, presenta nella lunetta il Cristo giudice con il tetramorfo, sull'architrave il Martirio di san Lorenzo, e sugli stipiti l'Albero di Jesse insieme a episodi dell'infanzia di Cristo.</p>
+<p>Fra le cappelle spicca, per qualità scultorea, la già citata Cappella di San Giovanni Battista del Gagini, cui si affianca la Cappella Cybo, capolavoro scultoreo del tardo Rinascimento. Nel presbiterio e in una cappella laterale si conservano rispettivamente gli affreschi secenteschi di Lazzaro Tavarone e quelli di Luca Cambiaso.</p>
+<p>Nei sotterranei, sotto la navata sinistra, si trova il Museo del Tesoro, allestito nel 1956 su progetto di Franco Albini — lo stesso architetto responsabile, in quegli stessi anni, del rinnovamento museografico di Palazzo Rosso e Palazzo Bianco, qui applicato non alla quadreria ma agli oggetti liturgici. Fra i pezzi più celebri, il Sacro Catino: un grande bacino esagonale in vetro verde di manifattura islamica (IX-X secolo), portato a Genova da Guglielmo Embriaco e creduto per secoli un manufatto di smeraldo, identificato dalla leggenda con il Santo Graal — finché Napoleone, fattolo analizzare a Parigi, non ne rivelò la vera natura vitrea; il catino tornò a Genova rotto, e solo un recente restauro lo ha restituito integro. Il tesoro conserva anche la Croce degli Zaccaria e l'arca reliquiario delle ceneri di San Giovanni Battista.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="porto-antico" data-name="porto antico">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Porto Antico</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Le origini del porto di Genova risalgono almeno al V secolo a.C., quando il seno naturale del Mandraccio — un'insenatura riparata da venti e mareggiate — cominciò a essere sfruttato per l'approdo delle imbarcazioni. Fu su quella base che, nel corso del Medioevo, si costruì la fortuna della città come grande potenza marinara: da qui salpavano le flotte che resero Genova, insieme a Venezia, Pisa e Amalfi, una delle repubbliche marinare protagoniste del commercio mediterraneo.</p>
+<p>Con l'annessione al Regno Sabaudo nell'Ottocento, il porto conobbe una nuova stagione di sviluppo: furono prolungati i moli, realizzati i collegamenti ferroviari, scavati i bacini di carenaggio e ampliate le calate. A fine secolo Genova era diventata uno snodo commerciale di primissimo piano, capace di movimentare 7,5 milioni di tonnellate di merci l'anno — attraverso il suo porto transitava allora il 90% del cotone importato in Italia e percentuali altrettanto rilevanti di minerali siderurgici, granaglie e carbone. L'espansione proseguì, pur rallentata negli anni Venti, fino alla Seconda guerra mondiale.</p>
+<p>Nel secondo Novecento, con lo spostamento delle attività commerciali e industriali verso altre aree del porto moderno, l'antico bacino perse gradualmente la propria funzione, trasformandosi in un'area portuale degradata e in gran parte sconnessa dalla vita cittadina. La svolta arrivò nel 1992, quando Genova fu scelta per ospitare "le Colombiadi" — l'Esposizione internazionale specializzata dedicata al cinquecentenario della scoperta dell'America, città natale di Cristoforo Colombo. Grazie ai finanziamenti ottenuti per l'evento, il Comune affidò all'architetto genovese Renzo Piano un ambizioso progetto di riqualificazione, capace di restituire il mare alla città e trasformare l'antico bacino portuale in un nuovo quartiere urbano. Nel 1995 fu costituita la società Porto Antico di Genova, con l'obiettivo di sviluppare i 130.000 metri quadri dell'area come motore economico e polo di attrazione turistica: oggi, con oltre 5 milioni di visite l'anno, il Porto Antico è diventato la principale meta turistica della città.</p>
+</div><div class="tab-panel">
+<p>Il masterplan di Renzo Piano ha il merito di aver integrato in un disegno unitario gli edifici storici di "archeologia portuale" — i Magazzini del Cotone di primo Novecento, l'Edificio Millo, i seicenteschi Magazzini della Dogana e la cinquecentesca Porta Siberia, quest'ultima disegnata nel 1553 da Galeazzo Alessi, lo stesso architetto la cui influenza si ritrova nella tipologia dei palazzi di Strada Nuova — con architetture completamente nuove, fra cui il grande Acquario, la Piazza delle Feste, l'Isola delle Chiatte, la Biosfera e il Bigo.</p>
+<p>Piano stesso ha descritto il proprio approccio come una serie di "gesti molto semplici che, proprio dalla loro pacatezza, assumono più forza": interventi pensati fin dall'inizio per durare oltre le celebrazioni temporanee del 1992, non per esaurirsi con esse. Il simbolo più riconoscibile dell'intera operazione è il Bigo: ispirato nella forma e nel nome ai tradizionali bighi, le gru da carico un tempo usate nei porti, svolge una doppia funzione — ospita un ascensore panoramico rotante che offre una vista a 360 gradi sulla città, e allo stesso tempo regge la tensostruttura in tessuto che ombreggia la sottostante Piazza delle Feste, realizzata in collaborazione con gli ingegneri strutturali di Ove Arup &amp; Partners.</p>
+<p>Il risultato — capace di conciliare memoria industriale e nuova architettura in uno spazio pubblico continuo affacciato sul mare — è diventato un caso di studio internazionale in materia di rigenerazione urbana dei waterfront portuali.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-spinola" data-name="palazzo spinola">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Palazzo Spinola</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Storia</button>
+<button class="tab" onclick="switchTab(this)">Architettura</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>A differenza dei grandi palazzi di Strada Nuova, Palazzo Spinola di Pellicceria — noto anche come palazzo di Francesco Grimaldi — sorge nel cuore dei caruggi, fra via della Maddalena e via San Luca, dove appare quasi all'improvviso a chi lo cerca fra vicoli e piazzette minuscole. Fu edificato alla fine del Cinquecento dalla famiglia Grimaldi; il suo aspetto originario è documentato da Pieter Paul Rubens nel volume sui palazzi genovesi che pubblicò ad Anversa nel 1622, una delle fonti più preziose per ricostruire l'immagine della Genova patrizia di quell'epoca.</p>
+<p>Nel corso dei secoli l'edificio passò di famiglia in famiglia — dai Grimaldi ai Pallavicino, poi per eredità ai Doria e infine agli Spinola — ciascuna delle quali lasciò il proprio segno negli ambienti interni. Fu il 13 luglio 2006 inserito, insieme agli altri 42 palazzi dei Rolli di Genova, nella lista del Patrimonio dell'Umanità UNESCO. Nel 1958 gli ultimi due proprietari, i marchesi Paolo e Franco Spinola, donarono l'intero palazzo allo Stato italiano insieme a tutto ciò che conteneva — quadreria, arredi, ceramiche, argenti, libri e incisioni — affinché diventasse un museo pubblico: nasce così l'attuale Galleria Nazionale, che occupa gli ultimi due piani dell'edificio e continua ad arricchirsi con acquisizioni statali.</p>
+</div><div class="tab-panel">
+<p>L'edificio conserva i caratteri tipici dei palazzi genovesi tardo cinquecenteschi, riconoscibili nel sistema atrio-scala, nel cortile interno e nel loggiato, mentre le facciate ricche di stucchi ne dichiarano a prima vista la natura di dimora patrizia. I due piani nobili raccontano due fasi diverse della sua storia: il primo conserva ancora l'aspetto e la decorazione di una residenza gentilizia secentesca, il secondo porta i segni di una raffinata ristrutturazione settecentesca, in cui spicca la piccola ma preziosissima Galleria degli Specchi — in scala ridotta rispetto a quella di Palazzo Reale, ma non meno elegante.</p>
+<p>Le volte dei saloni sono affrescate da Lazzaro Tavarone — lo stesso pittore già incontrato nel presbiterio della Cattedrale di San Lorenzo — con soggetti celebrativi delle imprese di famiglia: al primo piano La città di Lisbona assediata dall'esercito del duca d'Alba, al secondo il Trionfo di Renato Grimaldi e le Imprese per l'espugnazione della città di Zierikzee. Il percorso museale si chiude in un ultimo salotto storico che ospita cinque opere del pittore classicista bolognese Marcantonio Franceschini; ai piedi della scala che conduce ai piani superiori si conserva inoltre una raffinata portiera settecentesca ricamata con lo stemma Spinola, fra volute vegetali e foglie d'alloro.</p>
+<p>La quadreria, fra le più importanti della città, riunisce capolavori come l'Ecce Homo di Antonello da Messina, il Ritratto di Ansaldo Pallavicino di Antoon van Dyck e il Ritratto di Giovanni Carlo Doria a cavallo di Pieter Paul Rubens, accanto a opere di Tintoretto, Guido Reni, Carlo Maratta, Luca Giordano, Bernardo Strozzi, Orazio Gentileschi, Domenico Fiasella e Luca Cambiaso.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+
+<section class="group" id="musei-moderni">
+  <h2 class="group-title">Musei Moderni<span class="group-count">2</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="acquario-di-genova" data-name="acquario di genova">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Acquario di Genova</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Introduzione</button>
+<button class="tab" onclick="switchTab(this)">Cose più belle da vedere</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>L'Acquario di Genova fu inaugurato nel 1992 in occasione delle Colombiadi, le celebrazioni per il cinquecentenario della scoperta dell'America, come parte dello stesso progetto di riqualificazione del Porto Antico firmato da Renzo Piano. È oggi il più grande acquario d'Italia e, per numero di visitatori, il secondo in Europa dopo quello di Valencia: ospita circa 70 vasche, per un totale di circa 11 milioni di litri d'acqua, in cui vivono all'incirca 15.000 animali appartenenti a quasi 400 specie diverse. È inoltre l'unica struttura in Europa che consente al pubblico di osservare i lamantini, inseriti in un progetto di conservazione internazionale che coinvolge una ventina di istituzioni. Parte del percorso si snoda all'interno della cosiddetta Nave Blu, un'imbarcazione riconvertita e ormeggiata direttamente nelle acque del Porto Antico.</p>
+</div><div class="tab-panel">
+<p>Il cuore emotivo della visita è il Padiglione dei Cetacei, firmato anch'esso da Renzo Piano: quattro vasche a cielo aperto, visitabili su due livelli, ospitano una comunità di delfini tursiopi, ciascuno riconoscibile da un proprio fischio distintivo. Dal livello superiore li si osserva emergere in superficie, da quello inferiore, attraverso una vetrata di ventiquattro metri, li si segue mentre nuotano sott'acqua — un'esperienza immersiva fra le più apprezzate dell'intera struttura.</p>
+<p>Nella Laguna delle Sirene nuotano i lamantini, mammiferi acquatici erbivori ai quali la tradizione attribuisce l'origine del mito delle sirene. Nella Baia degli Squali si incontrano invece i grandi predatori del mare — squalo grigio, squalo nutrice, squalo zebra e il curioso pesce sega — in una vasca in cui sono stati collocati anche reperti archeologici autentici, fra cui anfore e i resti di un albero maestro risalente al II secolo d.C.: un dettaglio che lega, non senza un pizzico d'ironia, la storia marinara della città al suo acquario contemporaneo.</p>
+<p>Particolarmente suggestiva è la Sala delle Meduse, nove vasche popolate da specie provenienti da mari diversi, accompagnate da un'illuminazione e una colonna sonora studiate per restituire l'atmosfera fluttuante e quasi ipnotica di questi organismi antichissimi. Il Padiglione della Biodiversità, ospitato nella Nave Blu, propone infine un viaggio fra ambienti diversi — dalla vasca tattile delle razze alla laguna corallina indo-pacifica, popolata da pesci palla, pesce Napoleone e squali zebra — per concludersi in una sezione dedicata alla memoria dei grandi esploratori e naturalisti del passato, da Colombo a Humboldt a Darwin.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="galata-museo-del-mare" data-name="galata museo del mare">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Galata Museo del Mare</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<div class="sub-scope">
+<div class="tabs">
+<button class="tab active" onclick="switchTab(this)">Introduzione</button>
+<button class="tab" onclick="switchTab(this)">Cose più belle da vedere</button>
+</div><div class="tab-panels"><div class="tab-panel active">
+<p>Il Galata è il più grande museo marittimo del Mediterraneo, ma il suo edificio ha una storia che vale la pena raccontare prima ancora del percorso espositivo. Si tratta infatti della costruzione più antica sopravvissuta nell'area dell'antica Darsena comunale: nella sua parte inferiore, per quasi tre secoli, vennero costruite le galee della Repubblica di Genova, ed era parte dell'Arsenale, il complesso militare e marittimo più importante della città. Il nome "Galata" fu attribuito solo alla fine dell'Ottocento, quando il Comune costruì qui un nuovo quartiere di docks commerciali e scelse di intitolare il più antico di essi all'omonimo quartiere di Istanbul, per secoli sede di una delle più importanti comunità genovesi nel Mediterraneo. Nel Novecento l'edificio perse la propria funzione commerciale e fu abbandonato, fino a quando, alla fine degli anni Novanta, il Comune decise di destinarlo al futuro museo del mare, nell'ambito dello stesso processo di riqualificazione che aveva già trasformato il Porto Antico.</p>
+<p>Il museo, inaugurato nel 2004, nasce dal restauro dell'architetto spagnolo Guillermo Vázquez Consuegra, che ha conservato la struttura muraria preesistente racchiudendola in un involucro esterno di acciaio e vetro, con un atrio monumentale alto 25 metri. Il percorso di visita si sviluppa su cinque piani e 31 sale, per circa 12.000 metri quadrati e oltre 4.000 oggetti originali, seguendo un filo insieme cronologico e tematico che lega l'uomo al mare: dalla Repubblica marinara e da Cristoforo Colombo fino alle migrazioni contemporanee, passando per l'età del remo, della vela e del vapore.</p>
+</div><div class="tab-panel">
+<p>La sala dedicata a Cristoforo Colombo custodisce il celebre ritratto attribuito a Ridolfo del Ghirlandaio e il Codice dei Privilegi, uno dei documenti più preziosi legati al grande navigatore genovese. Ma il pezzo che più colpisce l'immaginazione resta la ricostruzione in scala 1:1 di una galea genovese del Seicento, lunga 42 metri: rappresenta l'Età del Remo, ed è allestita in modo da far provare ai visitatori la fatica reale del remare in mare aperto. Le sale successive raccontano l'Età della Vela attraverso un brigantino ottocentesco, e l'Età del Vapore con la ricostruzione degli ambienti di un piroscafo di inizio Novecento — fra cui, particolarmente amata dai visitatori, la Sala della Tempesta, dove seduti su una scialuppa di salvataggio si sperimenta cosa significhi affrontare il mare durante un temporale al largo di Capo Horn.</p>
+<p>Un'intera sezione del museo, il percorso "Memoria e Migrazioni", è dedicata alle rotte dell'emigrazione italiana verso le Americhe fra Otto e Novecento: qui il visitatore diventa per un momento lui stesso un emigrante, attraversando ricostruzioni scenografiche, fotografie e testimonianze che raccontano la partenza, la traversata e l'arrivo in un mondo nuovo — un tema a cui fa da contraltare "Italiano Anch'io", dedicato alle migrazioni contemporanee. Il percorso interno si chiude con una mostra permanente dedicata al transatlantico Andrea Doria, dalla sua costruzione al celebre naufragio del 1956, prima di sbucare sulla terrazza panoramica del Belvedere, con vista sul porto e sul centro storico.</p>
+<p>All'esterno, ormeggiato nella darsena proprio di fronte al museo, si visita il sommergibile Nazario Sauro: costruito da Fincantieri per la Marina Militare nel 1976 e dismesso nel 2002, è il più grande sottomarino italiano visitabile e la prima nave-museo in Italia accessibile direttamente in acqua. All'interno si percorrono la mensa, gli alloggi dell'equipaggio e la sala di comando, scoprendo curiosità come quella della "branda calda" — l'abitudine dei sommergibilisti di condividere, a turni, lo stesso letto durante le lunghe missioni.</p>
+</div></div>
+
+
+</div>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll(':scope > .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll(':scope > .tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
