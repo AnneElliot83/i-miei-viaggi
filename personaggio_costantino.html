@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Costantino — Personaggi — Dossier Roma</title>
+<style>
+  :root {
+    --accent: #8a5a1f;
+    --text: #1a1a1a;
+    --text-soft: #6b6b6b;
+    --line: #e7e5e0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #ffffff;
+    color: var(--text);
+    margin: 0;
+    padding: 0 0 80px;
+    line-height: 1.6;
+    font-size: 15.5px;
+  }
+  header {
+    padding: 40px 20px 24px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  header h1 { margin: 0; font-size: 1.7em; font-weight: 600; letter-spacing: -0.01em; }
+  header p { margin: 6px 0 0; color: var(--text-soft); font-size: 0.9em; }
+
+  main { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  .bio-tabs {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .bio-tab-btn {
+    background: #f5f4f1;
+    border: none;
+    color: var(--text-soft);
+    padding: 6px 14px;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 0.85em;
+    font-family: inherit;
+  }
+  .bio-tab-btn.active { background: var(--text); color: #fff; }
+
+  .bio-panel { display: none; }
+  .bio-panel.active { display: block; }
+
+  p { margin: 0 0 14px; color: #2d2d2d; }
+  strong { color: var(--text); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Costantino</h1>
+  <p>Dossier Roma — I Miei Viaggi · Personaggi · San Pietro in Vaticano</p>
+</header>
+
+<main>
+  <div class="bio-tabs">
+    <button class="bio-tab-btn active" onclick="showBio(this,'bio-a')">Biografia</button>
+    <button class="bio-tab-btn" onclick="showBio(this,'bio-b')">Eredità e luoghi</button>
+  </div>
+
+  <div class="bio-panel active" id="bio-a">
+    <p><strong>Flavio Valerio Costantino</strong> nacque presumibilmente nel 272 o 273 (alcune fonti tarde indicano il 280) a <strong>Naisso</strong>, nell'odierna Serbia, figlio del generale <strong>Costanzo Cloro</strong> — che sarebbe poi diventato uno degli Augusti della Tetrarchia — e di <strong>Elena</strong>, una donna di umili origini che la tradizione avrebbe in seguito venerato come santa. Crebbe alla corte orientale dell'imperatore Diocleziano, ricevendo un'educazione da futuro comandante militare.</p>
+    <p>Alla morte del padre, nel 306, le truppe di stanza a Eboracum (l'odierna York, in Britannia) lo acclamarono imperatore. Seguirono anni di guerre civili contro gli altri pretendenti al trono, culminati nella battaglia decisiva del <strong>28 ottobre 312</strong>, presso il ponte Milvio alle porte di Roma, contro il rivale Massenzio, che trovò la morte annegando nel Tevere durante la fuga. Secondo la tradizione cristiana, alla vigilia dello scontro Costantino ebbe una visione — una croce luminosa in cielo, accompagnata dalla scritta <em>"In hoc signo vinces"</em> ("con questo segno vincerai") — che lo avrebbe spinto a far dipingere il monogramma di Cristo, il Chi-Rho, sugli scudi dei suoi soldati.</p>
+    <p>Divenuto padrone incontrastato dell'Occidente, l'anno seguente emanò insieme al collega d'Oriente Licinio l'<strong>Editto di Milano</strong> (313), che concedeva piena libertà di culto a tutte le religioni dell'impero, cristianesimo compreso, ponendo fine a secoli di persecuzioni. Nel 324 sconfisse anche Licinio, diventando l'unico sovrano di tutto l'impero romano. Nel 325 convocò e presiedette il primo concilio ecumenico della storia della Chiesa, il <strong>Concilio di Nicea</strong>, per dirimere le controversie dottrinali sulla natura di Cristo. Nel 330 fondò sul Bosforo la nuova capitale imperiale, <strong>Costantinopoli</strong>, destinata a diventare per oltre un millennio il cuore dell'impero d'Oriente.</p>
+    <p>Morì nel 337 nei pressi di Nicomedia, mentre si preparava a una campagna contro i Persiani, dopo aver ricevuto il battesimo sul letto di morte dal vescovo ariano Eusebio di Nicomedia — un gesto che chiuse simbolicamente la vita di un uomo che, pur avendo trasformato radicalmente la storia del cristianesimo, scelse di formalizzare la propria fede solo alla fine dei suoi giorni.</p>
+  </div>
+
+  <div class="bio-panel" id="bio-b">
+    <p>È a Costantino che si deve la decisione, presa negli anni successivi all'Editto di Milano, di erigere sul colle Vaticano — sopra la tomba venerata di San Pietro — la prima grande basilica cristiana della storia: i lavori, avviati tra il 319 e il 326, si conclusero sostanzialmente entro il 333. Fu un gesto di portata enorme: per la prima volta un imperatore romano finanziava, con risorse pubbliche, un edificio di culto cristiano di dimensioni monumentali, segnando il passaggio del cristianesimo da religione perseguitata a religione di stato in fieri.</p>
+    <p>San Pietro non fu però l'unico dono di Costantino alla Roma cristiana. Promosse anche la costruzione della <strong>basilica di San Giovanni in Laterano</strong>, sorta su un terreno di proprietà della sua famiglia (i Laterani) e divenuta la cattedrale di Roma — ancora oggi, non a caso, "madre di tutte le chiese" — insieme al relativo battistero, il più antico della cristianità. Sua madre Elena, secondo la tradizione, portò da un pellegrinaggio in Terra Santa importanti reliquie della Passione, custodite ancora oggi nella basilica romana di <strong>Santa Croce in Gerusalemme</strong>, fatta edificare proprio per accoglierle.</p>
+    <p>Il suo nome resta legato a Roma anche al di fuori del mondo cristiano: l'<strong>Arco di Costantino</strong>, innalzato nei pressi del Colosseo per celebrare la vittoria su Massenzio a Ponte Milvio, è ancora oggi uno dei monumenti meglio conservati della città antica.</p>
+  </div>
+</main>
+
+<script>
+function showBio(btn, id) {
+  var panel = document.getElementById(id);
+  var wasActive = panel.classList.contains('active');
+  document.querySelectorAll('.bio-panel').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.bio-tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (!wasActive) {
+    panel.classList.add('active');
+    btn.classList.add('active');
+  }
+}
+</script>
+
+</body>
+</html>
