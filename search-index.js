@@ -1681,5 +1681,11 @@ const deepIndex = [
     "file": "vaticano-stemmi-e-simboli-papali-nella-basilica.html",
     "id": null,
     "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "San Pietro",
+    "file": "vaticano-personaggi.html",
+    "id": "san-pietro",
+    "context": "Personaggi di San Pietro"
   }
 ];
