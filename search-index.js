@@ -1585,5 +1585,179 @@ const deepIndex = [
     "file": "borgogna-climats.html",
     "id": null,
     "context": "Borgogna — Approfondimento"
+  },
+  {
+    "name": "I. Origini e Fase Romana",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "II. Età Tardoantica",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "III. Medioevo",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "IV. Rinascimento",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "V. Barocco",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "VI. Età Moderna",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "VII. Età Contemporanea",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Fase Romana",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Obelisco Vaticano",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Necropoli Vaticana",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Fase Costantiniana",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "La Basilica Costantiniana",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Alto Medioevo",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Il Borgo Vaticano medievale",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Il Passetto di Borgo",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Basso Medioevo",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Il Giubileo del 1300",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Fase Rinascimentale",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "La Cappella Sistina",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Le Stanze di Raffaello",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Il Cortile del Belvedere e la nascita dei Musei Vaticani",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Fase Barocca",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Piazza e Colonnato di San Pietro",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "La Cupola di Michelangelo",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "La Facciata di Maderno",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Il Baldacchino di Bernini",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "La Cattedra di San Pietro",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Fase Moderna",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Stemmi e simboli papali nella basilica",
+    "file": "san-pietro-vaticano.html",
+    "id": null,
+    "context": "San Pietro in Vaticano"
   }
 ];

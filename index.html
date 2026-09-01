@@ -22,6 +22,7 @@
     --regno-unito:#5c4d8a;
     --francia:#7d2f4a;
     --italia:#8a5a1f;
+    --vaticano:#b3901f;
   }
   *{box-sizing:border-box;}
   body{
@@ -198,6 +199,7 @@
   .proj-regno-unito .card{ border-left:3px solid var(--regno-unito); }
   .proj-francia .card{ border-left:3px solid var(--francia); }
   .proj-italia .card{ border-left:3px solid var(--italia); }
+  .proj-vaticano .card{ border-left:3px solid var(--vaticano); }
 
   .no-results{
     text-align:center;
@@ -391,6 +393,14 @@ const data = [
       { name: "Umbria", flag: "", items: [] },
       { name: "Valle d'Aosta", flag: "", items: [] },
       { name: "Veneto", flag: "", items: [] },
+    ]
+  },
+  {
+    project: "Città del Vaticano",
+    flag: "🇻🇦",
+    key: "vaticano",
+    items: [
+      {name:"San Pietro in Vaticano", greek:"", eyebrow:"Guida", file:"san-pietro-vaticano.html"},
     ]
   }
 ];
