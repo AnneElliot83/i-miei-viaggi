@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Approfondimenti — San Pietro in Vaticano — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p{ margin:0 0 12px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Approfondimenti — San Pietro in Vaticano</h1>
+  <div class="subtitle">Città del Vaticano</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un nome per aprire la scheda.</p>
+  <div id="groups">
+    
+<section class="group" id="approfondimenti">
+  
+  <div class="sites-list">
+    
+  <div class="site" id="obelisco-vaticano" data-name="obelisco vaticano">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Obelisco Vaticano</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'<strong>Obelisco Vaticano</strong> è uno dei tredici obelischi egizi oggi presenti a Roma. Proviene dalla città di <strong>Eliopoli</strong>, e le fonti antiche — Plinio il Vecchio in testa — lo attribuiscono al faraone <strong>Nencoreo</strong> (identificato con <strong>Amenemhat II</strong>, XII dinastia, circa 1991-1786 a.C.); caso più unico che raro tra gli obelischi romani, non reca alcun geroglifico. In età imperiale, con la conquista dell'Egitto da parte di Augusto (30 a.C.), Roma iniziò a trasferire obelischi dalla valle del Nilo per ornare le piazze e i circhi della città, simboli di potere universale.</p></div><div class="tab-panel"><p>L'obelisco è in <strong>granito rosso di Assuan</strong>, alto circa 25 metri e con la base e la croce aggiunte nel XVII secolo raggiunge quasi i 40 metri. A differenza di altri obelischi romani, non reca iscrizioni geroglifiche, il che lo rende un caso particolare. La superficie liscia gli dà un aspetto austero e severo.</p><p>In origine fu trasportato ad <strong>Alessandria d'Egitto</strong>, dove rimase per alcuni secoli, finché l'imperatore <strong>Caligola</strong> decise di portarlo a Roma, verso il 37-40 d.C., per decorare il suo circo in Vaticano. Fu collocato al centro della <strong>spina</strong>, l'asse longitudinale che divideva le due corsie della pista.</p></div><div class="tab-panel"><p><strong>Caligola</strong> fu il primo a far erigere l'obelisco a Roma, come elemento scenografico del circo da lui avviato. <strong>Nerone</strong> mantenne l'obelisco nella sua posizione quando completò il circo, che divenne poi celebre per le persecuzioni dei cristiani. Secondo la tradizione, l'obelisco avrebbe assistito al martirio di San Pietro, divenendo così testimone silenzioso della nascita della Chiesa. Nel XVI secolo <strong>papa Sisto V</strong> decise di spostarlo al centro della nuova Piazza di San Pietro: l'impresa fu affidata all'architetto <strong>Domenico Fontana</strong> e realizzata nel 1586 con un'operazione ingegneristica senza precedenti.</p></div><div class="tab-panel"><p>Dal I secolo fino al Rinascimento l'obelisco rimase nell'area del Vaticano, anche se il circo cadde in rovina e fu in gran parte smantellato. La sua posizione originaria si trovava a pochi metri di distanza dal lato sud della basilica costantiniana.</p><p>Nel 1586 Sisto V volle collocarlo davanti alla basilica, al centro della piazza, per conferirle un punto focale e un simbolo cristianizzato. L'obelisco fu dotato di una nuova base e sormontato da una croce in bronzo che, secondo le cronache, conteneva un frammento della Vera Croce.</p></div><div class="tab-panel"><p>L'obelisco è perfettamente visibile in <strong>Piazza San Pietro</strong>, al centro del grande spazio ellittico disegnato da Bernini nel XVII secolo. È l'unico obelisco di Roma a non essere mai caduto dalla sua collocazione originaria: da Alessandria arrivò a Roma integro e da allora non si è mai spezzato né abbattuto.</p><p>Sulla base si trovano iscrizioni che ricordano l'impresa di Sisto V e di Domenico Fontana. Ai quattro angoli della piazza, le lastre di travertino indicano i punti cardinali, trasformando l'obelisco anche in uno strumento solare.</p></div><div class="tab-panel"><ul class="curios">
+<li>Durante lo spostamento del 1586, Sisto V proibì a chiunque di parlare, pena la morte, per non distrarre gli operai. La leggenda narra che un marinaio ligure, <strong>Giovanni Bresca</strong>, infranse il divieto gridando «Acqua alle funi!» per salvare le corde dall'incendio per attrito: anziché punirlo, il papa lo ricompensò concedendo a lui e ai suoi discendenti il privilegio di fornire le palme per la Domenica delle Palme in San Pietro, tradizione mantenuta nei secoli.</li>
+<li>Nel Medioevo circolava la credenza che sulla punta dell'obelisco fosse custodita l'urna con le ceneri di Giulio Cesare. In realtà non vi fu mai alcuna urna: oggi l'obelisco porta una croce cristiana.</li>
+<li>L'obelisco serviva anche come gnomone di una meridiana: l'ombra, cadendo sulle lastre di travertino della piazza, segnava le ore e i solstizi.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="necropoli-vaticana" data-name="necropoli vaticana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Necropoli Vaticana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del luogo</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Come in tutta Roma, le sepolture non potevano trovarsi entro le mura urbane. Per questo, lungo le vie consolari e nelle aree suburbane, sorsero vaste necropoli. Sul colle Vaticano, alle pendici del <strong>Circo di Caligola e Nerone</strong>, si sviluppò una necropoli a partire dal I secolo d.C. La zona era adatta perché libera da edifici e lontana dalle aree paludose del Tevere. Qui trovarono posto mausolei, tombe a camera e sepolture più modeste, appartenenti sia a famiglie pagane sia, progressivamente, a cristiani.</p></div><div class="tab-panel"><p>La necropoli vaticana era organizzata come una vera e propria "strada dei morti": piccoli mausolei affacciati su un percorso, decorati con mosaici, affreschi, iscrizioni e simboli religiosi. Alcuni erano di ricche famiglie romane, con raffinate decorazioni mitologiche o allegoriche; altri erano tombe più semplici, ma comunque costruite in muratura.</p><p>Il cuore della necropoli, però, fu la sepoltura di <strong>San Pietro</strong>, venerata fin dall'inizio dai cristiani. Sopra la sua tomba venne eretto un piccolo monumento, il cosiddetto <strong>Trofeo di Gaio</strong> (dal nome del presbitero che lo descrisse nel II secolo), formato da due colonnine e un piano che segnava il luogo sacro. Intorno ad esso si addensarono altre sepolture cristiane.</p></div><div class="tab-panel"><p><strong>San Pietro</strong>, che secondo la tradizione fu sepolto qui dopo il martirio nel circo neroniano. Il presbitero <strong>Gaio</strong>, che attorno al 200 d.C. testimoniò l'esistenza della tomba dell'apostolo, punto di riferimento per i fedeli. <strong>Costantino</strong>, che nel IV secolo decise di erigere la prima basilica sopra la necropoli, distruggendo parte delle tombe ma inglobando il sepolcro di Pietro come fulcro della nuova costruzione. <strong>Papa Pio XII</strong>, che nel 1939 autorizzò i grandi scavi sotto la basilica rinascimentale, portando alla luce la necropoli.</p></div><div class="tab-panel"><p>Con la costruzione della basilica costantiniana, gran parte della necropoli venne interrata. L'altare maggiore fu eretto esattamente sopra il sepolcro di Pietro, in modo che il luogo di culto cristiano coincidesse con la memoria del martirio.</p><p>Nei secoli successivi la necropoli rimase sepolta, fino al XX secolo. Tra il 1939 e il 1949, durante lavori nella basilica, iniziarono scavi archeologici che riportarono alla luce un intero tratto di necropoli: mausolei, pitture, iscrizioni, e soprattutto il complesso legato al sepolcro di Pietro, con strutture successive costruite a protezione e memoria della sua tomba.</p></div><div class="tab-panel"><p>La necropoli vaticana è visitabile attraverso percorsi guidati organizzati dall'<strong>Ufficio Scavi</strong> della Fabbrica di San Pietro. Si accede da un ingresso laterale alla basilica e si scende sotto il livello attuale, in ambienti mantenuti con temperatura e umidità controllate. Oggi si possono vedere i <strong>mausolei romani</strong> decorati con affreschi e mosaici, iscrizioni funerarie sia pagane sia cristiane, il cosiddetto <strong>muro rosso</strong> e il <strong>Trofeo di Gaio</strong>, e le strutture successive costruite per inglobare e proteggere la tomba, fino all'altare papale sopra di essa.</p></div><div class="tab-panel"><ul class="curios">
+<li>Durante gli scavi del XX secolo vennero rinvenute ossa umane in una nicchia adiacente alla tomba di Pietro, compatibili con il profilo dell'apostolo. Non esiste una certezza assoluta, ma la Chiesa le ha venerate come reliquie di Pietro.</li>
+<li>La necropoli conserva tombe sia pagane sia cristiane: tra le iscrizioni si trovano simboli come il Sole, Orfeo, ma anche pesci e ancore, segni dei primi cristiani.</li>
+<li>Per motivi di conservazione, le visite sono rigidamente controllate e con numero chiuso: accedere alla necropoli è considerato uno dei privilegi più rari per i pellegrini a Roma.</li>
+<li>Sopra il luogo della sepoltura di Pietro si trovano tre altari sovrapposti: quello costantiniano, quello medievale e infine quello attuale di Bernini, segno di una continuità ininterrotta di culto.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="la-basilica-costantiniana" data-name="la basilica costantiniana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Basilica Costantiniana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Impianto generale</button><button class="tab" onclick="switchTab(this)">Atrium e accesso</button><button class="tab" onclick="switchTab(this)">Colonne e materiali</button><button class="tab" onclick="switchTab(this)">Decorazioni</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La basilica costantiniana era un edificio imponente per il IV secolo: lunga circa 110 metri e larga 65, con una capienza stimata di 3.000-4.000 fedeli. La pianta era longitudinale a <strong>cinque navate</strong>, con abside a ovest e ingresso a est.</p><p><strong>Navata centrale</strong>: larga circa 23 metri, più alta delle laterali, coperta da un tetto a capriate lignee. <strong>Navate laterali</strong>: quattro, due per lato, più basse e strette, collegate da arcate su colonne marmoree. <strong>Transetto</strong>: elemento raro per l'epoca, che si inseriva davanti all'abside e conferiva alla pianta la forma di croce latina. <strong>Abside</strong>: semicircolare, sopraelevata, con l'altare principale eretto sulla tomba di Pietro, protetto da un ciborio marmoreo.</p></div><div class="tab-panel"><p>Davanti alla basilica si estendeva un grande <strong>atrium quadriportico</strong>, detto "Paradiso", di circa 65×60 metri, circondato da colonnati su tutti e quattro i lati, con al centro una fontana per le abluzioni rituali. L'ingresso alla basilica avveniva attraverso un <strong>nartece</strong> che immetteva nella navata centrale.</p></div><div class="tab-panel"><p>All'interno, le cinque navate erano scandite da oltre cento colonne di marmo, molte delle quali provenienti da edifici romani più antichi (spoglio). Le colonne sostenevano architravi lignei, non archi, creando un effetto orizzontale e austero. I capitelli erano eterogenei — corinzi, ionici, compositi — riutilizzati da templi pagani.</p></div><div class="tab-panel"><p>Il pavimento era in marmi policromi con disegni geometrici; le pareti erano rivestite di lastre marmoree nella parte inferiore, decorate a mosaico nella parte superiore. L'abside ospitava probabilmente un mosaico raffigurante Cristo in trono tra gli apostoli. Il ciborio sopra l'altare maggiore era sorretto da colonne tortili di porfido, di cui alcune sono state riutilizzate — secoli dopo — nel baldacchino barocco di Bernini.</p><p>Tra i doni più preziosi figurava, secondo il Liber Pontificalis, una grande croce d'oro donata da Costantino sopra la tomba di Pietro: le fonti antiche ne indicano il peso in 150 libbre romane, circa 48 kg — comunque un dono di eccezionale valore per l'epoca.</p></div><div class="tab-panel"><ul class="curios">
+<li>La basilica aveva un <strong>portico anteriore a cinque porte</strong>: da qui deriva la tradizione delle cinque porte d'accesso della basilica rinascimentale attuale.</li>
+<li>Alcune colonne tortili originali del ciborio costantiniano sono tuttora visibili, inglobate nel baldacchino di Bernini, sopra l'altare papale.</li>
+<li>I capitelli, pur eterogenei, riflettono l'ampio riuso di materiali antichi tipico del programma costruttivo dell'epoca.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="il-borgo-vaticano-medievale" data-name="il borgo vaticano medievale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Borgo Vaticano medievale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del luogo</button><button class="tab" onclick="switchTab(this)">Architettura e urbanistica</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Dal VI secolo in poi, con il rafforzarsi del culto di San Pietro e la crescita del pellegrinaggio, l'area davanti e attorno alla basilica costantiniana cambiò volto. Nacque un vero e proprio quartiere, detto <strong>Borgo</strong>, che si sviluppò tra il Tevere e il colle Vaticano, racchiuso dalle mura leonine dal IX secolo in avanti. Il Borgo Vaticano divenne il punto di arrivo dei pellegrini che giungevano a Roma da tutta Europa, e quindi un luogo di accoglienza, commercio e vita quotidiana strettamente legata alla basilica.</p></div><div class="tab-panel"><p>Il Borgo si estendeva dalla riva del Tevere fino all'atrio della basilica costantiniana. Era attraversato dalla <strong>Via Cornelia</strong>, che collegava il ponte di Castel Sant'Angelo all'ingresso della basilica.</p><p><strong>Ospizi e xenodochi</strong>: ospedali e luoghi di accoglienza per pellegrini, gestiti spesso da confraternite o ordini religiosi. Il più celebre nacque come <strong>Schola Saxonum</strong>, fondata tra il 726 e il 728 dal re del Wessex Ine per accogliere i pellegrini sassoni: solo nel 1198 papa Innocenzo III trasformò quello xenodochio nell'ospedale che avrebbe preso il nome di <strong>Santo Spirito in Sassia</strong>, ricostruito poi nel Quattrocento. <strong>Mercati e botteghe</strong>: venditori di candele, reliquie, rosari, ma anche osterie e locande. <strong>Case-torri</strong>: le famiglie nobiliari romane e i prelati costruirono nel Borgo residenze fortificate.</p></div><div class="tab-panel"><p>Il Borgo medievale aveva un aspetto compatto e irregolare, con vicoli stretti e case addossate. Chiese minori e oratori punteggiavano il quartiere. Con le <strong>mura leonine</strong> (IX secolo), il Borgo divenne una cittadella protetta. Il <strong>Passetto di Borgo</strong>, corridoio fortificato che univa San Pietro a Castel Sant'Angelo, fu fatto costruire da papa Niccolò III nel 1277 e garantì un passaggio sicuro ai papi in caso di pericolo.</p></div><div class="tab-panel"><p><strong>Papa Leone IV</strong> (847-855): fece costruire le mura leonine dopo il saccheggio saraceno dell'846. <strong>Papa Innocenzo III</strong> (1198-1216): promosse ospedali e opere di carità per i pellegrini. <strong>Bonifacio VIII</strong> (1294-1303): durante il Giubileo del 1300 il Borgo raggiunse l'apice della sua funzione di accoglienza. Le <strong>famiglie nobili romane</strong> (come gli Orsini e i Colonna), che possedevano torri e palazzi nel Borgo per affermare il loro potere.</p></div><div class="tab-panel"><p>Nei secoli, il Borgo crebbe come quartiere popoloso e area commerciale, a volte caotica, reso cosmopolita dalla presenza di pellegrini sassoni, franchi, longobardi. Tra il XIV e il XV secolo subì declini e distruzioni durante le lotte baronali. Nel Rinascimento, con la ricostruzione della basilica, gran parte del Borgo medievale fu progressivamente demolito o trasformato.</p></div><div class="tab-panel"><p>Il <strong>Santo Spirito in Sassia</strong>, ricostruito nel Quattrocento; tratti delle <strong>mura leonine</strong> lungo via di Porta Angelica; il <strong>Passetto di Borgo</strong>, in parte percorribile lungo via dei Corridori; toponimi come Borgo Pio e Borgo Sant'Angelo che ricordano l'antico assetto medievale.</p></div><div class="tab-panel"><ul class="curios">
+<li>Il Borgo era così popoloso da essere descritto dai cronisti come una "città nella città", distinta dalla Roma dei nobili baronali.</li>
+<li>Durante il Giubileo del 1300 i mercanti del Borgo fecero fortuna vendendo oggetti religiosi e ospitalità: si dice che i prezzi salirono vertiginosamente.</li>
+<li>I pellegrini stranieri diedero al Borgo un carattere internazionale: vi sorsero quartieri etnici come la Schola Saxonum, la Schola Francorum e la Schola Longobardorum.</li>
+<li>Il Passetto di Borgo entrò nella leggenda con la fuga di papa Clemente VII a Castel Sant'Angelo durante il Sacco di Roma del 1527.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="il-passetto-di-borgo" data-name="il passetto di borgo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Passetto di Borgo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le radici del <strong>Passetto di Borgo</strong> affondano più indietro di quanto si pensi: il tracciato sfrutta in parte fortificazioni ancora più antiche delle stesse Mura Leonine, risalenti all'assedio ostrogoto di <strong>Totila</strong> nel 546-547. Fu papa <strong>Leone IV</strong>, tra l'848 e l'852, a inglobare questo tratto nella grande cinta muraria costruita dopo il saccheggio saraceno dell'846, dando vita alla cosiddetta <strong>Civitas Leonina</strong>.</p><p>Il passaggio coperto e sopraelevato che oggi conosciamo viene generalmente attribuito a <strong>papa Niccolò III</strong>, che nel 1277 lo ricavò lungo il tratto delle mura vaticane durante lavori di restauro. Alcuni studiosi, tuttavia, ne attribuiscono la realizzazione a un periodo più tardo, tra Bonifacio IX (1389-1404) e l'antipapa Giovanni XXIII (1410-1415): la paternità esatta resta materia di discussione.</p></div><div class="tab-panel"><p>Il Passetto è un <strong>corridoio fortificato e sopraelevato</strong>, lungo circa 800 metri, che corre dal Palazzo Apostolico fino al Bastione San Marco di Castel Sant'Angelo, costeggiando via dei Corridori e via di Borgo Sant'Angelo. Rappresenta oggi il tratto meglio conservato delle antiche Mura Leonine. La sua funzione era duplice: offrire una via di fuga sicura al papa, e garantire il controllo militare dell'intero quartiere del Borgo.</p></div><div class="tab-panel"><p><strong>Papa Niccolò III</strong> (1277): tradizionalmente considerato l'artefice del passaggio coperto. <strong>Papa Alessandro VI Borgia</strong> (1492-1503): nel 1494 si rifugiò a Castel Sant'Angelo attraverso il Passetto durante l'invasione delle truppe di Carlo VIII di Francia. <strong>Papa Clemente VII</strong> (1523-1534): il suo utilizzo più celebre risale al <strong>Sacco di Roma del 1527</strong>, quando vi trovò rifugio dai lanzichenecchi. <strong>Niccolò V, Sisto IV e Alessandro VI</strong>: rinnovarono e potenziarono più volte la struttura tra Quattrocento e primo Cinquecento.</p></div><div class="tab-panel"><p>Nato come semplice tratto di cinta muraria altomedievale, il Passetto si trasformò nei secoli in un vero e proprio dispositivo difensivo articolato, capace anche di condurre segretamente a Castel Sant'Angelo prigionieri di rilievo. In tempi recenti è stato oggetto di un lungo restauro, che ne ha consolidato le strutture e riportato alla luce iscrizioni e tracce di antiche pavimentazioni.</p></div><div class="tab-panel"><p>Il Passetto di Borgo è oggi visitabile: il percorso museale parte generalmente da Castel Sant'Angelo, attraverso il Bastione San Marco, dove un allestimento multimediale ne racconta la storia, per poi proseguire lungo il camminamento sopraelevato.</p></div><div class="tab-panel"><ul class="curios">
+<li>In dialetto romanesco il Passetto è chiamato affettuosamente "<strong>er Coridore</strong>".</li>
+<li>È stato reso celebre a livello internazionale dal film <em>Angeli e Demoni</em> (2009), tratto dal romanzo di Dan Brown.</li>
+<li>Nonostante sia comunemente attribuito a Niccolò III, la vera paternità del passaggio coperto resta un tema dibattuto tra gli storici.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="il-giubileo-del-1300" data-name="il giubileo del 1300">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Giubileo del 1300</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione dell'evento</button><button class="tab" onclick="switchTab(this)">Architettura e organizzazione del pellegrinaggio</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Alla fine del XIII secolo, l'Europa era attraversata da un forte fervore religioso: i pellegrinaggi ai luoghi santi erano considerati un mezzo privilegiato di penitenza e salvezza. Roma, con le tombe degli apostoli Pietro e Paolo, era da sempre una delle mete principali, ma nel 1300 la città divenne il centro di un evento eccezionale: il primo <strong>Giubileo</strong>, indetto da papa Bonifacio VIII. Il Giubileo fu annunciato come un "Anno Santo", in cui i pellegrini che visitavano Roma e le basiliche maggiori ricevevano l'indulgenza plenaria, cioè la remissione delle pene temporali per i peccati.</p></div><div class="tab-panel"><p>Il 22 febbraio 1300, con la bolla <em>Antiquorum habet fida relatio</em>, Bonifacio VIII stabilì che chi avesse visitato per un determinato periodo le basiliche di <strong>San Pietro e San Paolo</strong> (per i romani 30 giorni, per i forestieri 15) avrebbe ottenuto l'indulgenza.</p><p>La notizia si diffuse rapidamente in tutta Europa, richiamando a Roma una moltitudine mai vista prima. Il fiorentino <strong>Giovanni Villani</strong>, cronista presente all'evento, racconta che nell'arco dell'intero anno la città ospitò, oltre alla popolazione residente, duecentomila pellegrini in permanenza continua — una cifra che gli storici moderni considerano probabilmente esagerata, ma che comunque testimonia la portata straordinaria del fenomeno, specie se confrontata con una popolazione cittadina stimata all'epoca tra i 20.000 e i 35.000 abitanti.</p></div><div class="tab-panel"><p>San Pietro, con il suo atrium quadriportico ("Paradiso"), divenne il cuore pulsante del Giubileo. Qui i pellegrini si radunavano, pregavano e si preparavano a entrare nella basilica. Per far fronte al flusso di fedeli, furono predisposti percorsi specifici: l'ingresso e l'uscita vennero separati per evitare ingorghi. Le cronache parlano di ponti provvisori sul Tevere e di strade lastricate ad hoc per rendere più agevole il percorso dei pellegrini.</p></div><div class="tab-panel"><p><strong>Bonifacio VIII</strong> (1294-1303): il papa che istituì il Giubileo, consolidando il ruolo universale della Chiesa e di Roma come capitale spirituale. <strong>Dante Alighieri</strong>: la tradizione lo vuole tra i pellegrini fiorentini presenti a Roma in quell'anno (anche se non esistono documenti certi), e comunque la citò nella <em>Divina Commedia</em> (Inferno, XVIII, 25-33), paragonando la folla dei pellegrini al flusso ordinato sui ponti del Tevere — un riferimento diretto al sistema a senso unico organizzato su Ponte Sant'Angelo per gestire la calca. I <strong>pellegrini europei</strong>: nobili e popolani, mercanti e contadini, tutti accomunati dal desiderio di ottenere l'indulgenza.</p></div><div class="tab-panel"><p>Il successo del Giubileo del 1300 fu tale che i papi successivi istituirono altri Anni Santi: dapprima ogni 100 anni, poi ogni 50 e infine — dal 1470 — ogni 25. San Pietro rimase il centro di questi eventi, consolidando il suo ruolo come "porta della salvezza" per la cristianità. Il fenomeno dei pellegrinaggi medievali ricevette un impulso decisivo: Roma si unì stabilmente a Santiago e Gerusalemme come una delle tre grandi mete della cristianità.</p></div><div class="tab-panel"><p>Nella basilica attuale non sopravvive nulla di strutturalmente legato al Giubileo del 1300, ma il ricordo è vivo nelle testimonianze storiche e nelle cronache. Alcuni documenti e miniature medievali che raffigurano le folle dei pellegrini si conservano negli archivi vaticani e in biblioteche europee. La citazione dantesca resta la "memoria letteraria" più preziosa dell'evento.</p></div><div class="tab-panel"><ul class="curios">
+<li>Il Giubileo generò anche un enorme indotto economico: locande, mercati, vendite di reliquie e souvenir religiosi fiorirono in Borgo e lungo le vie consolari.</li>
+<li>La stessa istituzione del Giubileo fu in parte una mossa politica: Bonifacio VIII volle affermare il primato spirituale del papato in un periodo di contrasti con i poteri temporali, specialmente con la monarchia francese.</li>
+<li>Ogni venerdì e nei giorni festivi, durante l'anno giubilare, veniva esposta in basilica la <strong>Veronica</strong>, il velo con l'impronta del volto di Cristo: una delle attrattive devozionali più potenti per i pellegrini dell'epoca.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="la-cappella-sistina" data-name="la cappella sistina">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Cappella Sistina</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Gli affreschi quattrocenteschi</button><button class="tab" onclick="switchTab(this)">La volta di Michelangelo</button><button class="tab" onclick="switchTab(this)">Il Giudizio Universale</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Tra il 1477 e il 1481, <strong>papa Sisto IV della Rovere</strong> fece demolire l'antica e ormai fatiscente Cappella Magna dei Palazzi Vaticani per sostituirla con un nuovo edificio, sotto la supervisione dell'architetto <strong>Giovannino de' Dolci</strong>. La nuova cappella, che avrebbe preso il nome dal pontefice che la volle, era destinata alle cerimonie di rappresentanza più importanti della corte papale: le riunioni del Collegio dei cardinali, l'accoglienza di ambasciatori e dignitari, e — da allora fino a oggi — l'elezione dei nuovi papi in <strong>conclave</strong>.</p><p>L'edificio ha una semplice pianta rettangolare a navata unica, lunga circa 41 metri, larga 13 e alta 21: proporzioni che, secondo la tradizione, ricalcano deliberatamente quelle del Tempio di Salomone descritte nell'Antico Testamento. Fu consacrata nell'agosto del 1483, dedicata all'Assunzione della Vergine Maria.</p></div><div class="tab-panel"><p>Ancor prima che Michelangelo mettesse mano al soffitto, le pareti della cappella erano già state decorate da una vera squadra di stelle del primo Rinascimento. Il contratto ufficiale, datato <strong>27 ottobre 1481</strong>, affidava l'incarico a <strong>Pietro Perugino</strong>, <strong>Sandro Botticelli</strong>, <strong>Domenico Ghirlandaio</strong> e <strong>Cosimo Rosselli</strong> — quest'ultimi tre "prestati" da Firenze per volontà di Lorenzo il Magnifico — coadiuvati dalle rispettive botteghe, tra cui spiccavano <strong>Luca Signorelli</strong>, <strong>Piero di Cosimo</strong>, <strong>Pinturicchio</strong> e <strong>Bartolomeo della Gatta</strong>.</p><p>Il programma decorativo, disposto su tre registri sovrapposti, metteva in parallelo le <strong>Storie di Mosè</strong> (parete sud) e le <strong>Storie di Cristo</strong> (parete nord), secondo un principio caro alla teologia medievale: l'Antico Testamento prefigura il Nuovo. Il registro superiore ospitava invece i ritratti dei primi pontefici. In basso, un registro di finti tendaggi dipinti chiudeva l'insieme. Il soffitto, in origine, era semplicemente tinteggiato d'azzurro con stelle dorate — nulla a che vedere, ancora, con quello che sarebbe diventato.</p></div><div class="tab-panel"><p>Nel 1508 <strong>papa Giulio II</strong> decise di completare la decorazione della cappella, ancora priva di un vero apparato sul soffitto, e ne affidò l'incarico a <strong>Michelangelo Buonarroti</strong>. L'artista iniziò i lavori il 10 maggio 1508 e li terminò il 31 ottobre 1512, svelando l'opera il giorno di Ognissanti: aveva allora 37 anni.</p><p>Su una superficie di circa 800 metri quadrati, Michelangelo ideò un sistema architettonico dipinto — cornici, archi e finte strutture in <em>quadratura</em> — che scandisce la celebre sequenza delle <strong>Storie della Genesi</strong>, dalla Separazione della luce dalle tenebre fino all'Ebbrezza di Noè, passando per la <em>Creazione di Adamo</em>, probabilmente l'immagine più riprodotta di tutta la storia dell'arte occidentale. Attorno alle scene centrali siedono dodici imponenti figure di <strong>Sibille e Profeti</strong>, e negli angoli della volta si dispiegano le <em>Salvazioni miracolose di Israele</em>. Secondo il racconto di Vasari, dopo un primo gruppo di collaboratori fiorentini, giudicati poco fedeli ai suoi cartoni, Michelangelo li congedò e proseguì l'opera praticamente da solo, arrivando, verso la fine, a dipingere direttamente senza più cartoni preparatori.</p></div><div class="tab-panel"><p>Un quarto di secolo più tardi, Michelangelo tornò nella cappella per l'impresa finale. Fu <strong>papa Clemente VII</strong>, poco prima di morire nel 1534, a commissionargli la decorazione dell'intera parete d'altare con il <strong>Giudizio Universale</strong>; l'incarico venne confermato dal successore, <strong>papa Paolo III</strong>, ed eseguito materialmente tra il 1536 e il 1541.</p><p>Per far posto al nuovo, grandioso affresco furono murate due finestre e sacrificati alcuni lavori precedenti: due affreschi quattrocenteschi del Perugino (tra cui la pala originaria con la Vergine Assunta) e due lunette che lo stesso Michelangelo vi aveva dipinto anni prima. Il risultato fu un'opera drammatica e turbolenta, pensata — secondo molti storici dell'arte — anche come specchio della crisi che la Chiesa stava attraversando in quegli anni, tra la Riforma protestante e il Sacco di Roma del 1527.</p></div><div class="tab-panel"><p><strong>Papa Sisto IV</strong>: volle e diede il nome alla cappella. <strong>Papa Giulio II</strong>: commissionò a Michelangelo la volta. <strong>Papa Clemente VII</strong> e <strong>papa Paolo III</strong>: rispettivamente commissionarono e confermarono l'incarico per il Giudizio Universale. <strong>Michelangelo Buonarroti</strong>: autore sia della volta sia del Giudizio Universale, oltre venticinque anni dopo, in un arco di tempo che coprì gran parte della sua vita artistica matura. <strong>Perugino, Botticelli, Ghirlandaio, Rosselli, Signorelli</strong>: gli artisti del ciclo quattrocentesco, un vero e proprio "chi è chi" della pittura del primo Rinascimento italiano.</p></div><div class="tab-panel"><p>Nei secoli, il fumo delle candele di sego e cera bruciate durante le cerimonie religiose depositò sugli affreschi uno spesso strato di sporco e fuliggine, che ne offuscò progressivamente i colori originali. Solo con il grande <strong>restauro del 1980-1994</strong>, finanziato dall'emittente giapponese Nippon Television in cambio dei diritti esclusivi sulle immagini per un periodo concordato, furono riportati alla luce i colori vividi e brillanti voluti da Michelangelo — molto più accesi di quanto secoli di fumo avessero lasciato immaginare. Proprio da quell'accordo deriva il divieto, tuttora rigidamente in vigore, di fotografare all'interno della cappella.</p></div><div class="tab-panel"><p>Oggi la Cappella Sistina è al tempo stesso un museo — tappa fondamentale di ogni visita ai Musei Vaticani — e un luogo di culto attivo, dove si tengono ancora i <strong>conclavi</strong> per l'elezione dei papi. Sopravvivono integralmente sia il ciclo quattrocentesco delle pareti laterali sia i due capolavori di Michelangelo, volta e Giudizio Universale, oggi restituiti al loro splendore cromatico originario.</p></div><div class="tab-panel"><ul class="curios">
+<li>Le proporzioni della cappella — 40,9 × 13,4 × 20,7 metri — ricalcano, secondo la tradizione, quelle del Tempio di Salomone descritte nella Bibbia.</li>
+<li>Per l'esecuzione del Giudizio Universale furono "sacrificati", letteralmente cancellati, alcuni lavori precedenti dello stesso Michelangelo e del Perugino: un raro caso in cui un capolavoro ne ha distrutto un altro per fare spazio a sé stesso.</li>
+<li>Il divieto assoluto di fotografare all'interno della cappella non è una semplice regola di rispetto, ma deriva da un preciso accordo commerciale del 1980 legato al finanziamento del restauro.</li>
+<li>Ancora oggi, quando i cardinali si riuniscono in conclave, il mondo intero guarda verso il comignolo della Cappella Sistina in attesa della fumata bianca.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="le-stanze-di-raffaello" data-name="le stanze di raffaello">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Le Stanze di Raffaello</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione generale</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Appena eletto, nel 1503, <strong>papa Giulio II</strong> si rifiutò categoricamente di abitare negli appartamenti che erano stati del suo predecessore, Alessandro VI Borgia — al punto che, secondo la testimonianza del cerimoniere pontificio Paris de Grassis, "non voleva vedere ad ogni ora il volto di Alessandro, suo predecessore". Scelse così di trasferirsi al piano superiore del Palazzo Apostolico, in un'ala fatta costruire da Niccolò V a metà Quattrocento, e ne affidò la ridecorazione a un gruppo di artisti tra cui il suo stesso maestro, il Perugino.</p><p>Il risultato, però, non soddisfece Giulio II. Fu probabilmente <strong>Donato Bramante</strong>, l'architetto pontificio già al lavoro sulla nuova basilica, a suggerire al papa il nome di un giovane e ancora poco noto pittore urbinate, suo conterraneo: <strong>Raffaello Sanzio</strong>, che nel 1508 — proprio mentre Michelangelo montava le impalcature nella Cappella Sistina — ottenne carta bianca per cancellare quanto già dipinto e ricominciare da capo.</p></div><div class="tab-panel"><p>Le <strong>Stanze di Raffaello</strong> sono quattro ambienti in sequenza, decorati da Raffaello e dalla sua bottega tra il 1508 e il 1524: un arco di tempo che attraversò due pontificati (Giulio II e Leone X) e sopravvisse alla morte dello stesso Raffaello, avvenuta nel 1520. Le prime tre stanze misurano circa 7×8 metri e sono coperte da volta a crociera; la quarta, più grande, misura circa 10×15 metri.</p><p><strong>Stanza della Segnatura</strong> (1508-1511): la prima a essere decorata, prendeva il nome dal tribunale più importante della Santa Sede, la <em>Segnatura Gratiae et Iustitiae</em>, che vi si riuniva. Vi si trovano gli affreschi più celebri di Raffaello: la <em>Scuola di Atene</em>, la <em>Disputa del Sacramento</em>, il <em>Parnaso</em> e le allegorie delle Virtù — un programma iconografico che rappresenta i quattro rami del sapere umano: Teologia, Filosofia, Giustizia e Poesia.</p><p><strong>Stanza di Eliodoro</strong> (1511-1514): destinata alle udienze private del papa, riflette il clima di tensione politica di quegli anni, segnati dalla perdita di Bologna a favore dei francesi. Vi compaiono quattro episodi: la <em>Cacciata di Eliodoro dal Tempio</em>, la <em>Messa di Bolsena</em>, la <em>Liberazione di San Pietro</em> e l'<em>Incontro di Leone Magno con Attila</em>.</p><p><strong>Stanza dell'Incendio di Borgo</strong> (1514-1517): in origine sala da pranzo papale, prende il nome dall'affresco che ricorda l'incendio che nell'847 devastò il Borgo davanti a San Pietro, spento — secondo la tradizione — dall'intervento miracoloso di papa Leone IV. Il soffitto, dipinto in precedenza dal Perugino su commissione di Giulio II, fu conservato; le pareti, invece, furono realizzate sotto <strong>Leone X</strong>, che volle celebrare i suoi due predecessori omonimi, Leone III e Leone IV, leggendone le vicende storiche alla luce dell'attualità del proprio pontificato.</p><p><strong>Sala di Costantino</strong> (1517-1524): l'ultima e la più grande, commissionata da Leone X nel 1517. Raffaello fece in tempo solo a prepararne i cartoni preparatori prima di morire nel 1520; fu portata a termine dai suoi allievi, in primis <strong>Giulio Romano</strong> e <strong>Francesco Penni</strong>. Le scene celebrano la vittoria del cristianesimo con Costantino: la <em>Battaglia di Ponte Milvio</em>, la <em>Visione della Croce</em>, il <em>Battesimo di Costantino</em>. Il soffitto, aggiunto solo nel 1585 da Tommaso Laureti, raffigura il trionfo del Cristianesimo sul paganesimo, simboleggiato da una statua pagana in frantumi a terra.</p></div><div class="tab-panel"><p><strong>Papa Giulio II</strong>: committente delle prime due stanze, scelse Raffaello scartando i lavori dei pittori precedenti. <strong>Papa Leone X</strong>: succeduto a Giulio II nel 1513, proseguì e completò il programma decorativo, orientandolo verso la celebrazione dei propri predecessori omonimi. <strong>Raffaello Sanzio</strong>: protagonista assoluto dell'impresa, morto prematuramente a soli 37 anni nel 1520, proprio mentre lavorava all'ultima sala. <strong>Giulio Romano e Francesco Penni</strong>: i principali allievi che completarono la Sala di Costantino secondo i disegni lasciati dal maestro.</p></div><div class="tab-panel"><p>Il progetto decorativo, nato come impresa di un singolo papa per i propri appartamenti privati, si trasformò nel tempo in un ciclo pittorico unitario attraverso due pontificati diversi, ciascuno dei quali vi impresse la propria agenda politica e simbolica — dalla difesa del primato spirituale della Chiesa sotto Giulio II, alla celebrazione dinastica sotto Leone X. Con la morte di Raffaello, la bottega da lui formata garantì la continuità stilistica necessaria a completare l'opera.</p></div><div class="tab-panel"><p>Le quattro Stanze sono oggi parte integrante del percorso dei <strong>Musei Vaticani</strong>, perfettamente conservate e visitabili, tappa che precede tradizionalmente la visita alla Cappella Sistina.</p></div><div class="tab-panel"><ul class="curios">
+<li>Quando Raffaello iniziò a dipingere la <em>Scuola di Atene</em>, Michelangelo aveva da poco montato le impalcature per affrescare la volta della Cappella Sistina, a pochi metri di distanza: i due massimi capolavori del Rinascimento romano nacquero praticamente in parallelo, nello stesso complesso di edifici.</li>
+<li>Nella <em>Scuola di Atene</em>, Raffaello inserì i volti di artisti e pensatori a lui contemporanei nei panni dei filosofi antichi: si ritiene che il volto di Eraclito, in primo piano, sia un omaggio a Michelangelo, e che lo stesso Raffaello si sia autoritratto tra i personaggi sulla destra.</li>
+<li>Fu proprio Giulio II, secondo la tradizione, a porre le basi di quelli che sarebbero diventati i Musei Vaticani, avviando la raccolta di antichità che oggi ne costituisce il nucleo più antico.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="il-cortile-del-belvedere-e-la-nascita-dei-musei-vaticani" data-name="il cortile del belvedere e la nascita dei musei vaticani">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Cortile del Belvedere e la nascita dei Musei Vaticani</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Il ritrovamento del Laocoonte</button><button class="tab" onclick="switchTab(this)">Descrizione del progetto bramantesco</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Quando fu eletto papa nel 1503, <strong>Giulio II</strong> portò con sé in Vaticano la propria collezione privata di antichità, raccolta fin dai tempi in cui era ancora cardinale. Tra i pezzi più preziosi vi era l'<strong>Apollo del Belvedere</strong>, una copia romana da un originale bronzeo greco, scoperta nel 1489 tra le rovine di un'antica domus sul colle Viminale e acquistata dall'allora cardinale Giuliano della Rovere. Il papa incaricò <strong>Donato Bramante</strong> — lo stesso architetto già al lavoro sulla nuova basilica — di realizzare uno spazio degno di ospitare questi capolavori: nacque così, all'interno del preesistente <strong>Palazzetto del Belvedere</strong> (fatto costruire da papa Innocenzo VIII alla fine del Quattrocento come residenza estiva), il celebre <strong>Cortile delle Statue</strong>, oggi conosciuto come Cortile Ottagono.</p></div><div class="tab-panel"><p>L'episodio che più di ogni altro consolidò la fama della collezione avvenne il 14 gennaio 1506, quando in una vigna sull'Esquilino, vicino alle rovine della Domus Aurea neroniana, fu riportato alla luce un eccezionale gruppo scultoreo raffigurante il sacerdote troiano <strong>Laocoonte</strong> avvinghiato, insieme ai due figli, dalle spire di due serpenti marini. Secondo la tradizione, tra i primi ad accorrere sul luogo del ritrovamento vi furono l'architetto <strong>Giuliano da Sangallo</strong> e lo stesso <strong>Michelangelo</strong>, chiamati a riconoscere l'opera — già descritta da Plinio il Vecchio nella sua <em>Naturalis Historia</em> come uno dei capolavori assoluti della scultura antica. Giulio II ne comprese immediatamente il valore, acquistò il gruppo e lo fece collocare nel Cortile delle Statue, dove — insieme all'Apollo — si trova tuttora, praticamente nella stessa posizione di oltre cinque secoli fa.</p></div><div class="tab-panel"><p>Il Cortile delle Statue non era un progetto isolato, ma parte di un'impresa urbanistica ben più ambiziosa: il grande <strong>Cortile del Belvedere</strong>, ideato da Bramante per collegare fisicamente il Palazzo Apostolico al Palazzetto del Belvedere attraverso una sequenza scenografica di terrazze e rampe — una delle invenzioni architettoniche più influenti dell'intero Rinascimento, capace di fondere insieme funzione pratica, spettacolarità scenica e ambizione politica. A fianco del cortile, Bramante costruì anche una scala elicoidale (oggi nota come <strong>Scala del Bramante</strong>), concepita per essere percorsa persino a cavallo, così da facilitare l'accesso dal giardino del Belvedere ai piani superiori.</p></div><div class="tab-panel"><p><strong>Giulio II</strong> (1503-1513): fondatore del nucleo originario della collezione, con la duplice ambizione di ricreare nella Roma dei papi lo splendore della Roma dei Cesari. <strong>Donato Bramante</strong>: progettista del Cortile delle Statue e dell'intero complesso del Belvedere. <strong>Benedetto XIV</strong> (1740-1758): riorganizzò le collezioni in un Museo Sacro e un Museo Profano, oltre a un Gabinetto delle Medaglie. <strong>Johann Joachim Winckelmann</strong>: lo studioso tedesco, pioniere della moderna storia dell'arte antica, le cui ricerche a metà Settecento incentivarono l'apertura delle collezioni vaticane a un pubblico più ampio. <strong>Clemente XIV e Pio VI</strong>: i due pontefici che, tra il 1771 e la fine del secolo, trasformarono la collezione papale in un vero museo pubblico.</p></div><div class="tab-panel"><p>Per oltre due secoli e mezzo, le antichità vaticane restarono essenzialmente una collezione privata dei papi, per quanto accessibile a studiosi e artisti di passaggio. La svolta arrivò nel 1771, quando <strong>papa Clemente XIV</strong> fondò ufficialmente il <strong>Museo Pio-Clementino</strong> (il nome unisce il suo, "Clementino", a quello del successore che ne proseguì l'opera). Fu <strong>papa Pio VI</strong> ad ampliarlo notevolmente, affidando all'architetto <strong>Michelangelo Simonetti</strong> — a partire dal 1772 — la costruzione del portico che diede al Cortile Ottagono la forma monumentale che conserva ancora oggi.</p><p>Da collezione privata di un singolo papa, il nucleo originario del Belvedere si trasformò così, nel giro di meno di tre secoli, in un'istituzione museale organica e sempre più aperta al pubblico — il seme da cui sarebbero germogliati, nei secoli successivi, tutti gli altri musei vaticani (tra cui il Museo Chiaramonti, allestito sotto Pio VII con la collaborazione di Antonio Canova).</p></div><div class="tab-panel"><p>Il Cortile Ottagono, cuore del Museo Pio-Clementino, conserva ancora oggi l'<strong>Apollo del Belvedere</strong> e il <strong>Laocoonte</strong>, insieme ad altri capolavori accumulati nei secoli come il <em>Torso del Belvedere</em> e la statua del dio fluviale del Tevere. La <strong>Scala del Bramante</strong> cinquecentesca è visitabile solo su richiesta con visite guidate private, così come la Cappella Niccolina.</p></div><div class="tab-panel"><ul class="curios">
+<li>L'Apollo del Belvedere fu descritto dallo storico dell'arte Winckelmann come "il più alto ideale d'arte" tra tutte le opere sopravvissute dell'antichità.</li>
+<li>Secondo il mito, Laocoonte fu punito dagli dèi proprio per aver messo in guardia i troiani dal cavallo di legno lasciato dai Greci: la sua morte, nella tradizione romana, spinse Enea a fuggire da Troia — un evento che, nella leggenda, portò infine alla fondazione di Roma stessa.</li>
+<li>L'Apollo, quando arrivò in Vaticano, era mancante di un braccio: fu restaurato solo tra il 1532 e il 1533 dallo scultore Giovannangelo Montorsoli, allievo di Michelangelo.</li>
+<li>Il Cortile delle Statue, oggi conosciuto come Cortile Ottagono per la sua forma attuale, prese il nome dall'Apollo che vi era conservato: da qui l'appellativo "Belvedere" rimasto attaccato per sempre alla statua.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="piazza-e-colonnato-di-san-pietro" data-name="piazza e colonnato di san pietro">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Piazza e Colonnato di San Pietro</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Nel XVII secolo, dopo il completamento della nuova basilica, si avvertiva la necessità di dare ordine e monumentalità allo spazio antistante, fino ad allora un'area irregolare circondata dal borgo medievale. <strong>Papa Alessandro VII</strong> affidò a <strong>Gian Lorenzo Bernini</strong>, nel 1656, il compito di trasformarla in un luogo capace di esprimere, attraverso l'arte, la grandezza della Chiesa cattolica e il messaggio della Controriforma.</p><p>Il progetto fu tutt'altro che immediato: Bernini impiegò undici anni di lavoro, tra continui ripensamenti. Il primo disegno, dell'estate 1656, prevedeva una piazza trapezoidale delimitata da palazzi porticati, ma il risultato non convinse nemmeno l'artista: i palazzi risultavano troppo alti e l'effetto complessivo poco spettacolare. Solo nella primavera del 1657 Bernini arrivò alla soluzione definitiva: una piazza ellittica, delimitata non più da palazzi ma da un grande colonnato aperto.</p></div><div class="tab-panel"><p>La piazza fu completata nel 1667 e si compone di due parti: uno spazio <strong>trapezoidale</strong> immediatamente davanti alla facciata, che ne corregge otticamente l'eccessiva larghezza (un difetto lasciato dall'intervento di Maderno, che aveva un po' "schiacciato" la vista della cupola di Michelangelo); e una vasta <strong>ellisse "a tre centri"</strong>, di circa 196×149 metri, abbracciata dal colonnato, con al centro l'obelisco vaticano e due fontane gemelle.</p><p>Il colonnato è formato da <strong>284 colonne</strong> di ordine tuscanico e <strong>88 pilastri</strong> in travertino, disposti su quattro file, alti circa 16 metri. Sopra corre una trabeazione coronata da una balaustra su cui si ergono <strong>140 statue di santi</strong>, alte oltre tre metri ciascuna, realizzate tra il 1670 e il 1703 dagli allievi del Bernini sotto la sua supervisione.</p></div><div class="tab-panel"><p><strong>Papa Alessandro VII</strong> (1655-1667): il grande promotore della piazza. <strong>Gian Lorenzo Bernini</strong> (1598-1680): ideatore del progetto e coordinatore della sua realizzazione per oltre un decennio. <strong>Domenico Fontana</strong> (in precedenza): responsabile del posizionamento dell'obelisco nel 1586, che nel disegno di Bernini divenne il fulcro dell'intera composizione.</p></div><div class="tab-panel"><p>Dal Seicento in poi la piazza è rimasta sostanzialmente invariata, mantenendo la sua funzione di spazio liturgico e cerimoniale. Nel corso dei secoli ha accolto incoronazioni papali, benedizioni "urbi et orbi", eventi storici come il Concilio Vaticano II e i grandi raduni contemporanei. Bernini stesso avrebbe voluto chiudere completamente la piazza con una terza ala colonnata, o con un arco trionfale, per accentuare ulteriormente l'effetto sorpresa di chi vi accedeva dalle strette vie del Borgo — un progetto mai realizzato.</p></div><div class="tab-panel"><p>Il <strong>colonnato berniniano</strong> è perfettamente conservato, con i suoi giochi prospettici. L'<strong>obelisco vaticano</strong> e le fontane completano l'armonia dello spazio. I <strong>dischi prospettici</strong> a terra, posti nei due fuochi dell'ellisse, permettono ancora oggi di osservare l'allineamento perfetto delle quattro file di colonne, che da quei punti appaiono come una sola.</p></div><div class="tab-panel"><ul class="curios">
+<li>Bernini progettò la piazza per conciliare prospettiva e devozione: la forma ellittica richiama il simbolo del mondo, mentre il trapezio vicino alla facciata corregge la sproporzione della navata aggiunta da Maderno.</li>
+<li>La piazza non ha una vera e propria pavimentazione decorativa: Bernini voleva che l'attenzione fosse catturata dal movimento delle colonne e dalla verticalità della basilica.</li>
+<li>Le 140 statue di santi non sono tutte uguali: rappresentano figure diverse, creando una sorta di "liturgia scolpita" attorno ai fedeli.</li>
+<li>In passato, l'ombra dell'obelisco funzionava come gnomone di meridiana: segnava i solstizi e le ore principali.</li>
+<li>Ai punti focali della piazza, segnati da dischi in pietra, le quattro file di colonne appaiono perfettamente allineate: un gioco prospettico che sorprende ancora oggi i visitatori.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="la-cupola-di-michelangelo" data-name="la cupola di michelangelo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Cupola di Michelangelo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Architettura e arte</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Quando Bramante concepì la nuova basilica rinascimentale, immaginò già una pianta centrale con una grande cupola ispirata al Pantheon. Dopo la sua morte, il progetto passò di mano in mano — Raffaello, Antonio da Sangallo il Giovane — fino a quando, nel 1546-47, <strong>Michelangelo Buonarroti</strong>, a settant'anni, fu nominato capo della fabbrica da papa Paolo III. Michelangelo ripartì dal disegno di Bramante, demolendo gran parte delle soluzioni elaborate da Sangallo, e ridiede forza e unità al concetto originario, concependo una cupola che sarebbe diventata il simbolo stesso della Roma cristiana.</p></div><div class="tab-panel"><p>La cupola si innalza sopra quattro enormi piloni del transetto, con un perimetro di circa 71 metri, che costituiscono la base della crociera. È formata da una <strong>doppia calotta</strong> — una interna e una esterna — soluzione mutuata dalla cupola del Brunelleschi a Santa Maria del Fiore a Firenze: la calotta interna, spessa circa due metri, garantisce la solidità strutturale, mentre quella esterna, più leggera, permette una silhouette slanciata e visibile da lontano.</p><p>L'altezza complessiva, fino alla sommità della croce, è di circa 136 metri, mentre il diametro interno misura circa 42 metri — di poco inferiore a quello del Pantheon, cui la cupola si ispira direttamente. Il peso dell'intera struttura è stimato in circa 14.000 tonnellate. All'interno, la calotta è rivestita da mosaici seicenteschi raffiguranti Cristo, la Vergine, gli apostoli e i santi, che sembrano fluttuare verso il cielo.</p></div><div class="tab-panel"><p>La struttura presenta costoloni esterni che ne scandiscono il profilo, raccordata da un alto tamburo con sedici finestroni rettangolari, separati da altrettante coppie di colonne binate, che inondano di luce l'interno. La lanterna, sormontata da una palla dorata e da una croce, funge da coronamento e da segno visibile in tutta Roma. I mosaici interni, realizzati tra XVI e XVII secolo, costituiscono uno dei più grandi cicli musivi al mondo.</p></div><div class="tab-panel"><p><strong>Michelangelo Buonarroti</strong>: autore del progetto definitivo, che concepì la cupola come sintesi di perfezione architettonica e spirituale. Alla sua morte, nel 1564, la costruzione era arrivata solo all'altezza del tamburo: prima di morire, Michelangelo affidò la direzione dei lavori a <strong>Jacopo Barozzi da Vignola</strong>, che li proseguì fino al proprio decesso nel 1573. L'anno seguente la guida della fabbrica passò a <strong>Giacomo della Porta</strong>, che — con l'aiuto di <strong>Domenico Fontana</strong> — completò la cupola vera e propria tra il 1588 e il 1590, sotto <strong>papa Sisto V</strong>, in appena 22 mesi e grazie al lavoro di 800 operai. Della Porta rialzò leggermente la curvatura della calotta esterna rispetto al disegno originario di Michelangelo (forse pensato perfettamente emisferico, a giudicare dalle incisioni di Stefano Dupérac), per ragioni di stabilità strutturale. La sfera dorata e la croce sommitali, opera dello scultore <strong>Sebastiano Torrigiani</strong>, furono collocate il 18 novembre 1593.</p></div><div class="tab-panel"><p>La cupola non ha subito grandi trasformazioni dalla sua realizzazione, ma solo restauri e consolidamenti strutturali nel corso dei secoli. Rimane pressoché identica all'idea di Michelangelo, anche se la curvatura esterna è più accentuata di quanto lui avesse previsto — una delle poche, importanti modifiche apportate dai suoi successori, adottata comunque nel rispetto della calotta interna, lasciata intatta.</p></div><div class="tab-panel"><p>La cupola è visitabile sia dall'interno che dall'esterno: si può salire fino alla <strong>lanterna</strong>, attraversando scale interne che permettono di vedere da vicino la struttura della doppia calotta (551 gradini solo scale, oppure ascensore fino alla terrazza seguito da circa 320 gradini). All'interno, gli spettacolari mosaici si ammirano guardando verso l'alto dall'altare maggiore. Dal cupolino si gode uno dei panorami più famosi al mondo, con vista a 360° su Roma e sul Vaticano.</p></div><div class="tab-panel"><ul class="curios">
+<li>La palla dorata che sormonta la lanterna è grande abbastanza da contenere alcune persone: in passato vi si poteva entrare, anche se oggi non è più accessibile.</li>
+<li>Michelangelo inizialmente esitò ad accettare l'incarico, temendo di non riuscire a portarlo a termine per via dell'età; alla fine, il suo progetto divenne la sua eredità più celebre dopo la Cappella Sistina.</li>
+<li>La cupola ha ispirato molte altre nel mondo: da San Paolo a Londra al Campidoglio di Washington, tutte riprendono il modello michelangiolesco.</li>
+<li>L'altezza complessiva di circa 136 metri ne fa ancora oggi una delle più grandi cupole del mondo e la più alta di Roma.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="la-facciata-di-maderno" data-name="la facciata di maderno">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Facciata di Maderno</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Con il completamento della nuova basilica in età rinascimentale, si rese necessario dotarla di una facciata monumentale che ne rappresentasse la grandezza. L'incarico fu affidato a <strong>Carlo Maderno</strong>, che nel 1607, sotto papa <strong>Paolo V Borghese</strong>, avviò i lavori: le fondamenta autonome furono iniziate il 5 novembre 1607, la prima pietra fu posta il 10 febbraio 1608, e già il 21 luglio 1612 gran parte dell'imponente struttura era compiuta (la rifinitura di cornicione, attico e balaustra con le statue si protrasse ancora fino al 1614).</p><p>Maderno si trovò fortemente vincolato dalle scelte già fatte da Michelangelo per i fianchi della basilica, la cui altezza doveva necessariamente trovare corrispondenza nella facciata: non poté quindi sormontare l'ordine inferiore con un secondo ordine di altezza proporzionata, perché avrebbe finito per nascondere ancora di più la cupola sovrastante.</p></div><div class="tab-panel"><p>La facciata è larga circa 115 metri e alta circa 45-48 metri (le fonti riportano misure leggermente diverse a seconda che si includano o meno le statue), rivestita interamente in travertino. Si articola su due ordini: quello inferiore, scandito da otto colonne colossali di ordine corinzio, che inquadrano cinque ingressi; quello superiore, con balconate, finestre e un grande attico, coronato da tredici statue alte circa 5,7 metri — il Cristo Redentore, san Giovanni Battista e undici apostoli (manca proprio san Pietro, la cui statua si trova invece ai piedi della scalinata, in piazza).</p><p>Al centro si apre il <strong>loggione delle benedizioni</strong>, da cui il papa si affaccia per le benedizioni <em>Urbi et Orbi</em> e per l'annuncio dell'elezione pontificia. Sulla trabeazione corre, per oltre 80 metri, la celebre iscrizione: <em>«IN HONOREM PRINCIPIS APOST PAVLVS V BVRGHESIVS ROMANVS PONT MAX AN MDCXII PONT VII»</em>. Sotto la Loggia delle Benedizioni si trova inoltre un altorilievo del 1614 circa, la <em>Consegna delle Chiavi</em>, opera di Ambrogio Buonvicino.</p></div><div class="tab-panel"><p><strong>Carlo Maderno</strong> (1556-1629): autore del progetto, che dovette confrontarsi con l'eredità di Michelangelo restando fedele, per quanto possibile, alle sue scelte architettoniche. <strong>Papa Paolo V Borghese</strong> (1605-1621): promotore dell'opera, che volle legare il proprio nome all'immagine della basilica. <strong>Gian Lorenzo Bernini</strong>: quasi vent'anni dopo il completamento della facciata, fu incaricato di risolvere il problema dei campanili laterali.</p></div><div class="tab-panel"><p>Fin dal progetto originario, Paolo V aveva chiesto a Maderno di affiancare la facciata con due torri campanarie, per slanciarne otticamente le proporzioni e inquadrare meglio la cupola retrostante: il campanile destro fu completato nel dicembre 1612, quello sinistro nell'agosto 1618. Il terreno sottostante, però, si rivelò instabile — probabilmente per la presenza di antiche strutture romane interrate — e la torre sinistra cominciò a mostrare pericolose lesioni strutturali. Fu proprio <strong>Bernini</strong>, quasi vent'anni più tardi, nel 1641, a essere costretto a demolirla, e per di più a proprie spese. Dei due campanili sopravvivono oggi solo le basi, gli archi di passaggio ai lati della facciata, che ne sembrano parte integrante pur essendo nati per una funzione diversa.</p><p>La facciata di Maderno, insieme all'allungamento della navata da pianta a croce greca a croce latina, è anche al centro di uno dei dibattiti più celebri della storia dell'architettura: nascondendo parzialmente la vista della cupola di Michelangelo dalla piazza, è spesso citata come un compromesso imposto dalle esigenze liturgiche della Controriforma (che richiedevano una navata più lunga, per accogliere più fedeli) a scapito della purezza dell'idea centrale rinascimentale. Fu proprio la piazza di Bernini, decenni dopo, ad attenuare parzialmente questo effetto, allontanando otticamente lo spettatore e restituendo respiro alla visione d'insieme.</p></div><div class="tab-panel"><p>La facciata è integralmente conservata e costituisce il simbolo visivo dell'accesso alla basilica. Il <strong>loggione delle benedizioni</strong> è ancora oggi il luogo da cui vengono annunciate le elezioni papali e le grandi benedizioni solenni. Le statue sull'attico e le iscrizioni originali sono perfettamente leggibili. Le basi dei due campanili mai portati a termine restano visibili ai lati del prospetto.</p></div><div class="tab-panel"><ul class="curios">
+<li>L'ampiezza della facciata la rende uno dei fronti architettonici più grandi del mondo.</li>
+<li>Il loggione delle benedizioni, detto anche "Loggia delle Benedizioni", è diventato il luogo simbolico della proclamazione dell'"Habemus Papam".</li>
+<li>L'iscrizione che celebra Paolo V è una delle più evidenti forme di autorappresentazione papale del Seicento.</li>
+<li>Tra gli storici dell'architettura, la facciata di Maderno è spesso citata — con una certa ironia — come uno dei "errori" più clamorosi (per quanto obbligati) della storia dell'architettura, proprio per il modo in cui riduce la visibilità della cupola michelangiolesca da distanza ravvicinata.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="il-baldacchino-di-bernini" data-name="il baldacchino di bernini">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Il Baldacchino di Bernini</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Dopo la costruzione della nuova basilica rinascimentale, era necessario dare un segno visibile al fulcro spirituale della chiesa: l'altare maggiore, collocato direttamente sopra la tomba di San Pietro. Papa <strong>Urbano VIII Barberini</strong> affidò l'incarico, nel 1623, a <strong>Gian Lorenzo Bernini</strong>, che realizzò il baldacchino tra il 1624 e il 1633, inaugurandolo il 28 giugno di quell'anno. Fu il primo grande cantiere barocco in San Pietro, e segnò l'inizio della lunga carriera di Bernini al servizio dei papi — la sua committenza pubblica più importante fino ad allora.</p></div><div class="tab-panel"><p>Il baldacchino è una struttura in bronzo dorato, alta complessivamente circa 28,70 metri e con un peso stimato di 63 tonnellate, collocata al centro della crociera, sotto la cupola michelangiolesca. Ha la funzione di segnare e proteggere l'altare papale e la tomba di Pietro, ma anche di creare un punto di connessione visiva tra l'enorme spazio interno e il centro liturgico della basilica.</p><p>È composto da quattro <strong>colonne tortili</strong> in bronzo, alte circa 11 metri, ispirate alle antiche colonne "salomoniche" — a spirale, come quelle tradizionalmente attribuite al Tempio di Gerusalemme, alcune delle quali erano effettivamente conservate nell'antica basilica costantiniana. Le colonne sono decorate con tralci di alloro, lucertole, putti e api, l'emblema araldico della famiglia Barberini. Sopra i capitelli compositi, quattro grandi volute "a dorso di delfino" — disegnate in collaborazione con <strong>Francesco Borromini</strong> — sostengono un coronamento con angeli, finti drappi bronzei mossi come dal vento, e una sfera sormontata da una croce.</p></div><div class="tab-panel"><p><strong>Papa Urbano VIII Barberini</strong> (1623-1644): commissionò l'opera e impose che fosse grandiosa, per celebrare il papato e la propria famiglia. <strong>Gian Lorenzo Bernini</strong> (1598-1680): giovane ma già affermato, realizzò il progetto unendo architettura e scultura in un insieme unitario, nello stile che sarebbe poi diventato noto come "bel composto". <strong>Francesco Borromini</strong>: collaborò alla parte superiore del baldacchino — il finto drappo, i quattro arcangeli, le volute a dorso di delfino — in un rapporto di rivalità e insieme collaborazione con Bernini, che avrebbe segnato i decenni successivi dell'architettura barocca romana.</p></div><div class="tab-panel"><p>Il baldacchino non subì modifiche rilevanti ed è ancora oggi quello realizzato da Bernini: solo restauri periodici ne hanno conservato il bronzo e i mosaici sottostanti.</p></div><div class="tab-panel"><p>Il baldacchino è perfettamente conservato e si trova nella sua collocazione originaria, al centro della basilica. È visibile da ogni punto dell'interno, essendo il fulcro visivo e liturgico dell'edificio.</p></div><div class="tab-panel"><ul class="curios">
+<li>Per ottenere parte del bronzo necessario, secondo la tradizione papa Urbano VIII ordinò di prelevare materiale dal rivestimento del pronao del <strong>Pantheon</strong>: da qui sarebbe nato il celebre detto romano «Quod non fecerunt barbari, fecerunt Barberini» ("Ciò che non fecero i barbari, lo fecero i Barberini"). Alcuni storici dell'arte contemporanei, tuttavia, mettono in discussione questa versione: secondo la studiosa Louise Rice, il bronzo prelevato dal Pantheon sarebbe stato in realtà fuso per ottenere ottanta cannoni destinati a Castel Sant'Angelo, e l'associazione diretta con il baldacchino potrebbe essere nata come costruzione della propaganda papale dell'epoca, più che come fatto storicamente documentato.</li>
+<li>Le colonne tortili richiamano deliberatamente quelle antiche del ciborio costantiniano, così da sottolineare la continuità con la basilica originaria — pur essendo, in realtà, un'invenzione quasi interamente nuova di Bernini.</li>
+<li>La forma del baldacchino ricorda i baldacchini processionali in tessuto usati nelle cerimonie liturgiche, ma qui reso eterno e monumentale in bronzo.</li>
+<li>L'altezza è tale che il baldacchino potrebbe contenere agevolmente un palazzo di nove piani: un simbolo dell'ambizione barocca.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="la-cattedra-di-san-pietro" data-name="la cattedra di san pietro">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">La Cattedra di San Pietro</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Nel corso dei secoli, la basilica aveva custodito una reliquia preziosa: una sedia lignea antichissima, tradizionalmente ritenuta il trono usato da San Pietro durante il suo ministero a Roma. In realtà si tratta di un manufatto assai più tardo, databile al IX secolo: un trono di fattura bizantina, probabilmente un seggio imperiale portatile, donato nell'<strong>875</strong> dal re dei Franchi <strong>Carlo il Calvo</strong> a papa Giovanni VIII, in occasione della sua discesa a Roma per l'incoronazione a imperatore. Con il tempo si perse memoria dell'origine storica del manufatto, e la cattedra fu venerata come la sedia episcopale dell'apostolo Pietro, portata in solenne processione ogni 22 febbraio, giorno della festa liturgica a lei dedicata.</p><p>Per valorizzare questo simbolo dell'autorità apostolica, papa <strong>Alessandro VII</strong> commissionò a <strong>Gian Lorenzo Bernini</strong> un monumento grandioso, realizzato tra il 1657 e il 1666, per trasferire la cattedra dalla cappella battesimale all'abside della basilica — collocazione che occupa tuttora.</p></div><div class="tab-panel"><p>La Cattedra di San Pietro è un'enorme macchina scenica barocca, collocata al centro dell'abside, sopraelevata e incorniciata da una complessa struttura bronzea e marmorea, alta complessivamente circa 14,74 metri.</p><p>La sedia lignea originale — a sua volta composta da tre elementi: una gabbia lignea esterna del XIII secolo, il trono carolingio vero e proprio in legno di rovere, e un pannello d'avorio con diciotto formelle raffiguranti le fatiche di Ercole e figure dello zodiaco, decorazione di sapore del tutto pagano su quello che per secoli fu venerato come reliquia cristiana — è racchiusa in un <strong>trono bronzeo monumentale</strong>, sorretto dalle statue colossali dei <strong>quattro Dottori della Chiesa</strong>: sant'Agostino e sant'Ambrogio in primo piano, per la Chiesa d'Occidente; sant'Atanasio e san Giovanni Crisostomo in secondo piano, per quella d'Oriente.</p><p>Sopra il trono si apre la spettacolare <strong>gloria berniniana</strong>, una grande finestra circolare decorata da raggi dorati e nubi di stucco, al cui centro si trova una vetrata in alabastro che raffigura la colomba dello Spirito Santo, con un'apertura alare di 162 centimetri. Sul drappo bronzeo frontale è raffigurata la <em>traditio clavium</em>, la consegna delle chiavi a Pietro da parte di Cristo.</p></div><div class="tab-panel"><p><strong>Papa Alessandro VII</strong> (1655-1667): volle il monumento per affermare l'autorità papale e apostolica nel cuore della basilica. <strong>Gian Lorenzo Bernini</strong> (1598-1680): ideò il complesso come sintesi di scultura, architettura e luce, una delle sue massime creazioni. <strong>Carlo il Calvo</strong>: re dei Franchi, donò la sedia lignea carolingia a papa Giovanni VIII nell'875, in un gesto diplomatico legato alla propria incoronazione imperiale.</p></div><div class="tab-panel"><p>La cattedra non ha subito modifiche sostanziali dalla sua realizzazione. È rimasta il centro visivo e simbolico dell'abside, mentre i restauri si sono limitati a puliture e consolidamenti. Racchiusa nel trono bronzeo, la sedia lignea originale divenne progressivamente meno visibile e la sua estrazione sempre più rara e complessa: in occasioni eccezionali, come in vista del Giubileo, viene ancora estratta dal suo "reliquiario" barocco ed esposta separatamente alla venerazione dei fedeli.</p></div><div class="tab-panel"><p>La sedia lignea carolingia resta normalmente invisibile, racchiusa nel trono bronzeo. L'intero complesso berniniano, perfettamente conservato, si ammira dall'altare papale guardando verso l'abside. La luce che filtra dalla finestra in alabastro resta una delle esperienze visive più potenti all'interno della basilica. Una copia della cattedra lignea è inoltre esposta nel Museo storico-artistico - Tesoro di San Pietro.</p></div><div class="tab-panel"><ul class="curios">
+<li>Il 22 febbraio, festa della Cattedra di San Pietro, il monumento viene solennemente celebrato come simbolo dell'autorità apostolica e della successione papale.</li>
+<li>Sotto la seduta della sedia carolingia si nasconde un pannello d'avorio con le dodici fatiche di Ercole e altre figure mostruose: un'iconografia interamente pagana, sopravvissuta per secoli all'interno di quella che i fedeli veneravano come reliquia dello stesso San Pietro.</li>
+<li>La finestra in alabastro con la colomba dello Spirito Santo è retroilluminata naturalmente: l'effetto cambia nelle diverse ore del giorno, rendendo il monumento quasi "vivente".</li>
+<li>Bernini ideò la Gloria come una vera "teofania": la luce stessa diventa elemento architettonico.</li>
+<li>Il contrasto tra la pesantezza bronzea del trono e la leggerezza luminosa della gloria rappresenta in chiave barocca l'armonia tra autorità e ispirazione divina.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="stemmi-e-simboli-papali-nella-basilica" data-name="stemmi e simboli papali nella basilica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stemmi e simboli papali nella basilica</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del fenomeno</button><button class="tab" onclick="switchTab(this)">Architettura e arte</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Fin dall'epoca medievale, i papi hanno utilizzato gli stemmi araldici come strumento di auto-rappresentazione e legittimazione. Nella nuova basilica rinascimentale e barocca, gli stemmi diventarono veri e propri elementi architettonici e decorativi, integrati nelle strutture e destinati a tramandare la memoria dei pontefici che avevano promosso e finanziato i lavori.</p></div><div class="tab-panel"><p>Passeggiando all'interno e all'esterno di San Pietro, si incontrano decine di stemmi papali scolpiti, dipinti o musivi. Sono collocati in punti strategici: facciata, altari, cappelle, pavimenti, soffitti e persino nelle basi delle colonne. Ogni stemma ricorda un papa che ha contribuito a un'opera, a un restauro o a un'aggiunta artistica.</p><p>Gli elementi ricorrenti sono lo <strong>stemma araldico personale</strong> del papa, con i simboli familiari (api, draghi, colombe, gigli, aquile e così via); le <strong>chiavi di San Pietro</strong>, incrociate e sormontate dalla tiara papale, simbolo universale del papato; e <strong>motti e iscrizioni</strong> che ricordano il pontefice committente.</p></div><div class="tab-panel"><p><strong>Facciata di Maderno</strong> (1612): l'iscrizione ricorda Paolo V Borghese, il cui stemma con l'aquila e il drago si trova in più punti. <strong>Baldacchino di Bernini</strong> (1624-1633): decorato da api e soli, emblemi dei Barberini, famiglia di Urbano VIII. <strong>Cattedra di San Pietro</strong> (1657-1666): la gloria berniniana porta lo stemma di Alessandro VII Chigi (monti e stella). <strong>Cupola di Michelangelo</strong>: completata da Sisto V, è segnata dal suo stemma con la stella e il leone Peretti. <strong>Altari e cappelle</strong>: ogni epoca ha lasciato tracce araldiche, come i gigli di Clemente XI Albani o i draghi di Gregorio XIII Boncompagni.</p></div><div class="tab-panel"><p><strong>Paolo V Borghese</strong> (1605-1621): il suo nome campeggia sulla facciata con iscrizione monumentale. <strong>Urbano VIII Barberini</strong> (1623-1644): celebre per le api Barberini, disseminate ovunque. <strong>Alessandro VII Chigi</strong> (1655-1667): legò il suo nome alla piazza e alla cattedra, lasciando monti e stella come segno distintivo. <strong>Sisto V Peretti</strong> (1585-1590): il papa della cupola, riconoscibile dal leone e dalla stella.</p></div><div class="tab-panel"><p>Gli stemmi papali non sono semplici "firme": rappresentano il filo conduttore della trasformazione della basilica. Ogni pontefice, aggiungendo il proprio stemma, ha rivendicato il ruolo di custode e continuatore del progetto iniziato con Costantino e rinnovato da Giulio II.</p><p>In età contemporanea, gli stemmi sono stati aggiunti più sobriamente, ma la tradizione continua: basti pensare a Giovanni Paolo II, Benedetto XVI o Francesco, i cui stemmi compaiono nelle lapidi commemorative o negli interventi moderni.</p></div><div class="tab-panel"><p><strong>Facciata</strong>: iscrizione e stemma Borghese. <strong>Interno</strong>: stemmi Barberini, Chigi, Peretti e molti altri sparsi ovunque. <strong>Pavimenti cosmateschi e mosaici</strong>: in alcune cappelle sopravvivono inserti araldici. <strong>Musei Vaticani</strong>: raccolgono anche modelli e arredi con stemmi papali provenienti dalla basilica.</p></div><div class="tab-panel"><ul class="curios">
+<li>La quantità di stemmi papali in San Pietro è tale che la basilica può essere letta come una "galleria araldica" della storia della Chiesa.</li>
+<li>Il detto romano «Quod non fecerunt barbari, fecerunt Barberini» nasce proprio dal Baldacchino, segno che gli stemmi papali non erano solo simboli, ma anche propaganda oggetto di discussioni.</li>
+<li>Alessandro VII, molto attento al messaggio simbolico, volle che i monti e la stella della sua famiglia apparissero non solo nei monumenti principali, ma persino nelle decorazioni minori.</li>
+<li>Gli stemmi papali, accanto alle chiavi e alla tiara, ricordano visivamente al fedele che la basilica è sì dedicata a San Pietro, ma appartiene anche alla storia continua del papato.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

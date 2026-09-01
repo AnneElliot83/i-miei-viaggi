@@ -1587,6 +1587,12 @@ const deepIndex = [
     "context": "Borgogna — Approfondimento"
   },
   {
+    "name": "San Pietro",
+    "file": "vaticano-personaggi.html",
+    "id": "san-pietro",
+    "context": "Personaggi di San Pietro"
+  },
+  {
     "name": "Storia di San Pietro",
     "file": "san-pietro-storia.html",
     "id": null,
@@ -1594,98 +1600,92 @@ const deepIndex = [
   },
   {
     "name": "Obelisco Vaticano",
-    "file": "vaticano-obelisco-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "obelisco-vaticano",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Necropoli Vaticana",
-    "file": "vaticano-necropoli-vaticana.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "necropoli-vaticana",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "La Basilica Costantiniana",
-    "file": "vaticano-la-basilica-costantiniana.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "la-basilica-costantiniana",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Il Borgo Vaticano medievale",
-    "file": "vaticano-il-borgo-vaticano-medievale.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "il-borgo-vaticano-medievale",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Il Passetto di Borgo",
-    "file": "vaticano-il-passetto-di-borgo.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "il-passetto-di-borgo",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Il Giubileo del 1300",
-    "file": "vaticano-il-giubileo-del-1300.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "il-giubileo-del-1300",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "La Cappella Sistina",
-    "file": "vaticano-la-cappella-sistina.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "la-cappella-sistina",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Le Stanze di Raffaello",
-    "file": "vaticano-le-stanze-di-raffaello.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "le-stanze-di-raffaello",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Il Cortile del Belvedere e la nascita dei Musei Vaticani",
-    "file": "vaticano-il-cortile-del-belvedere-e-la-nascita-dei-musei-vaticani.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "il-cortile-del-belvedere-e-la-nascita-dei-musei-vaticani",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Piazza e Colonnato di San Pietro",
-    "file": "vaticano-piazza-e-colonnato-di-san-pietro.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "piazza-e-colonnato-di-san-pietro",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "La Cupola di Michelangelo",
-    "file": "vaticano-la-cupola-di-michelangelo.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "la-cupola-di-michelangelo",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "La Facciata di Maderno",
-    "file": "vaticano-la-facciata-di-maderno.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "la-facciata-di-maderno",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Il Baldacchino di Bernini",
-    "file": "vaticano-il-baldacchino-di-bernini.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "il-baldacchino-di-bernini",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "La Cattedra di San Pietro",
-    "file": "vaticano-la-cattedra-di-san-pietro.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
+    "file": "vaticano-approfondimenti.html",
+    "id": "la-cattedra-di-san-pietro",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   },
   {
     "name": "Stemmi e simboli papali nella basilica",
-    "file": "vaticano-stemmi-e-simboli-papali-nella-basilica.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "San Pietro",
-    "file": "vaticano-personaggi.html",
-    "id": "san-pietro",
-    "context": "Personaggi di San Pietro"
+    "file": "vaticano-approfondimenti.html",
+    "id": "stemmi-e-simboli-papali-nella-basilica",
+    "context": "San Pietro in Vaticano — Approfondimenti"
   }
 ];
