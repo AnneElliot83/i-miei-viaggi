@@ -1587,49 +1587,7 @@ const deepIndex = [
     "context": "Borgogna — Approfondimento"
   },
   {
-    "name": "I. Origini e Fase Romana",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "II. Età Tardoantica",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "III. Medioevo",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "IV. Rinascimento",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "V. Barocco",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "VI. Età Moderna",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "VII. Età Contemporanea",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "Fase Romana",
+    "name": "Storia",
     "file": "san-pietro-vaticano.html",
     "id": null,
     "context": "San Pietro in Vaticano"
@@ -1647,19 +1605,7 @@ const deepIndex = [
     "context": "San Pietro in Vaticano"
   },
   {
-    "name": "Fase Costantiniana",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
     "name": "La Basilica Costantiniana",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "Alto Medioevo",
     "file": "san-pietro-vaticano.html",
     "id": null,
     "context": "San Pietro in Vaticano"
@@ -1677,19 +1623,7 @@ const deepIndex = [
     "context": "San Pietro in Vaticano"
   },
   {
-    "name": "Basso Medioevo",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
     "name": "Il Giubileo del 1300",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "Fase Rinascimentale",
     "file": "san-pietro-vaticano.html",
     "id": null,
     "context": "San Pietro in Vaticano"
@@ -1708,12 +1642,6 @@ const deepIndex = [
   },
   {
     "name": "Il Cortile del Belvedere e la nascita dei Musei Vaticani",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "Fase Barocca",
     "file": "san-pietro-vaticano.html",
     "id": null,
     "context": "San Pietro in Vaticano"
@@ -1744,12 +1672,6 @@ const deepIndex = [
   },
   {
     "name": "La Cattedra di San Pietro",
-    "file": "san-pietro-vaticano.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
-    "name": "Fase Moderna",
     "file": "san-pietro-vaticano.html",
     "id": null,
     "context": "San Pietro in Vaticano"
