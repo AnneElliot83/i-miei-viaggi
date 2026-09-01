@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Cupola di Michelangelo — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>La Cupola di Michelangelo</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Architettura e arte</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Quando Bramante concepì la nuova basilica rinascimentale, immaginò già una pianta centrale con una grande cupola ispirata al Pantheon. Dopo la sua morte, il progetto passò di mano in mano — Raffaello, Antonio da Sangallo il Giovane — fino a quando, nel 1546-47, <strong>Michelangelo Buonarroti</strong>, a settant'anni, fu nominato capo della fabbrica da papa Paolo III. Michelangelo ripartì dal disegno di Bramante, demolendo gran parte delle soluzioni elaborate da Sangallo, e ridiede forza e unità al concetto originario, concependo una cupola che sarebbe diventata il simbolo stesso della Roma cristiana.</p></div><div class="tab-panel"><p>La cupola si innalza sopra quattro enormi piloni del transetto, con un perimetro di circa 71 metri, che costituiscono la base della crociera. È formata da una <strong>doppia calotta</strong> — una interna e una esterna — soluzione mutuata dalla cupola del Brunelleschi a Santa Maria del Fiore a Firenze: la calotta interna, spessa circa due metri, garantisce la solidità strutturale, mentre quella esterna, più leggera, permette una silhouette slanciata e visibile da lontano.</p><p>L'altezza complessiva, fino alla sommità della croce, è di circa 136 metri, mentre il diametro interno misura circa 42 metri — di poco inferiore a quello del Pantheon, cui la cupola si ispira direttamente. Il peso dell'intera struttura è stimato in circa 14.000 tonnellate. All'interno, la calotta è rivestita da mosaici seicenteschi raffiguranti Cristo, la Vergine, gli apostoli e i santi, che sembrano fluttuare verso il cielo.</p></div><div class="tab-panel"><p>La struttura presenta costoloni esterni che ne scandiscono il profilo, raccordata da un alto tamburo con sedici finestroni rettangolari, separati da altrettante coppie di colonne binate, che inondano di luce l'interno. La lanterna, sormontata da una palla dorata e da una croce, funge da coronamento e da segno visibile in tutta Roma. I mosaici interni, realizzati tra XVI e XVII secolo, costituiscono uno dei più grandi cicli musivi al mondo.</p></div><div class="tab-panel"><p><strong>Michelangelo Buonarroti</strong>: autore del progetto definitivo, che concepì la cupola come sintesi di perfezione architettonica e spirituale. Alla sua morte, nel 1564, la costruzione era arrivata solo all'altezza del tamburo: prima di morire, Michelangelo affidò la direzione dei lavori a <strong>Jacopo Barozzi da Vignola</strong>, che li proseguì fino al proprio decesso nel 1573. L'anno seguente la guida della fabbrica passò a <strong>Giacomo della Porta</strong>, che — con l'aiuto di <strong>Domenico Fontana</strong> — completò la cupola vera e propria tra il 1588 e il 1590, sotto <strong>papa Sisto V</strong>, in appena 22 mesi e grazie al lavoro di 800 operai. Della Porta rialzò leggermente la curvatura della calotta esterna rispetto al disegno originario di Michelangelo (forse pensato perfettamente emisferico, a giudicare dalle incisioni di Stefano Dupérac), per ragioni di stabilità strutturale. La sfera dorata e la croce sommitali, opera dello scultore <strong>Sebastiano Torrigiani</strong>, furono collocate il 18 novembre 1593.</p></div><div class="tab-panel"><p>La cupola non ha subito grandi trasformazioni dalla sua realizzazione, ma solo restauri e consolidamenti strutturali nel corso dei secoli. Rimane pressoché identica all'idea di Michelangelo, anche se la curvatura esterna è più accentuata di quanto lui avesse previsto — una delle poche, importanti modifiche apportate dai suoi successori, adottata comunque nel rispetto della calotta interna, lasciata intatta.</p></div><div class="tab-panel"><p>La cupola è visitabile sia dall'interno che dall'esterno: si può salire fino alla <strong>lanterna</strong>, attraversando scale interne che permettono di vedere da vicino la struttura della doppia calotta (551 gradini solo scale, oppure ascensore fino alla terrazza seguito da circa 320 gradini). All'interno, gli spettacolari mosaici si ammirano guardando verso l'alto dall'altare maggiore. Dal cupolino si gode uno dei panorami più famosi al mondo, con vista a 360° su Roma e sul Vaticano.</p></div><div class="tab-panel"><ul class="curios">
+<li>La palla dorata che sormonta la lanterna è grande abbastanza da contenere alcune persone: in passato vi si poteva entrare, anche se oggi non è più accessibile.</li>
+<li>Michelangelo inizialmente esitò ad accettare l'incarico, temendo di non riuscire a portarlo a termine per via dell'età; alla fine, il suo progetto divenne la sua eredità più celebre dopo la Cappella Sistina.</li>
+<li>La cupola ha ispirato molte altre nel mondo: da San Paolo a Londra al Campidoglio di Washington, tutte riprendono il modello michelangiolesco.</li>
+<li>L'altezza complessiva di circa 136 metri ne fa ancora oggi una delle più grandi cupole del mondo e la più alta di Roma.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

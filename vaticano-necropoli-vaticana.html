@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Necropoli Vaticana — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Necropoli Vaticana</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del luogo</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Come in tutta Roma, le sepolture non potevano trovarsi entro le mura urbane. Per questo, lungo le vie consolari e nelle aree suburbane, sorsero vaste necropoli. Sul colle Vaticano, alle pendici del <strong>Circo di Caligola e Nerone</strong>, si sviluppò una necropoli a partire dal I secolo d.C. La zona era adatta perché libera da edifici e lontana dalle aree paludose del Tevere. Qui trovarono posto mausolei, tombe a camera e sepolture più modeste, appartenenti sia a famiglie pagane sia, progressivamente, a cristiani.</p></div><div class="tab-panel"><p>La necropoli vaticana era organizzata come una vera e propria "strada dei morti": piccoli mausolei affacciati su un percorso, decorati con mosaici, affreschi, iscrizioni e simboli religiosi. Alcuni erano di ricche famiglie romane, con raffinate decorazioni mitologiche o allegoriche; altri erano tombe più semplici, ma comunque costruite in muratura.</p><p>Il cuore della necropoli, però, fu la sepoltura di <strong>San Pietro</strong>, venerata fin dall'inizio dai cristiani. Sopra la sua tomba venne eretto un piccolo monumento, il cosiddetto <strong>Trofeo di Gaio</strong> (dal nome del presbitero che lo descrisse nel II secolo), formato da due colonnine e un piano che segnava il luogo sacro. Intorno ad esso si addensarono altre sepolture cristiane.</p></div><div class="tab-panel"><p><strong>San Pietro</strong>, che secondo la tradizione fu sepolto qui dopo il martirio nel circo neroniano. Il presbitero <strong>Gaio</strong>, che attorno al 200 d.C. testimoniò l'esistenza della tomba dell'apostolo, punto di riferimento per i fedeli. <strong>Costantino</strong>, che nel IV secolo decise di erigere la prima basilica sopra la necropoli, distruggendo parte delle tombe ma inglobando il sepolcro di Pietro come fulcro della nuova costruzione. <strong>Papa Pio XII</strong>, che nel 1939 autorizzò i grandi scavi sotto la basilica rinascimentale, portando alla luce la necropoli.</p></div><div class="tab-panel"><p>Con la costruzione della basilica costantiniana, gran parte della necropoli venne interrata. L'altare maggiore fu eretto esattamente sopra il sepolcro di Pietro, in modo che il luogo di culto cristiano coincidesse con la memoria del martirio.</p><p>Nei secoli successivi la necropoli rimase sepolta, fino al XX secolo. Tra il 1939 e il 1949, durante lavori nella basilica, iniziarono scavi archeologici che riportarono alla luce un intero tratto di necropoli: mausolei, pitture, iscrizioni, e soprattutto il complesso legato al sepolcro di Pietro, con strutture successive costruite a protezione e memoria della sua tomba.</p></div><div class="tab-panel"><p>La necropoli vaticana è visitabile attraverso percorsi guidati organizzati dall'<strong>Ufficio Scavi</strong> della Fabbrica di San Pietro. Si accede da un ingresso laterale alla basilica e si scende sotto il livello attuale, in ambienti mantenuti con temperatura e umidità controllate. Oggi si possono vedere i <strong>mausolei romani</strong> decorati con affreschi e mosaici, iscrizioni funerarie sia pagane sia cristiane, il cosiddetto <strong>muro rosso</strong> e il <strong>Trofeo di Gaio</strong>, e le strutture successive costruite per inglobare e proteggere la tomba, fino all'altare papale sopra di essa.</p></div><div class="tab-panel"><ul class="curios">
+<li>Durante gli scavi del XX secolo vennero rinvenute ossa umane in una nicchia adiacente alla tomba di Pietro, compatibili con il profilo dell'apostolo. Non esiste una certezza assoluta, ma la Chiesa le ha venerate come reliquie di Pietro.</li>
+<li>La necropoli conserva tombe sia pagane sia cristiane: tra le iscrizioni si trovano simboli come il Sole, Orfeo, ma anche pesci e ancore, segni dei primi cristiani.</li>
+<li>Per motivi di conservazione, le visite sono rigidamente controllate e con numero chiuso: accedere alla necropoli è considerato uno dei privilegi più rari per i pellegrini a Roma.</li>
+<li>Sopra il luogo della sepoltura di Pietro si trovano tre altari sovrapposti: quello costantiniano, quello medievale e infine quello attuale di Bernini, segno di una continuità ininterrotta di culto.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

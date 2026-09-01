@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Giubileo del 1300 — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Il Giubileo del 1300</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione dell'evento</button><button class="tab" onclick="switchTab(this)">Architettura e organizzazione del pellegrinaggio</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Alla fine del XIII secolo, l'Europa era attraversata da un forte fervore religioso: i pellegrinaggi ai luoghi santi erano considerati un mezzo privilegiato di penitenza e salvezza. Roma, con le tombe degli apostoli Pietro e Paolo, era da sempre una delle mete principali, ma nel 1300 la città divenne il centro di un evento eccezionale: il primo <strong>Giubileo</strong>, indetto da papa Bonifacio VIII. Il Giubileo fu annunciato come un "Anno Santo", in cui i pellegrini che visitavano Roma e le basiliche maggiori ricevevano l'indulgenza plenaria, cioè la remissione delle pene temporali per i peccati.</p></div><div class="tab-panel"><p>Il 22 febbraio 1300, con la bolla <em>Antiquorum habet fida relatio</em>, Bonifacio VIII stabilì che chi avesse visitato per un determinato periodo le basiliche di <strong>San Pietro e San Paolo</strong> (per i romani 30 giorni, per i forestieri 15) avrebbe ottenuto l'indulgenza.</p><p>La notizia si diffuse rapidamente in tutta Europa, richiamando a Roma una moltitudine mai vista prima. Il fiorentino <strong>Giovanni Villani</strong>, cronista presente all'evento, racconta che nell'arco dell'intero anno la città ospitò, oltre alla popolazione residente, duecentomila pellegrini in permanenza continua — una cifra che gli storici moderni considerano probabilmente esagerata, ma che comunque testimonia la portata straordinaria del fenomeno, specie se confrontata con una popolazione cittadina stimata all'epoca tra i 20.000 e i 35.000 abitanti.</p></div><div class="tab-panel"><p>San Pietro, con il suo atrium quadriportico ("Paradiso"), divenne il cuore pulsante del Giubileo. Qui i pellegrini si radunavano, pregavano e si preparavano a entrare nella basilica. Per far fronte al flusso di fedeli, furono predisposti percorsi specifici: l'ingresso e l'uscita vennero separati per evitare ingorghi. Le cronache parlano di ponti provvisori sul Tevere e di strade lastricate ad hoc per rendere più agevole il percorso dei pellegrini.</p></div><div class="tab-panel"><p><strong>Bonifacio VIII</strong> (1294-1303): il papa che istituì il Giubileo, consolidando il ruolo universale della Chiesa e di Roma come capitale spirituale. <strong>Dante Alighieri</strong>: la tradizione lo vuole tra i pellegrini fiorentini presenti a Roma in quell'anno (anche se non esistono documenti certi), e comunque la citò nella <em>Divina Commedia</em> (Inferno, XVIII, 25-33), paragonando la folla dei pellegrini al flusso ordinato sui ponti del Tevere — un riferimento diretto al sistema a senso unico organizzato su Ponte Sant'Angelo per gestire la calca. I <strong>pellegrini europei</strong>: nobili e popolani, mercanti e contadini, tutti accomunati dal desiderio di ottenere l'indulgenza.</p></div><div class="tab-panel"><p>Il successo del Giubileo del 1300 fu tale che i papi successivi istituirono altri Anni Santi: dapprima ogni 100 anni, poi ogni 50 e infine — dal 1470 — ogni 25. San Pietro rimase il centro di questi eventi, consolidando il suo ruolo come "porta della salvezza" per la cristianità. Il fenomeno dei pellegrinaggi medievali ricevette un impulso decisivo: Roma si unì stabilmente a Santiago e Gerusalemme come una delle tre grandi mete della cristianità.</p></div><div class="tab-panel"><p>Nella basilica attuale non sopravvive nulla di strutturalmente legato al Giubileo del 1300, ma il ricordo è vivo nelle testimonianze storiche e nelle cronache. Alcuni documenti e miniature medievali che raffigurano le folle dei pellegrini si conservano negli archivi vaticani e in biblioteche europee. La citazione dantesca resta la "memoria letteraria" più preziosa dell'evento.</p></div><div class="tab-panel"><ul class="curios">
+<li>Il Giubileo generò anche un enorme indotto economico: locande, mercati, vendite di reliquie e souvenir religiosi fiorirono in Borgo e lungo le vie consolari.</li>
+<li>La stessa istituzione del Giubileo fu in parte una mossa politica: Bonifacio VIII volle affermare il primato spirituale del papato in un periodo di contrasti con i poteri temporali, specialmente con la monarchia francese.</li>
+<li>Ogni venerdì e nei giorni festivi, durante l'anno giubilare, veniva esposta in basilica la <strong>Veronica</strong>, il velo con l'impronta del volto di Cristo: una delle attrattive devozionali più potenti per i pellegrini dell'epoca.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Storia di San Pietro in Vaticano — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Storia di San Pietro in Vaticano</h1>
+  <div class="subtitle">Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">I. Origini e Fase Romana</button><button class="tab" onclick="switchTab(this)">II. Età Tardoantica</button><button class="tab" onclick="switchTab(this)">III. Medioevo</button><button class="tab" onclick="switchTab(this)">IV. Rinascimento</button><button class="tab" onclick="switchTab(this)">V. Barocco</button><button class="tab" onclick="switchTab(this)">VI. Età Moderna</button><button class="tab" onclick="switchTab(this)">VII. Età Contemporanea</button></div><div class="tab-panels"><div class="tab-panel active">
+<p class="entry-title">Dal colle incolto al martirio di Pietro</p>
+<h4>Contesto storico</h4>
+<p>Prima dell'arrivo dei Romani, il colle Vaticano non era un'area particolarmente abitata: la zona era paludosa, soggetta alle piene del Tevere e probabilmente utilizzata solo per coltivi marginali o pascoli. Non ci sono tracce consistenti di insediamenti protostorici, per questo il <strong>Vaticano</strong> non rientra nelle origini leggendarie dei colli romani. Con l'espansione di Roma imperiale, però, quest'area periferica, al di fuori delle mura della città, iniziò ad attirare l'interesse delle grandi famiglie, che la trasformarono in un luogo di <em>otium</em> e spettacolo.</p>
+<h4>Descrizione del luogo</h4>
+<p>Nel I secolo d.C. la madre dell'imperatore Caligola, <strong>Agrippina Maggiore</strong>, possedeva qui vasti giardini, gli <strong>Horti Agrippinae</strong>. Proprio in quest'area Caligola fece costruire un circo per le corse dei carri, poi completato da Nerone e passato alla storia come <strong>Circo di Caligola e Nerone</strong>. La struttura era allungata, simile al Circo Massimo ma più piccola, e poteva ospitare spettacoli e giochi, anche cruenti.</p>
+<p>Accanto al circo, sul pendio del colle, si sviluppò una necropoli. Come era consuetudine a Roma, le sepolture non potevano trovarsi all'interno delle mura urbane. Nacque così un'area funeraria con mausolei, colombari e tombe a camera, utilizzata da famiglie pagane ma anche da cristiani.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p>La tradizione cristiana lega in modo indissolubile questo luogo a <strong>San Pietro</strong>. Durante la persecuzione di Nerone, seguita al grande incendio di Roma del 64, Pietro sarebbe stato condotto al circo e qui martirizzato, crocifisso capovolto secondo le fonti. Dopo la morte, il suo corpo fu sepolto poco distante, in quella necropoli vaticana che divenne subito meta di venerazione per i primi cristiani.</p>
+<p>Il ricordo del martirio di Pietro trasformò progressivamente il Vaticano in un luogo sacro, attirando pellegrini già nei primi secoli.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>L'uso della necropoli proseguì anche nei secoli successivi. I cristiani, però, iniziarono a privilegiare le sepolture nelle vicinanze della tomba di Pietro, ritenuta un luogo di particolare protezione e intercessione. Questa scelta creò un nucleo di devozione che resistette fino alla svolta costantiniana, quando sulla sepoltura dell'apostolo sorse la prima grande basilica.</p>
+<p>Il circo, invece, perse gradualmente la sua funzione, e le sue strutture furono in parte smantellate o inglobate nelle costruzioni successive.</p>
+<h4>Resti visibili oggi</h4>
+<p>Molto poco del <strong>Circo di Nerone</strong> è ancora visibile. Sopravvive traccia della sua collocazione nell'orientamento obliquo rispetto alla basilica attuale: l'<strong>obelisco vaticano</strong>, oggi al centro di Piazza San Pietro, proviene dalla spina del circo e rappresenta il reperto più evidente di quell'epoca.</p>
+<p>La <strong>necropoli vaticana</strong> è invece uno dei luoghi più straordinari che si possano visitare oggi: grazie agli scavi condotti a partire dal 1939, sotto la basilica attuale è possibile percorrere i corridoi delle tombe romane e vedere il cosiddetto <strong>trofeo di Gaio</strong>, piccolo monumento funerario che segnava la sepoltura di Pietro. La visita è possibile solo su prenotazione presso l'Ufficio Scavi della Fabbrica di San Pietro.</p>
+<p>Degli <strong>Horti Agrippinae</strong> non restano testimonianze dirette, se non il ricordo nelle fonti letterarie.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>La zona del colle Vaticano, prima della costruzione della basilica, non era particolarmente amata dai Romani: si dice fosse un'area "malaria", malsana, tanto che il termine <em>vaticanus</em> venne talvolta associato a presagi nefasti.</li>
+<li>L'obelisco del circo, oggi fulcro della piazza barocca, ha visto sia i giochi pagani sia, secondo la tradizione, il martirio dell'apostolo: un muto testimone di due mondi opposti.</li>
+<li>La memoria della crocifissione capovolta di Pietro venne rafforzata nel Medioevo da raffigurazioni e racconti, ma già i Padri della Chiesa l'avevano tramandata come simbolo di umiltà rispetto al sacrificio di Cristo.</li>
+</ul>
+</div><div class="tab-panel">
+<p class="entry-title">La prima Basilica di San Pietro</p>
+<h4>Contesto storico</h4>
+<p>Dopo l'<strong>Editto di Milano</strong> del 313 d.C., con cui Costantino concesse libertà di culto ai cristiani, la Chiesa uscì dalle catacombe e poté esprimersi apertamente anche attraverso grandi edifici di culto. Tra i luoghi più venerati vi era la tomba di <strong>San Pietro</strong> sul colle Vaticano, ancora segnata dal semplice "trofeo" innalzato secoli prima sulla sua sepoltura. Per consacrare quella memoria e affermare l'autorità del cristianesimo nascente, Costantino decise di erigere qui una basilica grandiosa: i lavori iniziarono presumibilmente tra il 319 e il 326 e si conclusero sostanzialmente entro il 333, sotto il pontificato di <strong>papa Silvestro I</strong>. Fu, insieme a San Giovanni in Laterano, una delle prime grandi basiliche cristiane di Roma, e divenne ben presto la più importante.</p>
+<h4>Descrizione generale</h4>
+<p>La basilica sorgeva esattamente sopra il sepolcro di Pietro, tanto che per costruirla fu necessario sacrificare gran parte della necropoli che occupava il pendio del colle: mausolei pagani e cristiani furono in parte interrati, ma il sepolcro dell'apostolo venne preservato e inglobato come fulcro dell'intero edificio. Nacque così un grande complesso a pianta longitudinale, preceduto da un ampio atrio porticato, capace di accogliere migliaia di fedeli — un modello che avrebbe influenzato l'architettura cristiana per secoli. <em>(Per le misure esatte e i dettagli architettonici, vedi l'extra dedicato.)</em></p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>Costantino</strong>, promotore della costruzione e finanziatore dell'opera, di cui il Liber Pontificalis ricorda anche donazioni preziose per l'altare di Pietro, tra cui una grande croce d'oro. <strong>San Silvestro</strong>, papa al tempo della consacrazione, che legittimò la nuova centralità della basilica. I <strong>pellegrini medievali</strong>, che resero la basilica costantiniana la principale meta del viaggio a Roma insieme a San Paolo e San Giovanni in Laterano.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>Per oltre mille anni la basilica costantiniana rimase il cuore del culto petrino. Nei secoli subì ampliamenti, aggiunte di cappelle, decorazioni musive e interventi di manutenzione: dal VI al IX secolo fu arricchita di reliquie, altari e di un palinsesto iconografico che la rese sempre più sacra.</p>
+<p>Dal tardo Medioevo, però, cominciò a manifestare problemi strutturali: i muri cedettero, il tetto rischiava di crollare. Nel XV secolo i papi si trovarono di fronte alla scelta: restaurare o ricostruire. La decisione fu drastica: abbattere la basilica costantiniana per erigerne una nuova, più grandiosa e sicura.</p>
+<h4>Resti visibili oggi</h4>
+<p>Della basilica costantiniana restano poche tracce, ma significative: alcuni <strong>mosaici e frammenti architettonici</strong> si trovano ai Musei Vaticani e nelle Grotte Vaticane; il livello della pavimentazione costantiniana è ancora leggibile sotto l'attuale altare papale; alcuni pilastri e frammenti marmorei sono stati inglobati nelle costruzioni rinascimentali.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>L'atrio quadriportico della basilica costantiniana era noto come il <strong>"Paradiso"</strong>: un cortile verdeggiante con fontana centrale, che introduceva i fedeli al mistero della chiesa.</li>
+<li>In origine l'abside guardava a occidente, contrariamente alla prassi attuale, così che il celebrante fosse rivolto verso l'ingresso e i fedeli.</li>
+<li>Il ricordo della basilica antica sopravvive nella toponomastica: il <strong>Portico di San Pietro</strong> che conduceva al Tevere era il grande collegamento per i pellegrini medievali.</li>
+</ul>
+</div><div class="tab-panel"><h3 class="phase-heading">Alto Medioevo</h3>
+<p class="entry-title">Alto Medioevo — Pellegrini, mosaici e mura leonine</p>
+<h4>Contesto storico</h4>
+<p>Tra il VI e il IX secolo la basilica costantiniana, costruita da poco più di due secoli, divenne il cuore pulsante della cristianità latina. Dopo il crollo dell'Impero Romano d'Occidente, Roma era politicamente fragile ma spiritualmente centrale: i papi, progressivamente, rafforzarono la loro autorità, e <strong>San Pietro in Vaticano</strong> divenne il simbolo di questo potere. In questi secoli, la basilica fu arricchita e trasformata da vari pontefici, che ne fecero il punto di riferimento per i pellegrini provenienti da tutta Europa.</p>
+<h4>Descrizione del luogo</h4>
+<p>La struttura della basilica costantiniana rimase sostanzialmente invariata, ma venne arricchita da <strong>mosaici absidali e parietali</strong>, commissionati da papi come Leone Magno (V sec.) e successivi, che raffiguravano scene bibliche e cristologiche; da <strong>altari secondari e cappelle</strong>, aggiunti lungo le navate laterali; e da <strong>reliquie</strong>, con la tomba di Pietro circondata da quelle di altri martiri e santi, in un potente polo devozionale.</p>
+<p>All'esterno si sviluppò il <strong>Borgo Vaticano</strong>, un insieme di ospedali, xenodochi e monasteri destinati ad accogliere le migliaia di fedeli in arrivo da tutta Europa.</p>
+<h4>Architettura e arte</h4>
+<p>L'<strong>abside</strong> fu arricchita con un grande mosaico (oggi perduto), raffigurante Cristo tra gli apostoli e simboli celesti. La navata centrale ospitava cicli musivi con episodi biblici, purtroppo scomparsi. Furono eretti <strong>cibori e baldacchini</strong> più elaborati sopra l'altare di Pietro. Alcune decorazioni e arredi liturgici, come la cattedra lignea di San Pietro (oggi racchiusa nella Cattedra di Bernini), risalgono a questi secoli. Alcuni studiosi ritengono che l'introduzione del transetto sia stata una scelta politica oltre che liturgica: enfatizzava la croce come simbolo imperiale e cristiano insieme.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>San Gregorio Magno</strong> (590-604): riorganizzò la liturgia romana, fissando il legame tra la basilica e il papato. <strong>Carlo Magno</strong>: nel Natale dell'800, nell'antica basilica costantiniana, ricevette da papa Leone III la corona imperiale, evento che segnò la nascita del Sacro Romano Impero. <strong>Papa Leone IV</strong> (847-855): dopo il saccheggio dei Saraceni a Roma nell'846, fece costruire le <strong>Mura Leonine</strong>, che circondarono e protessero la basilica e il borgo circostante, creando di fatto una cittadella fortificata attorno a San Pietro.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>La basilica costantiniana, pur restando la stessa, si arricchì progressivamente di arredi e opere d'arte, ma anche di una nuova funzione: non solo chiesa martiriale, ma anche <strong>centro del potere politico e spirituale</strong> dell'Occidente. L'incoronazione di Carlo Magno sancì il suo ruolo universale. La costruzione delle mura leonine trasformò radicalmente il paesaggio: San Pietro non era più una basilica isolata, ma il fulcro di una cittadella protetta.</p>
+<h4>Resti visibili oggi</h4>
+<p><strong>Mura Leonine</strong>: ancora oggi in parte visibili, soprattutto lungo via di Porta Angelica e nei pressi del Passetto di Borgo. <strong>Grotte Vaticane</strong>: sotto l'attuale basilica, si conservano tracce di cappelle e altari medievali. Alcuni frammenti musivi e arredi liturgici sono esposti nei Musei Vaticani. La memoria dell'incoronazione di Carlo Magno è ricordata nella Cappella di San Carlo Magno, all'ingresso della piazza.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>Dopo il saccheggio saraceno dell'846, le reliquie più preziose furono trasferite in luoghi più sicuri all'interno della città, ma la costruzione delle mura leonine garantì nuova sicurezza a San Pietro.</li>
+<li>Il flusso di pellegrini creò il fenomeno delle "stationes", itinerari devozionali che culminavano a San Pietro; alcune cronache medievali raccontano che il fervore era tale da creare veri e propri mercati nel borgo.</li>
+<li>La tradizione del bacio della tomba di Pietro si consolidò in questi secoli: i pellegrini scendevano nella confessio per pregare davanti alle reliquie.</li>
+</ul>
+<h3 class="phase-heading">Basso Medioevo</h3>
+<p class="entry-title">Basso Medioevo — Declino, pellegrinaggi e città fortificata</p>
+<h4>Contesto storico</h4>
+<p>Tra il X e il XIV secolo, Roma era segnata da instabilità politica e contrasti tra papato e nobiltà baronale. Nonostante le difficoltà, San Pietro rimase la meta devozionale per eccellenza, punto d'arrivo dei grandi pellegrinaggi europei, insieme a Santiago di Compostela e Gerusalemme. La basilica costantiniana continuava a dominare il colle Vaticano, ma iniziava a mostrare segni di degrado strutturale: le murature cedettero, il tetto in legno era pericolante, e più volte si dovette ricorrere a restauri parziali.</p>
+<h4>Descrizione del luogo</h4>
+<p>La basilica mantenne l'impianto originario, ma fu arricchita e trasformata con <strong>altari e cappelle votive</strong> aggiunte da famiglie nobili e corporazioni, che volevano legarsi al culto petrino; <strong>decorazioni musive</strong> commissionate dai papi medievali, spesso in abside e nelle navate; e l'erezione di un <strong>campanile</strong>, mai completato pienamente, che affiancava la basilica.</p>
+<p>All'esterno, il <strong>Borgo Vaticano</strong> si ampliò, popolandosi di case, botteghe, ostelli e ospedali, fino a configurarsi come un vero quartiere urbano, protetto dalle mura leonine.</p>
+<h4>Architettura e arte</h4>
+<p>L'abside continuò a essere rinnovata con cicli musivi: uno dei più celebri fu quello commissionato da <strong>papa Innocenzo III</strong> (1198-1216), che sostituì la decorazione absidale precedente con un grande mosaico raffigurante Cristo in trono tra i santi Pietro e Paolo, e — dettaglio eccezionale per l'epoca — la personificazione dell'<em>Ecclesia Romana</em> accanto a un ritratto dello stesso Innocenzo III: la prima volta in assoluto in cui un papa veniva raffigurato con un ruolo così centrale in una decorazione sacra.</p>
+<p>Il ciborio sopra la tomba di Pietro fu sostituito o arricchito più volte, con baldacchini marmorei e colonnine ornate. Nel pavimento vennero inserite nuove tarsie marmoree cosmatesche, opera delle famiglie di marmorari romani che lasciarono segni in molte chiese coeve.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>Papi medievali</strong> come Innocenzo III e Bonifacio VIII, che arricchirono la basilica e la usarono come cornice per solenni cerimonie liturgiche. Gli <strong>imperatori</strong>: San Pietro rimase il luogo privilegiato per le incoronazioni imperiali, mantenendo così il legame tra papato e potere politico. I <strong>pellegrini</strong>: sempre più numerosi, soprattutto durante gli Anni Santi, istituiti da Bonifacio VIII nel 1300, che videro un afflusso immenso di fedeli.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>Nonostante i restauri, la basilica mostrava crescenti problemi di stabilità. I papi tentarono di rafforzarne la struttura, ma con risultati limitati. Questo progressivo degrado aprì la strada, nei secoli successivi, all'idea di una ricostruzione radicale.</p>
+<p>Il Borgo Vaticano intanto divenne un quartiere fortificato e vitale, collegato alla città attraverso il ponte di Castel Sant'Angelo e il <strong>Passetto di Borgo</strong>, il corridoio fortificato che univa il Vaticano al mausoleo di Adriano, ormai trasformato in fortezza.</p>
+<h4>Resti visibili oggi</h4>
+<p>Frammenti cosmateschi della pavimentazione medievale si conservano nelle Grotte Vaticane e in alcuni musei. Le mura leonine e il Passetto di Borgo, in parte ancora visibili, evocano la protezione medievale attorno alla basilica. Alcuni mosaici medievali furono smontati e trasferiti: frammenti — tra cui proprio il ritratto di Innocenzo III e la personificazione della Fenice — si trovano oggi al Museo di Roma. La Cappella di San Carlo Magno e l'assetto del Borgo Vaticano ricordano l'espansione urbanistica medievale.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>Durante il primo Giubileo del 1300, la folla dei pellegrini fu così grande che le cronache raccontano come i fedeli rischiassero di restare soffocati nel tentativo di entrare nella basilica.</li>
+<li>La presenza delle famiglie nobili romane nel Borgo portò anche a episodi di violenza e rivalità: San Pietro divenne non solo luogo sacro, ma anche teatro delle tensioni politiche cittadine.</li>
+</ul>
+</div><div class="tab-panel">
+<p class="entry-title">La nuova Basilica di San Pietro</p>
+<h4>Contesto storico</h4>
+<p>Già a metà Quattrocento <strong>papa Niccolò V</strong> (1447-1455) si era reso conto che la basilica costantiniana, ormai vecchia di oltre mille anni, mostrava crepe preoccupanti nelle murature meridionali. Coinvolse <strong>Leon Battista Alberti</strong> e <strong>Bernardo Rossellino</strong> in un primo, timido progetto di consolidamento e ampliamento del coro, che però restò in gran parte sulla carta. Qualche decennio dopo, sotto <strong>papa Paolo II</strong> (1464-1471), l'architetto <strong>Giuliano da Sangallo</strong> presentò una proposta apertamente rinascimentale, che chiariva ormai l'impossibilità di tornare indietro al modello della basilica paleocristiana.</p>
+<p>La svolta decisiva arrivò con <strong>papa Giulio II</strong> (1503-1513), pontefice di ambizioni smisurate: voleva fare di Roma la nuova capitale artistica e spirituale della cristianità, e di San Pietro la "cattedrale del mondo". Secondo alcune fonti, la decisione fu accelerata anche da un motivo più personale: Giulio II aveva commissionato a Michelangelo il proprio, colossale monumento funebre, e desiderava una cornice architettonica all'altezza di quel progetto. Nel 1505-1506 la decisione fu presa: non restaurare, ma <strong>demolire e ricostruire</strong> interamente la basilica di Costantino.</p>
+<h4>Descrizione del luogo/monumento</h4>
+<p>Il progetto rinascimentale fu avviato con l'incarico affidato a <strong>Donato Bramante</strong>. La sua idea iniziale era una pianta <strong>centrale a croce greca</strong>, racchiusa in un quadrato, con una cupola grandiosa ispirata al Pantheon e agli studi teorici di Leonardo da Vinci, Francesco di Giorgio Martini e Filarete sulle chiese a pianta centrale — studi a loro volta debitori della tribuna ottagonale del Duomo di Firenze. Per il concorso di idee, anche <strong>fra' Giovanni Giocondo</strong> inviò da Venezia un progetto alternativo a cinque cupole, ispirato alla Basilica di San Marco.</p>
+<p>Bramante concepì uno spazio perfettamente simmetrico e armonico, sostenuto da quattro <strong>piloni giganteschi</strong>. Le demolizioni iniziarono nel 1506, e il <strong>18 aprile 1506</strong> fu posta solennemente la prima pietra della nuova basilica, alla presenza di Giulio II.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p>La costruzione della nuova San Pietro fu un'autentica staffetta durata oltre un secolo, attraverso circa venti pontificati e almeno sette architetti principali:</p>
+<p><strong>Donato Bramante</strong> (fino al 1514): l'ideatore del progetto, soprannominato dai romani "maestro ruinante" perché demolì con rapidità e senza esitazioni ampie porzioni della basilica costantiniana, lasciando Roma per anni immersa in un cantiere caotico.</p>
+<p><strong>Raffaello Sanzio</strong>, con <strong>Giuliano da Sangallo</strong> e <strong>fra' Giocondo</strong> (dal 1514, sotto papa Leone X): succedettero a Bramante dopo la sua morte, apportando modifiche al progetto originario.</p>
+<p><strong>Antonio da Sangallo il Giovane</strong>, con <strong>Baldassarre Peruzzi</strong> (dal 1520, dopo la morte di Raffaello): oscillarono a lungo fra la purezza della pianta centrale bramantesca e una maggiore imponenza longitudinale, in un dibattito che di fatto rallentò notevolmente i lavori. Sangallo rimase alla guida della fabbrica fino alla propria morte, nel 1546.</p>
+<p><strong>Michelangelo Buonarroti</strong> (dal 1546, nominato da papa Paolo III): a 71 anni, riprese il progetto bramantesco a pianta centrale, semplificandolo e restituendogli forza e unità, e concepì la grande cupola come elemento dominante dell'intero edificio, ispirandosi esplicitamente alla cupola del Brunelleschi a Firenze (scrisse personalmente a Firenze nel 1547 per farsi mandare dettagli tecnici sulla sua costruzione). Per evitare che, dopo la sua morte, qualcuno stravolgesse il suo disegno, fece avviare i lavori contemporaneamente in più punti della basilica — con la sola eccezione della facciata, dove sorgeva ancora la parte anteriore della basilica paleocristiana, tenuta in piedi apposta per non interrompere il culto.</p>
+<p><strong>Giacomo della Porta</strong>, con <strong>Domenico Fontana</strong>: alla morte di Michelangelo (1564) era stato completato solo il tamburo della cupola; della Porta la portò a termine in appena due anni, nel 1590, seguendo fedelmente i modelli lasciati dal maestro.</p>
+<p><strong>Carlo Maderno</strong> (1607-1614): allungò la navata trasformando la pianta da croce greca a croce latina, e costruì la facciata, completata nel 1612 — dando così alla basilica l'aspetto sostanzialmente definitivo che conosciamo oggi.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>L'avvio dei lavori comportò la graduale demolizione della basilica costantiniana: un processo lungo e doloroso, perché la chiesa era venerata da secoli e ricca di memorie. Tuttavia, i papi preferirono puntare su un edificio grandioso, degno della Roma rinascimentale e del rinnovato potere papale.</p>
+<p>Il finanziamento di un'opera così colossale richiese risorse straordinarie: fu proprio la vendita delle <strong>indulgenze</strong>, avviata per sostenere il cantiere, a scatenare le proteste di <strong>Martin Lutero</strong> e l'inizio della Riforma protestante — uno degli eventi più significativi della storia europea, nato indirettamente da un cantiere romano.</p>
+<p>Nel 1606 fu infine demolito, tra grandi cerimonie, l'ultimo resto della basilica paleocristiana ancora in piedi: l'antico atrio. La nuova basilica, anche se ancora incompleta per lunghi tratti, divenne già da subito un cantiere-simbolo, visitato da artisti, ambasciatori e pellegrini, e destinato a occupare per secoli il cuore della cristianità.</p>
+<h4>Resti visibili oggi</h4>
+<p>Alcune <strong>colonne tortili del ciborio costantiniano</strong> furono inglobate nel baldacchino barocco di Bernini, e sono quindi ancora visibili sopra l'altare papale. Le <strong>Grotte Vaticane</strong> custodiscono cappelle e frammenti della basilica medievale. Nei <strong>Musei Vaticani</strong> si trovano frammenti architettonici, mosaici e arredi provenienti dall'antica basilica. La <strong>cupola di Michelangelo</strong> e la facciata di Maderno dominano oggi l'orizzonte di Roma, sintesi finale di questo lungo processo rinascimentale.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>La decisione di Giulio II di ricostruire San Pietro fu accompagnata dall'avvio della vendita delle indulgenze per finanziare i lavori: proprio questa pratica suscitò le proteste di Martin Lutero e l'inizio della Riforma protestante.</li>
+<li>Bramante fu detto "maestro ruinante" perché abbatté con eccessiva rapidità gran parte dell'antica basilica, lasciando Roma per anni in mezzo a un cantiere caotico.</li>
+<li>Michelangelo accettò l'incarico a 71 anni e lo portò avanti fino alla morte: la sua cupola rimane una delle più grandi conquiste dell'architettura di tutti i tempi.</li>
+<li>La prima pietra della nuova basilica fu posta il <strong>18 aprile 1506</strong>: un evento celebrato con solenni cerimonie, che sancì l'avvio di una nuova epoca.</li>
+<li>L'intera costruzione richiese oltre un secolo di lavori, coinvolgendo più di venti papi e almeno quattordici architetti in totale, tra principali e secondari: ancora oggi, a Roma, dire "è come la fabbrica di San Pietro" significa alludere a un'impresa senza fine.</li>
+</ul>
+</div><div class="tab-panel">
+<p class="entry-title">Il trionfo di Bernini e la piazza di San Pietro</p>
+<h4>Contesto storico</h4>
+<p>Nel XVII secolo la nuova basilica rinascimentale era ormai quasi completa, ma mancava ancora di un contesto architettonico e urbano all'altezza della sua grandiosità. La <strong>Controriforma</strong> aveva rafforzato il ruolo del papato, che voleva presentarsi come guida indiscussa della cristianità cattolica, in aperta contrapposizione alla Riforma protestante. Era il tempo delle grandi celebrazioni solenni e delle manifestazioni di potere, che trovarono proprio nel linguaggio artistico barocco lo strumento ideale per esprimersi.</p>
+<h4>Descrizione generale</h4>
+<p>La basilica fu completata, nella sua struttura esterna, sotto <strong>papa Paolo V</strong> con la facciata di Carlo Maderno (1612). Mancava però lo spazio antistante, capace di accogliere le folle di pellegrini e di offrire una cornice monumentale all'edificio. Il grande protagonista di questa fase fu <strong>Gian Lorenzo Bernini</strong>, chiamato da <strong>papa Alessandro VII</strong> (1655-1667) a progettare la piazza: il risultato fu uno dei capolavori assoluti dell'urbanistica barocca, con il suo colonnato ellittico che abbraccia i fedeli come le braccia della Chiesa.</p>
+<p>All'interno della basilica, sempre Bernini realizzò il celebre <strong>baldacchino bronzeo</strong> sopra l'altare papale e, nell'abside, la <strong>Cattedra di San Pietro</strong>: due interventi che completarono la fusione tra architettura e scultura barocca voluta dai papi della Controriforma. <em>(Per i dettagli tecnici di piazza, colonnato, cupola, facciata, baldacchino e cattedra, vedi gli extra dedicati.)</em></p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>Papa Paolo V</strong> (1605-1621): completò la facciata di Maderno. <strong>Papa Urbano VIII</strong> (1623-1644): commissionò a Bernini il baldacchino. <strong>Papa Alessandro VII</strong> (1655-1667): promotore della piazza barocca, che divenne simbolo della Roma cattolica post-tridentina. <strong>Gian Lorenzo Bernini</strong>: scultore, architetto e vero e proprio regista urbano, che nell'arco di più pontificati trasformò San Pietro in un palcoscenico monumentale della fede.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>La fase barocca completò l'identità visiva della basilica. La piazza, con il colonnato e l'obelisco già collocato da Sisto V nel secolo precedente, divenne il luogo delle cerimonie papali, delle benedizioni pubbliche e delle celebrazioni di massa. San Pietro si trasformò così da santuario martiriale e cantiere rinascimentale in un <strong>teatro della fede universale</strong>, capace di ospitare folle immense e di trasmettere visivamente il messaggio di potenza rinnovata della Chiesa cattolica.</p>
+<h4>Resti visibili oggi</h4>
+<p><strong>Piazza San Pietro</strong>, con il colonnato di Bernini, l'obelisco e le fontane, resta ancora oggi il cuore scenografico del Vaticano. Il <strong>baldacchino di Bernini</strong> è visibile sopra l'altare papale. La <strong>Cattedra di San Pietro</strong> ingloba l'antica cattedra lignea nell'abside. La <strong>facciata di Maderno</strong>, con il loggione delle benedizioni, è tuttora il punto da cui i papi si affacciano.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>Per fondere il bronzo necessario al baldacchino, papa Urbano VIII ordinò di asportare il rivestimento bronzeo del Pantheon: da qui nacque il celebre detto romano «Quod non fecerunt barbari, fecerunt Barberini» ("Ciò che non fecero i barbari, lo fecero i Barberini", la famiglia del papa).</li>
+<li>Bernini pensò la piazza come un vero e proprio percorso scenografico: chi vi entra vede prima la basilica "comprimersi" nello spazio trapezoidale, per poi vederla "aprirsi" nell'ampiezza dell'ellisse — un effetto teatrale calcolato con precisione.</li>
+</ul>
+</div><div class="tab-panel">
+<p class="entry-title">Tra splendore artistico e crisi politica</p>
+<h4>Contesto storico</h4>
+<p>Tra Settecento e Ottocento la basilica di San Pietro era ormai completata nella sua forma barocca. La Roma papale viveva un'epoca di fasto liturgico e cerimoniale, ma allo stesso tempo di crisi politica: i papi affrontarono il declino del potere temporale e, con Napoleone, persino la perdita momentanea della loro libertà. San Pietro rimase il cuore della cristianità, simbolo immutabile in un mondo che stava cambiando rapidamente.</p>
+<h4>Descrizione del luogo/monumento</h4>
+<p>La basilica non subì trasformazioni radicali, ma venne arricchita da nuove cappelle, decorazioni e monumenti funebri. L'attenzione dei papi si concentrò soprattutto sull'apparato liturgico e celebrativo, che rese San Pietro il palcoscenico delle grandi cerimonie solenni.</p>
+<p>Tra i più rilevanti interventi: la <strong>Cappella del Coro</strong>, completata nel XVIII secolo, che affianca la Cappella del Santissimo Sacramento; i <strong>monumenti funebri papali</strong> di età barocca e neoclassica, realizzati da grandi artisti come Canova e Thorvaldsen; e ulteriori arricchimenti musivi, che sostituirono molti dipinti su tela per ragioni di conservazione.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>Benedetto XIV</strong> (1740-1758): grande promotore delle arti, arricchì la basilica di cappelle e mosaici. <strong>Clemente XIII</strong> (1758-1769): il suo monumento funebre fu scolpito da <strong>Antonio Canova</strong> tra il 1783 e il 1792, una delle opere neoclassiche più celebri mai realizzate — Canova vi rese omaggio al genio barocco di Bernini, scegliendo come modello proprio il monumento funebre di Alessandro VII, di cui riprese il sarcofago sollevato e le figure allegoriche, pur affermando un linguaggio scultoreo nuovo e più sobrio. <strong>Pio VII</strong> (1800-1823): deportato da Napoleone, tornò a Roma dopo il Congresso di Vienna; il suo monumento funebre fu eseguito dal danese <strong>Bertel Thorvaldsen</strong>, di fede protestante — probabilmente l'unico artista non cattolico ad avere un'opera nella basilica. <strong>Napoleone Bonaparte</strong>: pur non lasciando segni architettonici diretti, segnò un'epoca di crisi politica che si rifletté anche sulla vita della basilica.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>Se nel Rinascimento e nel Barocco la basilica era stata un cantiere in continua trasformazione, nel Settecento e nell'Ottocento si consolidò come monumento compiuto. L'attenzione si spostò dall'architettura all'apparato decorativo e celebrativo.</p>
+<p>Con la caduta dello Stato Pontificio (1870), San Pietro perse il suo ruolo politico come centro del potere temporale, ma rafforzò quello spirituale come cuore del cattolicesimo.</p>
+<h4>Resti visibili oggi</h4>
+<p>I <strong>monumenti funebri neoclassici</strong> di Canova e Thorvaldsen, visibili nelle navate laterali. I <strong>mosaici sette-ottocenteschi</strong>, che rivestono cappelle e altari, sostituendo le tele. La <strong>Cappella del Coro</strong>, ricca di decorazioni marmoree e musive. Tracce della vita politica e liturgica dell'epoca, come lapidi e iscrizioni commemorative.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>Il monumento di Canova a Clemente XIII raffigura il papa in preghiera, affiancato da due leoni: un'opera che divenne modello per la scultura funeraria europea in tutto l'Ottocento.</li>
+<li>Thorvaldsen, protestante, fu il primo artista non cattolico a ricevere una commissione ufficiale in San Pietro: il suo monumento a Pio VII suscitò discussioni ma fu accettato per la sua straordinaria qualità.</li>
+<li>I mosaici settecenteschi della basilica costituiscono una delle più grandi raccolte musive al mondo: quasi nessuna tela dipinta è rimasta esposta, sostituita da copie in mosaico per garantirne la conservazione nel tempo.</li>
+<li>L'Ottocento vide anche il declino del potere temporale dei papi: dal 1870 la basilica rimase nel nuovo contesto dello Stato italiano, preludio alla questione romana che si risolse solo con i Patti Lateranensi del 1929.</li>
+</ul>
+</div><div class="tab-panel">
+<p class="entry-title">San Pietro nel XX e XXI secolo</p>
+<h4>Contesto storico</h4>
+<p>Con i <strong>Patti Lateranensi</strong> del 1929, la Basilica di San Pietro e l'area circostante divennero parte integrante della nuova Città del Vaticano, Stato indipendente e cuore del cattolicesimo mondiale. Nel corso del Novecento la basilica non fu solo luogo di culto, ma anche simbolo della Chiesa come istituzione universale, ospitando concili, canonizzazioni, celebrazioni storiche e i funerali dei papi.</p>
+<h4>Descrizione del luogo/monumento</h4>
+<p>La basilica non subì grandi trasformazioni architettoniche, ma fu al centro di restauri, consolidamenti e valorizzazioni. Le innovazioni più rilevanti furono gli <strong>scavi archeologici sotto la basilica</strong> (1939-1949), che riportarono alla luce la necropoli vaticana e la memoria della tomba di Pietro; il <strong>Concilio Vaticano II</strong> (1962-1965), che trasformò la basilica in un'aula conciliare, con migliaia di vescovi riuniti sotto la cupola michelangiolesca; <strong>restauri e puliture</strong> di mosaici, facciata e cupola, che restituirono brillantezza ai colori e alle superfici; e nuove opere commemorative, come la tomba di Giovanni Paolo II nelle Grotte Vaticane, poi traslata in basilica dopo la canonizzazione.</p>
+<h4>Architettura e arte</h4>
+<p><strong>Restauri moderni</strong>: nel XX secolo vennero utilizzate nuove tecniche per la conservazione dei mosaici e delle strutture. <strong>Adeguamenti liturgici</strong>: dopo il Concilio Vaticano II, l'altare e lo spazio liturgico furono adattati alle nuove esigenze, con maggiore partecipazione del popolo alla liturgia. <strong>Uso della basilica come aula conciliare</strong>: lo spazio immenso venne organizzato con tribune e sedili per migliaia di padri conciliari.</p>
+<h4>Personaggi e vicende collegate</h4>
+<p><strong>Pio XII</strong> (1939-1958): sotto il suo pontificato iniziarono gli scavi vaticani. <strong>Giovanni XXIII</strong> (1958-1963): indisse il Concilio Vaticano II. <strong>Paolo VI</strong> (1963-1978): portò a termine il Concilio e lo applicò, trasformando l'uso liturgico della basilica. <strong>Giovanni Paolo II</strong> (1978-2005): fece di San Pietro il teatro delle grandi celebrazioni mondiali, con milioni di pellegrini. <strong>Benedetto XVI e Francesco</strong>: hanno continuato questa tradizione, trasformando la piazza e la basilica in luoghi di incontro planetario.</p>
+<h4>Trasformazioni nel tempo</h4>
+<p>Nel XX secolo San Pietro passò da monumento principalmente liturgico e artistico a <strong>icona globale della cristianità</strong>. Le celebrazioni papali trasmesse dai media hanno reso la basilica familiare in tutto il mondo. Gli scavi sotto l'altare maggiore hanno confermato la memoria della tomba di Pietro, rafforzando il valore simbolico e archeologico del luogo.</p>
+<h4>Resti visibili oggi</h4>
+<p><strong>Necropoli vaticana</strong>: visitabile con percorsi guidati, conserva la testimonianza più antica della sepoltura di Pietro. <strong>Lapidi e tombe papali</strong>: nelle Grotte Vaticane si trovano le sepolture di numerosi pontefici, tra cui Giovanni Paolo II fino al 2011. <strong>Restauri novecenteschi</strong>: la basilica appare oggi con colori e luci molto più vicini all'originale rispetto a un secolo fa. <strong>Segni del Concilio Vaticano II</strong>: pur non avendo lasciato strutture permanenti, l'evento rimane parte viva della memoria del luogo.</p>
+<h4>Curiosità</h4>
+<ul class="curios">
+<li>Il funerale di Giovanni Paolo II, nel 2005, fu seguito direttamente in piazza San Pietro e nella vicina via della Conciliazione da circa 250-300.000 persone, mentre l'afflusso complessivo di pellegrini a Roma nei giorni precedenti superò i 2-3 milioni: uno degli eventi religiosi più partecipati della storia, seguito in mondovisione da centinaia di milioni di spettatori.</li>
+<li>Durante gli scavi vaticani fu ritrovata un'iscrizione con la scritta <em>Petros eni</em> ("Pietro è qui"), interpretata come conferma della venerazione antica della sua tomba.</li>
+<li>La cupola di San Pietro è oggi monitorata costantemente con sensori che ne verificano stabilità e micro-movimenti.</li>
+<li>La basilica riceve ogni anno circa 10 milioni di visitatori, rimanendo uno dei luoghi più frequentati del mondo.</li>
+</ul>
+</div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

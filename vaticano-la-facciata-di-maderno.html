@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Facciata di Maderno — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>La Facciata di Maderno</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Con il completamento della nuova basilica in età rinascimentale, si rese necessario dotarla di una facciata monumentale che ne rappresentasse la grandezza. L'incarico fu affidato a <strong>Carlo Maderno</strong>, che nel 1607, sotto papa <strong>Paolo V Borghese</strong>, avviò i lavori: le fondamenta autonome furono iniziate il 5 novembre 1607, la prima pietra fu posta il 10 febbraio 1608, e già il 21 luglio 1612 gran parte dell'imponente struttura era compiuta (la rifinitura di cornicione, attico e balaustra con le statue si protrasse ancora fino al 1614).</p><p>Maderno si trovò fortemente vincolato dalle scelte già fatte da Michelangelo per i fianchi della basilica, la cui altezza doveva necessariamente trovare corrispondenza nella facciata: non poté quindi sormontare l'ordine inferiore con un secondo ordine di altezza proporzionata, perché avrebbe finito per nascondere ancora di più la cupola sovrastante.</p></div><div class="tab-panel"><p>La facciata è larga circa 115 metri e alta circa 45-48 metri (le fonti riportano misure leggermente diverse a seconda che si includano o meno le statue), rivestita interamente in travertino. Si articola su due ordini: quello inferiore, scandito da otto colonne colossali di ordine corinzio, che inquadrano cinque ingressi; quello superiore, con balconate, finestre e un grande attico, coronato da tredici statue alte circa 5,7 metri — il Cristo Redentore, san Giovanni Battista e undici apostoli (manca proprio san Pietro, la cui statua si trova invece ai piedi della scalinata, in piazza).</p><p>Al centro si apre il <strong>loggione delle benedizioni</strong>, da cui il papa si affaccia per le benedizioni <em>Urbi et Orbi</em> e per l'annuncio dell'elezione pontificia. Sulla trabeazione corre, per oltre 80 metri, la celebre iscrizione: <em>«IN HONOREM PRINCIPIS APOST PAVLVS V BVRGHESIVS ROMANVS PONT MAX AN MDCXII PONT VII»</em>. Sotto la Loggia delle Benedizioni si trova inoltre un altorilievo del 1614 circa, la <em>Consegna delle Chiavi</em>, opera di Ambrogio Buonvicino.</p></div><div class="tab-panel"><p><strong>Carlo Maderno</strong> (1556-1629): autore del progetto, che dovette confrontarsi con l'eredità di Michelangelo restando fedele, per quanto possibile, alle sue scelte architettoniche. <strong>Papa Paolo V Borghese</strong> (1605-1621): promotore dell'opera, che volle legare il proprio nome all'immagine della basilica. <strong>Gian Lorenzo Bernini</strong>: quasi vent'anni dopo il completamento della facciata, fu incaricato di risolvere il problema dei campanili laterali.</p></div><div class="tab-panel"><p>Fin dal progetto originario, Paolo V aveva chiesto a Maderno di affiancare la facciata con due torri campanarie, per slanciarne otticamente le proporzioni e inquadrare meglio la cupola retrostante: il campanile destro fu completato nel dicembre 1612, quello sinistro nell'agosto 1618. Il terreno sottostante, però, si rivelò instabile — probabilmente per la presenza di antiche strutture romane interrate — e la torre sinistra cominciò a mostrare pericolose lesioni strutturali. Fu proprio <strong>Bernini</strong>, quasi vent'anni più tardi, nel 1641, a essere costretto a demolirla, e per di più a proprie spese. Dei due campanili sopravvivono oggi solo le basi, gli archi di passaggio ai lati della facciata, che ne sembrano parte integrante pur essendo nati per una funzione diversa.</p><p>La facciata di Maderno, insieme all'allungamento della navata da pianta a croce greca a croce latina, è anche al centro di uno dei dibattiti più celebri della storia dell'architettura: nascondendo parzialmente la vista della cupola di Michelangelo dalla piazza, è spesso citata come un compromesso imposto dalle esigenze liturgiche della Controriforma (che richiedevano una navata più lunga, per accogliere più fedeli) a scapito della purezza dell'idea centrale rinascimentale. Fu proprio la piazza di Bernini, decenni dopo, ad attenuare parzialmente questo effetto, allontanando otticamente lo spettatore e restituendo respiro alla visione d'insieme.</p></div><div class="tab-panel"><p>La facciata è integralmente conservata e costituisce il simbolo visivo dell'accesso alla basilica. Il <strong>loggione delle benedizioni</strong> è ancora oggi il luogo da cui vengono annunciate le elezioni papali e le grandi benedizioni solenni. Le statue sull'attico e le iscrizioni originali sono perfettamente leggibili. Le basi dei due campanili mai portati a termine restano visibili ai lati del prospetto.</p></div><div class="tab-panel"><ul class="curios">
+<li>L'ampiezza della facciata la rende uno dei fronti architettonici più grandi del mondo.</li>
+<li>Il loggione delle benedizioni, detto anche "Loggia delle Benedizioni", è diventato il luogo simbolico della proclamazione dell'"Habemus Papam".</li>
+<li>L'iscrizione che celebra Paolo V è una delle più evidenti forme di autorappresentazione papale del Seicento.</li>
+<li>Tra gli storici dell'architettura, la facciata di Maderno è spesso citata — con una certa ironia — come uno dei "errori" più clamorosi (per quanto obbligati) della storia dell'architettura, proprio per il modo in cui riduce la visibilità della cupola michelangiolesca da distanza ravvicinata.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

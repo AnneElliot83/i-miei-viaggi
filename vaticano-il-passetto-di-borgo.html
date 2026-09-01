@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Passetto di Borgo — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Il Passetto di Borgo</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le radici del <strong>Passetto di Borgo</strong> affondano più indietro di quanto si pensi: il tracciato sfrutta in parte fortificazioni ancora più antiche delle stesse Mura Leonine, risalenti all'assedio ostrogoto di <strong>Totila</strong> nel 546-547. Fu papa <strong>Leone IV</strong>, tra l'848 e l'852, a inglobare questo tratto nella grande cinta muraria costruita dopo il saccheggio saraceno dell'846, dando vita alla cosiddetta <strong>Civitas Leonina</strong>.</p><p>Il passaggio coperto e sopraelevato che oggi conosciamo viene generalmente attribuito a <strong>papa Niccolò III</strong>, che nel 1277 lo ricavò lungo il tratto delle mura vaticane durante lavori di restauro. Alcuni studiosi, tuttavia, ne attribuiscono la realizzazione a un periodo più tardo, tra Bonifacio IX (1389-1404) e l'antipapa Giovanni XXIII (1410-1415): la paternità esatta resta materia di discussione.</p></div><div class="tab-panel"><p>Il Passetto è un <strong>corridoio fortificato e sopraelevato</strong>, lungo circa 800 metri, che corre dal Palazzo Apostolico fino al Bastione San Marco di Castel Sant'Angelo, costeggiando via dei Corridori e via di Borgo Sant'Angelo. Rappresenta oggi il tratto meglio conservato delle antiche Mura Leonine. La sua funzione era duplice: offrire una via di fuga sicura al papa, e garantire il controllo militare dell'intero quartiere del Borgo.</p></div><div class="tab-panel"><p><strong>Papa Niccolò III</strong> (1277): tradizionalmente considerato l'artefice del passaggio coperto. <strong>Papa Alessandro VI Borgia</strong> (1492-1503): nel 1494 si rifugiò a Castel Sant'Angelo attraverso il Passetto durante l'invasione delle truppe di Carlo VIII di Francia. <strong>Papa Clemente VII</strong> (1523-1534): il suo utilizzo più celebre risale al <strong>Sacco di Roma del 1527</strong>, quando vi trovò rifugio dai lanzichenecchi. <strong>Niccolò V, Sisto IV e Alessandro VI</strong>: rinnovarono e potenziarono più volte la struttura tra Quattrocento e primo Cinquecento.</p></div><div class="tab-panel"><p>Nato come semplice tratto di cinta muraria altomedievale, il Passetto si trasformò nei secoli in un vero e proprio dispositivo difensivo articolato, capace anche di condurre segretamente a Castel Sant'Angelo prigionieri di rilievo. In tempi recenti è stato oggetto di un lungo restauro, che ne ha consolidato le strutture e riportato alla luce iscrizioni e tracce di antiche pavimentazioni.</p></div><div class="tab-panel"><p>Il Passetto di Borgo è oggi visitabile: il percorso museale parte generalmente da Castel Sant'Angelo, attraverso il Bastione San Marco, dove un allestimento multimediale ne racconta la storia, per poi proseguire lungo il camminamento sopraelevato.</p></div><div class="tab-panel"><ul class="curios">
+<li>In dialetto romanesco il Passetto è chiamato affettuosamente "<strong>er Coridore</strong>".</li>
+<li>È stato reso celebre a livello internazionale dal film <em>Angeli e Demoni</em> (2009), tratto dal romanzo di Dan Brown.</li>
+<li>Nonostante sia comunemente attribuito a Niccolò III, la vera paternità del passaggio coperto resta un tema dibattuto tra gli storici.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

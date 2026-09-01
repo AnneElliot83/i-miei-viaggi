@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Cattedra di San Pietro — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>La Cattedra di San Pietro</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Nel corso dei secoli, la basilica aveva custodito una reliquia preziosa: una sedia lignea antichissima, tradizionalmente ritenuta il trono usato da San Pietro durante il suo ministero a Roma. In realtà si tratta di un manufatto assai più tardo, databile al IX secolo: un trono di fattura bizantina, probabilmente un seggio imperiale portatile, donato nell'<strong>875</strong> dal re dei Franchi <strong>Carlo il Calvo</strong> a papa Giovanni VIII, in occasione della sua discesa a Roma per l'incoronazione a imperatore. Con il tempo si perse memoria dell'origine storica del manufatto, e la cattedra fu venerata come la sedia episcopale dell'apostolo Pietro, portata in solenne processione ogni 22 febbraio, giorno della festa liturgica a lei dedicata.</p><p>Per valorizzare questo simbolo dell'autorità apostolica, papa <strong>Alessandro VII</strong> commissionò a <strong>Gian Lorenzo Bernini</strong> un monumento grandioso, realizzato tra il 1657 e il 1666, per trasferire la cattedra dalla cappella battesimale all'abside della basilica — collocazione che occupa tuttora.</p></div><div class="tab-panel"><p>La Cattedra di San Pietro è un'enorme macchina scenica barocca, collocata al centro dell'abside, sopraelevata e incorniciata da una complessa struttura bronzea e marmorea, alta complessivamente circa 14,74 metri.</p><p>La sedia lignea originale — a sua volta composta da tre elementi: una gabbia lignea esterna del XIII secolo, il trono carolingio vero e proprio in legno di rovere, e un pannello d'avorio con diciotto formelle raffiguranti le fatiche di Ercole e figure dello zodiaco, decorazione di sapore del tutto pagano su quello che per secoli fu venerato come reliquia cristiana — è racchiusa in un <strong>trono bronzeo monumentale</strong>, sorretto dalle statue colossali dei <strong>quattro Dottori della Chiesa</strong>: sant'Agostino e sant'Ambrogio in primo piano, per la Chiesa d'Occidente; sant'Atanasio e san Giovanni Crisostomo in secondo piano, per quella d'Oriente.</p><p>Sopra il trono si apre la spettacolare <strong>gloria berniniana</strong>, una grande finestra circolare decorata da raggi dorati e nubi di stucco, al cui centro si trova una vetrata in alabastro che raffigura la colomba dello Spirito Santo, con un'apertura alare di 162 centimetri. Sul drappo bronzeo frontale è raffigurata la <em>traditio clavium</em>, la consegna delle chiavi a Pietro da parte di Cristo.</p></div><div class="tab-panel"><p><strong>Papa Alessandro VII</strong> (1655-1667): volle il monumento per affermare l'autorità papale e apostolica nel cuore della basilica. <strong>Gian Lorenzo Bernini</strong> (1598-1680): ideò il complesso come sintesi di scultura, architettura e luce, una delle sue massime creazioni. <strong>Carlo il Calvo</strong>: re dei Franchi, donò la sedia lignea carolingia a papa Giovanni VIII nell'875, in un gesto diplomatico legato alla propria incoronazione imperiale.</p></div><div class="tab-panel"><p>La cattedra non ha subito modifiche sostanziali dalla sua realizzazione. È rimasta il centro visivo e simbolico dell'abside, mentre i restauri si sono limitati a puliture e consolidamenti. Racchiusa nel trono bronzeo, la sedia lignea originale divenne progressivamente meno visibile e la sua estrazione sempre più rara e complessa: in occasioni eccezionali, come in vista del Giubileo, viene ancora estratta dal suo "reliquiario" barocco ed esposta separatamente alla venerazione dei fedeli.</p></div><div class="tab-panel"><p>La sedia lignea carolingia resta normalmente invisibile, racchiusa nel trono bronzeo. L'intero complesso berniniano, perfettamente conservato, si ammira dall'altare papale guardando verso l'abside. La luce che filtra dalla finestra in alabastro resta una delle esperienze visive più potenti all'interno della basilica. Una copia della cattedra lignea è inoltre esposta nel Museo storico-artistico - Tesoro di San Pietro.</p></div><div class="tab-panel"><ul class="curios">
+<li>Il 22 febbraio, festa della Cattedra di San Pietro, il monumento viene solennemente celebrato come simbolo dell'autorità apostolica e della successione papale.</li>
+<li>Sotto la seduta della sedia carolingia si nasconde un pannello d'avorio con le dodici fatiche di Ercole e altre figure mostruose: un'iconografia interamente pagana, sopravvissuta per secoli all'interno di quella che i fedeli veneravano come reliquia dello stesso San Pietro.</li>
+<li>La finestra in alabastro con la colomba dello Spirito Santo è retroilluminata naturalmente: l'effetto cambia nelle diverse ore del giorno, rendendo il monumento quasi "vivente".</li>
+<li>Bernini ideò la Gloria come una vera "teofania": la luce stessa diventa elemento architettonico.</li>
+<li>Il contrasto tra la pesantezza bronzea del trono e la leggerezza luminosa della gloria rappresenta in chiave barocca l'armonia tra autorità e ispirazione divina.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

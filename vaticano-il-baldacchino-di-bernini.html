@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Baldacchino di Bernini — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#b3901f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+
+  /* Tab di primo livello (le epoche): sticky in cima, più marcate */
+  .tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:2px;
+    border-bottom:1px solid var(--line);
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:10;
+    padding:10px 0;
+    margin-bottom:0;
+  }
+  main > .tabs{
+    padding-top:14px;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:10px 12px 11px;
+    margin-right:2px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.85rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; padding-top:28px; }
+  .tab-panel.active{ display:block; }
+
+  /* Tab annidate (Extra:) restano più leggere, non sticky */
+  .tab-panel .tabs{
+    position:static;
+    padding:0 0 14px;
+    margin-bottom:24px;
+    gap:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .tab-panel .tabs .tab{
+    padding:4px 0;
+    margin-right:0;
+    font-size:0.83rem;
+  }
+  .tab-panel .tabs .tab.extra::before{
+    content:"· ";
+    color:var(--accent);
+  }
+  .tab-panel .tab-panel{ padding-top:0; }
+
+  .era-heading, .phase-heading{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:1.3rem;
+    color:var(--text);
+    margin:0 0 20px;
+  }
+  .phase-heading{ font-size:1.1rem; margin-top:8px; }
+  .entry-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:0 0 18px;
+  }
+  h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:26px 0 8px;
+  }
+  h4:first-of-type{ margin-top:0; }
+  p{ margin:0 0 14px; font-size:0.98rem; }
+  strong{ color:var(--text); font-weight:600; }
+  ul.curios{ margin:0 0 14px; padding-left:20px; }
+  ul.curios li{ margin-bottom:8px; font-size:0.98rem; }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="index.html">← Torna al portale</a>
+
+<header>
+  <h1>Il Baldacchino di Bernini</h1>
+  <div class="subtitle">San Pietro in Vaticano · Città del Vaticano</div>
+</header>
+
+<main>
+<div class="tabs"><button class="tab active" onclick="switchTab(this)">Contesto storico</button><button class="tab" onclick="switchTab(this)">Descrizione del monumento</button><button class="tab" onclick="switchTab(this)">Personaggi e vicende collegate</button><button class="tab" onclick="switchTab(this)">Trasformazioni nel tempo</button><button class="tab" onclick="switchTab(this)">Resti visibili oggi</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Dopo la costruzione della nuova basilica rinascimentale, era necessario dare un segno visibile al fulcro spirituale della chiesa: l'altare maggiore, collocato direttamente sopra la tomba di San Pietro. Papa <strong>Urbano VIII Barberini</strong> affidò l'incarico, nel 1623, a <strong>Gian Lorenzo Bernini</strong>, che realizzò il baldacchino tra il 1624 e il 1633, inaugurandolo il 28 giugno di quell'anno. Fu il primo grande cantiere barocco in San Pietro, e segnò l'inizio della lunga carriera di Bernini al servizio dei papi — la sua committenza pubblica più importante fino ad allora.</p></div><div class="tab-panel"><p>Il baldacchino è una struttura in bronzo dorato, alta complessivamente circa 28,70 metri e con un peso stimato di 63 tonnellate, collocata al centro della crociera, sotto la cupola michelangiolesca. Ha la funzione di segnare e proteggere l'altare papale e la tomba di Pietro, ma anche di creare un punto di connessione visiva tra l'enorme spazio interno e il centro liturgico della basilica.</p><p>È composto da quattro <strong>colonne tortili</strong> in bronzo, alte circa 11 metri, ispirate alle antiche colonne "salomoniche" — a spirale, come quelle tradizionalmente attribuite al Tempio di Gerusalemme, alcune delle quali erano effettivamente conservate nell'antica basilica costantiniana. Le colonne sono decorate con tralci di alloro, lucertole, putti e api, l'emblema araldico della famiglia Barberini. Sopra i capitelli compositi, quattro grandi volute "a dorso di delfino" — disegnate in collaborazione con <strong>Francesco Borromini</strong> — sostengono un coronamento con angeli, finti drappi bronzei mossi come dal vento, e una sfera sormontata da una croce.</p></div><div class="tab-panel"><p><strong>Papa Urbano VIII Barberini</strong> (1623-1644): commissionò l'opera e impose che fosse grandiosa, per celebrare il papato e la propria famiglia. <strong>Gian Lorenzo Bernini</strong> (1598-1680): giovane ma già affermato, realizzò il progetto unendo architettura e scultura in un insieme unitario, nello stile che sarebbe poi diventato noto come "bel composto". <strong>Francesco Borromini</strong>: collaborò alla parte superiore del baldacchino — il finto drappo, i quattro arcangeli, le volute a dorso di delfino — in un rapporto di rivalità e insieme collaborazione con Bernini, che avrebbe segnato i decenni successivi dell'architettura barocca romana.</p></div><div class="tab-panel"><p>Il baldacchino non subì modifiche rilevanti ed è ancora oggi quello realizzato da Bernini: solo restauri periodici ne hanno conservato il bronzo e i mosaici sottostanti.</p></div><div class="tab-panel"><p>Il baldacchino è perfettamente conservato e si trova nella sua collocazione originaria, al centro della basilica. È visibile da ogni punto dell'interno, essendo il fulcro visivo e liturgico dell'edificio.</p></div><div class="tab-panel"><ul class="curios">
+<li>Per ottenere parte del bronzo necessario, secondo la tradizione papa Urbano VIII ordinò di prelevare materiale dal rivestimento del pronao del <strong>Pantheon</strong>: da qui sarebbe nato il celebre detto romano «Quod non fecerunt barbari, fecerunt Barberini» ("Ciò che non fecero i barbari, lo fecero i Barberini"). Alcuni storici dell'arte contemporanei, tuttavia, mettono in discussione questa versione: secondo la studiosa Louise Rice, il bronzo prelevato dal Pantheon sarebbe stato in realtà fuso per ottenere ottanta cannoni destinati a Castel Sant'Angelo, e l'associazione diretta con il baldacchino potrebbe essere nata come costruzione della propaganda papale dell'epoca, più che come fatto storicamente documentato.</li>
+<li>Le colonne tortili richiamano deliberatamente quelle antiche del ciborio costantiniano, così da sottolineare la continuità con la basilica originaria — pur essendo, in realtà, un'invenzione quasi interamente nuova di Bernini.</li>
+<li>La forma del baldacchino ricorda i baldacchini processionali in tessuto usati nelle cerimonie liturgiche, ma qui reso eterno e monumentale in bronzo.</li>
+<li>L'altezza è tale che il baldacchino potrebbe contenere agevolmente un palazzo di nove piani: un simbolo dell'ambizione barocca.</li>
+</ul></div></div>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
