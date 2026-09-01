@@ -1589,97 +1589,97 @@ const deepIndex = [
   {
     "name": "Storia",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "storia",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Obelisco Vaticano",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "obelisco-vaticano",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Necropoli Vaticana",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "necropoli-vaticana",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "La Basilica Costantiniana",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "la-basilica-costantiniana",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Il Borgo Vaticano medievale",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "il-borgo-vaticano-medievale",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Il Passetto di Borgo",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "il-passetto-di-borgo",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Il Giubileo del 1300",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "il-giubileo-del-1300",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "La Cappella Sistina",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "la-cappella-sistina",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Le Stanze di Raffaello",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "le-stanze-di-raffaello",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Il Cortile del Belvedere e la nascita dei Musei Vaticani",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "il-cortile-del-belvedere-e-la-nascita-dei-musei-vaticani",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Piazza e Colonnato di San Pietro",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "piazza-e-colonnato-di-san-pietro",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "La Cupola di Michelangelo",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "la-cupola-di-michelangelo",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "La Facciata di Maderno",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "la-facciata-di-maderno",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Il Baldacchino di Bernini",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "il-baldacchino-di-bernini",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "La Cattedra di San Pietro",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "la-cattedra-di-san-pietro",
     "context": "San Pietro in Vaticano"
   },
   {
     "name": "Stemmi e simboli papali nella basilica",
     "file": "san-pietro-vaticano.html",
-    "id": null,
+    "id": "stemmi-e-simboli-papali-nella-basilica",
     "context": "San Pietro in Vaticano"
   }
 ];
