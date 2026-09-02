@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aventino — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Aventino</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e curiosità sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Il nome Aventino</strong> ha diverse possibili origini. Alcuni lo collegano ad Aventinus, un re leggendario di Alba Longa sepolto sul colle; altri lo fanno derivare dal latino <em>aves</em> ("uccelli"), ricordando che qui volavano stormi sacri osservati dagli auguri.</p>
+<p>Nella storia di Roma, l'Aventino ha assunto il significato di colle popolare e oppositivo, spesso contrapposto al potere centrale: il luogo dove si rifugiava la plebe nelle sue rivolte e dove nascevano culti "alternativi" rispetto a quelli ufficiali del Campidoglio o del Palatino.</p>
+<p><strong>Origini.</strong> L'Aventino era abitato già in età arcaica, ma inizialmente non faceva parte del pomerio di Romolo. Secondo la leggenda, fu qui che Remo salì per osservare il volo degli uccelli durante la contesa con Romolo sulla fondazione della città: il suo auspicio fu sfavorevole, e da qui derivò la sua sconfitta.</p>
+<p>Il colle rimase escluso dal pomerio per tutta l'età repubblicana: fu incluso solo nel 49 d.C., quando l'imperatore Claudio ne ampliò i confini dopo la conquista della Britannia, come attestano i cippi pomeriali ritrovati con l'iscrizione <em>auctis populi Romani finibus</em>. È un'inclusione sorprendentemente tarda, che sottolinea quanto a lungo l'Aventino sia rimasto "esterno" rispetto al nucleo sacro della città — coerente con la sua fama di colle "nefasto" o comunque distinto dal cuore religioso di Roma.</p>
+<p>Un passaggio chiave nella storia del colle fu la <strong>Lex Icilia de Aventino publicando</strong> (456 a.C.), con cui i terreni dell'Aventino furono formalmente assegnati ai plebei perché vi costruissero le proprie case: da quel momento il colle divenne "plebeo" non solo simbolicamente, ma anche dal punto di vista urbanistico.</p>
+<p><strong>Funzioni.</strong> Il colle fu teatro di episodi cruciali della storia repubblicana: qui, secondo una parte della tradizione antica, la plebe si ritirò nelle celebri secessioni come forma di protesta contro i patrizi, ottenendo conquiste politiche come l'istituzione dei tribuni della plebe. Le fonti, però, non sono concordi: Livio colloca la prima secessione (494 a.C.) sul Monte Sacro, fuori città lungo l'Aniene, mentre un'altra tradizione (quella di Pisone) la colloca proprio sull'Aventino; la seconda secessione, quella del 449 a.C. legata alla crisi dei Decemviri, è invece più saldamente associata al colle. In entrambi i casi, l'Aventino resta il simbolo per eccellenza della resistenza plebea.</p>
+<p>Nell'immaginario romano, l'Aventino rimase il colle della plebe, in contrapposizione al Palatino (imperatori) e al Campidoglio (patrizi e dèi supremi).</p>
+<p><strong>Significato storico.</strong> L'Aventino incarna il volto "alternativo" di Roma: il colle delle rivendicazioni popolari, dei culti non ufficiali, delle minoranze religiose e sociali. Questa caratteristica si è perpetuata nei secoli: nel Medioevo fu sede di monasteri e chiese (come Santa Sabina e Sant'Alessio), in epoca moderna ospitò giardini e residenze, oggi è conosciuto come quartiere elegante ma ancora legato a una dimensione di raccoglimento e spiritualità.</p></div>
+        <div class="tab-panel"><p>L'Aventino ospitava numerosi santuari, spesso legati a culti stranieri o popolari:</p>
+<ul>
+<li><strong>Tempio di Diana</strong>: uno dei più antichi della città, costruito sotto Servio Tullio come santuario federale dei Latini.</li>
+<li><strong>Tempio di Minerva</strong>: importante soprattutto per le corporazioni artigiane.</li>
+<li><strong>Tempio di Cerere, Libero e Libera</strong>: legato alla plebe e alla distribuzione del grano, simbolo di un culto alternativo al patriziato.</li>
+<li><strong>Santa Prisca e il Mitreo sottostante</strong>: nel sottosuolo della chiesa si conserva uno dei mitrei meglio conservati di Roma, legato al culto orientale di Mitra, diffuso soprattutto tra i militari — un'ulteriore testimonianza del carattere "eterodosso" del colle rispetto ai culti ufficiali.</li>
+<li>Altri templi erano dedicati a <strong>Bona Dea</strong> e a divinità ctonie, rafforzando il carattere popolare e religioso del colle.</li>
+</ul>
+<p>Grazie alla vicinanza al porto fluviale (l'Emporium), l'Aventino divenne anche sede di una nutrita colonia di mercanti stranieri, aggiungendo al colle una dimensione cosmopolita oltre che religiosa e sociale.</p>
+<p>In età imperiale, l'Aventino divenne anche luogo residenziale, con splendide domus e giardini: vi si trovavano, tra le altre, le case private di Traiano e di Adriano, costruite quando i due erano ancora privati cittadini, prima di salire al trono.</p></div>
+        <div class="tab-panel"><ul>
+<li>Il cosiddetto "Aventino secessus" è rimasto nell'uso politico: ancora oggi si parla di "Aventino" per indicare un ritiro parlamentare in segno di protesta (celebre quello dei deputati antifascisti nel 1924).</li>
+<li>Dal colle si gode uno dei panorami più celebri di Roma: il <strong>Giardino degli Aranci</strong>, con vista spettacolare sulla città. Poco distante, il <strong>Roseto Comunale</strong> — allestito sul versante che guarda verso il Circo Massimo — è un'altra meta amata da romani e visitatori, soprattutto in primavera.</li>
+<li>Celebre è anche la serratura del <strong>Priorato dei Cavalieri di Malta</strong>, da cui si inquadra perfettamente la cupola di San Pietro: il giardino che la ospita fu disegnato da <strong>Giovanni Battista Piranesi</strong>, unico suo intervento architettonico realmente compiuto — un moderno simbolo della continuità tra sacralità e mistero dell'Aventino.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">6</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="terme-di-caracalla" data-name="terme di caracalla">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terme di Caracalla</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> Le Terme di Caracalla furono costruite tra il 212 e il 216 d.C. (come dimostrano i bolli laterizi ritrovati), per volontà dell'imperatore Marco Aurelio Severo Antonino, passato alla storia come Caracalla. Sorgevano sul cosiddetto <strong>Piccolo Aventino</strong>, la propaggine meridionale del colle verso la via Appia, in un'area precedentemente occupata da un quartiere popolare che fu raso al suolo per far posto al cantiere.</p>
+<p>L'opera aveva un chiaro intento politico: offrire al popolo di Roma un complesso spettacolare e (quasi) gratuito — l'ingresso costava un solo <em>quadrante</em>, la moneta di minor valore — rafforzando l'immagine dell'imperatore come benefattore, nonostante il suo regno fosse segnato da violenze e instabilità. La rapidità della costruzione fu impressionante: per completare la struttura centrale in soli quattro anni furono impiegate decine di migliaia tra operai, schiavi e artigiani, grazie anche all'uso sapiente del <em>cementizio</em> romano.</p>
+<p>Caracalla fece in tempo a inaugurare solo il <strong>corpo centrale</strong>, nel 216: il grande recinto esterno — portici, giardini, biblioteche — fu completato dai suoi successori, <strong>Elagabalo e Alessandro Severo</strong>, che ne curarono anche gran parte della decorazione. L'opera fu quindi il prodotto di più regni, unificati da un unico grande progetto.</p>
+<p><strong>Funzioni.</strong> Le terme erano un vero e proprio centro polifunzionale: bagni e igiene personale (natatio, frigidarium, tepidarium, calidarium), sport e svago (palestrae, giardini), cultura e studio (biblioteche), socialità e politica (incontri, cerimonie, propaganda imperiale). Caracalla ne fece uno strumento di consenso: dare al popolo uno dei più grandi complessi pubblici dell'impero significava ottenere fedeltà e riconoscenza.</p>
+<p><strong>Significato storico.</strong> Le Terme di Caracalla sono uno dei capolavori dell'architettura imperiale romana, simbolo della capacità tecnica (volte altissime in cemento, sistemi idrici complessi, riscaldamento ad ipocausto) e della ricchezza dell'impero nel III secolo. Al tempo stesso, rappresentano anche la contraddizione del periodo: mentre l'impero affrontava crisi militari ed economiche, si erigevano opere colossali destinate più all'apparenza e al prestigio che all'efficienza.</p></div><div class="tab-panel"><p>Il complesso, esteso su circa 11 ettari, rappresenta uno degli esempi meglio conservati di grande architettura termale imperiale. La pianta era organizzata secondo lo schema assiale già introdotto dalle Terme di Traiano, ma ampliato e arricchito.</p>
+<ul>
+<li><strong>Natatio</strong>: la grande piscina scoperta, lunga circa 50 metri, preceduta da un colonnato monumentale.</li>
+<li><strong>Frigidarium</strong>: la sala centrale, vastissima (circa 58 × 24 metri), coperta da tre volte a crociera alte oltre 30 metri, sorrette da otto pilastri e colonne di granito. Era il cuore scenografico del complesso, oggi ancora imponente nelle rovine. Le due grandi vasche di granito che lo decoravano furono poi riutilizzate nel Cinquecento come fontane di Piazza Farnese, dove si trovano tuttora.</li>
+<li><strong>Tepidarium</strong>: ambienti di passaggio tiepidi, con volte e nicchie.</li>
+<li><strong>Caldarium</strong>: una sala circolare coperta da una cupola di circa 34-35 metri di diametro, sorretta da otto poderosi pilastri, con ampie finestre esposte al sole per sfruttarne il calore.</li>
+<li><strong>Palestrae</strong>: due grandi cortili laterali per esercizi ginnici.</li>
+<li><strong>Ambienti secondari</strong>: biblioteche, sale di lettura, giardini e portici.</li>
+<li><strong>I sotterranei</strong>: una rete di gallerie lunga circa due chilometri, dove lavoravano centinaia di schiavi e operai specializzati per far funzionare l'impianto — forni, caldaie, mulini, magazzini. Qui nel 1938 fu scoperto uno dei <strong>mitrei più grandi conosciuti a Roma</strong>, con la fossa per i rituali di iniziazione ancora riconoscibile: un'ulteriore traccia, come già visto per Santa Prisca, della presenza di culti orientali "non ufficiali" nell'area dell'Aventino.</li>
+</ul>
+<p>La decorazione era lussuosissima: pavimenti in opus sectile con marmi policromi, mosaici figurati, statue colossali — tra cui l'Ercole Farnese e il Toro Farnese, oggi al Museo Archeologico Nazionale di Napoli.</p></div><div class="tab-panel"><ul>
+<li>L'impianto poteva ospitare circa <strong>1.600 persone</strong>.</li>
+<li>L'acqua arrivava dall'Aqua Marcia, convogliata in un ramo apposito dell'acquedotto chiamato <strong>Aqua Antoniniana</strong>, creato nel 212 e che scavalcava la via Appia appoggiandosi sul preesistente Arco di Druso. Enormi cisterne sul retro del complesso, con una capacità stimata di 8.000 m³, garantivano la riserva idrica.</li>
+<li>Le Terme di Caracalla furono le più imponenti mai edificate a Roma fino all'inaugurazione delle Terme di Diocleziano, nel 306 d.C.</li>
+<li>Nel Rinascimento, i marmi e le statue delle terme furono smontati e riutilizzati per decorare palazzi e collezioni (oltre ai già citati Ercole e Toro Farnese, le vasche del frigidarium finirono a Piazza Farnese).</li>
+<li>Oggi le rovine delle Terme di Caracalla sono uno dei luoghi più suggestivi di Roma: ospitano in estate spettacoli teatrali e opere liriche, sfruttando l'imponenza degli antichi ambienti come scenografia naturale.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="san-saba" data-name="san saba all'aventino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">San Saba all'Aventino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> Il monastero di San Saba sorge sul <strong>piccolo Aventino</strong>, la propaggine meridionale del colle Aventino, sul luogo che fu in origine la caserma (<em>statio</em>) della IV Coorte dei Vigili, i pompieri di Roma antica.</p>
+<p>Già nel VII secolo alcuni eremiti si insediarono su quelle rovine. Fu però nell'<strong>VIII secolo</strong> che il sito fu preso in possesso da monaci orientali provenienti dalla comunità di <strong>Mar Saba</strong>, in Giudea, fuggiti dalla Palestina sconvolta prima dall'invasione persiana (614) e poi dall'espansione islamica: qui fondarono un vero e proprio monastero, dedicato a <strong>San Saba il Santificato</strong>, abate palestinese morto nel 532 e molto venerato in Oriente. Fu uno dei primi centri del monachesimo greco a Roma.</p>
+<p>Una tradizione leggendaria, priva di riscontro storico ma radicata nel luogo, vuole che il sito fosse in origine la casa dove visse <strong>Santa Silvia</strong>, madre di Papa Gregorio Magno, che da qui gli avrebbe inviato ogni giorno un pasto di verdure.</p>
+<p>Fin dall'inizio il monastero divenne luogo di incontro tra cultura bizantina e latina, con liturgie, icone e testi greci.</p>
+<p><strong>Il monastero nell'alto Medioevo.</strong> Tra l'VIII e il IX secolo San Saba fu un importante centro culturale e diplomatico: custodiva una biblioteca di testi greci, era luogo di formazione per monaci orientali e latini, ed ebbe stretti legami con il papato, che ne fece un punto di riferimento per le relazioni diplomatiche con Costantinopoli, affidando ai suoi abati importanti incarichi di ambasceria.</p>
+<p>Il prestigio del monastero gli valse col tempo anche ricche dotazioni e possedimenti, tra cui, in età più tarda, il castello di Marino (1253) e il castello di Palo (1330).</p>
+<p>Già <strong>intorno al X secolo</strong>, però, la comunità sabaita, sempre più ridotta, fu sostituita dai <strong>benedettini di Montecassino</strong>; nel <strong>1144</strong> arrivarono i <strong>cluniacensi</strong>, che riformarono la vita monastica e ricostruirono quasi integralmente l'edificio nelle forme romaniche giunte fino a noi.</p>
+<p><strong>Vita monastica.</strong> Nel Medioevo il monastero ospitava una comunità monastica, attiva nella preghiera e nella trascrizione di testi, una scuola monastica, frequentata anche da futuri chierici importanti, e attività agricole e artigianali nei terreni circostanti, a sostegno dell'autosufficienza della comunità. La sua posizione isolata sul piccolo Aventino — rimasto campagna aperta fino ai primi del Novecento — lo rendeva ideale per la vita contemplativa.</p>
+<p><strong>Ruolo nella Roma medievale.</strong> San Saba, pur non essendo una basilica papale, ebbe grande importanza: custodiva il legame con la spiritualità orientale, rappresentava un modello di monachesimo urbano, ed era punto di riferimento per il quartiere, insieme a Santa Prisca e Sant'Alessio sull'Aventino vero e proprio.</p></div><div class="tab-panel"><p>San Saba conserva ancora oggi molto della sua struttura medievale, frutto soprattutto della ricostruzione cluniacense del XII secolo su un nucleo più antico (IX-X secolo, in parte conservato nei livelli inferiori):</p>
+<ul>
+<li>basilica a tre navate, scandite da quattordici colonne di spoglio provenienti da edifici antichi;</li>
+<li>abside semicircolare, decorata da affreschi medievali (parzialmente perduti, ma documentati; altri affreschi visibili risalgono al XIII secolo);</li>
+<li>pavimento cosmatesco, con cinque grandi dischi di marmi diversi al centro;</li>
+<li>un frammento di <em>schola cantorum</em>, firmato dal <em>magister</em> Jacopo (della celebre famiglia di marmorari Vassalletto), ritrovato negli scavi del 1909;</li>
+<li>chiostro romanico (XII secolo), con colonne binate e capitelli scolpiti, uno degli angoli più suggestivi del complesso;</li>
+<li>ambienti conventuali sobri, tipici della vita monastica.</li>
+</ul></div><div class="tab-panel"><ul>
+<li>La comunità di San Saba introdusse a Roma usi liturgici orientali, che nel Medioevo convivevano con la liturgia latina.</li>
+<li>Nei secoli successivi la proprietà del monastero passò di mano più volte: dai cluniacensi ai cistercensi (1503), fino al 1573, quando fu affidato al <strong>Collegio Germanico-Ungarico</strong> dei Gesuiti, che lo custodiscono ancora oggi.</li>
+<li>L'atmosfera raccolta e appartata del complesso è rimasta intatta: entrando a San Saba si ha davvero l'impressione di entrare in un angolo di Medioevo sopravvissuto nel cuore della città.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-sabina" data-name="santa sabina">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Sabina</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="sant-alessio" data-name="sant'alessio">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Sant'Alessio</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-prisca" data-name="santa prisca">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Prisca</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="priorato-di-malta" data-name="priorato dei cavalieri di malta">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Priorato dei Cavalieri di Malta</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Mitologia</button></div><div class="tab-panels"><div class="tab-panel active"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div><div class="tab-panel"><p><em>Contenuto da inserire.</em></p></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>
