@@ -1777,5 +1777,59 @@ const deepIndex = [
     "file": "aventino.html",
     "id": "tempio-di-cerere-libero-libera",
     "context": "Roma — Aventino"
+  },
+  {
+    "name": "Campidoglio",
+    "file": "campidoglio.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Arx e Tempio di Veiove",
+    "file": "campidoglio.html",
+    "id": "arx-e-tempio-di-veiove",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Tempio di Giove Ottimo Massimo Capitolino",
+    "file": "campidoglio.html",
+    "id": "tempio-di-giove-ottimo-massimo",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Tabularium e Palazzo Senatorio",
+    "file": "campidoglio.html",
+    "id": "tabularium-palazzo-senatorio",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Tempio di Giunone Moneta",
+    "file": "campidoglio.html",
+    "id": "tempio-di-giunone-moneta",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Insula dell'Ara Coeli",
+    "file": "campidoglio.html",
+    "id": "insula-ara-coeli",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Carcere Mamertino",
+    "file": "campidoglio.html",
+    "id": "carcere-mamertino",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Piazza del Campidoglio",
+    "file": "campidoglio.html",
+    "id": "piazza-del-campidoglio",
+    "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Santa Maria in Aracoeli",
+    "file": "campidoglio.html",
+    "id": "santa-maria-in-aracoeli",
+    "context": "Roma — Campidoglio"
   }
 ];

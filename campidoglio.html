@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campidoglio — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Campidoglio</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Etimologia e significato.</strong> Il nome Campidoglio deriva dal latino <em>Capitolium</em>. Secondo una leggenda riportata da Tito Livio, durante gli scavi per la costruzione del Tempio di Giove fu ritrovato un cranio umano (<em>caput</em>), presagio che quel luogo sarebbe diventato il "capo" del mondo. Da qui il nome, che esprime il ruolo simbolico del colle come centro del potere religioso e politico. Nella lingua moderna, "capitolio" è diventato sinonimo di sede del governo in molte capitali (si pensi al Capitol di Washington), proprio per il prestigio che il colle di Roma ha esercitato nei secoli.</p>
+<p><strong>Origini.</strong> Il Campidoglio, pur essendo il più piccolo dei sette colli di Roma, fu sin dall'età arcaica il centro sacro per eccellenza. Qui sorgeva il Tempio di Giove Ottimo Massimo, completato nel 509 a.C., considerato il santuario principale della città. Il colle aveva una doppia sommità: l'Arx (la cittadella) e il Capitolium vero e proprio, separate da una sella. Questa conformazione lo rese ideale sia come luogo di culto sia come punto di difesa.</p>
+<p><strong>Funzioni.</strong> Il Campidoglio era innanzitutto il centro religioso di Roma. La Triade Capitolina (Giove, Giunone, Minerva) incarnava i valori della città e la protezione divina sullo Stato. Ma il colle aveva anche una funzione politica e simbolica: rappresentava il vertice del potere romano, al punto che "Capitolium" divenne sinonimo stesso di potere imperiale.</p>
+<p><strong>Significato storico.</strong> La centralità del Campidoglio si prolungò anche dopo la fine dell'Impero. In età medievale divenne la sede del potere civile cittadino, con il palazzo Senatorio. Nel Rinascimento, papa Paolo III affidò a Michelangelo la progettazione della piazza che conosciamo oggi: un perfetto esempio di urbanistica scenografica, con la pavimentazione ellittica e la statua equestre di Marco Aurelio (oggi copia, l'originale è conservato nei Musei Capitolini). Così il Campidoglio, da acropoli arcaica a piazza rinascimentale, rimase per secoli il cuore politico e simbolico di Roma.</p></div>
+        <div class="tab-panel"><p>Oltre al Tempio di Giove, il Campidoglio ospitava numerosi edifici religiosi e civili:</p>
+<ul>
+<li>il <strong>Tempio di Giunone Moneta</strong>, sede della zecca;</li>
+<li>il <strong>Tempio di Veiove</strong>, divinità ctonia legata agli dèi inferi;</li>
+<li>il <strong>Tabularium</strong>, archivio ufficiale dello Stato romano, che ancora oggi si erge come base monumentale della piazza;</li>
+<li>santuari e altari minori che ne facevano un autentico "acropoli" sacra.</li>
+</ul>
+<p>In età imperiale, il colle continuò a essere il cuore cerimoniale della città: qui terminavano i trionfi, e gli imperatori rinnovavano la loro legittimazione attraverso sacrifici a Giove.</p></div>
+        <div class="tab-panel"><ul>
+<li>Nel Medioevo il Campidoglio fu chiamato "Monte Capitolino" e ospitava le riunioni del Senato romano.</li>
+<li>La leggenda del cranio ritrovato durante la costruzione del Tempio di Giove non è solo un mito etimologico: esprime l'idea che Roma fosse predestinata a diventare la "caput mundi".</li>
+<li>L'attuale Museo Capitolino è il più antico museo pubblico del mondo, fondato nel 1471 da papa Sisto IV con la donazione di bronzi antichi alla città.</li>
+<li>La parola "capitolio", mutuata in epoca moderna, venne adottata in molte lingue per indicare le sedi parlamentari e governative, a testimonianza del lascito simbolico universale di questo colle.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">8</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="arx-e-tempio-di-veiove" data-name="arx e tempio di veiove">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Arx e Tempio di Veiove</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym"><strong>Arx</strong> in latino significa semplicemente "rocca, fortezza" — la stessa radice della parola italiana "arce". <strong>Veiove</strong> (o Vediove) è una divinità dal nome oscuro, forse da leggersi come un "Giove al contrario", di segno funesto anziché benevolo.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>L'Arx, la rocca sacra.</strong> L'Arx era la parte settentrionale del Campidoglio, contrapposta al Capitolium vero e proprio. Funzionava come rocca e osservatorio religioso: da qui gli àuguri scrutavano il cielo e interpretavano i segni divini per guidare le decisioni politiche della città. Era quindi un luogo strategico non solo per la difesa, ma soprattutto per il suo valore sacro e rituale — vi sorgeva anche il tempio di Giunone Moneta, di cui si conserva scheda a parte.</p>
+<p>Nelle fonti antiche l'Arx è ricordata come punto d'osservazione privilegiato per gli àuguri. Qui si trovava l'<strong>Auguraculum</strong>, lo spazio consacrato al cielo dove i sacerdoti tracciavano i confini simbolici per interpretare i segni divini. Ogni decisione politica importante passava da qui, perché nessuna deliberazione era considerata valida senza l'approvazione degli dèi.</p>
+<p><strong>Il Tempio di Veiove.</strong> Proprio nella sella tra l'Arx e il Capitolium — le fonti latine la definiscono <em>inter duos lucos</em>, "tra i due boschi sacri" — sorgeva il tempio dedicato a Veiove, divinità arcaica e misteriosa che testimonia la fase più antica del pantheon romano. Il console Lucio Furio Purpureo ne fece voto nel 200 a.C., durante la battaglia di Cremona contro i Boi; l'appalto dei lavori fu affidato nel 196 a.C., e il tempio venne infine inaugurato nel 192 a.C. da Quinto Marcio Ralla.</p></div><div class="tab-panel"><p>Il tempio aveva una pianta insolita, con la cella allungata trasversalmente rispetto al senso di ingresso, a causa dello spazio ristretto fra le due sommità del colle — una soluzione condivisa da pochissimi altri templi romani. Fu costruito inizialmente in tufo, secondo lo schema tipico dei templi italici arcaici; una prima ricostruzione risale all'incirca all'età sillana (inizio I secolo a.C.), coeva a quella del vicino Tabularium.</p>
+<p>Dopo un incendio che colpì il Campidoglio nell'80 d.C., in epoca flavia la cella fu restaurata con una copertura a volta in muratura al posto del tetto ligneo originario, e arricchita da una decorazione parietale in marmi colorati e stucco. A questa fase risale anche la statua di culto colossale, in proporzioni doppie rispetto al vero, ritrovata negli scavi — purtroppo priva della testa.</p>
+<p>I resti del tempio, sepolti dalle fondamenta degli edifici sorti nei secoli sul Campidoglio, furono casualmente riportati alla luce nel <strong>dicembre 1939</strong>, durante i lavori per il corridoio sotterraneo che collega Palazzo dei Conservatori e Palazzo Nuovo. Sono visibili ancora oggi, incorporati nei sotterranei del <strong>Tabularium</strong>, sotto i Musei Capitolini — un punto di contatto fisico e diretto con la prossima tappa del nostro percorso sul colle.</p></div><div class="tab-panel"><p>Veiove è una delle divinità più enigmatiche del pantheon romano arcaico, considerata quasi un "anti-Giove": secondo lo scrittore Aulo Gellio, che ne descrive la statua di culto, il dio era raffigurato come un giovane armato di arco e frecce, con accanto una capra — non una compagna, ma l'animale che gli veniva sacrificato <em>ritu humano</em>, "secondo un rito umano", un'espressione che già nell'antichità suonava inquietante. Proprio per il suo aspetto giovanile e armato, alcuni autori antichi arrivarono ad accostarlo ad Apollo, pur riconoscendone la natura oscura e in parte infera.</p>
+<p>La stessa area, nella sella tra Arx e Capitolium, era anche identificata dalla tradizione con l'<strong>Asylum</strong>: il bosco sacro dove, secondo la leggenda, Romolo diede ospitalità ai fuggitivi delle altre città del Lazio, per popolare la Roma appena fondata — un'ulteriore stratificazione di sacralità e di mito su un fazzoletto di terra strettissimo, cuore religioso e insieme rifugio della città delle origini.</p>
+<p>L'Arx e il Tempio di Veiove ci mostrano così il volto più antico e segreto del Campidoglio: non solo il trionfo della grande Triade Capitolina, ma anche culti arcaici e meno noti, che riflettono la complessità religiosa di Roma e il bisogno di integrare il favore di tutte le divinità, anche quelle più marginali e temute.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tempio-di-giove-ottimo-massimo" data-name="tempio di giove ottimo massimo capitolino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Giove Ottimo Massimo Capitolino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tempio di Giove Ottimo Massimo era il più grande e venerato santuario di Roma, dedicato alla triade capitolina: Giove, Giunone e Minerva. Sorgeva sulla sommità meridionale del Campidoglio e fu, per secoli, il centro religioso della città e dell'intero mondo romano.</p>
+<p><strong>Le origini.</strong> Secondo la tradizione, il tempio fu iniziato dal re etrusco Tarquinio Prisco e portato a termine dal suo successore, l'ultimo re di Roma Tarquinio il Superbo, per essere infine dedicato nel 509 a.C., proprio l'anno della nascita della Repubblica. La sua costruzione segnò il passaggio da Roma città-stato a capitale di un potere in espansione, sancendo l'alleanza con gli dèi protettori del nuovo ordine politico. La collocazione sul Campidoglio, già luogo sacro, ribadiva il legame tra potere umano e sfera divina.</p>
+<p><strong>Il culto e le funzioni.</strong> Il tempio era dedicato a Giove Ottimo Massimo, epiteto che indicava il dio nella sua massima potenza e benevolenza, ma accoglieva anche le divinità associate, Giunone Regina e Minerva, formando così la Triade Capitolina. Era qui che i consoli offrivano sacrifici all'inizio del loro mandato, e qui si concludevano i trionfi militari, con i generali vittoriosi che salivano in processione per ringraziare Giove. Il tempio custodiva inoltre gli archivi degli <em>acta senatus</em> e i simboli della potenza di Roma.</p>
+<p><strong>Eventi storici.</strong> Il tempio fu incendiato e ricostruito almeno tre volte nel corso della sua storia. Il primo e più grave incendio, nell'83 a.C., lo distrusse quasi completamente insieme ai Libri Sibillini che vi erano custoditi: la ricostruzione in pietra, voluta da Silla, fu completata nel 69 a.C. da Quinto Lutazio Catulo, con una nuova statua di culto crisoelefantina. Augusto, pur senza dover fronteggiare un incendio, arricchì ulteriormente il santuario con una quantità straordinaria d'oro, perle e pietre preziose. Il tempio bruciò di nuovo il 19 dicembre del 69 d.C., durante gli scontri tra i sostenitori di Vitellio e quelli di Vespasiano, che lo fece ricostruire e dedicare nel 75; un ultimo incendio, nell'80 d.C., rese necessaria la ricostruzione più sfarzosa di tutte, quella promossa da Domiziano. Ogni ricostruzione segnava una rinascita simbolica della città, quasi a ribadire che Roma non potesse sopravvivere senza il suo tempio principale.</p>
+<p><strong>Significato storico.</strong> Il Tempio di Giove Capitolino fu per secoli il simbolo della religione di Stato, ma anche della stessa identità romana. Nessun trionfo, nessuna decisione politica davvero importante poteva prescindere dal suo culto. Era, in senso pieno, il cuore sacro dell'Urbe.</p></div><div class="tab-panel"><p>Il tempio ebbe una storia architettonica complessa, scandita dalle ricostruzioni dovute agli incendi. L'edificio originario, di ispirazione etrusca, era imponente: misurava all'incirca 55 per 60 metri, ed era ornato da un grande pronao con sei colonne. La cella era tripartita, con spazi distinti per Giove, Giunone e Minerva, secondo lo schema canonico del tempio tuscanico. La decorazione più celebre della fase arcaica fu il gruppo in terracotta realizzato dallo scultore etrusco <strong>Vulca di Veio</strong>, che raffigurava Giove in trionfo su una quadriga sul culmine del tetto.</p>
+<p>In età imperiale il tempio fu ricostruito più volte in forme sempre più ricche: dopo l'incendio dell'80 d.C., Domiziano lo rifece con colonne corinzie in marmo pentelico, porte e tegole dorate, senza che il santuario perdesse mai la sua funzione di luogo supremo del culto romano.</p>
+<p><strong>Il tempio oggi.</strong> Del grande tempio restano solo le fondazioni e pochi frammenti architettonici, visibili nei pressi di Palazzo Caffarelli, sul Campidoglio, oggi parte dei Musei Capitolini. Nonostante la perdita quasi totale della struttura in elevato, il luogo mantiene un'aura particolare: visitare quell'area significa trovarsi là dove Roma antica celebrava la sua alleanza con gli dèi e sanciva la propria grandezza universale.</p></div><div class="tab-panel"><ul>
+<li>Si racconta che la prima statua di Giove fosse talmente imponente che i suoi occhi di terracotta sembrassero fissare l'intera città.</li>
+<li>Strabone e altri autori antichi descrivono il tempio come uno degli edifici più ricchi mai visti, soprattutto dopo la ricostruzione domizianea, con decorazioni in oro che abbagliavano al sole.</li>
+<li>Nel Medioevo il tempio era ormai in rovina, ma il Campidoglio conservò la sua sacralità: divenne sede del potere civico romano, fino a trasformarsi nella piazza rinascimentale di Michelangelo — la stessa continuità raccontata nella prossima scheda, dedicata proprio al Tabularium e al Palazzo Senatorio.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tabularium-palazzo-senatorio" data-name="tabularium palazzo senatorio campidoglio medievale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tabularium e Palazzo Senatorio</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Epoca Romana</button><button class="tab" onclick="switchTab(this)">Medioevo</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tabularium era il grande archivio di Stato della Roma repubblicana e imperiale. Costruito nel 78 a.C. dal console Quinto Lutazio Catulo, sorge sul lato del Campidoglio che si affaccia sul Foro Romano. La sua mole imponente, ancora oggi ben visibile, costituiva il collegamento architettonico e simbolico tra il colle e il cuore politico della città.</p>
+<p><strong>Le origini.</strong> Il Tabularium fu eretto in età sillana, in un momento di profonda riorganizzazione della città e delle sue istituzioni. Roma, divenuta ormai capitale di un impero mediterraneo, aveva bisogno di un edificio che custodisse in modo sicuro e monumentale gli atti ufficiali dello Stato. Qui erano conservati i <em>tabulae publicae</em>, cioè le leggi, i decreti del Senato, i trattati e i documenti più importanti per la vita politica.</p>
+<p><strong>Architettura.</strong> Il Tabularium è uno degli edifici meglio conservati della tarda Repubblica. La sua struttura è imponente e ingegnosa: la base è costruita in tufo e travertino, con poderosi muri a blocchi squadrati; la facciata verso il Foro presenta una galleria con arcate su pilastri, oggi ancora ben riconoscibile; all'interno correva un lungo corridoio coperto da volte a botte, collegato con scalinate al Foro e alla sommità del Campidoglio; al piano superiore si trovavano gli uffici e i depositi veri e propri, destinati a custodire gli archivi. Il Tabularium svolgeva anche una funzione scenografica: la sua facciata, che sosteneva il lato del Campidoglio, creava un fondale monumentale per l'intero Foro Romano.</p>
+<p><strong>Funzioni.</strong> Oltre a custodire gli archivi, il Tabularium ebbe probabilmente anche funzioni amministrative e giudiziarie. Era un edificio strettamente legato alla vita politica e rappresentava la memoria scritta dello Stato romano, un vero e proprio garante della continuità delle istituzioni.</p>
+<p><strong>Il significato storico.</strong> Il Tabularium non era un tempio né un luogo di culto, ma incarnava la religione civile della memoria scritta: qui erano custoditi i documenti che davano forza di legge allo Stato. La sua monumentalità dimostrava che, a Roma, il potere politico non viveva solo di parole, ma si fondava anche sulla permanenza degli atti ufficiali.</p>
+<p>Con la fine dell'Impero, però, questa funzione si interruppe: il grande archivio perse il proprio ruolo, e l'edificio attraversò un lungo periodo di abbandono prima di essere reinventato, secoli dopo, come base di un potere completamente nuovo.</p></div><div class="tab-panel"><p><strong>Origini antiche.</strong> Il colle Capitolino era il centro sacro di Roma antica: vi sorgeva il Tempio di Giove Ottimo Massimo, cuore della religione e dell'identità politica della città repubblicana e imperiale. Con il crollo dell'Impero, il tempio andò in rovina e l'area perse la sua funzione religiosa, trasformandosi in un luogo marginale, pieno di rovine.</p>
+<p><strong>Il Campidoglio medievale.</strong> Nel Medioevo il colle assunse un ruolo nuovo: non più centro religioso, ma centro civile e politico della città; vi si riunivano le assemblee del popolo romano e le magistrature cittadine; divenne la sede del Senato di Roma e simbolo della rinascita comunale tra XI e XIII secolo.</p>
+<p><strong>L'aspetto architettonico.</strong> Il Campidoglio medievale non aveva l'ordine simmetrico rinascimentale: era uno spazio irregolare, con edifici sparsi tra le rovine. Il principale era il <strong>Palazzo Senatorio</strong>, sorto nel XII secolo sopra le strutture del Tabularium romano; a fianco c'erano case fortificate, torri baronali e chiese, come Santa Maria in Aracoeli, che divenne il santuario più importante del colle. Il colle appariva dunque come un luogo fortificato, misto tra antico e medievale, molto diverso dalla piazza armoniosa che conosciamo.</p>
+<p><strong>Il potere del Senato.</strong> Dal XII secolo il Campidoglio fu la sede del Senato del Popolo Romano, un'istituzione che voleva far rivivere le antiche libertà comunali. I senatori furono inizialmente molti — nel primo periodo del Comune, dal 1143, si arrivò ad averne fino a cinquantasei — poi il loro numero fu ridotto a due dal 1220, e infine, dal 1222, si stabilizzò nella figura del senatore unico, che amministrava la città in nome del popolo, in contrasto con il potere papale. Il Palazzo Senatorio ospitava le riunioni, gli archivi e i tribunali: il colle divenne così il simbolo della Roma comunale, paragonabile alle piazze civiche delle città del centro-nord Italia.</p>
+<p><strong>Santa Maria in Aracoeli.</strong> Accanto al palazzo politico, sorse il polo religioso medievale del Campidoglio: la chiesa di Santa Maria in Aracoeli, ricostruita dai francescani nel XIII secolo, con il suo imponente scalone, aggiunto nel 1348 come voto per la fine della peste nera, divenne il santuario mariano per eccellenza dei romani medievali. La convivenza di Senato e Aracoeli mostra come il Campidoglio fosse insieme centro civile e religioso della città medievale.</p>
+<p><strong>Eventi e simboli.</strong> Nel 1143, con la nascita del Comune di Roma, il Campidoglio divenne la sede ufficiale del nuovo governo cittadino. Da qui partivano le cerimonie civiche e i cortei ufficiali. Il colle rappresentava il legame con la Roma antica: i romani medievali lo chiamavano "Capitolium" con orgoglio, sentendosi eredi diretti degli antichi.</p>
+<p><strong>Sopravvivenze medievali.</strong> Oggi sul Campidoglio restano tracce medievali: il Palazzo Senatorio, pur trasformato nel Rinascimento, conserva la base medievale e il Tabularium romano; la chiesa di Santa Maria in Aracoeli, autentico gioiello medievale con pavimento cosmatesco, affreschi e tombe; resti di torri e fortificazioni inglobate nei palazzi.</p>
+<p>Nel Medioevo il Campidoglio era chiamato anche Monte Caprino, perché vi pascolavano le capre tra le rovine; e Santa Maria in Aracoeli custodisce ancora oggi la celebre statua del Bambinello, veneratissima nel Medioevo e nel Rinascimento.</p>
+<p>Il Campidoglio medievale era un luogo austero e poco armonioso, ma con un fortissimo valore simbolico: era il "palcoscenico" del Comune di Roma, contrapposto al potere papale sul Laterano e poi in Vaticano.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tempio-di-giunone-moneta" data-name="tempio di giunone moneta">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Giunone Moneta</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tempio di Giunone Moneta sorgeva sull'Arx ed era uno dei luoghi più significativi della Roma repubblicana. La sua importanza derivava dal culto della dea, ma anche dalla presenza della zecca statale, che ne fece un centro religioso ed economico al tempo stesso.</p>
+<p><strong>Le origini del culto.</strong> Dedicato nel 344 a.C. da Lucio Furio Camillo, dopo la sua vittoria contro gli Aurunci, il tempio celebrava Giunone con l'epiteto di Moneta, cioè "colei che ammonisce". Fu costruito, secondo la tradizione, proprio sul luogo dove sorgeva la casa di Marco Manlio Capitolino — lo stesso protagonista della leggenda a cui l'epiteto della dea è legato.</p>
+<p><strong>Il legame con la zecca.</strong> Accanto al tempio sorse, circa un secolo più tardi, verso il 269 a.C., la prima zecca di Roma. Le monete coniate qui recavano spesso il nome o l'immagine della dea, e dal termine Moneta nacque la parola che ancora oggi indica la moneta in molte lingue moderne. In questo modo, il culto religioso si intrecciava strettamente con la vita economica della città.</p>
+<p><strong>Il significato storico.</strong> Il Tempio di Giunone Moneta è un esempio straordinario di come religione ed economia fossero intrecciate a Roma. La protezione della dea garantiva la stabilità delle istituzioni, mentre la produzione monetaria diffondeva il suo nome e quello della città in tutto il Mediterraneo. Ancora oggi, ogni volta che usiamo il termine "moneta", evochiamo indirettamente questo luogo del Campidoglio.</p></div><div class="tab-panel"><p>Anche se oggi non restano resti visibili in elevato, le fonti antiche descrivono il tempio come un edificio di impianto classico, con podio in tufo e pronao colonnato. La posizione sull'Arx gli conferiva un aspetto dominante, e accanto al santuario si trovavano gli spazi funzionali della zecca, con officine, forni e depositi per i metalli.</p>
+<p>Gli scavi nel giardino dell'attuale convento dell'Aracoeli hanno restituito un'antefissa arcaica a forma di testa femminile, databile tra la fine del VI e l'inizio del V secolo a.C.: un indizio che sul luogo esistesse già un culto, forse un semplice recinto sacro con altare, ben prima della dedica ufficiale del tempio nel 344 a.C.</p>
+<p>Il tempio sorgeva, con ogni probabilità, proprio dove oggi si trova la basilica di <strong>Santa Maria in Aracoeli</strong>: come già visto per il vicino Tempio di Diana sull'Aventino, anche qui la topografia sacra pagana sembra essere sopravvissuta, per continuità di luogo, sotto l'edificio cristiano che le succedette.</p></div><div class="tab-panel"><p>L'epiteto Moneta ("colei che ammonisce", dal verbo latino <em>monere</em>) affonda le radici in uno degli episodi più celebri e amati della storia di Roma: l'assedio dei Galli di Brenno, nel 390 a.C. Mentre i Galli tentavano un attacco notturno a sorpresa sull'Arx, silenziosi e non visti dalle sentinelle, le oche sacre a Giunone, allevate nel recinto del suo santuario, iniziarono a starnazzare rumorosamente, svegliando l'ex console Marco Manlio, che diede l'allarme in tempo per respingere l'assalto e salvare il Campidoglio. Da quel giorno, si narra, la dea fu venerata con l'appellativo di Moneta, "l'ammonitrice" — colei che aveva avvertito i Romani del pericolo attraverso le sue oche.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="insula-ara-coeli" data-name="insula dell'ara coeli">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Insula dell'Ara Coeli</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Ai piedi del Campidoglio, tra il Vittoriano e la scalinata dell'Aracoeli, si trovano i resti di una delle più grandi insulae (case popolari a più piani) conservate a Roma. Questa struttura, risalente al II secolo d.C., ci mostra come viveva la popolazione comune, in contrasto con i fasti dei templi e delle basiliche che dominavano la città.</p>
+<p><strong>Le origini e la funzione.</strong> L'insula sorgeva in un'area densamente abitata, vicino ai grandi centri del potere politico e religioso. Era destinata a ospitare famiglie di ceto medio e basso: artigiani, commercianti e lavoratori che vivevano a pochi passi dal cuore monumentale della città. Accanto ad abitazioni di modesta qualità, non mancavano spazi per botteghe e attività economiche.</p>
+<p><strong>La scoperta.</strong> L'edificio, in parte già noto nel Settecento, fu riportato interamente alla luce nel <strong>1926</strong>, durante i grandi lavori di "isolamento" del Campidoglio voluti in epoca fascista. In quell'occasione, i piani superiori dell'insula — trasformati nell'XI secolo nella chiesa medievale di <strong>San Biagio de' Mercato</strong>, e poi rifatta nel 1653 come chiesa di Santa Rita da Cascia — furono smontati e ricostruiti altrove, tra il Teatro di Marcello e piazza Campitelli, per lasciare l'insula romana visibile. Il campanile romanico e un arcosolio con un affresco trecentesco di quella stessa chiesa medievale sono ancora oggi visibili accanto ai resti antichi: un'ulteriore, sorprendente stratificazione su un edificio già di per sé eccezionale.</p>
+<p><strong>Il significato storico.</strong> La grande insula capitolina è un documento prezioso perché riequilibra l'immagine che abbiamo di Roma antica: non solo templi, archi e basiliche, ma anche case affollate e modeste, dove si svolgeva la vita della maggioranza della popolazione. Insieme ai monumenti del potere, il Campidoglio ci racconta così anche la realtà quotidiana dei suoi abitanti.</p></div><div class="tab-panel"><p>L'edificio, costruito in laterizio, si sviluppava su più piani, fino a raggiungere almeno cinque livelli. I piani inferiori ospitavano spesso tabernae (negozi e botteghe) con retrobottega abitativo — il mezzanino — mentre quelli superiori erano suddivisi in piccoli appartamenti di diversa grandezza.</p>
+<p>Gli spazi erano organizzati in modo funzionale, con scale interne, ballatoi e cortili che garantivano luce e accesso. Gli appartamenti più bassi potevano essere più ampi e confortevoli, mentre salendo ai piani alti gli ambienti diventavano più piccoli e meno curati, segno evidente della differenza sociale.</p>
+<p><strong>La vita quotidiana.</strong> La grande insula ai piedi del Campidoglio rifletteva la vita di una popolazione urbana numerosa e variegata. Gli inquilini vivevano in spazi ridotti, spesso affollati, con servizi igienici comuni e cisterne per l'acqua. La vicinanza con il Foro Romano rendeva questi ambienti particolarmente vivaci: botteghe, taverne e attività commerciali animavano quotidianamente il quartiere.</p>
+<p><strong>Conservazione e resti.</strong> I resti della grande insula sono ancora visibili tra il Vittoriano e la scalinata dell'Aracoeli: il piano terra e il primo piano si trovano oggi a circa nove metri sotto l'attuale livello stradale, segno di quanto il terreno di Roma si sia progressivamente sollevato nei secoli. Le murature in laterizio mostrano chiaramente la struttura multipiano e le arcate delle botteghe. È una delle poche testimonianze ancora conservate che ci restituisce un'immagine concreta della Roma abitata, quella delle persone comuni che vivevano all'ombra dei grandi monumenti.</p></div><div class="tab-panel"><ul>
+<li>Si stima che l'insula potesse ospitare fino a 380-400 persone contemporaneamente — un'intera piccola comunità concentrata in un solo edificio.</li>
+<li>Le condizioni di vita in strutture come questa sono descritte, spesso con toni satirici, da autori latini come Marziale e Giovenale, che raccontano il rumore, l'affollamento e i pericoli (crolli, incendi) della vita nelle insulae romane.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="carcere-mamertino" data-name="carcere mamertino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Carcere Mamertino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e costruzione.</strong> Il Carcere Mamertino, noto nelle fonti antiche come <em>Carcer</em> e, nella sua parte più antica, <em>Tullianum</em>, rappresenta il più antico carcere pubblico di Roma. La tradizione ne colloca la fondazione in età monarchica, tra il VII e il VI secolo a.C., attribuendola ora ad Anco Marzio, ora a Servio Tullio.</p>
+<p>La funzione originaria non era quella di una prigione nel senso moderno, bensì di luogo di detenzione temporanea per nemici dello Stato, traditori, re sconfitti e personaggi di alto rango destinati a processo o a esecuzione. La sua collocazione ai piedi del Campidoglio, in prossimità del Foro Romano, lo inseriva fisicamente e simbolicamente nel cuore del potere politico e giudiziario.</p>
+<p><strong>Funzione giuridica e politica.</strong> Nella Roma repubblicana e imperiale, il Carcere Mamertino non ospitava criminali comuni. Era riservato a capi nemici catturati in guerra, congiurati contro lo Stato, personaggi politici caduti in disgrazia. La detenzione nel Carcer aveva un forte valore rituale e propagandistico: il nemico, una volta sconfitto, veniva esposto alla massima umiliazione prima della morte, spesso dopo aver sfilato nel trionfo del generale vincitore.</p>
+<p><strong>Personaggi storici detenuti.</strong> Le fonti ricordano numerosi prigionieri illustri, tra cui Giugurta, re di Numidia, lasciato morire di stenti nel 104 a.C., e Vercingetorige, capo dei Galli, imprigionato dopo il trionfo di Gaio Giulio Cesare e giustiziato nel 46 a.C., oltre a diversi congiurati e oppositori politici in età repubblicana. In età imperiale, il carcere mantenne il suo ruolo simbolico, pur perdendo centralità rispetto ad altre forme di repressione.</p>
+<p><strong>Trasformazioni tardoantiche e medievali.</strong> Con la progressiva cristianizzazione di Roma, già a partire dall'VIII secolo, i due ambienti del complesso furono convertiti in cappelle, e il carcere perse definitivamente la sua funzione originaria. Su quell'area sorse in un primo tempo una chiesa più semplice, dedicata a San Pietro e Paolo in Carcere: solo secoli più tardi, tra il 1540 e il 1663, la Confraternita dei Falegnami costruì sopra il complesso l'attuale chiesa di <strong>San Giuseppe dei Falegnami</strong>, che oggi copre e protegge il Carcer e il Tullianum sottostanti. Le strutture antiche furono preservate proprio grazie a questa sacralizzazione, evitando la distruzione o il riutilizzo sistematico come cava di materiali.</p></div><div class="tab-panel"><p>Il complesso si sviluppa su due livelli sovrapposti, di epoche differenti. Il livello inferiore, il <strong>Tullianum</strong>, è una camera sotterranea circolare scavata nella roccia, probabilmente il nucleo più antico. Privo di finestre e accessibile in origine solo dall'alto tramite un'apertura, era uno spazio buio, umido e angusto. Al suo interno si trovava una sorgente naturale, elemento che ha alimentato numerose interpretazioni simboliche e religiose.</p>
+<p>Il livello superiore, il <strong>Carcer</strong>, fu aggiunto o ristrutturato in età repubblicana. Questo ambiente, di forma rettangolare, fungeva da spazio di custodia preliminare. L'insieme costituiva un luogo di segregazione estrema, concepito non per la lunga detenzione ma per l'annientamento fisico e simbolico del nemico pubblico.</p></div><div class="tab-panel"><p>A partire dal tardoantico, il Carcere Mamertino venne identificato dalla tradizione cristiana come luogo di prigionia degli apostoli San Pietro e San Paolo, durante le persecuzioni neroniane. Secondo la leggenda, San Pietro avrebbe fatto sgorgare miracolosamente una sorgente nel Tullianum per battezzare i carcerieri. Questa tradizione trasformò il carcere, luogo di morte e punizione, in spazio di memoria e redenzione, favorendone la continuità d'uso in età cristiana.</p>
+<p>Il nome "Mamertino" resta incerto: è probabilmente medievale, e potrebbe derivare da <em>Mamers</em>, divinità italica assimilata a Marte, oppure da una tradizione locale legata alla zona. La presenza dell'acqua nel Tullianum ha alimentato sia interpretazioni rituali arcaiche sia la tradizione del battesimo cristiano. Nell'immaginario romano, il Carcer era un luogo temuto quanto il supplizio stesso: entrarvi equivaleva, nella maggior parte dei casi, a una condanna a morte.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="piazza-del-campidoglio" data-name="piazza del campidoglio">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Piazza del Campidoglio</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Epoca Romana e Medioevo</button><button class="tab" onclick="switchTab(this)">Rinascimento</button><button class="tab" onclick="switchTab(this)">Età Moderna</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini antiche e continuità del luogo.</strong> Il Campidoglio è uno dei colli più importanti di Roma fin dall'antichità. In età romana era il cuore religioso e simbolico della città, sede del tempio di Giove Ottimo Massimo, fulcro della vita politica e sacra dell'Urbe. Con la fine dell'Impero, il colle non perse del tutto la sua centralità, ma cambiò funzione: le grandi architetture antiche caddero in rovina e l'area assunse un carattere più difensivo e amministrativo, mantenendo però un forte valore simbolico. Questa continuità d'uso, pur attraverso profonde trasformazioni, è uno degli elementi chiave per comprendere l'evoluzione della piazza.</p>
+<p><strong>Il Campidoglio nel Medioevo.</strong> Durante il Medioevo il Campidoglio divenne sede del governo civile di Roma, in contrapposizione al potere papale che aveva il suo centro in Laterano e poi in Vaticano. In questo periodo sorsero o si consolidarono edifici fondamentali: il Palazzo Senatorio, costruito sopra il Tabularium romano, divenne la sede del Senato cittadino; il Palazzo dei Conservatori fu sede dei magistrati cittadini; l'area aperta davanti ai palazzi, irregolare e priva di un vero disegno unitario, fungeva da spazio civico. Il Campidoglio medievale era quindi un luogo vissuto e funzionale, ma architettonicamente frammentato e lontano dall'ordine monumentale dell'età antica.</p></div><div class="tab-panel"><p><strong>Il progetto di Michelangelo.</strong> La svolta decisiva avvenne nel XVI secolo, quando papa Paolo III Farnese decise di trasformare il Campidoglio in una piazza rappresentativa della Roma rinascimentale. L'incarico fu affidato a Michelangelo Buonarroti, che elaborò un progetto radicalmente nuovo, pur lavorando su edifici preesistenti. Michelangelo non pensò il Campidoglio come semplice spazio urbano, ma come luogo simbolico, capace di esprimere la continuità tra Roma antica, Roma cristiana e Roma moderna.</p>
+<p><strong>L'impianto della piazza.</strong> Uno degli elementi più rivoluzionari del progetto michelangiolesco fu l'orientamento della piazza: invece di rivolgersi verso il Foro Romano, come in antico, la piazza venne orientata verso San Pietro e il Vaticano, segnando visivamente il primato della Roma papale. La piazza assume una forma trapezoidale, studiata per correggere le irregolarità degli edifici e creare un forte effetto prospettico. Il disegno del pavimento, con la celebre stella a dodici punte inscritta in un ovale, rafforza l'idea di centralità e armonia geometrica, anche se verrà realizzato solo in epoca moderna, seguendo il progetto michelangiolesco.</p>
+<p><strong>I palazzi del Campidoglio.</strong> Michelangelo intervenne soprattutto sulle facciate, unificando edifici diversi attraverso un linguaggio architettonico coerente. Il Palazzo Senatorio fu riorganizzato con una nuova facciata simmetrica, una doppia scalinata e una torre centrale che ancora oggi domina la piazza. Il Palazzo dei Conservatori ricevette una nuova facciata con ordine gigante di lesene e un ritmo solenne, destinato a diventare modello per l'architettura civile rinascimentale. Di fronte ad esso venne costruito il Palazzo Nuovo, progettato per creare una perfetta simmetria e completare la scenografia della piazza — realizzato integralmente solo nel Seicento, seguendo i disegni di Michelangelo.</p>
+<p><strong>La statua di Marco Aurelio.</strong> Al centro della piazza Michelangelo collocò la celebre statua di Marco Aurelio a cavallo, l'unica statua equestre in bronzo dell'antichità giunta integra fino al Medioevo. Si era salvata perché ritenuta, erroneamente, il ritratto dell'imperatore Costantino, primo imperatore cristiano. Michelangelo la trasformò nel fulcro simbolico della piazza, ponendo l'imperatore filosofo al centro del nuovo ordine urbano. L'originale è oggi conservato nei Musei Capitolini; in piazza si trova una copia.</p>
+<p><strong>Il significato simbolico.</strong> Il Campidoglio progettato da Michelangelo è un manifesto politico e culturale: celebra la romanità come valore universale, afferma la continuità tra antico e moderno, pone il potere civile romano in dialogo con quello papale, e trasforma un luogo medievale irregolare in una piazza ideale, costruita con strumenti rinascimentali ma carica di memoria storica.</p></div><div class="tab-panel"><p><strong>Evoluzioni successive e sistemazione moderna.</strong> Dopo la morte di Michelangelo, il progetto venne portato avanti da suoi allievi e seguaci. Nel Seicento si completò il Palazzo Nuovo e si consolidò l'assetto generale. Il pavimento michelangiolesco venne realizzato solo nel 1940, in occasione di importanti interventi urbanistici novecenteschi, rispettando fedelmente il disegno originario.</p>
+<p><strong>La piazza oggi.</strong> Oggi Piazza del Campidoglio è uno dei luoghi più iconici di Roma. Ospita i Musei Capitolini, il Comune di Roma, e continua a rappresentare il cuore simbolico della città. È una piazza che non nasce da zero, ma dal dialogo continuo tra antico, medioevo, rinascimento e modernità, rendendola uno degli esempi più alti di progettazione urbana della storia occidentale.</p>
+<ul>
+<li>Michelangelo non vide mai il progetto completato.</li>
+<li>La stella del pavimento è stata interpretata come simbolo cosmico, solare o politico.</li>
+<li>La piazza è uno dei primi esempi di spazio urbano progettato unitariamente, non come semplice somma di edifici.</li>
+<li>Il Campidoglio medievale era considerato il luogo della giustizia cittadina, spesso temuto dal popolo romano.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-maria-in-aracoeli" data-name="santa maria in aracoeli">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Maria in Aracoeli</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> Una prima chiesa sorse su questo luogo, il punto più alto del colle, già tra il VI e l'VIII secolo, sulle rovine del Tempio di Giunone Moneta — lo stesso di cui abbiamo già raccontato la storia in questa pagina. Conosciuta all'inizio come Santa Maria in Capitolio, intorno all'anno Mille divenne abbazia benedettina. La svolta arrivò nel 1249-1250, quando papa Innocenzo IV la concesse ai frati Minori francescani, che nel corso del Duecento la ricostruirono quasi integralmente nelle forme romanico-gotiche ancora oggi visibili, capovolgendone anche l'orientamento: non più verso il Palazzo Senatorio e il Foro, come in origine, ma verso il Campo Marzio e la futura Roma di San Pietro. Il nome "Aracoeli" comparve nei documenti solo a partire dal 1323, legato alla leggenda che racconteremo più avanti.</p>
+<p><strong>Ruolo civico nel Medioevo.</strong> Più di ogni altra chiesa romana, l'Aracoeli fu per secoli la chiesa del popolo, non del papato: qui si tenevano le assemblee del Comune di Roma, e la basilica divenne teatro di alcuni dei momenti più memorabili della città medievale. Nel 1341 vi fu incoronato poeta Francesco Petrarca. Nel 1347 il tribuno Cola di Rienzo vi arringò il popolo romano; l'anno seguente, nel 1348, fu proprio lui a inaugurare la nuova, imponente scalinata di 124 gradini, fatta costruire come voto per la fine della peste nera — la stessa già raccontata nella scheda dedicata al Tabularium e al Palazzo Senatorio.</p>
+<p><strong>Età moderna e contemporanea.</strong> Nel 1571 la basilica ospitò il trionfo del generale Marcantonio Colonna dopo la vittoria della Lega Santa sugli Ottomani nella battaglia di Lepanto, e da allora vi si celebra ogni 31 dicembre il Te Deum di ringraziamento del popolo romano. Durante l'occupazione francese di fine Settecento la chiesa fu sconsacrata e adibita perfino a stalla, prima di essere restituita al culto. Dopo il 1870, rischiò la demolizione per far posto al Vittoriano: fu risparmiata, ma perse l'intero complesso conventuale annesso, smantellato insieme a gran parte dell'edilizia medievale che le stava intorno.</p></div><div class="tab-panel"><p>L'interno, in stile romanico-gotico, custodisce un pavimento cosmatesco tra i meglio conservati di Roma e opere di grandi maestri di epoche diverse. Nella navata si trova la lastra tombale di Giovanni Crivelli, arcidiacono di Aquileia, scolpita da <strong>Donatello</strong> nel 1432-33 — una delle rare opere del grande scultore fiorentino presenti nella capitale.</p>
+<p>La Cappella Bufalini, la prima a destra, è interamente affrescata dal <strong>Pinturicchio</strong> intorno al 1485-86 con le Storie di San Bernardino da Siena: uno dei cicli pittorici rinascimentali più importanti della città. Nel transetto si trovano inoltre la tomba del cardinale Matteo d'Acquasparta, scolpita da Giovanni di Cosma con un affresco attribuito a Pietro Cavallini, e un monumento funebre di Arnolfo di Cambio, databile alla fine del Duecento. Presso una porta laterale si trova anche il monumento a Cecchino Bracci, un ragazzo amato da Michelangelo e morto a soli sedici anni: il disegno della tomba è dello stesso Michelangelo, la realizzazione di un suo allievo.</p>
+<p>Il soffitto ligneo a cassettoni che copre la navata centrale risale al Cinquecento, e fu realizzato — come già ricordato — proprio per celebrare la vittoria di Lepanto.</p></div><div class="tab-panel"><p>Il nome Aracoeli, "altare del cielo", nasce da una leggenda raccontata nei <em>Mirabilia Urbis Romae</em> medievali. Si narra che i senatori romani, ammirando la straordinaria bellezza dell'imperatore Augusto, gli avessero detto: "Vogliamo adorarti, perché in te vive un dio". Turbato, Augusto interpellò la Sibilla — di Tivoli, secondo alcune versioni — che dopo tre giorni di digiuno vaticinò: "Ecco i segni del giudizio: presto la terra sarà madida di sudore, dal cielo verrà il Re dei secoli". In quell'istante il cielo si squarciò in un bagliore accecante, e Augusto vide comparire in alto, sopra un altare, la Vergine con il Bambino in braccio; una voce gridò: "Questa è la Vergine che accoglierà nel suo grembo il Redentore del mondo", e un'altra rispose: "Questo è l'altare del figlio di Dio" — <em>haec est ara filii Dei</em>, da cui appunto "Ara coeli". Ancora oggi, all'interno della chiesa, un piccolo tempietto racchiude un altare medievale che la tradizione indica come il luogo esatto di quella visione.</p>
+<p>Legata a questa stessa aura di prodigio è la devozione per il <strong>Santo Bambino dell'Aracoeli</strong>, una piccola statua lignea di Gesù Bambino, venerata per secoli come miracolosa e coperta di ex voto preziosi. La tradizione vuole che fosse stata scolpita da un frate francescano nel legno di un ulivo del Getsemani. Rubata nel febbraio 1994, non fu mai ritrovata: oggi al suo posto si venera una copia fedele, ma la devozione popolare — comprese le lettere che ogni anno bambini e fedeli da tutto il mondo indirizzano al Bambinello — non si è mai interrotta.</p></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>
