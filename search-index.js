@@ -1711,5 +1711,53 @@ const deepIndex = [
     "file": "vaticano-personaggi.html",
     "id": "giovanni-paolo-ii",
     "context": "Personaggi di San Pietro"
+  },
+  {
+    "name": "I Colli di Roma",
+    "file": "colli-di-roma.html",
+    "id": null,
+    "context": "Roma"
+  },
+  {
+    "name": "Aventino",
+    "file": "aventino.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Terme di Caracalla",
+    "file": "aventino.html",
+    "id": "terme-di-caracalla",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "San Saba all'Aventino",
+    "file": "aventino.html",
+    "id": "san-saba",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Santa Sabina",
+    "file": "aventino.html",
+    "id": "santa-sabina",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Sant'Alessio",
+    "file": "aventino.html",
+    "id": "sant-alessio",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Santa Prisca",
+    "file": "aventino.html",
+    "id": "santa-prisca",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Priorato dei Cavalieri di Malta",
+    "file": "aventino.html",
+    "id": "priorato-di-malta",
+    "context": "Roma — Aventino"
   }
 ];
