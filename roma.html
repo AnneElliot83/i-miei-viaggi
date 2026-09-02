@@ -51,10 +51,27 @@
     font-style:italic;
     font-size:0.95rem;
   }
+  .search-wrap{
+    max-width:600px;
+    margin:22px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
   main{
     max-width:900px;
     margin:0 auto;
-    padding:28px 24px 80px;
+    padding:24px 24px 80px;
   }
   .cards{
     display:grid;
@@ -103,6 +120,13 @@
     font-size:1.15rem;
     color:#1f2318;
   }
+  .no-results{
+    text-align:center;
+    font-style:italic;
+    color:var(--text-soft);
+    padding:40px 0;
+    display:none;
+  }
 </style>
 </head>
 <body>
@@ -114,116 +138,138 @@
   <p>Lazio · Italia</p>
 </header>
 
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca dentro Roma...">
+</div>
+
 <main>
-  <div class="cards">
+  <div class="cards" id="cards">
     
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="itinerario panoramica">
         <div class="eyebrow">Panoramica</div>
         <div class="name">Itinerario</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="storia di roma storia">
         <div class="eyebrow">Storia</div>
         <div class="name">Storia di Roma</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="arte e architettura romana arte">
         <div class="eyebrow">Arte</div>
         <div class="name">Arte e Architettura Romana</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="mitologia romana compendio">
         <div class="eyebrow">Compendio</div>
         <div class="name">Mitologia Romana</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="personaggi storici romani compendio">
         <div class="eyebrow">Compendio</div>
         <div class="name">Personaggi Storici Romani</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="i colli di roma guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">I Colli di Roma</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="fori e foro romano guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Fori e Foro Romano</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="campo marzio guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Campo Marzio</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="colosseo e dintorni guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Colosseo e dintorni</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="acquedotti e mura di roma guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Acquedotti e Mura di Roma</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="piazza del popolo e dintorni guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Piazza del Popolo e dintorni</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="piazza di spagna e dintorni guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Piazza di Spagna e dintorni</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="piazza navona e dintorni guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Piazza Navona e dintorni</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="piazza venezia e dintorni guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Piazza Venezia e dintorni</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="campo de' fiori e rione regola guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Campo de' Fiori e Rione Regola</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="trastevere guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Trastevere</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="laterano guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Laterano</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="basiliche fuori le mura guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Basiliche fuori le mura</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="isola tiberina e monte testaccio guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Isola Tiberina e Monte Testaccio</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="strade di roma guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Strade di Roma</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
-      <div class="card not-ready">
+      <div class="card not-ready" data-name="roma fuori le mura guida città">
         <div class="eyebrow">Guida città</div>
         <div class="name">Roma fuori le mura</div>
         <div class="soon">contenuto in arrivo</div>
       </div>
   </div>
+  <p class="no-results" id="no-results">Nessun risultato.</p>
 </main>
+
+<script>
+const searchInput = document.getElementById('search');
+const allCards = Array.from(document.querySelectorAll('.card'));
+
+searchInput.addEventListener('input', () => {
+  const tokens = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let anyVisible = false;
+  allCards.forEach(card => {
+    const text = card.dataset.name;
+    const match = tokens.length === 0 || tokens.every(t => text.includes(t));
+    card.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+</script>
 
 </body>
 </html>
