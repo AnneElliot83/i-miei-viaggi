@@ -1693,5 +1693,23 @@ const deepIndex = [
     "file": "vaticano-personaggi.html",
     "id": "costantino",
     "context": "Personaggi di San Pietro"
+  },
+  {
+    "name": "Gregorio Magno",
+    "file": "vaticano-personaggi.html",
+    "id": "gregorio-magno",
+    "context": "Personaggi di San Pietro"
+  },
+  {
+    "name": "Giulio II",
+    "file": "vaticano-personaggi.html",
+    "id": "giulio-ii",
+    "context": "Personaggi di San Pietro"
+  },
+  {
+    "name": "Giovanni Paolo II",
+    "file": "vaticano-personaggi.html",
+    "id": "giovanni-paolo-ii",
+    "context": "Personaggi di San Pietro"
   }
 ];
