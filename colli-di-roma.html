@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Colli di Roma — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:36px 24px 24px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:2.2rem;
+    margin:0 0 4px;
+    color:#1f2318;
+  }
+  header p{
+    margin:0;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.95rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:22px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+  main{
+    max-width:900px;
+    margin:0 auto;
+    padding:24px 24px 80px;
+  }
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(190px, 1fr));
+    gap:10px;
+  }
+  .card{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    padding:14px 16px;
+    cursor:pointer;
+    transition:border-color 0.15s ease, transform 0.15s ease;
+  }
+  .card:hover{
+    transform:translateY(-1px);
+    border-color:#d8d2c5;
+  }
+  .card.not-ready{
+    cursor:default;
+    opacity:0.55;
+  }
+  .card.not-ready:hover{
+    transform:none;
+    border-color:var(--line);
+  }
+  .card .soon{
+    font-size:0.68rem;
+    font-style:italic;
+    color:var(--text-soft);
+    margin-top:3px;
+  }
+  .card .eyebrow{
+    font-family:'Public Sans', sans-serif;
+    font-weight:600;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-soft);
+    margin-bottom:4px;
+  }
+  .card .name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:#1f2318;
+  }
+  .no-results{
+    text-align:center;
+    font-style:italic;
+    color:var(--text-soft);
+    padding:40px 0;
+    display:none;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="roma.html">← Torna a Roma</a>
+
+<header>
+  <h1>I Colli di Roma</h1>
+  <p>Guida città · Roma</p>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca tra i colli...">
+</div>
+
+<main>
+  <div class="cards" id="cards">
+    
+      <div class="card not-ready" data-name="aventino colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Aventino</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="campidoglio colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Campidoglio</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="celio colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Celio</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="esquilino colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Esquilino</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="oppio colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Oppio</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="palatino colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Palatino</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="quirinale fontana di trevi colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Quirinale e Fontana di Trevi</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+      <div class="card not-ready" data-name="viminale colle">
+        <div class="eyebrow">Colle</div>
+        <div class="name">Viminale</div>
+        <div class="soon">contenuto in arrivo</div>
+      </div>
+  </div>
+  <p class="no-results" id="no-results">Nessun risultato.</p>
+</main>
+
+<script>
+const searchInput = document.getElementById('search');
+const allCards = Array.from(document.querySelectorAll('.card'));
+
+searchInput.addEventListener('input', () => {
+  const tokens = searchInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let anyVisible = false;
+  allCards.forEach(card => {
+    const text = card.dataset.name;
+    const match = tokens.length === 0 || tokens.every(t => text.includes(t));
+    card.style.display = match ? '' : 'none';
+    if (match) anyVisible = true;
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+</script>
+
+</body>
+</html>
