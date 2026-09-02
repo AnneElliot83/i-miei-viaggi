@@ -1587,12 +1587,6 @@ const deepIndex = [
     "context": "Borgogna — Approfondimento"
   },
   {
-    "name": "San Pietro",
-    "file": "vaticano-personaggi.html",
-    "id": "san-pietro",
-    "context": "Personaggi di San Pietro"
-  },
-  {
     "name": "Storia di San Pietro",
     "file": "san-pietro-storia.html",
     "id": null,
@@ -1687,5 +1681,17 @@ const deepIndex = [
     "file": "vaticano-approfondimenti.html",
     "id": "stemmi-e-simboli-papali-nella-basilica",
     "context": "San Pietro in Vaticano — Approfondimenti"
+  },
+  {
+    "name": "San Pietro",
+    "file": "vaticano-personaggi.html",
+    "id": "san-pietro",
+    "context": "Personaggi di San Pietro"
+  },
+  {
+    "name": "Costantino",
+    "file": "vaticano-personaggi.html",
+    "id": "costantino",
+    "context": "Personaggi di San Pietro"
   }
 ];
