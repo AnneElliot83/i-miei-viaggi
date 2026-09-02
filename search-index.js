@@ -1759,5 +1759,23 @@ const deepIndex = [
     "file": "aventino.html",
     "id": "priorato-di-malta",
     "context": "Roma — Aventino"
+  },
+  {
+    "name": "Tempio di Diana",
+    "file": "aventino.html",
+    "id": "tempio-di-diana",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Tempio di Minerva (Aventino)",
+    "file": "aventino.html",
+    "id": "tempio-di-minerva",
+    "context": "Roma — Aventino"
+  },
+  {
+    "name": "Tempio di Cerere, Libero e Libera",
+    "file": "aventino.html",
+    "id": "tempio-di-cerere-libero-libera",
+    "context": "Roma — Aventino"
   }
 ];
