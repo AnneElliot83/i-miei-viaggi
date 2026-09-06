@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celio — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Celio</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Etimologia e significato.</strong> Il nome Celio è tradizionalmente fatto risalire a Celio Vibenna, un condottiero etrusco che, secondo la leggenda, si stabilì qui con il suo seguito nel VI secolo a.C., durante il regno di Servio Tullio. Un'altra ipotesi lo collega a <em>caelum</em> ("cielo"), forse per la sua posizione elevata. Nella storia di Roma, il Celio rappresenta il colle delle residenze aristocratiche e dei grandi templi, ma anche delle trasformazioni cristiane, che lo hanno reso un centro di chiese e monasteri.</p>
+<p><strong>Origini.</strong> Il Celio, già incluso nel pomerio serviano, era in origine un'area abitata da gruppi etruschi e latini. La leggenda di Celio Vibenna testimonia la forte presenza etrusca nella Roma arcaica. In età repubblicana il colle era densamente abitato, con domus di patrizi e mercati.</p>
+<p><strong>Funzioni.</strong> Nel corso dei secoli il colle ebbe funzioni diverse: residenziale in età repubblicana e imperiale, grazie alle sue domus e agli horti; religiosa e monumentale con i grandi templi e gli edifici pubblici; cristiana e monastica dal IV secolo in poi, quando divenne uno dei principali centri del cristianesimo romano.</p>
+<p><strong>Significato storico.</strong> Il Celio rappresenta il colle della transizione: da residenza aristocratica e luogo di culto pagano a polo cristiano di primo piano. Testimonia la stratificazione di Roma e il passaggio dall'età classica all'età medievale, con continuità e trasformazioni radicali.</p></div>
+        <div class="tab-panel"><p>Il Celio fu arricchito nei secoli da importanti edifici pubblici e religiosi:</p>
+<ul>
+<li><strong>Tempio di Claudio</strong>: avviato da Agrippina in onore del marito divinizzato, fu interrotto e in parte distrutto da Nerone, che ne trasformò il lato orientale in un monumentale ninfeo per la propria Domus Aurea; solo dopo la morte di Nerone, Vespasiano lo ricostruì davvero come tempio. Resti si trovano oggi nei giardini di Villa Celimontana e inglobati nel campanile della basilica dei Santi Giovanni e Paolo.</li>
+<li><strong>Case aristocratiche</strong>: celebri quelle dei SS. Giovanni e Paolo, i cui sotterranei conservano splendidi affreschi tardoantichi.</li>
+<li><strong>Anfiteatro Castrense</strong>: edificato nel III secolo, faceva parte degli horti imperiali e fu inglobato nelle Mura Aureliane.</li>
+<li><strong>Chiese cristiane</strong>: in età medievale il Celio si trasformò in un colle sacro con basiliche come San Clemente, Santo Stefano Rotondo e la già citata Santi Giovanni e Paolo.</li>
+</ul></div>
+        <div class="tab-panel"><ul>
+<li>Nei sotterranei delle case dei SS. Giovanni e Paolo furono scoperte pitture straordinarie di età tardoantica, tra le più importanti testimonianze di arte domestica romana.</li>
+<li>La basilica di Santo Stefano Rotondo è unica a Roma per la sua pianta circolare, ispirata ai martyria orientali.</li>
+<li>Il nome del colle ha lasciato traccia anche in epoca moderna: l'area è oggi occupata da Villa Celimontana, uno dei parchi storici più amati dai romani.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">7</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="tempio-del-divo-claudio" data-name="tempio del divo claudio">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio del Divo Claudio</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Il complesso è spesso indicato nelle fonti e nella bibliografia moderna con il nome di <strong>Claudium</strong>, termine che designa l'intera area monumentale e non solo l'edificio templare.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Tempio del Divo Claudio era un vasto complesso monumentale situato sul Celio, dedicato al culto dell'imperatore Claudio dopo la sua divinizzazione. Per estensione e impianto architettonico rappresentava uno dei più ambiziosi progetti cultuali della Roma imperiale.</p>
+<p><strong>Collocazione e contesto urbano.</strong> Il complesso occupava il settore settentrionale del Celio, affacciato sulla valle dove sarebbe poi sorto il Colosseo, in posizione dominante. La scelta dell'area rispondeva a esigenze simboliche e urbanistiche: il tempio si inseriva nel sistema dei grandi complessi monumentali che gravitavano tra Palatino, Foro e anfiteatro, rafforzando la monumentalizzazione di questo settore della città.</p>
+<p><strong>Cronologia e committenza.</strong> Il Tempio del Divo Claudio fu iniziato per volontà di Agrippina Minore dopo la morte e la divinizzazione di Claudio nel 54 d.C. Il progetto venne interrotto durante il principato di Nerone, che destinò parte dell'area a usi legati alla Domus Aurea. Il complesso fu infine ripreso e completato sotto Vespasiano, che ne ripristinò la funzione cultuale nel quadro della politica flavia di recupero e riorganizzazione degli spazi monumentali urbani.</p>
+<p><strong>Funzione e significato.</strong> Il Tempio del Divo Claudio era destinato al culto imperiale, celebrando la figura dell'imperatore divinizzato e rafforzando il legame tra la dinastia giulio-claudia e la città di Roma. La monumentalità dell'impianto e la sua collocazione sul Celio riflettevano l'importanza attribuita al culto di Claudio e la volontà di inscriverlo stabilmente nel paesaggio sacro dell'Urbe.</p>
+<p><strong>Trasformazioni e riusi.</strong> Durante il principato di Nerone, parte delle strutture del podio venne probabilmente trasformata in ninfeo monumentale, con l'inserimento di giochi d'acqua alimentati dagli acquedotti, in relazione agli apparati scenografici della Domus Aurea. Con il completamento flavio, il complesso riacquistò la funzione cultuale originaria, ma nei secoli successivi subì progressive spoliazioni e trasformazioni. In età medievale e moderna l'area venne in parte occupata da edifici religiosi e civili, contribuendo alla perdita delle strutture superiori.</p>
+<p><strong>Significato storico.</strong> Il Tempio del Divo Claudio costituisce un esempio emblematico delle discontinuità e continuità dei programmi edilizi imperiali: concepito in età giulio-claudia, interrotto e reinterpretato sotto Nerone, completato dai Flavi. Le sue monumentali sostruzioni restano una delle testimonianze più rilevanti della trasformazione del Celio in età imperiale.</p></div><div class="tab-panel"><p>Il tempio sorgeva al centro di una grande area terrazzata, impostata su imponenti sostruzioni in opera laterizia, tuttora in parte visibili. Il vasto podio artificiale permetteva di regolarizzare il pendio del colle e di creare una piattaforma monumentale.</p>
+<p>Sulla terrazza si estendeva una piazza porticata, al centro della quale si collocava l'edificio templare vero e proprio, probabilmente di ordine corinzio. Le sostruzioni inferiori formavano ambienti voltati di grande ampiezza, con funzione strutturale e scenografica. L'insieme doveva costituire uno dei più grandiosi complessi sacri dell'età imperiale.</p></div><div class="tab-panel"><p>Le strutture oggi visibili appartengono in larga parte al podio e alle sostruzioni, mentre il tempio vero e proprio è noto soprattutto attraverso ricostruzioni archeologiche.</p>
+<p>Proprio sotto queste sostruzioni si apre un mondo sotterraneo ancora in gran parte misterioso: le cosiddette <strong>Cave di Claudio</strong>, lunghe gallerie scavate nel tufo — forse una cava preesistente al tempio, risalente all'epoca repubblicana — che custodiscono sedici pozzi e due piccoli laghetti dal livello mutevole e dall'origine non del tutto chiarita. Trovandosi sotto giurisdizione ecclesiastica, l'area non è mai stata scavata sistematicamente, e buona parte di questi ambienti resta tuttora inesplorata.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="anfiteatro-castrense" data-name="anfiteatro castrense">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Anfiteatro Castrense</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Il nome non deriva da un accampamento militare vicino: nei Cataloghi Regionari tardoantichi "castrum" indica genericamente una <strong>residenza imperiale</strong>, quindi "anfiteatro castrense" va inteso come "anfiteatro di corte" — legato al Palazzo Sessoriano, non alle truppe.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> L'anfiteatro fu costruito agli inizi del III secolo d.C., avviato con tutta probabilità sotto Settimio Severo e completato sotto Eliogabalo, come parte del complesso residenziale imperiale del Palazzo Sessoriano (o Sessorium) — la grande villa suburbana di cui facevano parte anche le Terme Eleniane e il Circo Variano, e sulla cui aula absidata sarebbe poi sorta la Basilica di Santa Croce in Gerusalemme.</p>
+<p>Non era dunque destinato a tutta la popolazione di Roma, come il Colosseo, ma restava riservato alla corte imperiale: un "anfiteatro privato" annesso alla residenza, un vero e proprio teatro di prestigio per l'imperatore e il suo seguito, forse utilizzato anche — secondo alcune fonti antiche, non del tutto concordi — per l'addestramento dei soldati nel combattimento contro le fiere.</p></div><div class="tab-panel"><p>L'Anfiteatro Castrense aveva dimensioni notevoli, anche se inferiori al Colosseo: misurava circa 88 x 75 metri, con una forma ellittica regolare, e poteva ospitare circa 3.500 spettatori. Era costruito interamente in laterizio, con arcate esterne sovrapposte su tre ordini e una decorazione raffinata, con capitelli corinzi e cornici scolpite.</p>
+<p>Una particolarità: in età tardoantica, con la costruzione delle Mura Aureliane (271-275 d.C.), l'anfiteatro fu tagliato a metà e inglobato nella cinta difensiva, con gli archi della facciata tamponati per trasformarlo in un bastione avanzato. Ciò ne preservò in parte la struttura, anche se lo snaturò rispetto alla funzione originaria. Dei tre ordini originari, oggi resta in piedi solo il primo, con pochi resti del secondo: gli ordini superiori furono demoliti a metà Cinquecento da papa Paolo IV, per ragioni di sicurezza difensiva delle mura.</p></div><div class="tab-panel"><ul>
+<li>Oggi l'anfiteatro si trova dietro la Basilica di Santa Croce in Gerusalemme, in un'area verde poco frequentata, ma è ancora riconoscibile la forma ellittica e parte delle arcate murarie.</li>
+<li>Proprio in questo tratto delle Mura Aureliane, ritenuto un punto debole della cinta difensiva, nel 537-538 d.C. i Goti di Vitige tentarono un attacco durante l'assedio di Roma: furono respinti dalle truppe bizantine di Belisario.</li>
+<li>Nel Medioevo fu spogliato dei rivestimenti marmorei, riutilizzati per altre costruzioni.</li>
+<li>È uno dei pochi anfiteatri romani superstiti a Roma oltre al Colosseo, al Teatro di Marcello e a quello minore di Ostia.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="san-gregorio-al-celio" data-name="san gregorio al celio">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">San Gregorio al Celio</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> Il monastero sorge sul Celio, non lontano dal Colosseo, in un'area ricca di domus e templi antichi. Secondo la tradizione, fu fondato da Gregorio Magno (papa dal 590 al 604) intorno al 575, quando ancora era monaco e non pontefice. Qui trasformò la casa paterna, appartenente alla gens Anicia, in un monastero benedettino dedicato a Sant'Andrea Apostolo.</p>
+<p>Questo primo cenobio fu il centro della sua esperienza spirituale e formativa, tanto che da qui partì la missione che Gregorio inviò in Inghilterra per evangelizzare gli Anglosassoni, guidata da Agostino di Canterbury.</p>
+<p><strong>Il monastero nell'alto Medioevo.</strong> Con l'elezione di Gregorio al papato, il monastero mantenne un ruolo di rilievo come luogo di formazione monastica e missionaria. Custodiva reliquie e memorie gregoriane, e divenne punto di riferimento per la tradizione liturgica legata a Gregorio, che nel Medioevo fu considerato il padre del canto gregoriano e della liturgia romana. L'abbazia ricevette donazioni e protezione dai papi, consolidando la sua influenza.</p>
+<p><strong>Vita monastica e ruolo spirituale.</strong> San Gregorio al Celio fu nel Medioevo un centro benedettino di grande prestigio: punto di riferimento per la liturgia romana, luogo di pellegrinaggio per chi venerava Gregorio come santo, centro missionario legato dalla tradizione alla conversione dell'Inghilterra. I monaci custodivano la memoria di Gregorio attraverso racconti, reliquie e liturgie commemorative.</p></div><div class="tab-panel"><p>L'edificio subì diverse trasformazioni nei secoli: una basilica monastica a tre navate sorse sul luogo della domus di Gregorio, con chiostri e ambienti per la vita dei monaci. L'aspetto attuale dell'interno, con le sue tre navate scandite da sedici colonne antiche, si deve soprattutto agli interventi barocchi del 1725, ad opera di Francesco Ferrari. In una piccola cappella, forse la cella stessa del santo, si conserva ancora il suo seggio episcopale in marmo, in realtà un pezzo di reimpiego di età romana (I secolo a.C.). Nella Cappella Salviati, realizzata da Francesco da Volterra e completata da Carlo Maderno nel 1600, si trova un antichissimo affresco della Madonna con Bambino che, secondo la leggenda, avrebbe parlato al santo.</p>
+<p>Nell'orto adiacente alla chiesa sorgono tre piccoli e preziosissimi oratori, sistemati agli inizi del Seicento dal cardinale Cesare Baronio: quello di <strong>Sant'Andrea</strong>, al centro, custodisce due celebri affreschi contrapposti — la Flagellazione di Sant'Andrea del Domenichino e Sant'Andrea condotto al martirio di Guido Reni, entrambi del 1608, un vero e proprio confronto diretto tra i due grandi rivali del primo Seicento bolognese, ancora oggi l'uno di fronte all'altro nella stessa sala. Accanto si trova l'oratorio di <strong>Santa Barbara</strong>, il più antico dei tre, identificato con l'antico <em>triclinium pauperum</em> di Gregorio — la sala dove il futuro papa dava da mangiare ai poveri — e che conserva ancora la tavola marmorea di quel rito quotidiano, oltre a una scultura di Gregorio benedicente di Nicolas Cordier. Il terzo, l'oratorio di <strong>Santa Silvia</strong>, è dedicato alla madre dello stesso Gregorio — la stessa Silvia già incontrata nella leggenda di San Saba all'Aventino — e conserva nel catino absidale un affresco di Guido Reni con un Concerto di angeli.</p></div><div class="tab-panel"><p>La tradizione lega strettamente Gregorio alla carità organizzata: ogni giorno, insieme alla madre Silvia, era solito imbandire una tavola per dodici poveri, servendoli lui stesso di persona — la tavola marmorea di quel rito è ancora conservata nell'oratorio di Santa Barbara. Si racconta che un giorno, contando i commensali, Gregorio ne trovò tredici invece di dodici: il tredicesimo ospite, apparso all'improvviso e scomparso subito dopo, altri non era che un angelo — o, secondo alcune versioni della leggenda, Cristo stesso in incognito.</p>
+<p>Anche la dedica dell'oratorio centrale a Sant'Andrea ha un'origine leggendaria precisa: si narra che lo stesso Gregorio, ancora abate del monastero, tornasse da un viaggio a Costantinopoli portando con sé una reliquia dell'apostolo Andrea, patrono del patriarcato bizantino — da cui la scelta di dedicargli l'oratorio più importante del complesso.</p>
+<p>Anche dopo i rifacimenti rinascimentali e barocchi, il complesso conserva ancora oggi l'atmosfera di "luogo gregoriano", radicato nel Medioevo.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-maria-in-domnica" data-name="santa maria in domnica alla navicella">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Maria in Domnica (alla Navicella)</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e nome.</strong> La chiesa sorge sul Celio, non lontano dai Santi Quattro Coronati. Il nome "in Domnica" ha origini incerte: potrebbe derivare dal latino <em>dominicum</em>, cioè "luogo del Signore", oppure da <em>domina</em>, cioè "signora", in riferimento alla Vergine Maria. Un primo edificio di culto — una diaconia — esisteva già nel VII secolo, sorto sui resti della caserma della V Coorte dei Vigili, i pompieri di Roma antica: la stessa tipologia di edificio su cui, sull'Aventino, sarebbe poi sorto il monastero di San Saba.</p>
+<p><strong>La ricostruzione di Pasquale I.</strong> L'aspetto attuale della basilica si deve in gran parte a papa Pasquale I (817-824), lo stesso che ricostruì Santa Prassede e Santa Cecilia in Trastevere. Il suo programma mirava a fare di Roma una nuova Gerusalemme, riportando in città reliquie di martiri e arricchendo le basiliche con cicli musivi. Santa Maria in Domnica fu una delle chiese simbolo di questo progetto.</p>
+<p><strong>Il titolo mariano.</strong> Santa Maria in Domnica è una delle prime basiliche romane dedicate esclusivamente a Maria. Questo riflette l'importanza crescente del culto mariano nell'alto Medioevo, soprattutto dopo il Concilio di Efeso (431), che aveva proclamato Maria Madre di Dio.</p></div><div class="tab-panel"><p>La basilica ha pianta semplice a tre navate, con colonne antiche di spoglio. L'interno conserva ancora in gran parte l'impianto medievale, arricchito da un magnifico mosaico absidale.</p>
+<p><strong>Il mosaico absidale.</strong> Il grande mosaico del IX secolo raffigura la Vergine Maria in trono con il Bambino, circondata da angeli e con papa Pasquale I raffigurato in ginocchio, con un'aureola quadrata — segno che era ancora in vita al momento della realizzazione. Il Cristo appare in alto, in un cielo stellato, con figure di angeli e simboli dell'Apocalisse. L'oro brillante e i colori accesi lo rendono uno dei mosaici più suggestivi della Roma medievale.</p>
+<p><strong>Il portico rinascimentale.</strong> All'esterno, la chiesa presenta un portico del 1513-1514, commissionato dal cardinale titolare Giovanni de' Medici — il futuro papa Leone X — e realizzato da Andrea Sansovino, che ne trasformò la facciata. Ma entrando si respira ancora l'atmosfera sobria e luminosa dell'età carolingia.</p>
+<p><strong>Sopravvivenze medievali.</strong> Restano oggi il mosaico absidale originale di Pasquale I, la pianta basilicale a tre navate, e resti del pavimento cosmatesco medievale.</p></div><div class="tab-panel"><ul>
+<li>È conosciuta anche come "Santa Maria alla Navicella", per via della fontana a forma di barca posta di fronte alla chiesa: una piccola nave romana in marmo, forse un antico ex voto, già presente in epoca antica nella piazzetta e poi rifatta in età rinascimentale sotto Leone X.</li>
+<li>È una delle basiliche meno frequentate dai turisti, ma nel Medioevo era parte del circuito delle chiese romane arricchite dalle reliquie dei martiri.</li>
+<li>Pasquale I si fece ritrarre con la propria aureola quadrata in tre sole basiliche, tutte sue committenze: qui, a Santa Prassede e a Santa Cecilia in Trastevere — quasi una sua "firma" d'autore. Il mosaico di Santa Pudenziana, spesso confuso con queste opere, è in realtà molto più antico e precede Pasquale di secoli.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santi-quattro-coronati" data-name="santi quattro coronati">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santi Quattro Coronati</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e dedicazione.</strong> La basilica è dedicata a quattro martiri romani (i "Quattro Coronati"), soldati o artigiani lapicidi secondo la tradizione, uccisi sotto Diocleziano per non aver adorato gli dèi pagani. Un primo edificio sorse già nel IV secolo, ma l'attuale complesso risale soprattutto al periodo medievale, quando assunse il duplice ruolo di chiesa e fortilizio.</p>
+<p><strong>Il complesso monastico e fortificato.</strong> I Santi Quattro Coronati si trovano sul Celio, vicino al Laterano. Nel Medioevo questa posizione era strategica: a pochi passi dal palazzo papale, la basilica divenne sede fortificata di cardinali e clero legato al papa. Il complesso è infatti caratterizzato da mura e torri difensive, chiostri e ambienti monastici, cortili interni che ricordano una piccola cittadella: era uno dei luoghi in cui il potere religioso e quello militare si intrecciavano visibilmente.</p>
+<p><strong>Vita monastica.</strong> Nel Medioevo i Santi Quattro Coronati ospitarono una comunità monastica che fungeva da supporto al Laterano. I monaci custodivano reliquie, gestivano proprietà e svolgevano un ruolo anche amministrativo. L'aspetto fortificato del complesso era funzionale a proteggerli in caso di conflitti tra nobiltà romana e papato.</p></div><div class="tab-panel"><p>La chiesa che vediamo oggi è frutto della ricostruzione di papa Pasquale II, completata nel 1116, dopo la distruzione avvenuta nell'incendio del 1084 causato da Roberto il Guiscardo. La ricostruzione non fu una semplice riparazione: Pasquale II ridusse drasticamente le dimensioni dell'antica basilica, riutilizzando solo la metà occidentale della vecchia navata centrale per la nuova chiesa, e trasformando lo spazio restante nell'attuale "secondo cortile" — un caso più unico che raro a Roma. Le antiche navate laterali furono a loro volta inglobate: quella destra nel palazzo del cardinale titolare, quella sinistra nel monastero, fondato dallo stesso Pasquale II.</p>
+<p>La basilica risultante ha pianta basilicale semplice, con tre navate divise da colonne di spoglio, un abside e un portico d'ingresso. L'aspetto severo e austero riflette bene il contesto politico turbolento della Roma medievale.</p>
+<p><strong>La cappella di San Silvestro.</strong> Il gioiello del complesso è la cappella di San Silvestro (1246), interamente decorata con affreschi che raccontano la donazione di Costantino — la leggenda secondo cui l'imperatore avrebbe donato Roma al papa Silvestro — insieme a episodi della vita di papa Silvestro I e del battesimo di Costantino: cicli pittorici dal forte valore politico, che ribadivano il primato del papato sull'impero. Questi affreschi sono tra i documenti più preziosi della pittura medievale a Roma, un raro esempio di ciclo completo ancora conservato.</p>
+<p><strong>Sopravvivenze medievali.</strong> Ancora oggi il complesso conserva il portico romanico, la pianta basilicale medievale, gli affreschi della cappella di San Silvestro, e i chiostri e le torri, che mantengono intatta l'atmosfera di cittadella medievale.</p></div><div class="tab-panel"><ul>
+<li>È uno dei luoghi più "silenziosi" di Roma: entrando si ha davvero l'impressione di essere in un monastero medievale isolato, non nel cuore della capitale.</li>
+<li>La leggenda dei Quattro Coronati li collega a maestranze lapicide, per questo il complesso fu venerato come chiesa dei marmorari, gli scalpellini romani.</li>
+<li>Ancora oggi le Agostiniane che vi risiedono custodiscono l'antico monastero, mantenendo viva la tradizione monastica medievale.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santi-giovanni-e-paolo" data-name="santi giovanni e paolo al celio">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santi Giovanni e Paolo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> La basilica fu edificata a partire dal 398 dal senatore Bizante, o da suo figlio Pammachio, sul luogo di un edificio di età imperiale (I-II secolo), trasformato nel corso del IV secolo in luogo di culto cristiano. La chiesa compare per la prima volta nei documenti negli atti di un sinodo celebrato da papa Simmaco nel 499, con il nome di <em>Titulus Pammachii</em> — o anche <em>Titulus Byzantii</em>, dal nome del padre.</p>
+<p><strong>Vicende storiche.</strong> La chiesa originaria fu danneggiata dai Visigoti di Alarico durante il sacco di Roma del 410, poi da un terremoto nel 442, e infine saccheggiata dai Normanni di Roberto il Guiscardo nel 1084 — lo stesso assalto che colpì anche i Santi Quattro Coronati, poco distanti. Fu ricostruita dalle fondamenta nel corso del XII secolo, quando vennero aggiunti il portico e l'alto campanile, tra i più belli di Roma, impostato proprio sui resti del Tempio di Claudio, di cui abbiamo già raccontato la storia in questa pagina. Nel 1216 il cardinale Cencio Savelli — il futuro papa Onorio III — fece sopraelevare il portico, creando la galleria soprastante e il portale cosmatesco sovrastato da un'aquila ad ali aperte e affiancato da due leoni.</p>
+<p><strong>Età moderna.</strong> Nel Cinquecento e nei secoli successivi la basilica fu più volte rimaneggiata all'interno. Dal Settecento la cura della chiesa è affidata ai padri Passionisti, il cui convento è annesso al complesso: fu proprio un religioso passionista, padre Germano di San Stanislao, allora rettore della basilica, a scoprire nel 1887 il complesso delle Case Romane sepolto sotto l'edificio.</p></div><div class="tab-panel"><p>L'interno, rimaneggiato nei secoli, conserva un affresco absidale di Cristo in gloria dipinto da Cristoforo Roncalli nel 1588. Una cappella ottocentesca, nella navata sinistra, custodisce le spoglie del fondatore, san Pammachio.</p>
+<p>Il vero tesoro del complesso si trova però sotto la basilica: le <strong>Case Romane del Celio</strong>, oltre venti ambienti su più livelli, appartenenti ad almeno cinque edifici databili tra il I e il IV secolo — uno dei complessi residenziali romani meglio conservati mai ritrovati. Tra le due domus originarie, poi unificate nel III secolo, si distingue un cortile-ninfeo con un affresco del III secolo raffigurante Proserpina e divinità marine. In un ambiente medievale ricavato dal portico dell'antica insula si trova inoltre l'oratorio del Salvatore, con un ciclo cristologico affrescato nel IX secolo (la discesa al Limbo, Cristo nel sepolcro, la Crocifissione). Una piccola <em>confessio</em> — una stanza con le pareti affrescate e una finestrella — permetteva infine ai fedeli medievali di affacciarsi e pregare in corrispondenza del luogo dove si veneravano le reliquie dei due santi.</p></div><div class="tab-panel"><p>La basilica deve il proprio nome e la propria fama a due ufficiali romani, Giovanni e Paolo, fratelli al servizio della corte imperiale. Secondo la tradizione, dopo la morte di Costantina, figlia dell'imperatore Costantino di cui erano stati funzionari di fiducia, i due fratelli furono chiamati a servire sotto il nuovo imperatore Giuliano l'Apostata — ma, da cristiani, rifiutarono di obbedirgli e di sacrificare agli dèi pagani. Giuliano concesse loro tre giorni per ripensarci; trascorso quel termine, li fece uccidere in segreto, nella notte, proprio all'interno della loro casa sul Celio, per evitare che la popolarità dei due fratelli scatenasse una rivolta popolare. Furono sepolti nello stesso luogo del martirio — da cui la straordinaria continuità fisica, più unica che rara, tra il luogo della morte, quello della sepoltura e la basilica sorta poi a custodirne la memoria.</p>
+<p>Le fonti più accreditate offrono però un quadro diverso e più prosaico: l'edificio apparteneva con ogni probabilità alla famiglia dello stesso fondatore Pammachio, e l'identificazione con la casa dei due santi sarebbe una tradizione successiva, sviluppatasi insieme al culto. Vera o meno, fu proprio questa tradizione a rendere il luogo meta di pellegrinaggio già nel IV secolo, spingendo Bizante e Pammachio a edificarvi sopra la basilica.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santo-stefano-rotondo" data-name="santo stefano rotondo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santo Stefano Rotondo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> La costruzione fu probabilmente avviata negli ultimi anni del pontificato di Leone I (440-461) e portata a termine sotto Simplicio (468-483), che la consacrò. È la più antica chiesa a pianta circolare di Roma, e una delle più antiche del mondo cristiano. Sorge su preesistenze romane di età imperiale — tra cui i Castra Peregrina, la caserma delle truppe provinciali di stanza a Roma, e un mitreo del II secolo, riportato alla luce solo negli scavi del 1973-75. Un'ipotesi ottocentesca voleva riconoscervi i resti riadattati del Macellum Magnum, il grande mercato coperto fatto costruire da Nerone: gli scavi più recenti l'hanno definitivamente esclusa.</p>
+<p><strong>Vicende medievali e rinascimentali.</strong> Tra il 523 e il 529 la chiesa fu arricchita di mosaici e marmi preziosi. Nel VII secolo papa Teodoro I vi fece traslare dalle catacombe le reliquie dei martiri Primo e Feliciano, per cui fu allestita una piccola cappella con un pregevole mosaico bizantino a fondo oro. Caduta in degrado, la chiesa fu restaurata a metà Quattrocento da papa Niccolò V, che ne affidò i lavori a Bernardo Rossellino — a cui si deve anche l'altare maggiore, del 1455. Nel 1462 fu affidata ai monaci ungheresi di San Paolo Eremita, che vi annessero un convento.</p>
+<p><strong>Età moderna.</strong> Nel 1580 papa Gregorio XIII assegnò il complesso al Pontificio Collegio Germanico-Ungarico, un convitto gesuita per sacerdoti destinati alle missioni: da allora la chiesa è la chiesa nazionale d'Ungheria a Roma. Nel 1778 papa Pio VI vi fece edificare una cappella dedicata a Santo Stefano d'Ungheria, a compenso della distruzione dell'antica chiesa nazionale ungherese in Vaticano.</p></div><div class="tab-panel"><p>L'edificio aveva originariamente una pianta a tre cerchi concentrici: uno spazio centrale, delimitato da 22 colonne ioniche architravate su cui poggia un alto tamburo; un primo ambulacro anulare più basso; e un ambulacro esterno, oggi scomparso, chiuso da un muro con otto porte. La pianta fonde due modelli architettonici della tarda antichità cristiana — quello a pianta centrale e quello a croce greca — richiamando in modo esplicito la rotonda dell'Anastasis nella basilica del Santo Sepolcro a Gerusalemme, che per secoli rimase modello di riferimento per l'architettura cristiana occidentale.</p>
+<p>Nel Quattrocento, durante i restauri di Niccolò V, l'ambulacro più esterno fu demolito, semplificando la struttura originaria e portandola all'aspetto oggi visibile. All'interno si conserva ancora la cattedra attribuita a san Gregorio Magno, che secondo la tradizione qui avrebbe predicato: si tratta in realtà di un seggio marmoreo di epoca romana, riadattato come cattedra episcopale. La cappella dei Santi Primo e Feliciano conserva il mosaico bizantineggiante del VII secolo voluto da Teodoro I, oltre ad affreschi di Antonio Tempesta del 1568 con le storie del loro martirio.</p></div><div class="tab-panel"><p>Il muro perimetrale dell'ambulacro è interamente ricoperto da un ciclo di 34 affreschi realizzati nel 1582 da Niccolò Circignani, detto il Pomarancio, con la collaborazione di Matteo da Siena e Antonio Tempesta: il celebre <em>Martirologio</em>, una sequenza impressionante e senza sconti di supplizi subiti dai primi cristiani — lapidazioni, decapitazioni, roghi, ebollizioni, sbranamenti da parte di belve feroci, in ogni variante immaginabile. Non erano immagini devozionali nel senso comune del termine, ma un vero e proprio strumento didattico: servivano a preparare psicologicamente i giovani seminaristi del Collegio Germanico-Ungarico, destinati a partire come missionari verso terre ostili al cattolicesimo, dove un destino simile a quello raffigurato sulle pareti era una possibilità reale.</p>
+<p>L'effetto su chi visita la chiesa ancora oggi, ignaro del contesto, resta fortissimo: lo scrittore inglese Charles Dickens, in visita a Roma nel 1844, ne rimase talmente colpito da dedicare pagine cariche di orrore a questi affreschi nel suo resoconto di viaggio in Italia.</p></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>

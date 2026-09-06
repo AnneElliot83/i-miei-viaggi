@@ -1831,5 +1831,53 @@ const deepIndex = [
     "file": "campidoglio.html",
     "id": "santa-maria-in-aracoeli",
     "context": "Roma — Campidoglio"
+  },
+  {
+    "name": "Celio",
+    "file": "celio.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Tempio del Divo Claudio",
+    "file": "celio.html",
+    "id": "tempio-del-divo-claudio",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "Anfiteatro Castrense",
+    "file": "celio.html",
+    "id": "anfiteatro-castrense",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "San Gregorio al Celio",
+    "file": "celio.html",
+    "id": "san-gregorio-al-celio",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "Santa Maria in Domnica (alla Navicella)",
+    "file": "celio.html",
+    "id": "santa-maria-in-domnica",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "Santi Quattro Coronati",
+    "file": "celio.html",
+    "id": "santi-quattro-coronati",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "Santi Giovanni e Paolo",
+    "file": "celio.html",
+    "id": "santi-giovanni-e-paolo",
+    "context": "Roma — Celio"
+  },
+  {
+    "name": "Santo Stefano Rotondo",
+    "file": "celio.html",
+    "id": "santo-stefano-rotondo",
+    "context": "Roma — Celio"
   }
 ];
