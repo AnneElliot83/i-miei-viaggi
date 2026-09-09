@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Architettura e ingegneria civile — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel .tabs{ margin-top:4px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="arte-architettura-romana.html">← Arte e Architettura Romana</a>
+
+<header>
+  <h1>Architettura e ingegneria civile</h1>
+  <div class="subtitle">Arte e Architettura Romana · Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="architettura-e-ingegneria-civile">
+  
+  <div class="sites-list">
+    
+  <div class="site" id="strade-e-infrastrutture-viarie" data-name="strade e infrastrutture viarie">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Strade e infrastrutture viarie</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h3>Perché le strade sono il vero genio romano</h3>
+<p>Se la Grecia ha perfezionato il tempio, Roma ha inventato il <strong>sistema</strong>. La rete stradale non è un'infrastruttura di servizio: è lo strumento che rende possibile l'impero stesso — muove le legioni, i commerci, la posta (<em>cursus publicus</em>), l'amministrazione. Senza le strade, "Roma" resta una città; con le strade, diventa una rete capace di governare un continente.</p>
+<p>Il termine stesso "strada" (e l'inglese <em>street</em>, il tedesco <em>straße</em>) deriva dal latino <strong>via strata</strong>: strada costruita a strati — perché è proprio la tecnica costruttiva stratificata a garantire una durata che, in alcuni tratti, arriva intatta fino a oggi.</p>
+<h3>La tecnica costruttiva: come si costruiva una via romana</h3>
+<p>La costruzione partiva da un rilievo topografico eseguito dall'<em>architectus</em>, seguito dal tracciamento del percorso da parte degli <strong>agrimensori</strong> con pali e <strong>groma</strong> (lo strumento di squadratura dell'epoca). Il tracciato veniva delimitato con due solchi paralleli scavati con l'aratro.</p>
+<p>Sul fondo della trincea si stendevano quattro strati sovrapposti e compressi:</p>
+<ul>
+<li><strong>Statumen</strong> — il fondo, fatto di pietre di grandi dimensioni, spesso legate con malta</li>
+<li><strong>Rudus</strong> — conglomerato di pietrisco e frammenti di laterizi legati con calce, con funzione drenante</li>
+<li><strong>Nucleus</strong> — un letto di ghiaia e sabbia (talvolta pozzolana) che stabilizzava lo strato superiore</li>
+<li><strong>Pavimentum</strong> (o <em>summum dorsum</em>) — la pavimentazione vera e propria, realizzata con <strong>basoli</strong>: grandi lastroni poligonali di pietra durissima (nell'agro romano, tipicamente <strong>leucitite</strong>), con la faccia superiore levigata e quella inferiore a cuneo, incastrati saldamente nel nucleus</li>
+</ul>
+<p>La carreggiata non era piatta ma leggermente <strong>convessa</strong> ("a schiena d'asino"), per far defluire l'acqua piovana verso canalette di scolo laterali. La larghezza standard per le grandi vie di comunicazione era di circa <strong>4,10–4,20 metri (14 piedi romani)</strong>: sufficiente a permettere l'incrocio di due carri in senso opposto.</p>
+<h3>Le vie consolari</h3>
+<p>La prima e più celebre grande arteria fu la <strong>Via Appia</strong>, iniziata nel <strong>312 a.C.</strong> dal censore <strong>Appio Claudio Cieco</strong> durante le guerre sannitiche, con uno scopo dichiaratamente militare e strategico. È la via che i romani stessi chiamavano <em>regina viarum</em>, "regina delle strade".</p>
+<p>Attorno a essa si sviluppa nei secoli l'intera rete delle vie consolari che si irradiano da Roma come raggi: la <strong>Via Flaminia</strong> verso nord, la <strong>Via Aurelia</strong> lungo la costa tirrenica, la <strong>Via Cassia</strong> verso l'Etruria, la <strong>Via Salaria</strong>, la più antica di tutte, legata al commercio del sale. Molte ricalcano percorsi già tracciati dagli <strong>Etruschi</strong>, che i romani ereditano e trasformano in sistema scalabile.</p>
+<h3>Ponti e viadotti</h3>
+<p>I ponti erano parte integrante della rete viaria, costruiti con la stessa cura monumentale riservata agli edifici pubblici. A differenza dei viadotti moderni, i <strong>viadotti romani</strong> erano spesso enormi terrapieni contenuti da possenti muri, talvolta forati alla base da piccoli archi per il deflusso delle acque.</p>
+<p>L'elemento tecnico chiave è l'<strong>arco a tutto sesto</strong>, che permette di scavalcare corsi d'acqua e valli con luci molto maggiori rispetto alle tecniche trilitiche greche. A Roma sopravvivono ancora oggi diversi ponti antichi — <strong>Pons Fabricius</strong>, <strong>Pons Cestius</strong>, <strong>Pons Aemilius</strong>, <strong>Pons Milvius</strong>, <strong>Pons Aelius</strong> — ciascuno approfondito nella rispettiva scheda della sezione Luoghi e Monumenti.</p>
+<h3>Le pietre miliari</h3>
+<p>Le distanze lungo le strade venivano scandite dalle <strong>pietre miliari</strong> (<em>miliaria</em>), colonne circolari su base rettangolare (<em>cippus</em>), alte circa 1,5 metri e pesanti oltre due tonnellate. Riportavano il numero del miglio, la distanza dal Foro di Roma e informazioni sui magistrati responsabili della costruzione o del restauro del tratto.</p>
+<p>Il termine "miglio" deriva da <em>milia passuum</em>, "mille passi", pari a circa 1.480 metri. Tutte le distanze dell'impero si misuravano simbolicamente a partire da Roma: un sistema di misurazione unificato che è anche un'invenzione politica, oltre che tecnica.</p>
+<h3>Il cursus publicus: il sistema postale dell'impero</h3>
+<p>Le strade sostenevano anche un vero e proprio sistema di comunicazione statale, il <strong>cursus publicus</strong>, organizzato da <strong>Augusto</strong> sul modello del sistema postale persiano. Lungo le arterie principali erano dislocate stazioni regolari: le <strong>mutationes</strong>, poste di cambio a circa 12 miglia di distanza, dove si sostituivano i cavalli, e le <strong>mansiones</strong>, alloggi di tappa distanti una giornata di viaggio l'una dall'altra, che offrivano vitto, pernottamento e stalle.</p>
+<p>Con <strong>Adriano</strong>, la gestione fu affidata al <strong>praefectus vehiculorum</strong>, funzionario di rango equestre responsabile anche della manutenzione di strade e ponti. Un messaggero del cursus publicus poteva percorrere tra le 25 e le 50 miglia al giorno. Tutte le distanze si misuravano a partire dal <strong>miliario aureo</strong> nel Foro: oltre 200.000 km di strade, dalla Scozia all'Etiopia, dall'Atlantico al Golfo Persico.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="urbanistica" data-name="urbanistica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Urbanistica</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h3>Il rito di fondazione</h3>
+<p>Prima ancora di essere ingegneria, l'urbanistica romana è un <strong>atto sacro</strong>. La fondazione di una città seguiva un rituale di probabile origine etrusca (<em>Etrusco ritu</em>), descritto da Varrone: il fondatore aggiogava insieme un <strong>toro</strong> (verso l'esterno) e una <strong>vacca</strong> (verso l'interno) a un aratro con vomere di <strong>bronzo</strong>, e tracciava un solco continuo — il <strong>sulcus primigenius</strong> — lungo il perimetro previsto della città. La terra smossa dall'aratro veniva ammucchiata verso l'interno a formare l'abbozzo delle mura; il solco stesso diventava il fossato.</p>
+<p>Il vomere veniva sollevato solo nei punti dove sarebbero sorte le <strong>porte</strong>, che per questo restavano "sospese" rispetto al solco sacro. La fascia di terreno lungo il solco, sacra e non edificabile, era il <strong>pomerium</strong> (da <em>post murum</em>, "dietro il muro"): un confine religioso, non solo fisico, entro cui valevano gli <strong>auspicia urbana</strong> — l'autorità civile del magistrato, distinta da quella militare (<em>imperium militiae</em>), che iniziava solo oltre quel limite.</p>
+<h3>Il modello a griglia: cardo e decumano</h3>
+<p>Le città romane di nuova fondazione — soprattutto le colonie — seguivano uno schema urbanistico <strong>ortogonale</strong>, ereditato in parte dal modello greco ippodameo ma reso sistema riproducibile su scala. Due assi principali strutturavano l'intero impianto:</p>
+<ul>
+<li><strong>Cardo maximus</strong> — l'asse nord-sud</li>
+<li><strong>Decumanus maximus</strong> — l'asse est-ovest, tracciato idealmente "a imitazione del corso del sole"</li>
+</ul>
+<p>I due assi si incrociavano ad angolo retto, dividendo la città in quattro settori (<strong>quartieri</strong>, termine che deriva proprio da questa suddivisione in quarti). All'incrocio sorgeva, nella norma, il <strong>foro</strong> — il cuore della vita pubblica e commerciale della città.</p>
+<p>Non sempre però l'incrocio era centrale: in città come <strong>Torino</strong> (Iulia Augusta Taurinorum) e <strong>Aosta</strong> (Augusta Praetoria), cardo e decumano si intersecano in posizione più laterale — un impianto derivato più direttamente dal modello dell'accampamento militare che da quello urbano classico.</p>
+<h3>Dal castrum alla città</h3>
+<p>Il <strong>castrum</strong>, l'accampamento militare romano, condivide con la città la stessa griglia ortogonale — ma il rapporto tra i due, a lungo dibattuto dagli studiosi, sembra essere più teorico che di derivazione diretta: <strong>Polibio</strong> descrive un accampamento dalla forma "vicina a quella di una città", suggerendo che sia il castrum a richiamare lo schema urbano, e non il contrario.</p>
+<p>Nell'accampamento, cardo e decumano prendevano nomi specifici: la <em>via principalis</em> collegava le porte laterali (<em>porta principalis dextra</em> e <em>sinistra</em>), mentre la <em>via praetoria</em> — l'equivalente del decumano — collegava la <em>porta praetoria</em> alla <em>porta decumana</em>. All'incrocio non sorgeva un foro, ma il <strong>praetorium</strong>, la tenda/alloggio del comandante — l'equivalente militare del centro civico.</p>
+<h3>La centuriazione</h3>
+<p>Lo stesso principio a griglia si estendeva oltre le mura cittadine nella <strong>centuriazione</strong>: la divisione sistematica del territorio agricolo circostante in lotti quadrati regolari (le <em>centuriae</em>), assegnati ai coloni. Ogni lotto era delimitato da un <em>cardo</em> e, ogni dieci unità, da un <em>decumanus</em> — un reticolo che si irradiava dagli stessi due assi maximi della città, saldando urbanistica cittadina e organizzazione del territorio in un unico sistema di misurazione e possesso della terra.</p>
+<p>Il lavoro di tracciamento era affidato ai <strong>gromatici</strong> (o <em>agrimensori</em>), tecnici specializzati nell'uso della <strong>groma</strong>, lo strumento che permetteva di tracciare angoli retti con precisione — la stessa logica, applicata su scala vastissima, che regolava anche il tracciato delle strade.</p>
+<h3>Un'eredità visibile ancora oggi</h3>
+<p>Molte città italiane ed europee conservano, nel proprio tessuto urbano contemporaneo, l'impronta di questo impianto: le strade principali di centri come <strong>Torino</strong>, <strong>Aosta</strong>, <strong>Como</strong> o <strong>Pavia</strong> ricalcano ancora oggi cardo e decumano originari. È forse l'esempio più tangibile di come l'urbanistica romana — a differenza della città greca, spesso cresciuta organicamente attorno a un'acropoli — fosse concepita fin dall'origine come <strong>sistema riproducibile</strong>: uno stampo applicabile a qualunque latitudine dell'impero, dalla Britannia alla Siria.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="tecniche-costruttive-e-opus" data-name="tecniche costruttive e opus">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tecniche costruttive e opus</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h3>Opus caementicium: la vera rivoluzione</h3>
+<p>Se dovessimo indicare <strong>l'invenzione tecnica più importante</strong> dell'intera architettura romana, sarebbe questa: il <strong>calcestruzzo romano</strong> (<em>opus caementicium</em>). Senza di esso, niente cupole, niente volte a botte su grande luce, niente Pantheon, niente terme monumentali. È la tecnologia che permette a Roma di smettere di "costruire con blocchi" e iniziare a <strong>colare forme</strong>.</p>
+<p>Il composto nasce dalla combinazione di tre elementi:</p>
+<ul>
+<li><strong>Calce</strong> (<em>calx</em>) — ottenuta cuocendo pietra calcarea e poi spegnendola con acqua</li>
+<li><strong>Pozzolana</strong> (<em>pulvis puteolana</em>) — cenere vulcanica ricca di silice e allumina, abbondante nell'area flegrea e vesuviana, che innesca con la calce una reazione chimica capace di generare cristalli fortissimi e resistenti anche all'acqua</li>
+<li><strong>Caementa</strong> — gli inerti veri e propri: frammenti di pietra, tufo, mattoni rotti, aggiunti come "ghiaia" nell'impasto</li>
+</ul>
+<p>La scoperta della pozzolana, a partire dal <strong>I secolo a.C.</strong>, segna una svolta: <strong>Vitruvio</strong> stesso, nel <em>De Architectura</em>, ne descrive la capacità straordinaria di far presa perfino sott'acqua — proprietà che rende possibile la costruzione di moli e strutture portuali.</p>
+<p>L'esempio più eloquente resta la <strong>cupola del Pantheon</strong>: 43,3 metri di diametro, tuttora la più grande cupola in calcestruzzo non armato al mondo. Il segreto non è solo chimico ma anche progettuale: gli inerti cambiano peso specifico salendo verso la sommità — travertino e tufo pesanti alla base, pomici e lapilli vulcanici leggerissimi vicino all'oculo — per alleggerire progressivamente il carico strutturale.</p>
+<h3>I paramenti murari: come si "vestiva" il calcestruzzo</h3>
+<p>Il calcestruzzo, una volta gettato, aveva bisogno di una superficie a vista ordinata e resistente. Nasce così tutta la famiglia degli <strong>opus</strong>, che classificano le tecniche murarie romane in base a come veniva trattata la faccia esterna del muro — spesso usata anche come "cassero" durante la gettata.</p>
+<p><strong>Opus quadratum</strong> — la tecnica più antica, in uso già dal periodo arcaico (fine VII secolo a.C.): grandi blocchi squadrati di pietra (spesso tufo), posati a secco in filari sfalsati, senza legante. Precede l'invenzione del calcestruzzo ed è visibile ancora oggi nella <strong>Cloaca Massima</strong>, nelle <strong>Mura Serviane</strong> e nel <strong>Tabularium</strong>.</p>
+<p><strong>Opus incertum</strong> — con l'introduzione del calcestruzzo, il primo tipo di paramento: piccoli blocchetti di tufo di forma irregolare, disposti in modo apparentemente casuale, con la punta immersa nel nucleo cementizio. I primi esempi a Roma risalgono ai primi decenni del <strong>II secolo a.C.</strong> (Tempio della Magna Mater, Porticus Aemilia). Curiosamente, <strong>Vitruvio</strong> lo giudicava meno elegante ma più solido del reticolato.</p>
+<p><strong>Opus quasi reticulatum</strong> — fase di transizione, con blocchetti in parte trapezoidali in parte quadrati, ancora irregolari ma già tendenti all'ordine geometrico.</p>
+<p><strong>Opus reticulatum</strong> — l'evoluzione regolarizzata: piccoli blocchetti piramidali (<em>tufelli</em> o <em>cubilia</em>), con base quadrata a vista e punta infissa nel nucleo, disposti in diagonale a formare un caratteristico disegno <strong>a rete</strong>. Introdotto nel I secolo a.C., raggiunge la massima diffusione in età augustea e diventa la tecnica dominante dell'edilizia imperiale.</p>
+<p><strong>Opus testaceum</strong> (o <strong>latericium</strong>) — il paramento in <strong>laterizio</strong>: mattoni tagliati a metà lungo la diagonale, di forma triangolare, inseriti di spigolo nel muro. Le prime cortine in mattoni appaiono sul finire della Repubblica, ma è dall'età imperiale che la tecnica si diffonde su larga scala — il primo grande monumento interamente in mattoni sono i <strong>Castra Praetoria</strong>, di età tiberiana.</p>
+<p><strong>Opus vittatum</strong> — filari orizzontali alternati di piccoli blocchi regolari (spesso tufo) e fasce di laterizio, introdotto nel II secolo d.C.</p>
+<p><strong>Opus mixtum</strong> — nato dalla combinazione di reticolato e laterizio: il reticolato costituisce il campo del muro, mentre il laterizio rinforza angoli e spigoli, riducendo il rischio di fessurazioni lungo le linee diagonali. Particolarmente diffuso tra l'età flavia e quella di Adriano.</p>
+<h3>Perché conta così tanto</h3>
+<p>Osservare il tipo di <em>opus</em> usato in un edificio è, per l'archeologo, uno strumento di <strong>datazione</strong>: ogni tecnica ha un arco cronologico piuttosto preciso, e la loro sovrapposizione in uno stesso monumento — reticolato alla base, laterizio in un rifacimento successivo — racconta le fasi costruttive di un edificio meglio di molte fonti scritte. È l'ennesimo caso in cui, a Roma, la tecnica costruttiva è essa stessa un documento storico.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="opere-idrauliche-e-acquedotti" data-name="opere idrauliche e acquedotti">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Opere idrauliche e acquedotti</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h3>Il principio: portare l'acqua per gravità</h3>
+<p>Gli acquedotti sono forse l'esempio più spettacolare di come i romani sapessero trasformare un principio fisico elementare — la <strong>gravità</strong> — in un sistema capace di servire una metropoli di oltre un milione di abitanti. Nessuna pompa, nessun motore: solo una <strong>pendenza costante e calcolata con precisione</strong> (mediamente intorno al 2%), mantenuta identica dalla sorgente fino a destinazione, spesso per decine di chilometri.</p>
+<p>Il percorso era per la maggior parte <strong>sotterraneo</strong> — una scelta deliberata, non un limite tecnico: proteggeva l'acqua dalla contaminazione e ne limitava l'evaporazione. Le imponenti arcate che oggi associamo all'immagine dell'acquedotto romano intervenivano solo dove il terreno lo richiedeva, per superare valli o avvallamenti mantenendo costante l'inclinazione. Nel caso di Roma, dei circa 507 km complessivi di condotti, solo il <strong>12%</strong> correva su arcate: il resto scorreva interrato o a livello del suolo.</p>
+<p>Lungo il tragitto si trovavano opere di captazione alla sorgente, bacini di decantazione, e le <strong>castella aquarum</strong> — torri di distribuzione che smistavano l'acqua verso le diverse utenze cittadine (fontane pubbliche, terme, abitazioni private).</p>
+<h3>I grandi acquedotti di Roma</h3>
+<p>Il primo e più antico fu l'<strong>Aqua Appia</strong>, voluto nel <strong>312 a.C.</strong> dallo stesso censore che diede il nome alla Via Appia, <strong>Appio Claudio Cieco</strong>: quasi interamente sotterraneo, lungo circa 16-17 km, captava acqua lungo la Via Prenestina.</p>
+<p>L'<strong>Aqua Marcia</strong>, che nasce nell'alta valle dell'Aniene, fu il primo acquedotto a richiedere la costruzione di lunghi tratti su arcate (circa 9 km) — un salto tecnico rispetto ai condotti precedenti, quasi interamente interrati.</p>
+<p>Seguirono, nei secoli successivi, l'<strong>Anio Vetus</strong>, l'<strong>Aqua Tepula</strong>, l'<strong>Aqua Iulia</strong> (fatta costruire da <strong>Agrippa</strong> nel 33 a.C.), l'<strong>Aqua Virgo</strong> — quella che ancora oggi alimenta la Fontana di Trevi — e infine, in età imperiale, l'<strong>Aqua Claudia</strong> e l'<strong>Anio Novus</strong>, con tratti su arcate che raggiungevano i 28 metri d'altezza.</p>
+<p>Al loro apice, nel <strong>III secolo d.C.</strong>, gli acquedotti che servivano Roma erano <strong>undici</strong>, capaci di trasportare complessivamente milioni di litri d'acqua al giorno. La loro manutenzione era affidata a un corpo specializzato di tecnici, gli <strong>aquarii</strong>, sotto la supervisione di un funzionario di alto rango, il <strong>curator aquarum</strong> — carica ricoperta, in età traianea, dallo scrittore <strong>Frontino</strong>, autore del trattato <em>De aquaeductu urbis Romae</em>, la fonte più preziosa che abbiamo sul funzionamento del sistema.</p>
+<h3>La conseguenza: le terme</h3>
+<p>L'abbondanza d'acqua resa possibile dagli acquedotti è la condizione che rende possibili le <strong>terme</strong> come le conosciamo — non semplici bagni, ma complessi monumentali con piscine, palestre, biblioteche e giardini, aperti a un pubblico vastissimo. Rami dedicati degli acquedotti alimentavano direttamente i grandi impianti termali: un ramo dell'Aqua Marcia, potenziato in età di <strong>Caracalla</strong> (212-213 d.C.) con una nuova captazione, servì appositamente le <strong>Terme di Caracalla</strong>; un altro fu destinato alle <strong>Terme di Diocleziano</strong>.</p>
+<p>Il flusso continuo, non essendo interrompibile, aveva anche una seconda funzione: l'acqua in eccesso delle terme confluiva nelle <strong>fognature</strong> cittadine, contribuendo a mantenerle pulite — un sistema di smaltimento integrato che affianca, nella stessa logica infrastrutturale, la più antica delle opere idrauliche romane, la <strong>Cloaca Massima</strong>.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="opere-pubbliche" data-name="opere pubbliche">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Opere pubbliche</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+<h3>Il foro: il cuore della città</h3>
+<p>Il <strong>foro</strong> era la piazza principale della città romana, erede diretta dell'agorà greca ma con un carattere più marcatamente istituzionale: funzioni amministrative, commerciali, giudiziarie e politico-religiose si concentravano tutte in un unico spazio. Solo dal <strong>II secolo a.C.</strong>, quando Roma si è ormai affermata come potenza egemone nel Mediterraneo, la città comincia a regolarizzare e monumentalizzare il proprio foro con basiliche, rostri (le tribune per i discorsi pubblici) e la Curia, sede del Senato.</p>
+<h3>La basilica civile</h3>
+<p>La <strong>basilica</strong> — termine che deriva dal greco <em>basilikē (stoà)</em>, "portico regio" — era l'edificio pubblico coperto per eccellenza, di solito in comunicazione diretta con il foro. Vi si trattavano affari, si amministrava la giustizia, si dirimevano controversie: un vero e proprio centro polifunzionale, insieme tribunale, borsa commerciale e luogo di ritrovo.</p>
+<p>Architettonicamente, la basilica è un edificio a pianta rettangolare, diviso internamente in tre (o cinque) navate da file di colonne o pilastri — una soluzione che permetteva di risolvere elegantemente i problemi di copertura e illuminazione di grandi spazi coperti, spesso con una navata centrale rialzata dotata di finestre. Un'abside semicircolare chiudeva talvolta il lato di fondo. Fu proprio questo schema, secoli dopo, a essere ereditato dall'architettura cristiana: dal IV secolo il termine "basilica" passa a designare gli edifici di culto, che ne conservano ancora oggi la pianta a navate.</p>
+<h3>L'anfiteatro</h3>
+<p>Se il tempio deriva dal modello etrusco-greco, l'<strong>anfiteatro</strong> è un'invenzione romana a tutti gli effetti — nasce concettualmente dall'unione di due teatri semicircolari affrontati, a formare una pianta ellittica o circolare con un'<strong>arena</strong> centrale dedicata ai <em>ludi gladiatorii</em> e, in occasioni straordinarie, alle <strong>naumachie</strong> (battaglie navali simulate, con l'arena allagata).</p>
+<p>Il <strong>Colosseo</strong> (Anfiteatro Flavio), costruito tra il 70 e l'80 d.C. sotto Vespasiano e Tito, ne è l'esempio più grandioso: capace di ospitare circa <strong>50.000 spettatori</strong>, con un asse maggiore di 188 metri e un'altezza di quasi 50, è anche la dimostrazione più chiara di come archi e volte concatenati tra loro permettessero ai romani di gestire folle enormi in totale sicurezza — un problema tanto ingegneristico quanto architettonico.</p>
+<h3>Il teatro</h3>
+<p>Il <strong>teatro romano</strong> riprende la forma semicircolare di quello greco, ma con una differenza sostanziale: mentre i greci addossavano la cavea al pendio naturale di una collina, i romani costruivano in piano, sollevando le gradinate su un possente anello murario autoportante — reso possibile proprio dalle tecniche costruttive ad arco e volta. Un esempio conservato a Roma è il <strong>Teatro di Marcello</strong>, iniziato da Cesare e completato da Augusto nell'11 a.C., articolato su tre ordini sovrapposti (tuscanico, ionico, corinzio).</p>
+<p>Un'altra differenza rispetto al modello greco: l'<strong>orchestra</strong>, che per i greci ospitava il coro, si riduce in epoca imperiale a una sorta di palco d'onore, mentre lo spettacolo si concentra interamente sulla <strong>scena</strong> — un fondale che diventa sempre più articolato e monumentale, spesso con effetti illusori di profondità.</p>
+<h3>Il circo</h3>
+<p>Il <strong>circo</strong> era la struttura dedicata alle corse dei carri, la forma di spettacolo pubblico più popolare a Roma. Il <strong>Circo Massimo</strong>, situato tra Palatino e Aventino, ne era l'esempio supremo: nella sua massima estensione superava i 600 metri di lunghezza per 200 di larghezza, con una capienza dichiarata (probabilmente esagerata dalle fonti tarde) fino a <strong>385.000 spettatori</strong>.</p>
+<p>L'arena era divisa longitudinalmente da un basso muro decorato, la <strong>spina</strong>, attorno alla quale i carri — generalmente <strong>quadrighe</strong>, trainate da quattro cavalli, guidate da un <strong>auriga</strong> — compivano <strong>sette giri</strong> (<em>spatia</em>) per gara, partendo dai <strong>carceres</strong>, i box di partenza allineati su un lato corto. Il conteggio dei giri era affidato a sette uova e sette delfini simbolici posti sulla spina. Le squadre concorrenti, le <strong>factiones</strong>, erano contraddistinte da colori (bianca, rossa, verde, azzurra) e godevano di un seguito di tifo paragonabile, per intensità, a quello sportivo moderno.</p>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="architettura-funeraria" data-name="architettura funeraria">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Architettura funeraria</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+      
+
+<h3>Una legge arcaica, una conseguenza urbanistica</h3>
+<p>Alla base di tutta l'architettura funeraria romana c'è una norma antichissima, la <strong>Legge delle XII Tavole</strong> (V secolo a.C.): <em>"Hominem mortuum in urbe ne sepelito neve urito"</em> — "nessun morto sia sepolto o cremato in città". Un divieto assoluto, motivato da ragioni igieniche e di sicurezza (anche antincendio, nel caso della cremazione), che vale per tutta la storia di Roma: i defunti restano sempre <strong>fuori dal pomerium</strong>.</p>
+<p>Questa norma ha una conseguenza urbanistica di grande peso: le tombe si concentrano lungo le <strong>strade consolari</strong> in uscita dalla città — Via Appia, Via Latina, Via Flaminia, Via Salaria — creando veri e propri "corridoi funerari" che il viaggiatore attraversava nell'entrare o uscire da Roma. Non è un dettaglio secondario: essere visibili da chi percorreva la strada era parte dello scopo stesso del monumento, pensato per perpetuare la memoria del defunto agli occhi dei vivi in transito.</p>
+<h3>Le tipologie principali</h3>
+<p>L'architettura funeraria romana, pur nella grande varietà di soluzioni, si può ricondurre a poche forme ricorrenti:</p>
+<ul>
+<li><strong>Tumulo</strong> — un cumulo di terra, spesso su un basamento (podio) circolare, che richiama simbolicamente l'antica sepoltura a terrapieno. È la forma scelta per i monumenti più ambiziosi: il <strong>Mausoleo di Augusto</strong>, il più grande mai costruito a Roma, e il <strong>Mausoleo di Adriano</strong> (oggi Castel Sant'Angelo), che ne riprende il modello con varianti strutturali.</li>
+<li><strong>Piramide</strong> — una stilizzazione geometrica dello stesso principio del cumulo, di ispirazione egizia. L'esempio più celebre è la <strong>Piramide di Caio Cestio</strong> (I secolo a.C.), costruita — secondo una clausola testamentaria — in appena 330 giorni, con camera funeraria interna decorata da affreschi.</li>
+<li><strong>A dado (o quadrata)</strong> — piccoli monumenti a nucleo cementizio, rivestiti in marmo o travertino, di dimensioni più contenute rispetto ai grandi mausolei.</li>
+<li><strong>A tempietto (edicola)</strong> — una struttura con podio, gradini, colonnato e cella, che imita in scala ridotta l'architettura templare, spesso con la statua del defunto collocata nella nicchia centrale.</li>
+<li><strong>A tamburo cilindrico con camera interna</strong> — il tipo più monumentale, di cui la <strong>Tomba di Cecilia Metella</strong> sulla Via Appia è l'esempio meglio conservato: un possente cilindro in travertino, merlato in epoca medievale quando fu trasformata in fortezza.</li>
+<li><strong>Colombario</strong> — una struttura, spesso ipogea, destinata ad accogliere un gran numero di urne cinerarie in nicchie a parete (le stesse nicchie che danno il nome al tipo, per la somiglianza con una colombaia). Era la soluzione tipica per i <strong>liberti</strong>, le corporazioni, o gruppi che condividevano i costi di una sepoltura collettiva — un'alternativa più economica ai grandi mausolei individuali delle famiglie aristocratiche.</li>
+</ul>
+<h3>Tecnica costruttiva</h3>
+<p>Anche l'architettura funeraria sfrutta pienamente l'<strong>opus caementicium</strong>: il nucleo del monumento veniva colato in strati successivi di 60-90 cm, mentre il rivestimento esterno in blocchi squadrati di materiale pregiato (travertino, marmo) veniva posato per primo lungo il perimetro, a fare da "cassero" per il getto. Quasi ovunque, questo rivestimento nobile è andato perduto nel tempo — spesso già in epoca medievale, quando i blocchi venivano sistematicamente asportati per essere riutilizzati altrove.</p>
+<h3>Il legame con la scultura</h3>
+<p>I monumenti funerari erano spesso accompagnati da <strong>sarcofagi</strong>, <strong>rilievi</strong> e <strong>iscrizioni celebrative</strong> — l'aspetto scultoreo del tema funerario, approfondito nel <strong>Capitolo II — Scultura e rilievo</strong>, dove l'architettura fa da cornice monumentale e la scultura da racconto individuale della vita del defunto.</p>
+
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>

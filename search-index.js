@@ -1879,5 +1879,53 @@ const deepIndex = [
     "file": "celio.html",
     "id": "santo-stefano-rotondo",
     "context": "Roma — Celio"
+  },
+  {
+    "name": "Arte e Architettura Romana",
+    "file": "arte-architettura-romana.html",
+    "id": null,
+    "context": "Roma"
+  },
+  {
+    "name": "Architettura e ingegneria civile",
+    "file": "arte-architettura-civile.html",
+    "id": null,
+    "context": "Roma — Arte e Architettura Romana"
+  },
+  {
+    "name": "Strade e infrastrutture viarie",
+    "file": "arte-architettura-civile.html",
+    "id": "strade-e-infrastrutture-viarie",
+    "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Urbanistica",
+    "file": "arte-architettura-civile.html",
+    "id": "urbanistica",
+    "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Tecniche costruttive e opus",
+    "file": "arte-architettura-civile.html",
+    "id": "tecniche-costruttive-e-opus",
+    "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Opere idrauliche e acquedotti",
+    "file": "arte-architettura-civile.html",
+    "id": "opere-idrauliche-e-acquedotti",
+    "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Opere pubbliche",
+    "file": "arte-architettura-civile.html",
+    "id": "opere-pubbliche",
+    "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Architettura funeraria",
+    "file": "arte-architettura-civile.html",
+    "id": "architettura-funeraria",
+    "context": "Roma — Architettura e ingegneria civile"
   }
 ];
