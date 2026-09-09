@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Esquilino — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Esquilino</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><em>Testo introduttivo del colle Esquilino da scrivere.</em></p></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">9</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="horti-maecenatis" data-name="horti maecenatis">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Horti Maecenatis</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Gli horti furono creati da Gaio Cilnio Mecenate (68 a.C.-8 a.C.), il celebre consigliere e amico di Augusto, nonché grande mecenate di poeti come Virgilio e Orazio.</p>
+<p>Mecenate acquistò, tra il 40 e il 30 a.C., una vasta area sull'Esquilino che in precedenza era stata una zona periferica e malfamata, utilizzata come necropoli dei poveri e discarica cittadina — per far posto alla villa fu necessario ricoprire l'antico e malsano cimitero e livellare in parte l'agger, il terrapieno difensivo delle Mura Serviane. Grazie a lui, l'Esquilino fu trasformato da luogo marginale a quartiere aristocratico.</p>
+<p>Dopo la morte di Mecenate, il complesso passò ad Augusto e divenne proprietà imperiale, entrando a far parte dei beni della domus Augusta: sappiamo da Svetonio che lo stesso Augusto, quando si ammalava, dormiva spesso nella casa di Mecenate. In seguito la villa fu concessa a Tiberio, al suo rientro dall'esilio di Rodi nel 2 a.C., che vi apportò alcune ristrutturazioni.</p></div><div class="tab-panel"><p>Gli Horti Maecenatis erano organizzati come una grande villa urbana con giardini terrazzati, portici e padiglioni. Comprendevano ampi giardini ornamentali con alberi, aiuole e statue, piscine e ninfei per rinfrescarsi, e padiglioni residenziali per banchetti e ricevimenti.</p>
+<p>L'unica parte ancora visibile oggi, in via Merulana, è la cosiddetta grande sala sotterranea voltata a botte nota come <strong>Auditorium di Mecenate</strong> — un nome convenzionale, risalente allo scavo che la riportò alla luce nel 1874, ma probabilmente fuorviante: gli studi più recenti la identificano non con una sala per letture poetiche, ma con un <strong>ninfeo</strong>, forse utilizzato anche come triclinio estivo. La sua gradinata a semicerchio, che in un primo momento fece pensare a una piccola cavea teatrale, era in realtà attraversata da tubature che vi facevano scorrere l'acqua, alimentando giochi e cascatelle decorative. Gli affreschi che ancora vi si conservano, con paesaggi di terzo stile, non risalgono all'epoca di Mecenate ma alla fase successiva, di poco dopo il 2 a.C., quando Tiberio si trasferì nella villa.</p></div><div class="tab-panel"><ul>
+<li>L'Auditorium di Mecenate è visitabile su prenotazione e conserva affreschi con paesaggi idilliaci, tra le testimonianze più rare di pittura di terzo stile ancora in situ a Roma.</li>
+<li>Secondo Orazio, Mecenate amava ritirarsi nei suoi horti per trovare pace lontano dal frastuono della città, incarnando un ideale di vita semplice e colta.</li>
+<li>Il complesso, dopo essere passato alla famiglia imperiale, fu inglobato in parte dagli Horti di Lamia e da altre residenze aristocratiche sorte sull'Esquilino.</li>
+<li>Il legame con Mecenate resta vivo ancora oggi nella lingua italiana: la parola "mecenate", per indicare un protettore delle arti, deriva direttamente dal suo nome.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="horti-lamiani" data-name="horti lamiani">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Horti Lamiani</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Gli horti presero il nome dal loro fondatore, Lucio Elio Lamia, console nel 3 d.C. e aristocratico romano di età augustea. Dopo la sua morte, il complesso passò — forse già sotto Tiberio — alla proprietà imperiale, e divenne una delle residenze preferite dagli imperatori del I e II secolo, a cominciare da Caligola, che vi stabilì la propria dimora.</p>
+<p>A differenza di altri horti aristocratici, quelli Lamiani furono fin dall'inizio concepiti con una monumentalità che li rendeva degni di ospitare la corte. Sotto Claudio, riuniti agli Horti Maiani, furono affidati a un funzionario apposito, il <em>procurator hortorum Lamianorum et Maianorum</em>.</p></div><div class="tab-panel"><p>Gli Horti Lamiani erano una vera e propria villa-palazzo immersa nel verde, con vasti giardini ornamentali (aiuole, pergolati, alberi esotici), padiglioni residenziali decorati con mosaici, stucchi e marmi, fontane monumentali e giochi d'acqua, ninfei e sale di rappresentanza per banchetti e cerimonie.</p>
+<p>La posizione sul Cispio, una delle alture dell'Esquilino, permetteva di dominare con la vista buona parte della città, dando all'imperatore un senso di controllo scenografico su Roma. Gli scavi archeologici, dalle prime scoperte cinquecentesche fino alle campagne più recenti (2006-2009, sotto la sede dell'ENPAM), hanno restituito reperti straordinari: un lungo criptoportico con pavimento in alabastro e colonne in marmo giallo antico, pavimenti in opus sectile, e capolavori assoluti come il Discobolo Lancellotti, oggi al Museo Nazionale Romano, e il celebre affresco delle Nozze Aldobrandini.</p></div><div class="tab-panel"><ul>
+<li>Gli Horti Lamiani furono una delle residenze preferite dell'imperatore Caligola — ma non fu qui che trovò la morte, come talvolta si racconta per errore: l'imperatore fu assassinato il 24 gennaio del 41 d.C. in un criptoportico del Palatino, presso la Domus Tiberiana, colpito a più riprese dai tribuni pretoriani Cassio Cherea e Cornelio Sabino. Fu il suo corpo, trafugato in gran segreto dall'amico Erode Agrippa, re di Giudea, a essere portato negli Horti Lamiani, dove venne posto su una pira improvvisata e sepolto in fretta sotto un leggero strato di terra — solo più tardi le sue sorelle, tornate dall'esilio, ne riesumarono i resti per tributargli una degna cremazione.</li>
+<li>Gli scavi moderni nell'area di piazza Vittorio e del colle Oppio hanno restituito capolavori come un celebre clipeo con la testa di Medusa, oggi ai Musei Capitolini.</li>
+<li>La quantità e la qualità dei reperti rinvenuti hanno fatto pensare che gli Horti Lamiani fossero un vero palazzo-museo, dove la natura si fondeva con l'arte classica per celebrare la magnificenza imperiale.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="horti-liciniani" data-name="horti liciniani">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Horti Liciniani</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Gli Horti Liciniani erano una vasta villa con giardini appartenente alla famiglia dei Licinii, in particolare all'imperatore Licinio Gallieno (253-268 d.C.). L'Esquilino era, già dal I secolo d.C., una delle zone predilette dall'aristocrazia e dagli imperatori per edificare horti, residenze suburbane immerse nel verde ma vicine al centro della città.</p>
+<p>Il complesso, sorto su aree già occupate da altre ville e giardini, fu ampliato in età severiana e tardoantica, diventando una delle residenze imperiali più raffinate di Roma. La proprietà imperiale, e con essa il nome della famiglia di Gallieno, dovette mantenersi a lungo: fu infatti solo nei primi decenni del IV secolo — quindi ben oltre quarant'anni dopo la morte di Gallieno — che su questi stessi terreni sorse l'edificio oggi noto come Tempio di Minerva Medica.</p></div><div class="tab-panel"><p>Gli Horti Liciniani comprendevano padiglioni residenziali, ninfei, terme private e giardini monumentali, organizzati come un vero e proprio parco urbano, che sfruttava la pendenza naturale dell'Esquilino per creare scenografie architettoniche con terrazze, fontane e padiglioni. Gli ambienti residenziali erano decorati con marmi, mosaici e stucchi, segno della ricchezza e del lusso che caratterizzava la vita imperiale.</p>
+<p>Al loro interno si trovava il celebre edificio oggi noto come <strong>Tempio di Minerva Medica</strong> — un grande ninfeo, non un vero tempio — di cui trovi la scheda di approfondimento qui accanto.</p></div><div class="tab-panel"><ul>
+<li>Il nome "Minerva Medica" con cui è oggi conosciuto il ninfeo nacque da un equivoco rinascimentale — la scheda a parte ne racconta la storia per esteso.</li>
+<li>Il nome di Gallieno resta comunque legato alla zona anche grazie alla vicina Porta Esquilina, trasformata in arco monumentale e nota ancora oggi come "Arco di Gallieno", dedicato all'imperatore e alla moglie Salonina nel 262 d.C.</li>
+<li>Gli Horti Liciniani erano celebri per le loro fontane e giochi d'acqua, che li rendevano simili a una città-giardino.</li>
+<li>Oggi restano solo tracce, tra cui le rovine del cosiddetto Tempio di Minerva Medica, che costituisce la parte più nota del complesso.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tempio-di-minerva-medica" data-name="tempio di minerva medica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Minerva Medica</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Nonostante il nome, non è un tempio dedicato a Minerva: è un ninfeo monumentale, ribattezzato per un equivoco rinascimentale (vedi Curiosità).</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'edificio, noto sin dal Rinascimento con il nome di "Tempio di Minerva Medica", fu costruito nel IV secolo d.C., probabilmente durante il regno di Massenzio o di Costantino. Il nome tradizionale deriva da un errore degli antiquari rinascimentali, che lo identificarono con un tempio dedicato a Minerva Medica menzionato da alcune fonti. In realtà, si trattava quasi certamente di un ninfeo monumentale collegato a una grande villa imperiale sull'Esquilino, forse parte della residenza degli Horti Liciniani — anche se alcuni studiosi lo collegano invece ai vicini Horti Pallantiani, o addirittura al Sessorium, la residenza imperiale presso Santa Croce in Gerusalemme.</p></div><div class="tab-panel"><p>Il cosiddetto Tempio di Minerva Medica è una costruzione circolare di straordinaria importanza per la storia dell'architettura. La pianta è decagonale (a dieci lati), con un diametro di circa 24-25 metri. Al centro si ergeva una cupola emisferica, alta in origine circa 32 metri, che anticipava soluzioni poi adottate in edifici cristiani come San Vitale a Ravenna o la Cappella Palatina di Aquisgrana. Le pareti erano alleggerite da grandi nicchie absidate alternate a finestre, che creavano un gioco di pieni e vuoti e permettevano di illuminare lo spazio interno in modo spettacolare. L'uso del cemento romano con laterizi consentì di sperimentare forme nuove, libere dalle rigidità della tradizione greca.</p>
+<p>Le decorazioni originarie dovevano essere ricchissime: rivestimenti in marmi colorati, mosaici pavimentali e stucchi, che trasformavano l'ambiente in un sontuoso padiglione scenografico. L'edificio era con ogni probabilità un ninfeo, cioè una sala per banchetti e ricevimenti con fontane e giochi d'acqua, al centro dei giardini di una villa imperiale — non un tempio, ma uno di quegli spazi di rappresentanza che le élite tardoantiche amavano erigere nelle loro residenze, capace di trasmettere un'immagine di lusso raffinato e cosmopolita.</p>
+<p>L'uso di una pianta centrale coperta da cupola, l'alternanza di nicchie e finestre e la ricerca di spazi luminosi e scenografici influenzarono profondamente l'architettura cristiana e bizantina successiva: il monumento rappresenta così una tappa fondamentale nella transizione tra la Roma classica e quella tardoantica, che guardava ormai a modelli spaziali nuovi, meno legati alla funzionalità e più votati alla monumentalità simbolica.</p></div><div class="tab-panel"><ul>
+<li>Il nome errato di "Tempio di Minerva Medica" fu tramandato per secoli: nacque quando, nei dintorni dell'edificio, fu ritrovata una statua della dea Minerva con un serpente ai piedi, simbolo della medicina, poi erroneamente associata a questo luogo. Solo gli studi archeologici moderni hanno chiarito la vera funzione dell'edificio come ninfeo.</li>
+<li>Nel Rinascimento fu studiato da importanti architetti come Giuliano da Sangallo, Baldassarre Peruzzi e Andrea Palladio, che ne ammiravano le soluzioni strutturali. Secondo la tradizione, anche Filippo Brunelleschi ne avrebbe studiato la cupola durante i suoi viaggi romani, traendone ispirazione per la celebre cupola di Santa Maria del Fiore a Firenze.</li>
+<li>La grande cupola, in gran parte ancora in piedi fino all'Ottocento, crollò nel 1828 a causa di problemi strutturali aggravati da secoli di spoliazioni del materiale da costruzione; fu oggetto di un complesso restauro solo negli anni Quaranta del Novecento.</li>
+<li>Le rovine, ancora visibili lungo via Giolitti — oggi strette tra i binari ferroviari e l'edilizia del quartiere umbertino — colpiscono ancora per la loro imponenza e la modernità delle forme, tanto da essere considerate una sorta di "anello di congiunzione" tra il Pantheon e l'architettura bizantina.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="horti-sallustiani" data-name="horti sallustiani">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Horti Sallustiani</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Gli horti furono creati dallo storico Gaio Sallustio Crispo (86-35 a.C.), autore della Guerra giugurtina e della Congiura di Catilina. Dopo essersi ritirato dalla politica, Sallustio acquisì una vasta proprietà nella valle compresa tra Pincio e Quirinale, trasformandola in una villa con giardini sontuosi, arricchita dai bottini raccolti durante il suo governatorato in Africa.</p>
+<p>Alla sua morte, il complesso passò in eredità al nipote Quinto Sallustio Crispo, e poi, alla morte di quest'ultimo nel 20-21 d.C. sotto Tiberio, divenne proprietà del demanio imperiale. Gli horti divennero da allora residenza temporanea prediletta da numerosi imperatori, in alternativa alla reggia del Palatino: Nerone vi si recava per le sue uscite notturne, Vespasiano vi soggiornava volentieri, Adriano li arricchì di opere d'arte, e Aureliano — che li preferiva a qualunque altra residenza — vi fece costruire una <em>porticus miliarensis</em>, un grande portico-maneggio dove amava cavalcare.</p></div><div class="tab-panel"><p>Gli Horti Sallustiani occupavano un'area vastissima, comprendendo giardini, padiglioni residenziali, ninfei, portici e fontane monumentali. Tra le strutture principali ricordiamo un grande ninfeo semicircolare decorato con statue e giochi d'acqua, padiglioni residenziali con mosaici e affreschi spesso destinati a banchetti e ricevimenti, e un imponente criptoportico coperto, che permetteva di passeggiare al riparo in ogni stagione.</p>
+<p>Il complesso si estendeva fino all'area dell'attuale piazza Sallustio, piazza Fiume e via Veneto, in una posizione privilegiata che dominava parte della città: è proprio da questi horti che il rione moderno prende il nome di <strong>Sallustiano</strong>. Da non confondere con il vicino rione di Castro Pretorio, che pure confina con quest'area ma deve il proprio nome a un monumento diverso, i Castra Praetoria, l'antica caserma della Guardia Pretoriana.</p></div><div class="tab-panel"><ul>
+<li>Agli horti appartenevano celebri opere d'arte: tra queste la statua del Galata Morente, oggi ai Musei Capitolini, e il Galata Suicida — o Galata Ludovisi — oggi a Palazzo Altemps, sede del Museo Nazionale Romano; entrambe copie romane di un originale bronzeo greco commissionato da Attalo I di Pergamo per celebrare la sua vittoria sui Galati. Agli stessi horti si lega anche il celebre Trono Ludovisi, oggi anch'esso a Palazzo Altemps.</li>
+<li>L'imperatore Nerva morì proprio negli Horti Sallustiani, dove aveva scelto di soggiornare.</li>
+<li>Nel Medioevo l'area fu progressivamente abbandonata e ridotta a vigne e orti, ma ancora oggi nel quartiere Sallustiano emergono resti delle antiche strutture, visibili in una voragine recintata presso piazza Sallustio.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="portico-di-livia" data-name="portico di livia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Portico di Livia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Portico di Livia fu iniziato nel 15 a.C. e inaugurato nel 7 a.C., e prende il nome da Livia Drusilla, moglie di Augusto e prima imperatrice di Roma. Sorgeva sul Colle Esquilino, in un'area che in precedenza era occupata da una sontuosa villa privata appartenuta a Publio Vedio Pollione, ricchissimo cavaliere romano e consigliere di Augusto, tristemente famoso per la sua crudeltà verso gli schiavi — celebre l'episodio, tramandato da Seneca e Cassio Dione, in cui volle dare in pasto alle murene della sua peschiera uno schiavo colpevole di aver rotto una coppa di cristallo, salvato solo dall'intervento diretto di Augusto.</p>
+<p>Alla morte di Pollione, nel 15 a.C., i suoi beni passarono per testamento ad Augusto, che fece radere al suolo la sontuosa dimora — proprio per cancellarne la memoria — e vi costruì sopra, in linea con la sua politica di moralizzazione e propaganda, uno spazio pubblico dedicato alla moglie: da simbolo di lusso privato ed eccessi a luogo pubblico che ne celebrava le virtù e il ruolo di garante della tradizione.</p></div><div class="tab-panel"><p>Il Portico di Livia era un grande quadriportico rettangolare, lungo circa 115 metri e largo 75, ornato da colonnati marmorei su doppia fila che racchiudevano al centro un giardino alberato con statue, fontane e passeggiate ombreggiate da pergolati. L'impianto si inseriva nel filone degli spazi pubblici augustei, come il Foro di Augusto e il Portico di Ottavia, che univano funzione ricreativa e messaggio morale.</p>
+<p>All'interno del portico si trovava un tempio dedicato a Concordia Augusta, la dea della concordia, fatto costruire dalla stessa Livia: simboleggiava l'armonia familiare e politica garantita dalla coppia imperiale. La decorazione prevedeva statue di divinità e figure allegoriche, oltre a dipinti antichi ricordati dalle fonti, probabilmente scelti per sottolineare il ruolo di Livia come modello di <em>pudicitia</em> (modestia) e concordia.</p></div><div class="tab-panel"><ul>
+<li>Oggi del Portico di Livia non rimane quasi nulla: l'area corrisponde grosso modo a quella di piazza Vittorio Emanuele II e del vicino quartiere Esquilino.</li>
+<li>Fonti letterarie, come Ovidio e Strabone, ci raccontano che era un luogo molto frequentato e amato dai Romani, tanto da diventare un punto d'incontro elegante e alla moda.</li>
+<li>La dedica a Livia fu un gesto politico innovativo: era raro che uno spazio monumentale pubblico portasse il nome di una donna, e questo sottolinea il ruolo eccezionale che Livia ebbe nella propaganda del regime augusteo.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-maria-maggiore" data-name="santa maria maggiore">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Maria Maggiore</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> La tradizione narra che la basilica sia nata da un miracolo mariano: la Madonna apparve in sogno a papa Liberio (352-366) e a un patrizio romano, indicando il luogo dove voleva fosse costruita una chiesa. Il segno divino sarebbe stata una nevicata miracolosa sul colle Esquilino, avvenuta nella notte tra il 4 e il 5 agosto. In ricordo di quell'evento, ogni anno il 5 agosto la basilica celebra la festa della "Madonna della Neve", con una scenografica pioggia di petali bianchi all'interno della chiesa.</p>
+<p>La prima costruzione si deve quindi, secondo la tradizione, a papa Liberio — da cui l'altro nome della basilica, "Liberiana" — ma la basilica assunse la forma monumentale che conosciamo sotto papa Sisto III (432-440), dopo il Concilio di Efeso (431) che proclamò Maria <em>Theotokos</em>, Madre di Dio.</p>
+<p><strong>La basilica nel Medioevo.</strong> Durante il Medioevo Santa Maria Maggiore acquisì un ruolo crescente. Nel VII secolo vi furono traslate reliquie preziose, tra cui frammenti della Sacra Culla — reliquia della mangiatoia di Betlemme — che fecero della basilica un santuario mariano importantissimo. A metà del XII secolo, sotto papa Eugenio III, fu realizzato lo splendido pavimento cosmatesco ancora oggi visibile. Nel 1375-76 fu eretto, per volere di papa Gregorio XI appena tornato da Avignone, il campanile romanico che ancora oggi domina la piazza: alto 75 metri, è il più alto di Roma. Alla fine del Duecento, in vista del Giubileo del 1300, papa Niccolò IV promosse un radicale rinnovamento della zona absidale, di cui parliamo nella prossima sezione.</p></div><div class="tab-panel"><p>Santa Maria Maggiore è una basilica a tre navate con colonnato, che conserva ancora oggi l'impianto paleocristiano del V secolo: è l'unica tra le basiliche maggiori ad aver mantenuto in gran parte la sua pianta antica, pur con trasformazioni nei secoli.</p>
+<p><strong>I mosaici medievali.</strong> Il vero tesoro della basilica sono i suoi mosaici. Nella navata centrale, risalenti al V secolo, si trovano scene dell'Antico Testamento (Abramo, Mosè, Giosuè): sono tra i cicli musivi paleocristiani più antichi di Roma ancora visibili. Sull'arco trionfale, anch'esso del V secolo, sono raffigurati episodi dell'Infanzia di Cristo — Annunciazione, Natività, Adorazione dei Magi.</p>
+<p>Il mosaico absidale che vediamo oggi, invece, non è quello originario del V secolo — andato perduto proprio in quest'occasione — ma un rifacimento del 1295, opera di Jacopo Torriti, realizzato su commissione di papa Niccolò IV quando l'abside fu arretrata per creare spazio al nuovo transetto. Vi si vede l'Incoronazione della Vergine, con Cristo e Maria assisi fianco a fianco sullo stesso trono, circondati da santi e dagli stessi committenti, Niccolò IV e il cardinale Giacomo Colonna; nella fascia sottostante, scene della vita di Maria. È uno dei capolavori assoluti dell'arte musiva medievale romana, e la prima Incoronazione della Vergine mai raffigurata in un'abside.</p></div><div class="tab-panel"><p>Come già ricordato, la tradizione lega la fondazione della basilica a un doppio prodigio: in una notte d'agosto, sia papa Liberio sia un ricco patrizio romano senza figli — la tradizione lo chiama Giovanni — ebbero in sogno la visione della Vergine, che chiedeva loro di costruire una chiesa nel luogo che il mattino seguente sarebbe apparso coperto di neve. Il 5 agosto, nel pieno dell'estate romana, il colle Esquilino si svegliò effettivamente ricoperto da un manto bianco: sul perimetro tracciato dalla neve, secondo la leggenda, sorse la prima basilica.</p>
+<p>Nella Cappella Sistina della basilica — da non confondere con quella più famosa in Vaticano — si conserva ancora oggi la reliquia della Sacra Culla, la mangiatoia in cui, secondo la tradizione, fu deposto Gesù bambino a Betlemme.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-prassede" data-name="santa prassede">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Prassede</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> La chiesa sorge sul colle Esquilino e prende il nome da Santa Prassede, sorella di Santa Pudenziana, entrambe considerate figlie del senatore Pudente, amico di San Paolo. Secondo la tradizione, le due sorelle avrebbero raccolto e dato sepoltura ai corpi dei martiri romani.</p>
+<p>Una prima chiesa dedicata a Prassede esisteva già nel V secolo, ma l'edificio attuale fu ricostruito da papa Pasquale I (817-824) durante il suo programma di rinnovamento delle basiliche romane.</p>
+<p><strong>Il programma di Pasquale I.</strong> Pasquale I volle trasformare Roma in una nuova "Gerusalemme", accogliendo le reliquie di molti martiri dalle catacombe e collocandole in nuove chiese urbane. Santa Prassede fu una di queste: la basilica divenne così santuario delle reliquie e luogo di venerazione dei martiri, rispondendo anche al bisogno di riportare in città la devozione, mentre le catacombe cadevano in abbandono.</p>
+<p><strong>Il culto delle reliquie.</strong> Santa Prassede custodiva — e custodisce tuttora — numerose reliquie dei martiri provenienti dalle catacombe, inserite sotto l'altare maggiore. Questo fece della basilica una meta di pellegrinaggio importante per i fedeli medievali. Nel 1223, durante la Quinta Crociata, il cardinale titolare Giovanni Colonna portò a Roma da Gerusalemme quella che la tradizione identifica come la <strong>Colonna della Flagellazione</strong>, il pilastro a cui Cristo sarebbe stato legato durante la Passione: la fece collocare nella basilica di cui era titolare, dove si trova tuttora — non senza un pizzico d'ironia storica, dato che il cognome del cardinale coincideva con il nome stesso della reliquia.</p></div><div class="tab-panel"><p>La chiesa ha pianta basilicale a tre navate, con colonne di spoglio provenienti da edifici antichi. L'impianto è semplice, ma l'apparato decorativo musivo la rende straordinaria.</p>
+<p><strong>I mosaici medievali.</strong> Il ciclo musivo di Santa Prassede è uno dei capolavori assoluti del IX secolo. Nell'abside, Cristo in gloria è circondato da santi e dalla stessa Santa Prassede, in uno scenario paradisiaco di forte intensità spirituale — una delle più belle raffigurazioni di Cristo Pantocratore a Roma. Sull'arco trionfale si susseguono scene tratte dall'Apocalisse, con la Gerusalemme celeste, i ventiquattro vegliardi e l'Agnello mistico.</p>
+<p><strong>La Cappella di San Zenone.</strong> Piccolo oratorio voluto da Pasquale I per custodire le reliquie della madre Teodora, è chiamato anche "la piccola San Vitale di Roma" per la ricchezza dei mosaici parietali e della volta, con Cristo e i santi raffigurati su sfondi dorati. È il cuore simbolico della basilica: uno dei pochi interni medievali rimasti intatti a Roma, con un'intensità cromatica rara. Qui si trova anche il ritratto di Teodora, raffigurata con l'aureola quadrata, segno che era viva al momento della realizzazione — una delle rarissime immagini di una donna laica medievale in un mosaico romano.</p>
+<p><strong>Sopravvivenze medievali.</strong> Oggi la chiesa conserva ancora gran parte della sua fisionomia medievale: il ciclo musivo originale, la Cappella di San Zenone, il ciborio a colonne di porfido rosso, e il pavimento in opus sectile a marmi policromi.</p></div><div class="tab-panel"><ul>
+<li>Santa Prassede è spesso chiamata "la cappella Sistina del Medioevo", per la ricchezza e l'integrità dei suoi mosaici.</li>
+<li>La Colonna della Flagellazione è oggi custodita in un reliquiario dorato in stile Art Nouveau, disegnato nel 1898 dall'artista Duilio Cambellotti.</li>
+<li>La chiesa è a pochi passi da Santa Maria Maggiore: visitare entrambe permette di confrontare due momenti diversi dell'arte musiva cristiana — il Duecento di Torriti da una parte, il pieno IX secolo carolingio dall'altra.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-croce-in-gerusalemme" data-name="santa croce in gerusalemme">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Croce in Gerusalemme</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> La basilica fu fondata all'inizio del IV secolo dall'imperatrice Elena, madre di Costantino, che secondo la tradizione portò da Gerusalemme alcune reliquie della Passione di Cristo: frammenti della Croce, un chiodo, parti della corona di spine. La chiesa sorse all'interno di un'ala del Palazzo Sessoriano — lo stesso complesso imperiale di cui fa parte anche l'Anfiteatro Castrense, già raccontato in questa guida sotto il Celio — trasformata in luogo di culto. Proprio per la presenza delle reliquie, il complesso assunse il nome di Santa Croce in Gerusalemme, quasi a "ricreare" la città santa dentro Roma; nei primi secoli fu conosciuta semplicemente come Basilica Eleniana o Sessoriana.</p>
+<p><strong>Santa Croce nel Medioevo.</strong> Nell'VIII secolo la basilica fu restaurata sotto i papi Gregorio II e, in seguito, Adriano I, che ne rifece il tetto. La trasformazione più radicale arrivò però nel XII secolo, quando papa Lucio II (1144-45) ristrutturò l'edificio in forme romaniche, dividendolo nelle tre navate che vediamo ancora oggi, aggiungendo il transetto, il chiostro e l'alto campanile in laterizio. Al pavimento cosmatesco, realizzato entro il 1118, sembra invece aver contribuito un altro papa di nome simile ma diverso, Pasquale II — da non confondere con l'omonimo Pasquale I, attivo un secolo prima e responsabile invece dei grandi cicli musivi di Santa Prassede e Santa Maria in Domnica.</p></div><div class="tab-panel"><p>L'edificio originario era a tre navate, ricavato da ambienti del palazzo romano. Col tempo subì varie trasformazioni, ma il nucleo rimase sempre legato al culto delle reliquie.</p>
+<p><strong>Le reliquie della Passione.</strong> Al centro della devozione medievale di Santa Croce ci furono sempre le reliquie: frammenti della Vera Croce, un chiodo della crocifissione, parti della corona di spine, e una copia del <em>titulus crucis</em> (l'iscrizione "Gesù Nazareno Re dei Giudei"). Queste reliquie erano conservate nella cappella di Sant'Elena, parte integrante del complesso, e costituivano uno dei poli più importanti del pellegrinaggio romano medievale.</p>
+<p>Alla fine del Quattrocento, durante lavori di restauro, fu fatto un ritrovamento straordinario: dentro una cassetta murata nell'arco absidale fu scoperto il vero <strong>Titulus Crucis</strong>, la tavoletta lignea con l'iscrizione originale — o presunta tale — posta sopra la croce di Cristo, rimasta nascosta per secoli.</p>
+<p><strong>Sopravvivenze medievali.</strong> Oggi, nonostante i rifacimenti barocchi e settecenteschi, la basilica conserva ancora il pavimento cosmatesco medievale, resti di affreschi medievali nella cappella di Sant'Elena, e l'assetto generale del sito legato al culto delle reliquie, che continua a richiamare pellegrini.</p></div><div class="tab-panel"><ul>
+<li>La basilica è detta anche "Hierusalem", perché considerata una vera estensione della Terra Santa a Roma.</li>
+<li>La tradizione racconta che l'imperatrice Elena portò con sé a Roma un carico di terra di Gerusalemme, sparsa sotto il pavimento per rendere "vera" la dedicazione.</li>
+<li>Ancora oggi, il Venerdì Santo, qui si celebra una liturgia particolare con l'ostensione delle reliquie della Passione.</li>
+<li>Insieme a San Pietro, San Paolo, San Giovanni in Laterano, San Lorenzo, Santa Maria Maggiore e San Sebastiano, Santa Croce fa parte delle tradizionali "sette chiese" del pellegrinaggio romano, itinerario ancora oggi ripercorso da fedeli e pellegrini.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>

@@ -1927,5 +1927,65 @@ const deepIndex = [
     "file": "arte-architettura-civile.html",
     "id": "architettura-funeraria",
     "context": "Roma — Architettura e ingegneria civile"
+  },
+  {
+    "name": "Esquilino",
+    "file": "esquilino.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Horti Maecenatis",
+    "file": "esquilino.html",
+    "id": "horti-maecenatis",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Horti Lamiani",
+    "file": "esquilino.html",
+    "id": "horti-lamiani",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Horti Liciniani",
+    "file": "esquilino.html",
+    "id": "horti-liciniani",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Tempio di Minerva Medica",
+    "file": "esquilino.html",
+    "id": "tempio-di-minerva-medica",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Horti Sallustiani",
+    "file": "esquilino.html",
+    "id": "horti-sallustiani",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Portico di Livia",
+    "file": "esquilino.html",
+    "id": "portico-di-livia",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Santa Maria Maggiore",
+    "file": "esquilino.html",
+    "id": "santa-maria-maggiore",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Santa Prassede",
+    "file": "esquilino.html",
+    "id": "santa-prassede",
+    "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Santa Croce in Gerusalemme",
+    "file": "esquilino.html",
+    "id": "santa-croce-in-gerusalemme",
+    "context": "Roma — Esquilino"
   }
 ];
