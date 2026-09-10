@@ -2023,5 +2023,47 @@ const deepIndex = [
     "file": "arte-scultura-rilievo.html",
     "id": "rilievi-e-sarcofagi-funerari",
     "context": "Roma — Scultura e rilievo"
+  },
+  {
+    "name": "Viminale",
+    "file": "viminale.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Santa Pudenziana",
+    "file": "viminale.html",
+    "id": "santa-pudenziana",
+    "context": "Roma — Viminale"
+  },
+  {
+    "name": "Castra Praetoria",
+    "file": "viminale.html",
+    "id": "castra-praetoria",
+    "context": "Roma — Viminale"
+  },
+  {
+    "name": "Terme di Diocleziano",
+    "file": "viminale.html",
+    "id": "terme-di-diocleziano",
+    "context": "Roma — Viminale"
+  },
+  {
+    "name": "Santa Maria degli Angeli e dei Martiri",
+    "file": "viminale.html",
+    "id": "santa-maria-degli-angeli",
+    "context": "Roma — Viminale"
+  },
+  {
+    "name": "Museo Nazionale Romano",
+    "file": "viminale.html",
+    "id": "museo-nazionale-romano",
+    "context": "Roma — Viminale"
+  },
+  {
+    "name": "Piazza della Repubblica",
+    "file": "viminale.html",
+    "id": "piazza-della-repubblica",
+    "context": "Roma — Viminale"
   }
 ];

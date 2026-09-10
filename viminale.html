@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viminale — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Viminale</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Etimologia e significato.</strong> Il nome Viminale deriva probabilmente da <em>vimina</em>, cioè i rami flessibili del salice o del vimine che crescevano abbondanti in quest'area. Il colle era quindi ricordato per la sua vegetazione originaria. Nella storia di Roma, il Viminale ha avuto un ruolo più marginale rispetto a Campidoglio o Palatino, ma testimonia come anche le zone periferiche fossero presto inglobate e urbanizzate.</p>
+<p><strong>Origini.</strong> Il Viminale entrò a far parte della città con l'allargamento del pomerio serviano nel VI secolo a.C., sotto il re Servio Tullio, insieme ad altri colli come l'Esquilino e il Quirinale. In età arcaica non aveva santuari o edifici monumentali noti, ed era piuttosto una zona residenziale e di espansione urbana.</p>
+<p><strong>Funzioni.</strong> Il Viminale fu essenzialmente un colle residenziale e militare: ospitava insulae e domus legate ai quartieri popolari, si trovava vicino alle caserme e alle strutture legate al controllo urbano, come i Castra Praetoria, ed era una zona di passaggio tra i colli centrali e le aree suburbane.</p>
+<p><strong>Significato storico.</strong> Il Viminale rappresenta il volto più "quotidiano" della Roma antica: non il colle dei templi grandiosi o delle residenze imperiali, ma una parte viva e densamente abitata della città. La sua importanza si rivelò soprattutto con la costruzione delle Mura Serviane e poi delle Mura Aureliane, che lo inglobarono definitivamente nel circuito urbano.</p></div>
+        <div class="tab-panel"><p>Rispetto agli altri colli, il Viminale non ospitò mai grandi templi o complessi monumentali, ma ebbe un ruolo urbanistico importante: era attraversato da tratti delle Mura Serviane, che ne segnavano il confine con l'Esquilino, e in età imperiale il suo territorio fu segnato dalla presenza dei Castra Praetoria, la grande caserma della Guardia Pretoriana. Sulla sua sommità, o a cavallo con il vicino Quirinale, sorsero anche le grandiose Terme di Diocleziano — non un complesso vicino ma esterno, bensì parte integrante del paesaggio del colle stesso.</p></div>
+        <div class="tab-panel"><ul>
+<li>È l'unico dei sette colli che non ha mai ospitato grandi templi di rilievo, il che lo rese meno citato dalle fonti antiche.</li>
+<li>In epoca moderna, il Viminale ha assunto un nuovo ruolo politico: qui sorge il Palazzo del Viminale, sede del Ministero dell'Interno.</li>
+<li>La sua identità "minore" tra i sette colli lo rende però interessante per comprendere come Roma fosse fatta non solo di luoghi simbolici, ma anche di quartieri popolari e residenziali.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">6</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="santa-pudenziana" data-name="santa pudenziana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Pudenziana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini e fondazione.</strong> Santa Pudenziana si trova sul colle Viminale, su via Urbana (l'antico <em>Vicus Patricius</em>), ed è dedicata a Santa Pudenziana, sorella di Santa Prassede. Secondo la tradizione, Pudenziana e la sua famiglia furono tra i primi convertiti al cristianesimo: l'apostolo Pietro avrebbe dimorato per sette anni nella casa del senatore Pudente, loro padre, battezzandolo insieme a tutti i suoi figli. La chiesa sorge sopra un impianto termale di II secolo, tradizionalmente detto "Terme di Novato" dal nome di un fratello delle due sante — anche se gli scavi più recenti mettono in dubbio l'effettiva esistenza di queste terme.</p>
+<p>L'edificio attuale fu costruito alla fine del IV secolo, probabilmente sotto papa Siricio (384-399), e rappresenta uno dei più antichi tituli cristiani di Roma: un'iscrizione funeraria del 384 che ricorda un certo Leopardo come "lettore di Pudenziana" conferma che il titulus era già attivo a quella data.</p>
+<p><strong>Santa Pudenziana nel Medioevo.</strong> Nell'817 papa Pasquale I fece traslare qui, dalle catacombe di Priscilla sulla via Salaria, le reliquie di Pudenziana, per proteggerle dalle devastazioni dei Longobardi — le reliquie di Prassede presero invece la via della basilica a lei dedicata. Il restauro e l'ampliamento vero e proprio dell'edificio si devono però ad altri pontefici: papa Adriano I, che riedificò la chiesa nell'VIII secolo, e Gregorio VII, che la restaurò nell'XI. Fu infine Innocenzo III, tra XII e XIII secolo, a far costruire il campanile romanico ancora oggi visibile.</p></div><div class="tab-panel"><p>La basilica ha pianta a tre navate, con colonne e capitelli di spoglio da edifici romani. Col tempo subì modifiche, ma conserva ancora la struttura originaria paleocristiana, con aggiunte medievali come il pavimento cosmatesco e cappelle laterali.</p>
+<p><strong>Il mosaico absidale.</strong> Il tesoro di Santa Pudenziana è il mosaico dell'abside, risalente alla fine del IV secolo, considerato il più antico mosaico absidale cristiano giunto fino a noi. Rappresenta Cristo in trono come maestro, circondato dagli apostoli — dieci sono sopravvissuti, gli altri due sono andati perduti nei rimaneggiamenti cinquecenteschi. Alle sue spalle, una croce gemmata svetta sul colle del Golgota, e sullo sfondo appare una visione idealizzata di Gerusalemme. Ai lati del trono, due figure femminili porgono corone: la loro identità resta discussa, e sono state lette sia come le stesse Pudenziana e Prassede, sia come le personificazioni dell'Ecclesia ex circumcisione e dell'Ecclesia ex gentibus, la Chiesa dei giudei e quella dei pagani convertiti — la stessa coppia allegorica già incontrata nel mosaico di Santa Sabina sull'Aventino.</p>
+<p>L'immagine, pur influenzata dallo stile imperiale romano, ha già una forte impronta cristiana: Cristo è presentato come sovrano cosmico, che regge il Vangelo e guida la comunità. Nel Medioevo questo mosaico era visto come una prova della continuità tra l'Impero e la Chiesa, un tema centrale nella cultura medievale romana.</p></div><div class="tab-panel"><ul>
+<li>Nel mosaico originale l'abside aveva un cielo dorato con figure simboliche; fu parzialmente modificato nei restauri successivi, ma la parte centrale è ancora autentica del IV secolo.</li>
+<li>La chiesa è meno nota rispetto a Santa Prassede, ma nel Medioevo era considerata tra le più antiche testimonianze della fede romana.</li>
+<li>Pudenziana e Prassede, le due sante sorelle, sono spesso raffigurate insieme come simbolo della devozione familiare cristiana delle origini.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="castra-praetoria" data-name="castra praetoria">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Castra Praetoria</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>I Castra Praetoria furono costruiti nel 23 d.C. per ordine di Tiberio, su iniziativa del potente prefetto del pretorio Lucio Elio Seiano. Prima della loro edificazione, le coorti pretoriane — la guardia scelta dell'imperatore — erano disperse in varie caserme dentro e fuori Roma. Riunirle in un'unica struttura significava dare disciplina, efficienza e soprattutto centralizzare il potere militare al servizio del principe.</p>
+<p>La collocazione fu scelta sul Viminale, al margine nord-orientale della città, tra le vie Nomentana e Tiburtina: abbastanza vicino per intervenire rapidamente, ma al tempo stesso abbastanza fuori dal centro per non apparire come un esercito d'occupazione.</p>
+<p><strong>Funzioni.</strong> I Castra Praetoria non erano solo una caserma: rappresentavano il cuore del potere militare a Roma. Qui risiedevano le coorti pretoriane, guardia personale dell'imperatore. Qui si decidevano spesso le sorti politiche: gli imperatori venivano acclamati o deposti con il consenso — o la violenza — dei pretoriani. Nei momenti di crisi, i Castra Praetoria divennero un luogo temuto: basti pensare al 41 d.C., quando i pretoriani acclamarono Claudio imperatore dopo l'assassinio di Caligola, o al 193 d.C., quando misero letteralmente all'asta l'impero dopo la morte di Pertinace.</p>
+<p><strong>Significato storico.</strong> I Castra Praetoria simboleggiano il peso politico della guardia pretoriana, spesso arbitra delle sorti dell'impero. La loro presenza garantiva sicurezza, ma anche instabilità: un imperatore non poteva governare senza il favore dei pretoriani. Quando Costantino sciolse la guardia pretoriana nel 312 d.C., dopo aver sconfitto Massenzio a Ponte Milvio, i Castra persero la loro funzione originaria. Tuttavia, la struttura rimase e venne inglobata nelle difese urbane.</p></div><div class="tab-panel"><p>I Castra Praetoria erano una vera e propria fortezza militare urbana: una pianta rettangolare di circa 440 × 380 metri, occupante oltre 16 ettari; mura alte e spesse in mattoni, con torri angolari e porte monumentali; all'interno, baracche per i soldati, alloggi per ufficiali, magazzini, armerie e spazi di addestramento — oltre a piccoli sacelli dedicati a divinità diverse, comprese quelle straniere come Esculapio e Mitra, a testimonianza delle molte origini dei soldati di stanza.</p>
+<p>Le mura, alte tra i 3 e i 5 metri sotto Tiberio, furono danneggiate durante la guerra civile del 69 d.C. — l'anno dei quattro imperatori — e ricostruite da Vespasiano. Il complesso rimase in funzione per secoli, e le sue mura furono in seguito inglobate da Aureliano (270-275 d.C.) nella cinta difensiva della città, che ne rialzò ulteriormente il perimetro.</p></div><div class="tab-panel"><ul>
+<li>Parti delle mura dei Castra Praetoria sono ancora visibili lungo via Nomentana e viale Castro Pretorio: sono tra i resti meglio conservati delle mura aureliane.</li>
+<li>Il toponimo Castro Pretorio è rimasto fino a oggi: dà nome al rione e alla stazione della metropolitana di Roma.</li>
+<li>Sul sito sorge ancora oggi la Caserma "Castro Pretorio", sede del Raggruppamento Logistico Centrale dell'Esercito Italiano — che può vantarsi di essere, a duemila anni di distanza, la caserma più antica al mondo ancora presidiata da militari.</li>
+<li>La costruzione dei Castra segnò una svolta: mai prima di allora una forza militare permanente era stata stanziata stabilmente dentro Roma, città che fino a Cesare si era orgogliosamente tenuta libera di legioni.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="terme-di-diocleziano" data-name="terme di diocleziano">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terme di Diocleziano</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le Terme di Diocleziano furono costruite in soli otto anni: iniziate nel 298 d.C. per volere dell'imperatore Massimiano, che le dedicò al collega Diocleziano — con cui condivideva il governo dell'impero nel sistema della tetrarchia — furono inaugurate nel 306 d.C., dopo l'abdicazione di entrambi. L'imperatore volle lasciare a Roma un segno tangibile della grandezza imperiale, anche se la città non era più il centro politico unico dell'impero.</p>
+<p>La scelta della collocazione, tra il Viminale e il Quirinale, non fu casuale: l'area era già monumentalizzata da horti e complessi aristocratici, come gli Horti Sallustiani poco distanti, e offriva spazio sufficiente per un progetto di dimensioni mai viste.</p>
+<p><strong>Funzioni.</strong> Le terme non erano semplicemente bagni: erano un centro polivalente della vita urbana, dedicato alla cura del corpo, allo svago nei giardini e agli incontri nelle sale di lettura, alla cultura nelle biblioteche. La gratuità dell'ingresso, offerta dall'imperatore, trasformava le terme in un luogo di propaganda, simbolo della generosità e della potenza imperiale — come ricordava l'iscrizione originariamente affissa all'ingresso.</p>
+<p>L'impianto restò in funzione per oltre due secoli, fino alla metà del VI secolo, quando la guerra greco-gotica portò al taglio degli acquedotti che lo alimentavano, decretandone la fine. Per quasi mille anni le rovine furono poi utilizzate come cava di materiali, ricovero per animali e terreno di pascolo — sopravvissute soprattutto grazie alla straordinaria resistenza del calcestruzzo romano delle volte, oggetto ancora oggi di studio da parte degli ingegneri.</p></div><div class="tab-panel"><p>Le Terme di Diocleziano erano il più grande impianto termale di Roma, capaci di accogliere fino a 3.000 persone contemporaneamente, il doppio delle Terme di Caracalla. Il complesso occupava circa 13 ettari e seguiva lo schema tipico delle grandi terme imperiali, ma portato a una scala colossale: il frigidarium, sala centrale altissima coperta da volte a crociera; il tepidarium, ambienti intermedi riscaldati; il caldarium, grande sala circolare con cupola e ampie finestre orientate per sfruttare il calore del sole; la natatio, l'enorme piscina scoperta lunga oltre 50 metri; due palestrae laterali per gli esercizi ginnici; e ambienti secondari come biblioteche, sale di lettura, giardini e portici. La decorazione interna era ricchissima: marmi policromi, statue colossali, mosaici pavimentali.</p>
+<p><p>Il riuso rinascimentale del complesso è altrettanto significativo: nel 1561 papa Pio IV incaricò Michelangelo di trasformare il frigidarium nella basilica di Santa Maria degli Angeli e dei Martiri — la scheda dedicata, qui accanto, ne racconta la storia completa.</p></div><div class="tab-panel"><ul>
+<li>Nel complesso delle Terme di Diocleziano oggi si trova una delle quattro sedi del Museo Nazionale Romano, di cui parliamo nella scheda dedicata qui accanto.</li>
+<li>Il nome del vicino quartiere e della piazza della Repubblica deriva dalla grande esedra semicircolare che faceva parte del complesso termale, di cui la piazza moderna ricalca ancora oggi la forma.</li>
+<li>La dedica ai martiri, secondo la tradizione, ricordava i cristiani che sarebbero morti come schiavi durante la costruzione delle terme: un racconto che le fonti storiche non confermano con certezza, ma che nasce dal fatto che Diocleziano fu l'imperatore dell'ultima e più dura persecuzione anticristiana, quella del 303 d.C.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="santa-maria-degli-angeli" data-name="santa maria degli angeli e dei martiri">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Santa Maria degli Angeli e dei Martiri</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La basilica nacque da una visione. Nel 1541 il sacerdote Antonio del Duca ebbe in sogno l'apparizione di una luce candida come neve sulle rovine delle Terme di Diocleziano, al cui centro comparivano sette martiri — Saturnino, Ciriaco, Largo, Smaragdo, Sisinnio, Trasone e papa Marcello I. Da quella visione nacque l'idea di dedicare l'edificio agli angeli e ai sette martiri cristiani, ma papa Paolo III non diede seguito al progetto. Bisognò attendere vent'anni: fu papa Pio IV, nel 1561, a incaricare un Michelangelo ormai ottantaseienne — ancora al lavoro sulla nuova Basilica di San Pietro — di trasformare il frigidarium delle terme in una nuova chiesa, dedicata "alla Beatissima Vergine e a tutti gli Angeli e Martiri".</p>
+<p>Michelangelo elaborò il progetto tra il 1563 e il 1564, poco prima di morire: scelse di mantenere quasi intatti i volumi antichi, limitandosi a inserire gli elementi necessari al culto e valorizzando le imponenti volte a crociera e le colonne monolitiche di granito rosso d'Assuan della sala termale. Dopo la sua morte i lavori proseguirono sotto la guida di allievi, tra cui Jacopo Lo Duca, nipote dello stesso Antonio del Duca, che progettò anche il grande chiostro della Certosa annessa.</p>
+<p><strong>Il rifacimento di Vanvitelli.</strong> L'aspetto che oggi vediamo si deve soprattutto a Luigi Vanvitelli — il futuro architetto della Reggia di Caserta — incaricato nel 1749, in vista del Giubileo del 1750, di rinnovare la decorazione interna. Vanvitelli capovolse l'orientamento della chiesa di 90 gradi, aprendo il nuovo ingresso monumentale nell'ambiente dell'antico calidarium, e trasformò il transetto in una vera e propria pinacoteca, rivestendo le pareti di marmi policromi sul modello di quella che sarebbe poi diventata la sua reggia casertana.</p></div><div class="tab-panel"><p>Fu proprio Vanvitelli ad avere l'idea di allestire il transetto come galleria per accogliere le grandiose pale d'altare provenienti dalla Basilica di San Pietro in Vaticano, sostituite nella basilica vaticana da copie a mosaico per proteggerle dall'umidità. Tra queste, opere di Domenichino (il Martirio di San Sebastiano), Carlo Maratta (il Battesimo di Gesù), Pompeo Batoni, Girolamo Muziano e Pierre Subleyras: una delle raccolte di grande pittura barocca romana più significative fuori dai musei, custodita dentro una chiesa ancora oggi consacrata al culto.</p>
+<p>Sul pavimento del transetto destro corre in diagonale la <strong>Linea Clementina</strong>, una grande meridiana in bronzo realizzata nel 1702 dall'astronomo Francesco Bianchini, con la collaborazione di Giacomo Filippo Maraldi, su commissione di papa Clemente XI. Il suo scopo non era solo devozionale: doveva verificare concretamente l'esattezza del calendario gregoriano, da poco più di un secolo in vigore, e permettere di calcolare con precisione la data della Pasqua osservando i movimenti del sole e della luna. Attorno alla linea, riquadri rappresentano le costellazioni dello zodiaco.</p>
+<p>Nella basilica sono sepolti, tra gli altri, i pittori Salvator Rosa e Carlo Maratta, oltre a diverse personalità della storia italiana più recente, tra cui il generale Luigi Cadorna e Armando Diaz. Le porte bronzee dell'ingresso monumentale, con figure classicheggianti, sono opera contemporanea dello scultore polacco Igor Mitoraj.</p></div><div class="tab-panel"><ul>
+<li>La meridiana Clementina funzionò come vero e proprio orologio solare pubblico fino al 1846, quando fu sostituita nel ruolo dal colpo di cannone sparato ogni giorno a mezzogiorno dal Gianicolo.</li>
+<li>Nel 1896 la basilica ospitò il matrimonio di re Vittorio Emanuele III con la principessa Elena del Montenegro: ancora oggi Santa Maria degli Angeli resta la chiesa di riferimento per le cerimonie ufficiali dello Stato italiano, comprese le esequie di Stato.</li>
+<li>Nonostante l'interno sontuoso, l'esterno della basilica resta deliberatamente spoglio: su Piazza della Repubblica si affaccia ancora la muratura grezza e concreta dell'antica esedra termale, senza alcuna facciata monumentale — la miglior prova visibile di come l'intero edificio nasca da un riuso, non da una costruzione ex novo.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="museo-nazionale-romano" data-name="museo nazionale romano">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Museo Nazionale Romano</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Non è un unico edificio, ma un museo "diffuso" in quattro sedi separate in diversi punti di Roma: le Terme di Diocleziano, Palazzo Massimo alle Terme, Palazzo Altemps e la Crypta Balbi.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Museo Nazionale Romano fu fondato nel 1889, negli anni febbrili in cui Roma, appena diventata capitale d'Italia, cercava di dare una sede degna ai reperti archeologici che i grandi scavi urbanistici post-unitari continuavano a riportare alla luce — dagli Horti Sallustiani ai tanti altri cantieri della città in trasformazione. La prima sede fu proprio qui, nel convento certosino annesso alle Terme di Diocleziano, espropriato dopo il 1870.</p>
+<p>Nel corso del Novecento la collezione, sempre più vasta, fu progressivamente distribuita su più sedi, fino ad assumere l'attuale struttura a quattro musei distinti mantenuta sotto un'unica direzione: oltre alle Terme di Diocleziano, il complesso comprende Palazzo Massimo alle Terme (a pochi passi, dedicato soprattutto all'arte e ai ritratti di età repubblicana e imperiale), Palazzo Altemps (nel centro storico, presso Piazza Navona, sede delle grandi collezioni scultoree rinascimentali e barocche, tra cui il Trono Ludovisi e il Galata Suicida già incontrati nella scheda degli Horti Sallustiani), e la Crypta Balbi (vicino al Portico d'Ottavia, unico museo al mondo dedicato specificamente alla stratificazione urbana di un quartiere, dall'antichità al Medioevo).</p></div><div class="tab-panel"><p>Le Terme di Diocleziano ospitano oggi soprattutto le collezioni epigrafiche e protostoriche del museo, oltre al grande chiostro michelangiolesco della Certosa, utilizzato come spazio espositivo per sculture e sarcofagi antichi. Il percorso museale consente di attraversare gli ambienti superstiti delle terme — frigidarium, aule laterali, la grande aula ottagona — offrendo insieme la visita a un monumento antico e a una collezione museale.</p></div><div class="tab-panel"><ul>
+<li>Le quattro sedi del Museo Nazionale Romano custodiscono complessivamente una delle raccolte di arte classica più importanti al mondo, seconda a Roma solo ai Musei Vaticani e ai Musei Capitolini.</li>
+<li>Molti dei capolavori già incontrati in questo dossier — dal Discobolo Lancellotti degli Horti Lamiani al Trono Ludovisi e al Galata Suicida degli Horti Sallustiani — sono oggi conservati proprio in una delle sedi del Museo Nazionale Romano, a riprova di quanto le collezioni del museo siano intrecciate con la storia stessa dei colli di Roma raccontata in questo dossier.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="piazza-della-repubblica" data-name="piazza della repubblica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Piazza della Repubblica</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'attuale Piazza della Repubblica si trova sul tracciato dell'antica esedra semicircolare delle Terme di Diocleziano (IV secolo d.C.), di cui conserva ancora la forma. Nel Rinascimento l'area era semideserta, ma la grandiosa sala delle terme fu trasformata da Michelangelo in parte della basilica di Santa Maria degli Angeli e dei Martiri, su incarico di papa Pio IV — la storia che abbiamo già raccontato nella scheda dedicata alle terme.</p>
+<p>La sistemazione moderna della piazza risale alla fine dell'Ottocento, dopo l'Unità d'Italia, quando Roma divenne capitale e si volle creare un ingresso scenografico dalla nuova Stazione Termini. In quell'occasione la piazza fu ribattezzata Piazza Esedra — nome rimasto a lungo nell'uso popolare, fino agli anni Cinquanta del Novecento — e vennero costruiti i portici semicircolari che ancora oggi la incorniciano, realizzati tra il 1887 e il 1898 su progetto dell'architetto Gaetano Koch.</p></div><div class="tab-panel"><p>La piazza ha forma circolare, riprendendo la curva dell'antica esedra delle terme. I due palazzi porticati di Koch ne segnano i limiti moderni; sul lato nord-ovest si affaccia la Basilica di Santa Maria degli Angeli e dei Martiri, con i suoi interni solenni e classicheggianti ricavati dalle antiche aule termali.</p>
+<p><strong>La Fontana delle Naiadi.</strong> Al centro della piazza si trova la celebre Fontana delle Naiadi, inaugurata nel 1901 e scolpita da Mario Rutelli, che suscitò subito scalpore per la sensualità delle figure: quattro ninfe nude adagiate su animali acquatici, simboli delle acque dei mari, dei fiumi, dei laghi e delle falde sotterranee. Il gruppo scultoreo al centro della vasca ebbe invece una storia più travagliata: una prima versione, completata da Rutelli nel 1911 con tre tritoni, un delfino e un polpo avvinghiati in una lotta, fu accolta con ironia dai romani — che la ribattezzarono subito "il fritto misto di Termini" — e rimossa quasi subito, per essere trasferita nei giardini di piazza Vittorio Emanuele II, dove si trova tuttora. Solo l'anno seguente, nel 1912, fu collocato al suo posto il gruppo definitivo con il dio Glauco che lotta con un delfino, simbolo della potenza della natura dominata dall'uomo: la fontana assunse così l'aspetto che conserva ancora oggi, uno dei più begli esempi di stile Liberty a Roma.</p></div><div class="tab-panel"><ul>
+<li>La Fontana delle Naiadi suscitò scandalo alla sua inaugurazione: le figure nude furono giudicate immorali, e a lungo restarono nascoste dietro uno steccato di legno, abbattuto infine dai romani stessi il 10 febbraio 1901 durante una sommossa popolare. In poco tempo divenne una delle attrazioni più ammirate di Roma.</li>
+<li>La basilica di Santa Maria degli Angeli fu scelta come sede per grandi cerimonie nazionali, come i funerali di stato e le celebrazioni ufficiali.</li>
+<li>Il complesso delle Terme di Diocleziano, oggi visitabile in parte come museo, è uno dei più vasti esempi di architettura imperiale conservati a Roma.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>
