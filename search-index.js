@@ -2065,5 +2065,41 @@ const deepIndex = [
     "file": "viminale.html",
     "id": "piazza-della-repubblica",
     "context": "Roma — Viminale"
+  },
+  {
+    "name": "Pittura e affresco",
+    "file": "arte-pittura-affresco.html",
+    "id": null,
+    "context": "Roma — Arte e Architettura Romana"
+  },
+  {
+    "name": "Primo stile",
+    "file": "arte-pittura-affresco.html",
+    "id": "primo-stile",
+    "context": "Roma — Pittura e affresco"
+  },
+  {
+    "name": "Secondo stile",
+    "file": "arte-pittura-affresco.html",
+    "id": "secondo-stile",
+    "context": "Roma — Pittura e affresco"
+  },
+  {
+    "name": "Terzo stile",
+    "file": "arte-pittura-affresco.html",
+    "id": "terzo-stile",
+    "context": "Roma — Pittura e affresco"
+  },
+  {
+    "name": "Quarto stile",
+    "file": "arte-pittura-affresco.html",
+    "id": "quarto-stile",
+    "context": "Roma — Pittura e affresco"
+  },
+  {
+    "name": "Domus e ville",
+    "file": "arte-pittura-affresco.html",
+    "id": "domus-e-ville",
+    "context": "Roma — Pittura e affresco"
   }
 ];

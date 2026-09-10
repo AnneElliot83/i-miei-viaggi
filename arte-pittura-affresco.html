@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pittura e affresco — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel .tabs{ margin-top:4px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="arte-architettura-romana.html">← Arte e Architettura Romana</a>
+
+<header>
+  <h1>Pittura e affresco</h1>
+  <div class="subtitle">Arte e Architettura Romana · Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="pittura-e-affresco">
+  
+  <div class="sites-list">
+    
+  <div class="site" id="primo-stile" data-name="primo stile">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Primo stile</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">La classificazione di August Mau</button>
+  <button class="tab" onclick="switchTab(this)">Caratteristiche e datazione</button>
+  <button class="tab" onclick="switchTab(this)">Esempi a Pompei ed Ercolano</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+
+<p>Quando si parla dei "quattro stili pompeiani", si fa riferimento a una classificazione elaborata nel 1882 dall'archeologo tedesco <strong>August Mau</strong>, sulla base delle straordinarie condizioni di conservazione delle città sepolte dall'eruzione del 79 d.C. — Pompei ed Ercolano. Mau si appoggiò al <strong>VII libro del <em>De Architectura</em> di Vitruvio</strong>, che già in età augustea discuteva la decorazione pittorica delle pareti, per costruire uno schema in quattro fasi successive.</p>
+<p>È bene precisare che il termine "stile" è in parte improprio: sarebbe più corretto parlare di <strong>schemi decorativi</strong>, dato che si tratta di soluzioni compositive ricorrenti più che di uno "stile" nel senso pieno del termine. Nonostante i limiti — la classificazione nasce da un campione tutto campano, non necessariamente rappresentativo dell'intera produzione romana, inclusa Roma stessa — resta ancora oggi il punto di riferimento fondamentale per orientarsi nella pittura parietale romana.</p>
+
+</div>
+<div class="tab-panel">
+
+<p>Il <strong>primo stile</strong>, detto anche <strong>stile strutturale</strong> o <strong>stile dell'incrostazione</strong>, è il più antico: si colloca tra il <strong>150 e l'80 a.C.</strong> circa (secondo alcuni già dal III-II secolo a.C.), diffuso sia in edifici pubblici sia in abitazioni private. Il nome "incrostazione" deriva dal fatto che imita, tramite <strong>stucco dipinto e modellato a rilievo</strong>, il rivestimento delle pareti in <strong>opus quadratum</strong> — grandi blocchi di pietra squadrata — o in lastre di marmo pregiato (la <em>crusta</em> da cui prende il nome).</p>
+<p>Lo schema compositivo segue una ripartizione fissa in tre fasce orizzontali:</p>
+<ul>
+<li><strong>Zoccolo</strong> — la fascia inferiore, generalmente di colore giallo, a creare un forte contrasto cromatico con la fascia soprastante</li>
+<li><strong>Fascia mediana</strong> — la parte più elaborata, dipinta prevalentemente in rosso e nero, ma anche viola e verde-giallo, a imitare marmi, graniti e alabastri policromi</li>
+<li><strong>Fascia superiore</strong> — decorata con cornici in stucco aggettante (sporgente rispetto al piano della parete)</li>
+</ul>
+<p>A completare lo schema, piccoli elementi architettonici reali — come <strong>pilastri scanalati</strong> poggianti direttamente a terra — venivano usati per scandire verticalmente la superficie: un effetto che, a differenza del secondo stile che seguirà, resta fedele e "onesto" rispetto alla superficie muraria, senza alcuna finzione prospettica o sfondamento illusionistico della parete.</p>
+
+</div>
+<div class="tab-panel">
+
+<p>Gli esempi meglio conservati si trovano nella <strong>Casa del Fauno</strong> a Pompei — una delle dimore più grandi e lussuose della città — dove le fauci d'ingresso conservano un notevole esempio con colonnine scanalate su cornice aggettante sorretta da mensole; nella <strong>Casa di Sallustio</strong>, dove nell'atrio si alternano filari di ortostati e bugnato dipinto in rosso, giallo e verde; e in due edifici pubblici, la <strong>Basilica</strong> (di cui resta un graffito datato al 78 a.C., prezioso indizio cronologico) e il <strong>Tempio di Giove</strong>. A Ercolano, l'esempio di riferimento è la <strong>Casa Sannitica</strong>.</p>
+
+</div>
+</div>
+    </div></div>
+  </div>
+
+  <div class="site" id="secondo-stile" data-name="secondo stile">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Secondo stile</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Un salto rivoluzionario: la prospettiva illusionistica</button>
+  <button class="tab" onclick="switchTab(this)">Fase A e fase B: dall'architettura al paesaggio</button>
+  <button class="tab" onclick="switchTab(this)">Esempi celebri</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>Con il <strong>secondo stile</strong>, databile tra l'80 a.C. e la fine del I secolo a.C. (il più antico esempio conosciuto, nella Casa dei Grifi sul Palatino, è però già collocabile tra il 120 e il 90 a.C.), la pittura romana compie un salto concettuale radicale. Dove il primo stile <em>imitava</em> la superficie del muro rendendola più preziosa, il secondo stile la <strong>nega</strong>: la parete piatta viene dipinta in modo da sembrare <strong>sfondata</strong>, aperta su colonnati, portici, edicole e vedute prospettiche che si allontanano nello spazio. Un vero <em>trompe l'oeil</em> architettonico — da qui anche il nome alternativo di <strong>stile architettonico</strong> o "finto prospetto".</p>
+<p>Cornici e fregi, prima realizzati fisicamente in stucco a rilievo, vengono ora ottenuti <strong>solo con la pittura</strong>: un cambiamento tecnico che è insieme una dichiarazione d'intenti, perché segna il passaggio da una decorazione ancora legata alla concretezza materiale della parete a una che vive interamente d'illusione ottica. Le stanze, spesso prive di finestre, si dilatano visivamente ben oltre i propri confini reali.</p>
+</div>
+<div class="tab-panel">
+<p>Gli studiosi distinguono all'interno del secondo stile due fasi. Nella prima, più antica, l'illusionismo si concentra su <strong>elementi architettonici</strong>: podi, colonnati (spesso ionici), edicole, porte socchiuse che lasciano intravedere vedute retrostanti. Con il tempo si sviluppa anche una vera scuola di <strong>pittori paesaggisti</strong>, che arricchiscono le composizioni con dettagli di giardini, scorci naturalistici e nature morte dipinti con grande cura.</p>
+<p>Verso la fine del periodo, in età già augustea (una cosiddetta "fase B", attorno al 30 a.C.), lo stile raggiunge un'ulteriore elaborazione: le decorazioni fingono interi <strong>complessi architettonici di gusto ellenistico</strong> — sale colonnate, porticati, perfino riproduzioni dipinte di quadri di celebri pittori antichi appesi alle pareti illusorie — come si vede negli affreschi della Villa della Farnesina e dell'Aula Isiaca a Roma.</p>
+</div>
+<div class="tab-panel">
+<p>L'esempio più famoso e studiato resta la <strong>Villa dei Misteri</strong> a Pompei, dove la celebre <strong>megalografia</strong> — il grande fregio a figure quasi a grandezza naturale che corre lungo le pareti di un'intera sala, raffigurante un rito misterico legato al culto di Bacco — è considerata uno dei vertici assoluti della pittura romana. Altrettanto ricca è la decorazione della <strong>Villa di P. Fannio Sinistor a Boscoreale</strong> (dopo il 50 a.C.), le cui pareti — oggi smembrate tra il Metropolitan Museum di New York e il Museo Archeologico di Napoli — mostrano l'illusionismo architettonico del secondo stile alla sua massima raffinatezza. A Pompei lo stile compare anche nella Casa del Labirinto, nella Casa delle Nozze d'Argento e nella Casa del Criptoportico; a Roma, oltre alla già citata Casa dei Grifi, negli affreschi con scene dell'Odissea della Casa di via Graziosa.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="terzo-stile" data-name="terzo stile">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terzo stile</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Il rifiuto dell'illusionismo: la parete si richiude</button>
+  <button class="tab" onclick="switchTab(this)">Candelabri, pinakes e paesaggi</button>
+  <button class="tab" onclick="switchTab(this)">Esempi e la critica di Vitruvio</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>Se il secondo stile aveva "sfondato" la parete con prospettive illusionistiche, il <strong>terzo stile</strong> — che si sovrappone cronologicamente al precedente e si protrae fino all'epoca di Claudio (41-54 d.C.) — inverte completamente la rotta: la superficie muraria torna a chiudersi, a farsi <strong>piatta</strong>, e riafferma la propria presenza fisica come limite reale dello spazio. Le grandi campiture monocrome, spesso scure (nero, rosso profondo), assomigliano a tendaggi o tappezzerie tese sulla parete — l'esatto opposto delle vedute prospettiche che le avevano precedute.</p>
+<p>La testimonianza più antica di questo cambiamento si trova, curiosamente, a Roma: la decorazione interna della <strong>Piramide di Caio Cestio</strong>, databile su base epigrafica attorno al 12 a.C., mostra già ampie campiture di colore uniforme con piccole figure alate e sottili candelabri — quella che gli studiosi chiamano la fase iniziale dello "<strong>stile a candelabri</strong>", in cui la parete appare ancora del tutto chiusa, animata solo da elementi ornamentali esilissimi.</p>
+</div>
+<div class="tab-panel">
+<p>Al centro delle grandi campiture monocrome trovano posto piccoli <strong>pannelli dipinti</strong> — i <strong>pinakes</strong> — realizzati in tinte più chiare rispetto al fondo scuro, come piccoli "quadri" appesi a una parete-tappezzeria: scene mitologiche, teatrali, talvolta erotiche, incorniciate da architetture fantastiche e ridotte a puro ornamento. A decorare gli spazi attorno ai pinakes compaiono i motivi tipici dello stile — <strong>candelabri filiformi</strong>, <strong>figure alate</strong>, <strong>sfingi</strong>, <strong>tralci vegetali</strong> — trattati con una ricerca del dettaglio prezioso e delicato che segna il gusto dominante del periodo.</p>
+<p>Accanto a questo filone più decorativo, prosegue e si raffina la tradizione dei <strong>pittori paesaggisti</strong> già avviata nel secondo stile: l'esempio più noto è il <strong>giardino dipinto della Villa di Livia</strong> a Prima Porta, un intero ambiente ipogeo trasformato, tramite la pittura, in un rigoglioso giardino continuo senza soluzione di continuità — uno dei capolavori assoluti della pittura naturalistica romana.</p>
+</div>
+<div class="tab-panel">
+<p>Tra gli esempi meglio conservati: la <strong>Casa della Farnesina</strong> a Roma, con pannelli mitologici incorniciati da esili colonnine e sfingi di supporto; le ville di <strong>Boscotrecase</strong>, tra cui quella di <strong>Agrippa Postumo</strong>; la <strong>Villa Imperiale</strong> e la <strong>Casa del Bracciale d'Oro</strong> a Pompei, quest'ultima celebre per il proprio giardino dipinto popolato da uccelli, con erme laterali a sorreggere pinakes e maschere teatrali pendenti dal soffitto dipinto.</p>
+<p>Non tutti apprezzarono questo nuovo linguaggio: <strong>Vitruvio</strong> stesso, nel <em>De Architectura</em>, criticò apertamente lo stile per la sua rappresentazione di elementi "mostruosi" e irreali — colonne sostituite da canne, frontoni spezzati in volute di foglie arricciate, candelabri che reggono edifici impossibili — un'architettura dipinta che, a differenza di quella (comunque fittizia) del secondo stile, non aveva più alcuna pretesa di verosimiglianza costruttiva.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="quarto-stile" data-name="quarto stile">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Quarto stile</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Sintesi e teatralità: la fusione degli stili precedenti</button>
+  <button class="tab" onclick="switchTab(this)">Datazione e diffusione dopo il terremoto del 62</button>
+  <button class="tab" onclick="switchTab(this)">Esempi e l'eredità rinascimentale (le grottesche)</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>Il <strong>quarto stile</strong>, affermatosi in età neroniana, chiude la sequenza dei quattro schemi decorativi pompeiani mettendo in scena una vera e propria <strong>sintesi</strong> di tutto ciò che lo ha preceduto — senza però introdurre, in senso stretto, alcun elemento realmente nuovo. Torna l'imitazione dei rivestimenti marmorei policromi del primo stile, tornano le finte architetture e gli sfondamenti prospettici in <em>trompe l'oeil</em> del secondo, e restano gli apparati ornamentali — candelabri, figure alate, tralci vegetali, pinakes centrali — del terzo. Il risultato è uno stile <strong>riccamente decorativo e teatrale</strong>, con architetture fantastiche, impossibili e di grande scenicità, che qualcuno ha paragonato, con un'analogia volutamente anacronistica, alla frivolezza iperdecorativa del <strong>Rococò</strong>.</p>
+<p>A differenza degli stili precedenti — le cui architetture dipinte, per quanto illusorie, restavano costruttivamente plausibili — il quarto stile abbandona ogni pretesa di verosimiglianza: le strutture rappresentate sono <strong>bidimensionali</strong>, puramente decorative, impossibili da costruire nella realtà, eseguite con un tratto fortemente <strong>calligrafico</strong> e una predilezione per la policromia e il dettaglio miniaturistico.</p>
+</div>
+<div class="tab-panel">
+<p>A Pompei, l'affermazione del quarto stile è databile con relativa precisione a poco dopo il <strong>60 d.C.</strong>, e soprattutto dopo il disastroso <strong>terremoto del 62 d.C.</strong>, che danneggiò gravemente la città e ne impose una vasta ricostruzione — occasione che spiega la sua straordinaria diffusione nelle case pompeiane giunte fino a noi, decorate proprio negli anni tra il sisma e l'eruzione del 79 d.C.</p>
+<p>A Roma, lo stile compare già qualche decennio prima, con radici che risalgono almeno alla <strong>Domus Transitoria</strong> (prima del 64 d.C.), per poi trovare la propria massima espressione nella sfarzosa <strong>Domus Aurea</strong>, la residenza che <strong>Nerone</strong> fece costruire nel cuore di Roma tra il 64 e il 68 d.C. — probabile motore stesso dell'innovazione stilistica, da cui il gusto si sarebbe poi diffuso in tutto l'impero.</p>
+</div>
+<div class="tab-panel">
+<p>Gli esempi pompeiani di maggior pregio si trovano nella <strong>Casa dei Vettii</strong> — dove l'<em>oecus</em> principale sviluppa una decorazione simmetrica su tre registri, con un fondo giallo nel registro mediano su cui si innestano architetture bidimensionali e grandi quadri mitologici — e nella <strong>Casa dei Dioscuri</strong>, probabilmente opera della stessa bottega. Nella <strong>Casa di Menandro</strong>, l'atrio ospita una serie di eleganti riquadri dedicati a episodi della guerra di Troia, tra cui il celebre incontro tra Priamo, Menelao ed Elena.</p>
+<p>Il capitolo più affascinante di questa storia arriva però molti secoli dopo: quando, nel Rinascimento, gli ambienti sotterranei della <strong>Domus Aurea</strong> furono riscoperti — sembravano, per la loro posizione ipogea, delle vere e proprie "grotte" — pittori come <strong>Raffaello</strong> ne studiarono e copiarono dal vivo la decorazione fantastica, dando origine al genere ornamentale delle <strong>"grottesche"</strong>: un debito diretto, e insospettabile, che l'arte rinascimentale contrae nei confronti dell'ultimo, più esuberante degli stili pompeiani.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="domus-e-ville" data-name="domus e ville">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus e ville</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">La domus: un percorso dal pubblico al privato</button>
+  <button class="tab" onclick="switchTab(this)">Peristilio e ambienti di rappresentanza</button>
+  <button class="tab" onclick="switchTab(this)">Le ville: dalla villa urbana alla villa rustica</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>La <strong>domus</strong>, l'abitazione urbana signorile, non era pensata come una successione casuale di stanze, ma come un <strong>percorso studiato</strong> che accompagnava il visitatore dal pubblico al privato, dallo status sociale ostentato all'intimità della famiglia. A differenza delle case moderne, la domus era rivolta verso l'<strong>interno</strong>: pochissime finestre sulla strada, quasi un fortino chiuso su se stesso, con luce e aria che entravano dalle aperture nel soffitto degli ambienti centrali.</p>
+<p>L'ingresso avveniva attraverso l'<strong>ostium</strong> (la porta sulla strada) e le <strong>fauces</strong>, un corridoio che introduceva all'<strong>atrio</strong> — il cuore della casa e il suo spazio più rappresentativo. Al centro dell'atrio si apriva il <strong>compluvium</strong>, un'apertura nel tetto che convogliava l'acqua piovana nell'<strong>impluvium</strong> sottostante, una vasca che nel tempo divenne anche elemento decorativo. Attorno all'atrio si affacciavano i <strong>cubicula</strong> (le camere da letto, piccole e spesso prive di finestre) e il <strong>lararium</strong>, l'altare domestico dedicato al culto degli dei protettori della famiglia.</p>
+<p>Sul fondo dell'atrio, in asse con l'ingresso, si apriva il <strong>tablino</strong> — separato solo da tendaggi, mai da una vera porta — lo studio del padrone di casa, dove custodiva gli archivi familiari e riceveva i propri clienti in un rituale di potere quotidiano tipicamente romano.</p>
+</div>
+<div class="tab-panel">
+<p>Oltre il tablino, dal III secolo a.C. circa, si sviluppa il <strong>peristilio</strong>: un giardino interno circondato da un <strong>portico colonnato</strong>, di derivazione greca, che introduce nella domus uno spazio di socializzazione e quiete, spesso ornato da statue, fontane e piante. È attorno al peristilio che si organizzano gli ambienti più rappresentativi della casa: il <strong>triclinio</strong>, la sala da pranzo con i tre letti disposti a ferro di cavallo per i banchetti; gli <strong>oeci</strong>, sale di ricevimento più ampie; le <strong>exedre</strong>, spazi aperti per feste e conversazione.</p>
+<p>È in questo percorso dal pubblico atrio al riservato peristilio che si comprende meglio la logica dei quattro stili pittorici che abbiamo incontrato: l'atrio, spazio di rappresentanza visto da chiunque entrasse, tendeva a ricevere le decorazioni più solenni e ambiziose; i cubicula, ambienti intimi, potevano ospitare invece composizioni più raccolte e preziose, come i pannelli mitologici in terzo stile; il triclinio, luogo del convito, si prestava a nature morte di cibi e bevande, un genere pittorico che vi trovava la propria collocazione naturale.</p>
+</div>
+<div class="tab-panel">
+<p>Se la domus è l'abitazione cittadina, la <strong>villa</strong> ne è l'equivalente extraurbano, e si articola in tipologie diverse a seconda della funzione: la <strong>villa suburbana</strong>, situata appena fuori le mura cittadine, restava legata a una vita di rappresentanza e svago simile a quella della domus; la <strong>villa rustica</strong>, in piena campagna, includeva invece ambienti dedicati alla produzione agricola — torchi, magazzini, alloggi per la manodopera — accanto agli spazi residenziali del proprietario.</p>
+<p>È proprio nelle grandi ville, con i loro spazi più ampi e meno vincolati dalla densità urbana, che si trovano alcuni dei cicli pittorici più ambiziosi che abbiamo incontrato in questo capitolo — dalla megalografia della Villa dei Misteri al giardino continuo della Villa di Livia: la villa, libera dai vincoli spaziali della città, diventa il laboratorio ideale in cui i pittori romani possono portare ogni stile alla propria massima espressione.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
