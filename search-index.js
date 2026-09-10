@@ -1987,5 +1987,41 @@ const deepIndex = [
     "file": "esquilino.html",
     "id": "santa-croce-in-gerusalemme",
     "context": "Roma — Esquilino"
+  },
+  {
+    "name": "Scultura e rilievo",
+    "file": "arte-scultura-rilievo.html",
+    "id": null,
+    "context": "Roma — Arte e Architettura Romana"
+  },
+  {
+    "name": "Ritrattistica",
+    "file": "arte-scultura-rilievo.html",
+    "id": "ritrattistica",
+    "context": "Roma — Scultura e rilievo"
+  },
+  {
+    "name": "Statuaria onoraria",
+    "file": "arte-scultura-rilievo.html",
+    "id": "statuaria-onoraria",
+    "context": "Roma — Scultura e rilievo"
+  },
+  {
+    "name": "Rilievo storico-narrativo",
+    "file": "arte-scultura-rilievo.html",
+    "id": "rilievo-storico-narrativo",
+    "context": "Roma — Scultura e rilievo"
+  },
+  {
+    "name": "Copie da originali greci",
+    "file": "arte-scultura-rilievo.html",
+    "id": "copie-da-originali-greci",
+    "context": "Roma — Scultura e rilievo"
+  },
+  {
+    "name": "Rilievi e sarcofagi funerari",
+    "file": "arte-scultura-rilievo.html",
+    "id": "rilievi-e-sarcofagi-funerari",
+    "context": "Roma — Scultura e rilievo"
   }
 ];

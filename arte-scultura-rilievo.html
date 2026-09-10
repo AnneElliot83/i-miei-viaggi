@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scultura e rilievo — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.15rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p{ margin:0 0 12px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+  .tab-panel h4{
+    font-family:'Public Sans', sans-serif;
+    color:var(--text-soft);
+    font-size:0.72rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    font-weight:600;
+    margin:22px 0 8px;
+  }
+  .tab-panel h4:first-of-type{ margin-top:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+
+<a class="back" href="arte-architettura-romana.html">← Arte e Architettura Romana</a>
+
+<header>
+  <h1>Scultura e rilievo</h1>
+  <div class="subtitle">Arte e Architettura Romana · Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+
+
+<main>
+  <p class="note">Tocca un nome per aprire la scheda.</p>
+  <div id="groups">
+    
+<section class="group" id="scultura-e-rilievo">
+  
+  <div class="sites-list">
+    
+  <div class="site" id="ritrattistica" data-name="ritrattistica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Ritrattistica</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Le origini: imagines maiorum e verismo repubblicano</button><button class="tab" onclick="switchTab(this)">Il busto: un'invenzione tutta romana</button><button class="tab" onclick="switchTab(this)">L'evoluzione nel ritratto imperiale</button><button class="tab" onclick="switchTab(this)">Un cenno alla pittura</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il ritratto è, più di ogni altro genere, l'invenzione romana per eccellenza in scultura — non a caso l'arte greca, per quanto sublime nella figura intera, non sviluppa mai un equivalente così sistematico e diffuso del ritratto individuale. Le sue radici affondano in una pratica funeraria patrizia: le <strong>imagines maiorum</strong>, maschere in cera ricavate dal volto dei defunti più illustri di ogni <em>gens</em>, conservate in appositi armadietti nell'atrio della casa ed esibite — talvolta indossate da attori — durante i funerali, in una processione che rievocava fisicamente la presenza degli antenati. Il possesso di queste maschere era un privilegio regolato giuridicamente, lo <strong>ius imaginum</strong>, riservato a poche famiglie.</p><p>Da questa usanza — descritta da <strong>Polibio</strong>, storico greco arrivato a Roma come ostaggio nel 168 a.C. — nasce il cosiddetto <strong>verismo repubblicano</strong>: ritratti in marmo che, sostituendo la deperibile cera, riproducono senza alcuna concessione estetica rughe, calvizie, nasi storti, cicatrici. Non è un caso stilistico ma un <strong>atto politico e sociale</strong>: ogni segno del tempo certificava una vita di servizio e di comando, un "documento" scolpito più che un'opera d'abbellimento. Il celebre <em>Ritratto d'uomo di Osimo</em> (80-70 a.C. circa) resta l'esempio più citato di questo linguaggio duro e implacabile, fiorito soprattutto nel decennio di Silla.</p></div><div class="tab-panel"><p>È in questo contesto che nasce il <strong>busto-ritratto</strong> come tipologia autonoma — la convinzione che il volto, da solo, bastasse a restituire l'intera individualità di una persona, senza bisogno della figura intera. Nell'età repubblicana il busto si fermava al collo; con <strong>Adriano</strong>, nel II secolo d.C., si estende fino a comprendere spalle e attacco delle braccia — un'evoluzione che si può usare, insieme ad acconciature e barba, come indicatore cronologico per datare le opere.</p></div><div class="tab-panel"><p>Con l'avvento del Principato, il ritratto si sdoppia in due filoni — pubblico e privato — che nei secoli si intrecciano e si separano più volte:</p><ul>
+<li><strong>Età di Augusto</strong> — un <strong>classicismo aulico e idealizzante</strong>, di ispirazione neoattica: il volto del <em>princeps</em>, come nell'Augusto di Prima Porta, resta giovane ed eternamente sereno anche in tarda età, mettendo da parte il crudo verismo repubblicano in favore di un'immagine sovrumana e senza tempo.</li>
+<li><strong>Età flavia</strong> — un ritorno a un <strong>realismo vigoroso</strong>, quasi popolaresco: i ritratti di Vespasiano lo mostrano come un uomo concreto e navigato, mentre convivono versioni più intellettuali dello stesso soggetto — segno che pubblico e privato non erano ancora del tutto fusi.</li>
+<li><strong>Traiano e Adriano</strong> — con Traiano si compie la <strong>fusione tra ritratto pubblico e privato</strong>: l'imperatore è raffigurato con l'energia del condottiero ma senza perdere tratti umani e reali. Con Adriano arriva un'innovazione tecnica destinata a durare: per la prima volta si <strong>incidono nella pietra</strong> dettagli come sopracciglia e iridi, elementi che prima erano affidati solo alla pittura — un procedimento già noto a Etruschi, Egizi e Greci, ma nuovo per Roma.</li>
+<li><strong>Antonini e Severi</strong> — si accentuano gli <strong>effetti chiaroscurali</strong>: l'uso sempre più marcato del <strong>trapano</strong> (invece dello scalpello) per scavare ciocche di capelli e barba crea profondi giochi di luce e ombra, dando ai ritratti — penso alla Statua Equestre di Marco Aurelio — un'intensità quasi pittorica.</li>
+<li><strong>III secolo — crisi e "imperatori soldati"</strong> — con Alessandro Severo e Gordiano III si abbandona il plasticismo ellenistico per forme sempre più <strong>semplificate e stereometriche</strong>, con capelli e barba resi quasi solo per incisione. I volti si fanno scarni, tesi, segnati da uno sguardo fisso e concentrato: l'iconografia di un potere ottenuto e difeso con la forza militare, in un'epoca di instabilità quasi continua.</li>
+<li><strong>Età costantiniana</strong> — il ritratto approda infine all'<strong>astrazione</strong>: i tratti fisionomici individuali contano sempre meno, gli occhi si ingrandiscono e guardano verso un punto lontano e ideale, il volto si costruisce per piani larghi e nitidi. Non è più un individuo che viene ritratto, ma un'idea di potere assoluto e quasi divino — la testa colossale di Costantino, di cui restano solo pochi frammenti (tra cui la testa oggi ai Musei Capitolini), ne è l'esempio più noto.</li>
+</ul></div><div class="tab-panel"><p>Anche la pittura conosce una propria tradizione ritrattistica, sebbene siano sopravvissuti solo esempi minori: accanto a ritratti idealizzati e generici — come la nota "dama con lo stilo" pompeiana — esistono ritratti più vivi e realistici, come quello del fornaio <strong>Paquio Proculo</strong> e di sua moglie, oggi al Museo Archeologico di Napoli.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="statuaria-onoraria" data-name="statuaria onoraria">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Statuaria onoraria</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Uno strumento politico prima che artistico</button><button class="tab" onclick="switchTab(this)">Tre tipi codificati</button><button class="tab" onclick="switchTab(this)">Una resistenza tutta romana al modello greco</button><button class="tab" onclick="switchTab(this)">Augusto e la programmazione delle immagini</button><button class="tab" onclick="switchTab(this)">Apoteosi e damnatio memoriae</button><button class="tab" onclick="switchTab(this)">L'unica statua equestre sopravvissuta</button></div><div class="tab-panels"><div class="tab-panel active"><p>La statua onoraria non è, in origine, un'opera d'arte commissionata liberamente: è un <strong>onore pubblico</strong>, concesso tramite decreto — del Senato per i grandi personaggi, o dei decurioni nelle città di provincia — a chi avesse reso un servizio eccezionale allo Stato. Sotto ogni statua veniva collocata una base iscritta, il <strong>titulus</strong>, che ne registrava il nome, i meriti e chi ne avesse deliberato l'erezione: un documento pubblico scolpito, prima ancora che un ritratto.</p></div><div class="tab-panel"><p>La statuaria onoraria romana si organizza attorno a tre schemi figurativi principali, ciascuno con un significato preciso:</p><ul>
+<li><strong>Togata</strong> — la figura avvolta nella toga, il tipo più antico e più "romano": comunica equilibrio, dignità civica, misura nell'esercizio del potere. È il modello di gran lunga preferito in età repubblicana.</li>
+<li><strong>Loricata</strong> — il corpo vestito di corazza (<em>lorica</em>), che allude al valore militare, al coraggio, all'autorevolezza del comandante.</li>
+<li><strong>Nudo eroico (o achilleo)</strong> — il corpo nudo, di ispirazione ellenistica, che esalta il potere quasi sovrumano del personaggio, sul modello dei sovrani macedoni.</li>
+</ul><p>A queste si affianca, trasversalmente, la <strong>statua equestre</strong> — il cavaliere a cavallo — riservata a onori di rango particolarmente elevato.</p></div><div class="tab-panel"><p>Non tutti questi tipi furono accolti con la stessa naturalezza. La <strong>nudità eroica</strong>, quando comparve per la prima volta a Roma su una statua di un generale romano, suscitò scandalo: i cittadini erano abituati a statue togate, sobrie e pressoché intercambiabili tra un magistrato e l'altro, senza alcuna esaltazione dei meriti individuali. Per lungo tempo il Senato <strong>non permise</strong> l'erezione di statue equestri loricate come quelle che i Greci dedicavano ai propri eroi — un privilegio concesso, come prima statua equestre ufficiale nel Foro, solo a <strong>Silla</strong>. Anche la statua loricata come tipo indipendente sembra affermarsi a Roma solo con <strong>Giulio Cesare</strong> — secondo Plinio il Vecchio, la prima mai innalzata in città.</p><p>È un dettaglio che dice molto: l'esitazione romana davanti a questi modelli ellenistici rivela quanto la Repubblica diffidasse, almeno inizialmente, di ogni linguaggio visivo che sembrasse avvicinare un cittadino — per quanto illustre — alla sfera del sovrano o del semidio.</p></div><div class="tab-panel"><p>Con <strong>Augusto</strong> la statuaria onoraria diventa un vero <strong>programma politico di comunicazione visiva</strong>. Il Foro di Augusto ospitava le statue dei <em>summi viri</em>, i grandi uomini della storia romana, ciascuna con il proprio <em>titulus</em> — una galleria di modelli morali offerta all'intera cittadinanza. Lo stesso Augusto compare in tutti e tre i tipi: togato come <em>pontifex maximus</em> (statua velata, a sottolineare la sua <em>pietas</em> religiosa), loricato come comandante (l'Augusto di Prima Porta), e in una statua bronzea da Ercolano perfino <strong>divinizzato</strong>, con un fascio di fulmini in mano al pari di Giove.</p></div><div class="tab-panel"><p>Il destino di una statua onoraria dopo la morte del soggetto dipendeva dal giudizio postumo su di lui. Un imperatore ben giudicato poteva essere <strong>divinizzato</strong> (<em>apoteosi</em>): gli si dedicavano templi, un culto, sacerdoti propri. Un imperatore condannato dalla memoria collettiva subiva invece la <strong>damnatio memoriae</strong>: le sue statue venivano sistematicamente distrutte, o — più economicamente — <strong>riutilizzate</strong>, sostituendo semplicemente la testa scolpita a parte su un corpo-tipo prodotto in serie, secondo una pratica di bottega piuttosto diffusa.</p></div><div class="tab-panel"><p>Delle ventidue grandi statue equestri che, secondo le fonti tardo-imperiali, ornavano Roma antica, <strong>una sola</strong> è giunta fino a noi intatta: la <strong>Statua equestre di Marco Aurelio</strong>, eretta forse nel 176 d.C. Il motivo della sua sopravvivenza è quasi comico: nel Medioevo, quando quasi tutte le statue bronzee antiche venivano fuse per recuperarne il metallo, questa fu erroneamente identificata con <strong>Costantino</strong>, il primo imperatore cristiano, e ribattezzata <em>Caballus Constantini</em> — "il cavallo di Costantino". Ritenuta perciò degna di essere conservata, sopravvisse fino a quando, nel 1447, un bibliotecario della Biblioteca Vaticana ne scoprì la vera identità. Nel 1538 fu Michelangelo a collocarla al centro di Piazza del Campidoglio, dove rimase — tra un restauro e l'altro — fino al trasferimento nei Musei Capitolini nel 1990, oggi sostituita in piazza da una copia.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="rilievo-storico-narrativo" data-name="rilievo storico-narrativo">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Rilievo storico-narrativo</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">L'Ara Pacis: la pace scolpita</button><button class="tab" onclick="switchTab(this)">Le colonne coclidi: la storia come pellicola di pietra</button><button class="tab" onclick="switchTab(this)">Gli archi trionfali</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'<strong>Ara Pacis Augustae</strong>, decretata nel 13 a.C. e inaugurata nel 9 a.C., è forse il manifesto per eccellenza del linguaggio scultoreo augusteo: un altare racchiuso in un recinto marmoreo quasi quadrato, eretto per celebrare la pace portata da Augusto dopo le vittoriose campagne in Gallia e Spagna.</p><p>Sui lati lunghi del recinto corre un <strong>fregio processionale continuo</strong>, che raffigura il corteo del giorno della consacrazione: sacerdoti, magistrati e l'intera famiglia imperiale — Augusto, Agrippa, Livia, e i bambini della dinastia — avanzano in un'unica sfilata solenne. Il debito verso il fregio delle Panatenee del Partenone è dichiarato, ma la differenza è sostanziale: dove il rilievo greco non individualizza mai un singolo personaggio, qui <strong>ogni membro della famiglia imperiale è riconoscibile nei propri tratti fisionomici</strong> — un rilievo storico-narrativo che è, allo stesso tempo, un documento dinastico. Sui lati corti, due coppie di pannelli allegorici (la personificazione della Tellus e di Roma, il sacrificio di Enea e il Lupercale) intrecciano il presente augusteo al mito delle origini.</p></div><div class="tab-panel"><p>Con la <strong>Colonna Traiana</strong>, inaugurata il 12 maggio 113 d.C. nel Foro di Traiano, il rilievo storico-narrativo trova la sua forma più ambiziosa: un <strong>fregio a spirale continuo</strong>, lungo quasi 200 metri, che si avvolge per 23 giri lungo l'intero fusto della colonna — la prima "colonna coclide" mai innalzata. Oltre 2.500 figure, distribuite in circa 155 scene, raccontano nel dettaglio le due campagne di Traiano contro i Daci (101-102 e 105-106 d.C.): marce, costruzioni di accampamenti, battaglie, discorsi all'esercito, perfino la vita quotidiana delle truppe. È, di fatto, la fonte visiva più completa che possediamo sull'esercito romano in azione.</p><p>Un accorgimento tecnico rivela quanto fosse pensato per essere effettivamente leggibile dal basso: l'altezza della fascia scolpita <strong>aumenta progressivamente salendo verso l'alto</strong> (da circa 90 a 125 cm), per compensare l'effetto prospettico e mantenere le figure superiori proporzionate agli occhi di chi guardava da terra. La colonna aveva anche una funzione pratica dichiarata dall'iscrizione alla base — segnare l'altezza del terreno sbancato per costruire il Foro — oltre a quella di <strong>mausoleo</strong>: nel basamento fu deposta l'urna d'oro con le ceneri dello stesso Traiano.</p><p>Circa ottant'anni dopo, la <strong>Colonna di Marco Aurelio</strong> riprende lo stesso schema per celebrare le guerre contro Marcomanni e Sarmati, ma con un linguaggio già diverso: a parità di altezza, il fregio conta solo 21 spire (contro le 23 della Traiana), con figure più grandi, scavate più a fondo dal <strong>trapano</strong> per ottenere chiaroscuri più netti — e con la comparsa di elementi soprannaturali, come il celebre "miracolo della pioggia", segno di un'arte e di una sensibilità ormai lontane dal razionalismo traianeo.</p></div><div class="tab-panel"><p>Il terzo grande veicolo del rilievo storico-narrativo è l'<strong>arco trionfale</strong>, di cui sopravvivono a Roma solo tre esemplari.</p><p>L'<strong>Arco di Tito</strong> (81-90 d.C. circa), il più antico e il più sobrio, fu innalzato dal fratello Domiziano per celebrarne l'apoteosi dopo la morte. Nei due grandi pannelli interni del fornice, i rilievi più celebri raffigurano il trionfo del 71 d.C. dopo la presa di Gerusalemme: da un lato Tito sulla quadriga, incoronato dalla Vittoria alata e affiancato dalla dea Roma; dall'altro i soldati che trasportano in processione il bottino sacro trafugato dal Tempio — le trombe d'argento, la mensa dei pani della proposizione e, soprattutto, la <strong>Menorah</strong>, il candelabro a sette bracci, tanto riconoscibile che nel Medioevo l'arco venne soprannominato "Portico delle Sette Lucerne".</p><p>L'<strong>Arco di Costantino</strong> (312-315 d.C. circa), il più grande e imponente dei tre, racconta invece un'altra storia: quella del <strong>riuso</strong>. Gran parte della sua decorazione scultorea non fu realizzata ex novo, ma <strong>prelevata da monumenti precedenti</strong> — rilievi di età traianea, adrianea e di Marco Aurelio — con i volti degli imperatori originari <strong>ri-scolpiti a somiglianza di Costantino</strong>. Una scelta che si può leggere come un preciso messaggio politico: legittimare il nuovo potere collegandolo visivamente alla gloria dei grandi predecessori, in un'epoca in cui la produzione scultorea originale, per qualità e ambizione, non reggeva più il confronto con quella dei secoli precedenti.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="copie-da-originali-greci" data-name="copie da originali greci">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Copie da originali greci</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Perché quasi tutta la grande scultura greca "classica" la conosciamo attraverso Roma</button><button class="tab" onclick="switchTab(this)">Un revival colto, non un ripiego</button><button class="tab" onclick="switchTab(this)">La tecnica: dal bronzo al marmo</button><button class="tab" onclick="switchTab(this)">L'esempio del Doriforo</button></div><div class="tab-panels"><div class="tab-panel active"><p>Uno dei paradossi più sorprendenti della storia dell'arte antica è questo: di <strong>Fidia, Policleto, Mirone, Prassitele</strong> — i grandi nomi della scultura greca classica — non possediamo, nella quasi totalità dei casi, <strong>un solo originale</strong>. Ciò che studiamo nei manuali, ciò che ammiriamo nei musei come "arte greca classica", sono quasi sempre <strong>copie romane</strong>, per lo più in marmo, di opere greche originariamente in bronzo e oggi perdute — fuse, nei secoli, per recuperarne il metallo.</p><p>Questo fa delle copie romane molto più che semplici imitazioni: sono, in moltissimi casi, <strong>l'unica testimonianza visiva superstite</strong> di alcuni dei capolavori più celebrati dell'antichità. Il <strong>Doriforo</strong> di Policleto, il <strong>Discobolo</strong> di Mirone, l'<strong>Afrodite Cnidia</strong> di Prassitele — li conosciamo tutti solo grazie a repliche di età romana.</p></div><div class="tab-panel"><p>La produzione di copie non nasce da mancanza di originalità, ma da un preciso <strong>gusto classicista</strong>, che si afferma già a partire dal II-I secolo a.C.: il possesso di una replica di un capolavoro dell'età aurea greca (V secolo a.C.) diventa segno di raffinatezza culturale per l'aristocrazia romana, che ne arreda ville, palestre, biblioteche e spazi pubblici. Un critico dell'epoca, <strong>Apollodoro di Atene</strong>, descrisse questo fenomeno — il primo vero e proprio <em>revival</em> classicista della storia dell'arte occidentale — come una "resurrezione" dell'arte greca aurea dopo la sua "morte" nel primo ellenismo.</p><p>Gli scultori attivi a Roma e in Italia avevano spesso accesso diretto ai modelli originali — grazie alla conquista di Grecia e Asia Minore — e in alcuni casi persino agli <strong>stampi bronzei</strong> stessi usati dai maestri greci, il che permetteva riproduzioni di grande fedeltà.</p></div><div class="tab-panel"><p>Copiare un originale bronzeo in marmo poneva un problema tecnico non banale: i due materiali hanno <strong>proprietà statiche completamente diverse</strong>. Il bronzo, per la sua resistenza a trazione, permette arti protesi liberamente nel vuoto; il marmo, più fragile e pesante, no. Per questo le copie marmoree richiedevano quasi sempre l'aggiunta di <strong>puntelli e sostegni</strong> — un tronco d'albero, un panneggio addossato, un piccolo pilastro — inseriti accanto alla gamba portante o al polso per evitare la rottura nei punti più sollecitati. Nel caso del Doriforo, ad esempio, i copisti inserirono un sostegno tra polso e fianco e uno dietro la gamba destra: dettagli assenti nell'originale bronzeo, ma diventati parte inseparabile dell'immagine che oggi abbiamo dell'opera.</p><p>Per garantire fedeltà alle proporzioni, i copisti si affidavano al <strong>calco in gesso</strong> preso direttamente dall'originale (una tecnica documentata da centinaia di frammenti di calchi ritrovati in un atelier presso Baia), oppure alla <strong>tecnica della punteggiatura</strong>: un sistema di riferimento spaziale — fili a piombo, compassi a tre punte — che permetteva di rilevare le coordinate dei punti salienti del modello e riportarle, punto per punto, sul blocco di marmo da scolpire. Un processo lungo e meticoloso, ma capace di garantire una precisione sorprendente, antenato concettuale delle moderne scansioni digitali.</p></div><div class="tab-panel"><p>Il caso più istruttivo resta il <strong>Doriforo</strong> ("portatore di lancia") di Policleto, realizzato in bronzo attorno al 450 a.C. — l'opera che l'artista concepì come dimostrazione pratica del proprio trattato teorico sulle proporzioni ideali del corpo umano, il <em>Canone</em>, anch'esso perduto. Dell'originale non rimane nulla; la copia meglio conservata, ritrovata a Pompei nel 1797 e oggi al Museo Archeologico di Napoli, è una copia in marmo di età tardo-repubblicana — a più di tre secoli di distanza dal bronzo che riproduce. È attraverso questa e altre repliche che il mondo moderno, dal Rinascimento in poi, ha potuto studiare e ammirare un capolavoro che i suoi stessi contemporanei greci videro solo in bronzo, e che per noi esiste solo grazie alla mano — e al gusto collezionistico — dei romani.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="rilievi-e-sarcofagi-funerari" data-name="rilievi e sarcofagi funerari">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Rilievi e sarcofagi funerari</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">I rilievi di facciata: ritrarre la famiglia sulla tomba</button><button class="tab" onclick="switchTab(this)">Dalla cremazione al sarcofago: un cambiamento di costume</button><button class="tab" onclick="switchTab(this)">Tre tradizioni di bottega</button><button class="tab" onclick="switchTab(this)">I grandi temi iconografici</button></div><div class="tab-panels"><div class="tab-panel active"><p>A partire dalla tarda età repubblicana si diffonde a Roma l'uso di decorare la <strong>facciata esterna</strong> dei monumenti funerari con rilievi che ritraggono i defunti stessi — in origine per lo più <strong>liberti</strong>, ex schiavi affrancati che, non potendo vantare antenati da esibire attraverso le <em>imagines maiorum</em> riservate ai patrizi, trovano in questi rilievi un proprio modo di affermare identità e rispettabilità sociale. Due le tipologie principali: rilievi rettangolari a figura intera, di qualità più raffinata ma meno diffusi, e rilievi a sviluppo trasversale limitati al solo busto, molto più comuni.</p><p>Il motivo iconografico più ricorrente è la <strong>dextrarum iunctio</strong>: i due coniugi ritratti nell'atto di stringersi la mano destra, il gesto rituale che concludeva la cerimonia nuziale romana. Un tema che attraversa quasi sette secoli di arte romana, dalla tarda Repubblica fino al primo cristianesimo, pressoché senza mutare nella struttura: il marito in toga, spesso con un rotolo nella mano sinistra (il <em>libellus</em>, l'atto ufficiale del matrimonio), la moglie che talvolta solleva con gesto solenne il lembo del velo. Non è sempre facile stabilire se la scena alluda all'unione coniugale in vita o all'ultimo addio al momento della morte — probabilmente, nell'ambiguità, sta proprio il senso più profondo del gesto.</p></div><div class="tab-panel"><p>Per tutta l'età repubblicana e i primi decenni dell'Impero, la forma di sepoltura dominante a Roma è la <strong>cremazione</strong>: le ceneri custodite in urne, spesso decorate a ghirlande. Il sarcofago scolpito, prima dell'età imperiale, resta un fenomeno raro e isolato.</p><p>Le cose cambiano radicalmente a partire dai <strong>primi decenni del II secolo d.C.</strong>: si afferma un generale ritorno all'<strong>inumazione</strong>, un mutamento di costume che investe gran parte della popolazione di Roma e delle province, sotto l'influsso di usanze e sensibilità religiose orientali. È questo il momento in cui la produzione di sarcofagi marmorei esplode su scala industriale, diventando uno dei generi scultorei più diffusi e redditizi dell'intera età imperiale.</p></div><div class="tab-panel"><p>I sarcofagi romani si dividono in tre grandi filoni produttivi, riconoscibili per tecnica e stile:</p><ul>
+<li><strong>Botteghe urbane (romane)</strong> — lavorano il sarcofago su tre lati soltanto, dato che il quarto, non visibile, veniva addossato alla parete della tomba.</li>
+<li><strong>Botteghe attiche</strong> — di tradizione greca, particolarmente diffuse nel mercato altoadriatico (Aquileia ne conserva numerosissimi frammenti) dalla metà del II secolo.</li>
+<li><strong>Botteghe microasiatiche</strong> — lavorano il sarcofago su <strong>tutti e quattro i lati</strong>, perché destinato a essere collocato al centro di una camera sepolcrale e visto da ogni angolazione; a volte i pezzi venivano esportati "non finiti", per ricevere i ritratti dei defunti solo a destinazione.</li>
+</ul></div><div class="tab-panel"><p>La decorazione dei sarcofagi attinge a un repertorio ricchissimo. Le <strong>scene mitologiche</strong> (episodi come l'Orestiade o la strage dei Niobidi, spesso derivate da modelli pittorici ellenistici) offrono un velo allegorico attraverso cui parlare di morte, lutto e destino senza rappresentarli direttamente. Le <strong>scene di battaglia</strong>, particolarmente diffuse tra la seconda metà del II e la prima metà del III secolo, celebrano il defunto — quasi sempre un militare di alto rango — nei panni di un comandante vittorioso: l'esempio più spettacolare è il <strong>Sarcofago Grande Ludovisi</strong>, dove il defunto a cavallo domina dall'alto una scena caotica di romani e barbari in lotta, forse un ritratto di un figlio dell'imperatore Decio.</p><p>Dalla metà del III secolo, con l'aggravarsi della crisi militare e politica, il gusto cambia: si diffondono i <strong>sarcofagi con filosofi e Muse</strong>, dove il defunto viene ritratto — anche quando non lo fu mai in vita — nei panni di un filosofo, secondo l'ideale dell'<em>homo spiritualis</em> che le classi elevate, private ormai di prerogative militari, prediligono come nuova immagine di sé. È un'iconografia, quella dei filosofi e delle Muse, destinata a un'eredità sorprendente: sarà proprio questo repertorio, in età successiva, a fornire il modello visivo per le prime immagini degli <strong>apostoli cristiani</strong>.</p><p style="margin-top:20px; padding-top:14px; border-top:1px solid var(--line); font-style:italic; color:var(--text-soft);">Questo sotto-tema dialoga direttamente con l'Architettura funeraria del Capitolo I: lì la cornice monumentale (mausolei, colombari, piramidi), qui il racconto scolpito — rilievi e sarcofagi — che quella cornice conteneva.</p></div></div>
+    </div></div>
+  </div>
+  </div>
+</section>
+  </div>
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
