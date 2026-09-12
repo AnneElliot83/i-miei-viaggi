@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oppio — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Oppio</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Etimologia e significato.</strong> Secondo la tradizione tramandata da Varrone (attraverso Festo), il nome deriverebbe da un condottiero tuscolano di nome Oppio — o Opiter Oppio — che difese questo colle a capo delle sue truppe durante un momento cruciale della prima storia di Roma: le fonti oscillano tra una battaglia contro i ribelli albani e l'assedio della città etrusca di Veio sotto il re Tullo Ostilio. È la stessa logica "toponimo da condottiero" che spiega il nome del vicino colle Cispio, difeso invece da un certo Levio Cispio. Nella storia urbanistica di Roma, il Colle Oppio è il colle delle residenze imperiali e dei grandi impianti termali, e per questo ha avuto un ruolo fondamentale nella trasformazione monumentale della città.</p>
+<p><strong>Origini.</strong> Il Colle Oppio, essendo parte dell'Esquilino, era già abitato in età arcaica e incluso nel pomerio serviano. Inizialmente era un'area residenziale, con case e piccoli santuari, ma la sua vera centralità arrivò in età imperiale.</p>
+<p><strong>Funzioni.</strong> Il Colle Oppio divenne in età imperiale un quartiere monumentale e ricreativo, destinato agli imperatori e ai cittadini: luogo di residenza e lusso con la Domus Aurea, spazio per lo svago e la socialità con le terme di Tito e di Traiano, nodo urbanistico che collegava Colosseo, Esquilino e Celio, diventando parte integrante del cuore monumentale di Roma.</p>
+<p><strong>Significato storico.</strong> Il Colle Oppio testimonia la capacità dei Romani di trasformare uno spazio naturale in un paesaggio artificiale monumentale. Rappresenta inoltre l'alternanza tra potere imperiale e uso pubblico: la Domus Aurea, simbolo dell'eccesso di Nerone, fu cancellata e sostituita dalle terme, destinate al popolo. Oggi è un luogo privilegiato per osservare la stratificazione di Roma, con resti visibili che raccontano secoli di trasformazioni.</p></div>
+        <div class="tab-panel"><p>Il colle ospitò alcune delle più grandiose opere dell'architettura imperiale:</p>
+<ul>
+<li><strong>Domus Aurea di Nerone</strong>: il celebre palazzo fatto costruire dopo l'incendio del 64 d.C., che si estendeva anche sull'Oppio. Gli ambienti superstiti, sotterranei e affrescati, sono tra le testimonianze più straordinarie dell'arte romana.</li>
+<li><strong>Terme di Tito</strong>: inaugurate nell'80 d.C., erano un primo complesso termale monumentale, costruito parzialmente riutilizzando gli spazi della Domus Aurea.</li>
+<li><strong>Terme di Traiano</strong>: completate nel 109 d.C., furono uno dei più vasti complessi termali dell'antichità, opera di Apollodoro di Damasco, che trasformò radicalmente il colle con portici e giardini.</li>
+<li><strong>Sette Sale</strong>: grandi cisterne collegate alle terme di Traiano, ancora oggi ben conservate.</li>
+</ul>
+<p>L'insieme creava un vero parco monumentale, che univa residenze, giardini e spazi per il tempo libero.</p></div>
+        <div class="tab-panel"><ul>
+<li>I sotterranei della Domus Aurea, riscoperti nel Rinascimento, furono frequentati da artisti come Raffaello e Michelangelo, che vi copiarono affreschi e motivi decorativi, dando vita alle celebri "grottesche".</li>
+<li>Le Sette Sale, l'imponente cisterna delle terme, devono il nome non all'età romana ma alla tradizione medievale.</li>
+<li>Oggi il Colle Oppio è occupato da un parco pubblico, che nasconde e protegge sotto di sé alcuni ambienti della Domus Aurea.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">4</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="domus-aurea" data-name="domus aurea">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus Aurea</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p><strong>Origini.</strong> La Domus Aurea nacque dall'ambizione smisurata di Nerone (54-68 d.C.), dopo il grande incendio di Roma del 64 d.C. L'incendio devastò gran parte della città, e Nerone colse l'occasione per ricostruirne una parte secondo un progetto grandioso: una residenza imperiale che non fosse più solo una domus privata, ma una vera città-palazzo che inglobava interi quartieri.</p>
+<p>Il complesso si estendeva dal Palatino all'Esquilino, abbracciando anche il Celio, e comprendeva un'area vastissima (secondo le fonti, circa 80 ettari, più grande di molti centri urbani antichi). Al centro vi era il celebre <em>stagnum Neronis</em>, un lago artificiale che in età flavia sarà riempito per costruire l'Anfiteatro Flavio, cioè il Colosseo.</p>
+<p>Nerone non pensava alla Domus Aurea come una semplice residenza: era un manifesto politico e culturale, un mondo autosufficiente in cui l'imperatore poteva vivere circondato da lusso, arte e natura addomesticata.</p>
+<p><strong>Funzioni.</strong> La Domus Aurea non era solo una dimora privata: era un palazzo spettacolo, destinato a stupire chiunque vi entrasse. Gli ambienti servivano a banchetti, ricevimenti e cerimonie, ma erano anche spazi di rappresentanza che trasformavano l'imperatore in un sovrano assoluto, quasi divino. Il complesso aveva una forte componente naturalistica: giardini con padiglioni, portici infiniti, fontane e laghi creavano un paesaggio artificiale che fondeva natura e architettura. Era un microcosmo in cui Nerone poteva incarnare il ruolo di padrone del mondo.</p>
+<p><strong>Significato storico.</strong> La Domus Aurea fu un simbolo di rottura con la tradizione romana. Per secoli i Romani avevano visto nell'imperatore un <em>princeps civium</em>, "primo tra i cittadini", che abitava in residenze sì prestigiose ma non smisurate. Nerone, invece, concepì una reggia orientale, un palazzo assoluto che divorava la città e ne ridisegnava lo spazio urbano. Per i contemporanei, la Domus Aurea rappresentò arroganza e <em>hybris</em>: troppo grande, troppo lussuosa, troppo distante dal senso civico romano. Non a caso, dopo la morte di Nerone e la sua <em>damnatio memoriae</em>, gli imperatori successivi fecero di tutto per cancellarla, restituendo le aree alla città con edifici pubblici come il Colosseo, le Terme di Tito e di Traiano, il Tempio di Venere e Roma.</p>
+<p><strong>La Domus Aurea oggi.</strong> Ciò che resta si trova sotto il colle Oppio, visitabile in parte attraverso percorsi guidati. Gli ambienti conservano affreschi straordinari, giochi di luce e spazi architettonici che lasciano intuire l'innovazione del progetto. Anche se mutilata e incompleta, rimane una delle testimonianze più affascinanti della Roma neroniana e del rapporto conflittuale tra l'imperatore e la città.</p></div><div class="tab-panel"><p>La Domus Aurea era progettata come un insieme di padiglioni, portici, giardini, laghi e colline artificiali. Non era un unico edificio compatto, ma un sistema urbano monumentale. Il padiglione più famoso, costruito sull'Oppio e oggi visitabile, presenta ancora la struttura innovativa che rivoluzionò l'architettura romana: un susseguirsi di sale voltate disposte intorno a cortili e peristili, con soluzioni spaziali ardite come volte a crociera, volte a padiglione e cupole.</p>
+<p>La decorazione era di una ricchezza ineguagliabile: le pareti erano rivestite di marmi pregiati e affrescate con motivi di paesaggi, scene mitologiche, figure fantastiche; i soffitti erano ornati di stucchi dorati (da cui il nome "Domus Aurea"); i pavimenti in opus sectile alternavano marmo colorato e pietre rare.</p>
+<p><strong>La Sala Ottagonale.</strong> È forse il capolavoro architettonico del complesso, e inaugurava un nuovo modo di concepire lo spazio: non più ambienti rettangolari tradizionali, ma un'architettura dinamica e plastica. Ha pianta ottagonale, coperta da una cupola forata da un oculo centrale, anticipando di oltre mezzo secolo la soluzione poi resa celebre dal Pantheon di Adriano. Attorno si aprivano ambienti secondari collegati da nicchie e passaggi, creando una struttura fluida e continua; la luce entrava dall'alto, muovendosi durante la giornata e dando vita a effetti teatrali che trasformavano la percezione dello spazio. Era probabilmente destinata a banchetti e ricevimenti, e il suo carattere innovativo influenzò profondamente l'architettura romana successiva.</p>
+<p><strong>La coenatio rotunda.</strong> Secondo Svetonio, la <em>coenatio rotunda</em>, o sala da pranzo girevole, era l'ambiente più sorprendente della Domus Aurea: una grande sala circolare con un meccanismo che le consentiva di ruotare lentamente giorno e notte, imitando il movimento della terra, mentre dal soffitto scendevano petali di fiori e profumi su un sistema di pannelli mobili. Per decenni gli studiosi hanno identificato questo ambiente leggendario con la Sala Ottagonale dell'Oppio — un'ipotesi però sempre poco convincente, dato che quella sala è appunto ottagonale, non rotonda. Nel 2009, una scoperta sensazionale ha cambiato le carte in tavola: scavi condotti sul Palatino, nell'area della Vigna Barberini, sotto la direzione dell'archeologa Françoise Villedieu, hanno riportato alla luce una struttura circolare tutta diversa — un pilone centrale alto circa 10 metri e largo 4, che sosteneva una sala di circa 16 metri di diametro tramite una serie di doppi archi a raggiera. La collocazione, l'impianto e la datazione (tra il 64 e il 68 d.C.) corrispondono con sorprendente precisione alla descrizione di Svetonio, rendendo questo ritrovamento il candidato più solido mai emerso per la vera coenatio rotunda — non sull'Oppio, dunque, ma sul versante opposto del complesso neroniano, sul Palatino.</p>
+<p><strong>Il Ninfeo di Polifemo.</strong> Uno degli ambienti meglio conservati e più suggestivi è il cosiddetto Ninfeo di Polifemo, una sala decorata con affreschi che raffigurano il ciclope Polifemo con Galatea e figure marine. Le pareti erano ornate da stucchi bianchi in rilievo, con motivi vegetali e mitologici, e al centro si trovava una fontana scenografica che arricchiva l'ambiente con giochi d'acqua: una sala che mostra bene la commistione tra architettura, pittura e scenografia che caratterizzava l'intero complesso.</p>
+<p><strong>I corridoi affrescati e le "grottesche".</strong> Una delle caratteristiche più sorprendenti della Domus Aurea sono i suoi lunghi corridoi voltati, decorati con affreschi leggeri e fantasiosi: motivi vegetali, figure fantastiche, animali ibridi e architetture immaginarie riempivano le superfici con uno stile arioso e inventivo, riscoperto nel Rinascimento quando gli artisti si calavano nelle "grotte" sotterranee — da cui il nome stesso di "stile a grottesche", diventato una delle mode decorative più influenti del Cinquecento.</p>
+<p><strong>Gli ambienti scenografici dell'Oppio.</strong> Il padiglione dell'Oppio, visitabile ancora oggi, comprende decine di stanze voltate, con resti di affreschi e pavimenti in mosaico. Alcune sale presentano decorazioni con paesaggi architettonici e illusioni prospettiche, altre con motivi più astratti e ornamentali; molte stanze erano disposte in modo da favorire effetti di luce e ombra, con aperture calibrate che creavano atmosfere suggestive e teatrali.</p>
+<p><strong>Il lago e i giardini.</strong> Oltre agli ambienti chiusi, la Domus Aurea includeva un enorme lago artificiale (lo <em>stagnum Neronis</em>), giardini, vigne e boschetti popolati di animali esotici. Era un paesaggio costruito per evocare l'idea di una nuova età dell'oro, in cui l'imperatore viveva in armonia con la natura e la dominava al tempo stesso.</p></div><div class="tab-panel"><ul>
+<li>All'ingresso della Domus Aurea si ergeva la colossale statua di bronzo di Nerone alta circa 35 metri, il Colosso di Nerone, che diede poi il nome al Colosseo.</li>
+<li>La Domus Aurea fu presto sepolta da nuove costruzioni: i padiglioni sull'Oppio vennero interrati dalle Terme di Traiano. Questo, paradossalmente, ha preservato molti affreschi e stucchi, oggi ancora visibili.</li>
+<li>Nel Rinascimento la Domus Aurea fu "riscoperta" per caso, quando artisti come Raffaello e Michelangelo si calarono nelle grotte sotterranee per ammirarne le decorazioni: nacque così lo stile delle grottesche, che prende nome proprio da queste "grotte" neroniane.</li>
+<li>Molti ambienti della Domus Aurea erano decorati con soggetti fantastici, paesaggi immaginari e motivi leggeri, che rompevano con la tradizione solenne delle pitture romane. Questo stile fu giudicato bizzarro, ma influenzò profondamente l'arte rinascimentale.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="terme-di-tito" data-name="terme di tito">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terme di Tito</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>I cantieri delle Terme di Tito furono avviati già nel 79 d.C., e l'edificio fu dedicato nell'80 d.C., lo stesso anno dell'inaugurazione del Colosseo — probabilmente rifinito nei dettagli sotto il successore Domiziano. Furono costruite sul colle Oppio, accanto e in parte sovrapposte al padiglione orientale della Domus Aurea neroniana.</p>
+<p>La scelta aveva un valore politico: dove Nerone aveva creato una reggia privata, Tito offriva al popolo un edificio pubblico, accessibile a tutti. Le terme, dunque, non erano solo un luogo di svago, ma anche un manifesto propagandistico che mostrava la generosità imperiale.</p>
+<p><strong>Funzioni.</strong> Come tutte le terme romane, anche quelle di Tito avevano una funzione sociale e politica oltre che igienica. Erano aperte gratuitamente o a prezzi simbolici, diventando un luogo di incontro e svago per cittadini di ogni classe sociale. L'imperatore, offrendo al popolo questi spazi, rafforzava il legame con la cittadinanza e dimostrava la propria munificenza.</p>
+<p><strong>Significato storico.</strong> Le Terme di Tito sono importanti perché rappresentano il passaggio dalla domus privata al bene pubblico: là dove Nerone aveva costruito un palazzo per sé, Tito e Domiziano restituivano alla città un luogo di utilità collettiva. Sono anche il prototipo delle terme imperiali: qui si fissano gli schemi architettonici che diventeranno standard per i grandi complessi successivi, come quelli di Traiano, Caracalla e Diocleziano.</p></div><div class="tab-panel"><p>Le Terme di Tito non erano gigantesche come quelle che verranno dopo (Traiano, Caracalla, Diocleziano), ma rappresentano il primo modello di complesso termale imperiale che sarà poi ripreso ed ampliato. Il complesso prevedeva un apodyterium (spogliatoio) all'ingresso, il frigidarium con vasche di acqua fredda, il tepidarium come ambiente di passaggio tiepido, il caldarium con grandi vasche riscaldate e vapore, oltre ad ambienti secondari come sale per massaggi, ginnastica e conversazione.</p>
+<p>Le sale principali erano disposte in asse simmetrico su un impianto rettangolare, con orientamento studiato per sfruttare il sole e il calore naturale, soluzione che sarà perfezionata nelle terme successive. Molti ambienti erano decorati con marmi e stucchi pregiati, e alcune sale sfruttavano ancora le strutture voltate della Domus Aurea sottostante.</p>
+<p>Va però chiarito un punto spesso frainteso: non sono tanto le Terme di Tito ad aver preservato la gran parte del palazzo neroniano oggi visitabile, quanto le più estese <strong>Terme di Traiano</strong>, costruite vent'anni dopo (104-109 d.C.) esattamente sulla stessa area — non "più a nord", come talvolta si legge, ma in larga sovrapposizione con l'impianto di Tito. Fu l'architetto di Traiano, Apollodoro di Damasco, a interrare sistematicamente ciò che restava della Domus Aurea per usarla come piattaforma di fondazione, sigillando così — quasi per caso — gli ambienti che oggi si possono visitare.</p></div><div class="tab-panel"><ul>
+<li>Oggi rimangono solo resti frammentari delle Terme di Tito, visibili sul colle Oppio, inglobati nel Parco del Colle Oppio.</li>
+<li>Il complesso fu utilizzato per alcuni decenni, ma venne poi completamente inglobato e superato dalla costruzione delle più grandi ed estese Terme di Traiano.</li>
+<li>Alcuni studiosi ritengono che il progetto fosse volutamente "rapido" e non troppo monumentale, proprio perché serviva come gesto politico immediato, in risposta al malcontento lasciato da Nerone.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="terme-di-traiano" data-name="terme di traiano">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Terme di Traiano</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le Terme di Traiano furono inaugurate il 22 giugno del 109 d.C., durante il principato di Traiano, su progetto dell'architetto Apollodoro di Damasco, lo stesso che realizzò il Foro di Traiano e la Colonna Traiana.</p>
+<p>Il complesso fu costruito sul colle Oppio, in un'area già occupata dalla Domus Aurea neroniana — colpita da un grave incendio intorno al 104 d.C. — di cui Apollodoro demolì i piani superiori superstiti, riutilizzandone i vani del pianterreno come piattaforma di fondazione. Proprio il fatto di seppellire e inglobare il palazzo di Nerone aveva un forte valore politico: trasformare il lusso privato in un bene pubblico a disposizione di tutti i cittadini romani.</p>
+<p><strong>Funzioni.</strong> Le Terme di Traiano non erano solo un luogo di bagni, ma un centro polifunzionale: igiene e cura del corpo (bagni, massaggi, ginnastica), svago e relax (passeggiate nei giardini, conversazioni nei portici), cultura (biblioteche e sale di lettura). In questo modo le terme diventavano un vero e proprio spazio urbano pubblico, dove il popolo trovava gratuitamente divertimento, benessere e socialità, grazie alla munificenza imperiale.</p>
+<p><strong>Significato storico.</strong> Con le Terme di Traiano si afferma il modello delle grandi terme imperiali, destinate a segnare la topografia di Roma. L'imperatore, attraverso queste costruzioni, si presentava come benefattore universale, capace di dare a tutti — ricchi e poveri — il lusso che prima era riservato a pochi. La loro costruzione sopra la Domus Aurea sancì definitivamente la condanna della memoria di Nerone, sostituendo il simbolo dell'arroganza imperiale con quello della generosità pubblica.</p></div><div class="tab-panel"><p>Le Terme di Traiano furono il primo grande impianto termale monumentale di Roma e servirono da modello per tutte le costruzioni successive (Caracalla, Diocleziano). Il complesso occupava circa 6 ettari (il recinto esterno misurava 330 x 315 metri), con una pianta rettangolare porticata su tre lati attorno al corpo centrale termale, che racchiudeva un'ampia area verde destinata a palestra. Le parti principali erano gli apodyteria (spogliatoi), le palestrae (grandi cortili per esercizi fisici), il frigidarium (sala centrale monumentale con più vasche di acqua fredda, coperta da alte volte a crociera), il tepidarium (ambiente di passaggio con aria tiepida), il caldarium (sala riscaldata, sporgente dal corpo dell'edificio, con vasche e finestre orientate per sfruttare il sole), oltre ad ambienti secondari come biblioteche, sale di lettura e portici per passeggiare.</p>
+<p>L'ingresso monumentale si apriva al centro del lato settentrionale, con un propileo che immetteva direttamente nella natatio, la grande piscina d'acqua fredda, in asse con il frigidarium e gli altri ambienti. Sul lato opposto, a sud-ovest, proprio sopra i resti della Domus Aurea, si apriva una seconda, grande esedra dotata di gradinate simili a quelle di un teatro — forse utilizzata dal pubblico per assistere alle gare ginniche che si svolgevano nella palestra sottostante.</p>
+<p>La disposizione degli ambienti seguiva una pianta assiale e simmetrica, ma con un orientamento nord-est/sud-ovest — ruotato di 36 gradi rispetto a quello nord-sud della Domus Aurea e delle Terme di Tito preesistenti — proprio per sfruttare al meglio il sole e i venti dominanti, garantendo al caldarium la massima esposizione termica. L'uso innovativo del cemento romano e delle grandi volte permise di creare spazi vastissimi e luminosi.</p></div><div class="tab-panel"><ul>
+<li>I resti oggi visibili si trovano nel Parco del Colle Oppio, sistemato negli anni Trenta del Novecento: enormi murature e volte danno ancora un'idea della grandiosità del complesso.</li>
+<li>Alcuni ambienti della Domus Aurea furono inglobati e usati come sostruzioni per le terme: è proprio grazie a questo che molti affreschi neroniani si sono conservati.</li>
+<li>Le Terme di Traiano ispirarono quelle successive, in particolare le Terme di Caracalla, che ne ripresero e ampliarono lo schema planimetrico.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="sette-sale" data-name="sette sale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Sette Sale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Le cosiddette Sette Sale sono in realtà un grande serbatoio d'acqua di età imperiale, databile all'epoca di Traiano (inizio II secolo d.C.) grazie ai bolli laterizi rinvenuti nelle murature, e collegato al complesso delle Terme di Traiano — di cui nacque parte integrante fin dall'origine, e non come struttura preesistente riadattata.</p>
+<p>Il nome "Sette Sale" deriva da un malinteso medievale: non si trattava di sale abitative, ma di un insieme di ambienti voltati che costituivano le camere di decantazione e distribuzione dell'acqua. Curiosamente, la confusione sull'identità di questi resti non finì nel Medioevo: ancora nel Cinquecento le rovine dell'intero colle Oppio venivano comunemente chiamate, per errore, "Terme di Tito" — segno di quanto fosse labile, nei secoli, la memoria esatta dei singoli monumenti sepolti sotto il colle.</p></div><div class="tab-panel"><p>Il complesso è formato da nove ambienti paralleli e voltati, disposti in fila, di cui oggi se ne vedono sette in buone condizioni (da qui il nome tradizionale). Le sale sono lunghe e strette — tra i 29 e i 40 metri, a seconda della posizione, con un andamento leggermente curvilineo nella parete orientale per ragioni statiche — coperte da volte a botte e rivestite all'interno da cocciopesto impermeabile, tipico degli impianti idraulici romani. La struttura è in realtà disposta su due livelli: quello inferiore, con altri nove ambienti voltati, ha la sola funzione di sopraelevare e sostenere il livello superiore, il vero e proprio serbatoio. L'altezza e la monumentalità delle strutture sono impressionanti, tanto da farle sembrare quasi una basilica sotterranea. La capacità complessiva del serbatoio era di circa 8 milioni di litri d'acqua.</p>
+<p>Le Sette Sale fungevano da cisterna di raccolta: convogliavano e immagazzinavano l'acqua proveniente dall'Aqua Iulia — anche se alcuni studiosi ipotizzano un ramo di acquedotto dedicato, forse appositamente deviato per l'occasione e chiamato "Aqua Traiana", come sembrerebbero indicare alcune fistule di piombo con questa scritta rinvenute nel complesso — per alimentare le imponenti Terme di Traiano. La loro posizione sul Colle Oppio, sopraelevata rispetto alle terme, consentiva di distribuire l'acqua per caduta, senza bisogno di ulteriori sistemi di pompaggio.</p></div><div class="tab-panel"><ul>
+<li>Nel Medioevo le Sette Sale furono interpretate come cripte o sotterranei misteriosi, dando origine a leggende popolari.</li>
+<li>Il luogo colpì molto i viaggiatori rinascimentali, che le visitarono credendo fossero resti di un grande edificio monumentale.</li>
+<li>Come per le Terme di Diocleziano, anche l'uso delle Sette Sale e delle Terme di Traiano cessò con il taglio degli acquedotti operato dai Goti di Vitige nel 537 d.C., durante l'assedio di Roma.</li>
+<li>Ancora oggi le volte e i corridoi conservano un fascino particolare: visitandole si percepisce la grandiosità nascosta dell'infrastruttura urbana romana.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>

@@ -2125,5 +2125,35 @@ const deepIndex = [
     "file": "arte-mosaico.html",
     "id": "evoluzione-tecnica-e-cromatica",
     "context": "Roma — Mosaico"
+  },
+  {
+    "name": "Oppio",
+    "file": "oppio.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Domus Aurea",
+    "file": "oppio.html",
+    "id": "domus-aurea",
+    "context": "Roma — Oppio"
+  },
+  {
+    "name": "Terme di Tito",
+    "file": "oppio.html",
+    "id": "terme-di-tito",
+    "context": "Roma — Oppio"
+  },
+  {
+    "name": "Terme di Traiano",
+    "file": "oppio.html",
+    "id": "terme-di-traiano",
+    "context": "Roma — Oppio"
+  },
+  {
+    "name": "Sette Sale",
+    "file": "oppio.html",
+    "id": "sette-sale",
+    "context": "Roma — Oppio"
   }
 ];
