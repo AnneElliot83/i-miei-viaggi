@@ -2101,5 +2101,29 @@ const deepIndex = [
     "file": "arte-pittura-affresco.html",
     "id": "domus-e-ville",
     "context": "Roma — Pittura e affresco"
+  },
+  {
+    "name": "Mosaico",
+    "file": "arte-mosaico.html",
+    "id": null,
+    "context": "Roma — Arte e Architettura Romana"
+  },
+  {
+    "name": "Mosaico pavimentale",
+    "file": "arte-mosaico.html",
+    "id": "mosaico-pavimentale",
+    "context": "Roma — Mosaico"
+  },
+  {
+    "name": "Mosaico parietale",
+    "file": "arte-mosaico.html",
+    "id": "mosaico-parietale",
+    "context": "Roma — Mosaico"
+  },
+  {
+    "name": "Evoluzione tecnica e cromatica",
+    "file": "arte-mosaico.html",
+    "id": "evoluzione-tecnica-e-cromatica",
+    "context": "Roma — Mosaico"
   }
 ];

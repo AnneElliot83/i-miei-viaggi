@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mosaico — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:17px;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 18px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.3rem;
+    margin:0 0 4px;
+    color:var(--text);
+  }
+  header .subtitle{
+    font-size:0.92rem;
+    font-style:italic;
+    color:var(--text-soft);
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:var(--accent);}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.78rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:760px;
+    margin:0 auto;
+    padding:14px 20px 80px;
+  }
+
+  .group{ margin:32px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:var(--text);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:var(--text);
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site.open .chev{ transform:rotate(90deg); }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.3s ease;
+  }
+  .site.open .site-body{ max-height:20000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+
+  .narrative h4{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.08rem;
+    color:var(--text);
+    margin:18px 0 7px;
+  }
+  .narrative h4:first-child{ margin-top:0; }
+  .narrative p{ margin:0 0 12px; font-size:0.98rem; }
+  .narrative p:last-child{ margin-bottom:0; }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-size:0.9rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:var(--text);
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel .tabs{ margin-top:4px; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 4px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(32,35,42,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{ opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body>
+<a class="back" href="arte-architettura-romana.html">&larr; Arte e Architettura Romana</a>
+
+<header>
+  <h1>Mosaico</h1>
+  <div class="subtitle">Arte e Architettura Romana · Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda.</p>
+
+  <div id="groups">
+    
+<section class="group" id="mosaico">
+  
+  <div class="sites-list">
+    
+  <div class="site" id="mosaico-pavimentale" data-name="mosaico pavimentale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Mosaico pavimentale</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Le tecniche: tessellatum, vermiculatum, sectile</button>
+  <button class="tab" onclick="switchTab(this)">L'evoluzione: dal policromo ellenistico al bianco e nero romano</button>
+  <button class="tab" onclick="switchTab(this)">Gerarchia sociale e funzione degli ambienti</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+
+<p>Il mosaico pavimentale romano si articola in tre tecniche principali, ciascuna con un impiego specifico. L'<strong>opus tessellatum</strong> è la tecnica "normale", quella più diffusa: tessere di dimensioni relativamente grandi (oltre i 4 mm), posate direttamente sul luogo dell'opera, adatta a coprire grandi superfici — pavimenti di ambienti di servizio, corridoi, portici, spesso in tessere bianche e nere per gli spazi meno rappresentativi.</p>
+<p>L'<strong>opus vermiculatum</strong> ("a verme", dal disegno sinuoso delle file di tessere che seguono il contorno delle figure) usa invece tessere minutissime — fino a meno di un millimetro — che permettono un dettaglio quasi pittorico, ottenuto anche con l'inserimento di pietre dure (lapislazzuli, corniola, diaspro) e paste vitree colorate. Proprio per la sua finezza, il vermiculatum veniva lavorato <strong>a parte</strong>, in bottega, su piccoli pannelli montati in cassette di terracotta o marmo — i celebri <strong>emblemata</strong> — per poi essere trasportati e incastonati al centro di un più ampio pavimento in tessellatum, lasciando appositamente uno spazio vuoto ad accoglierli.</p>
+<p>Una terza tecnica, l'<strong>opus sectile</strong>, abbandona la tessera regolare a favore di <strong>lastre di marmo e pietre pregiate tagliate a sagoma</strong>, componendo motivi decorativi come una vera e propria tarsia lapidea — un procedimento riservato, per il pregio dei materiali, agli ambienti più nobili delle case signorili.</p>
+
+</div>
+<div class="tab-panel">
+
+<p>La tradizione musiva romana eredita dall'ellenismo il gusto per il <strong>mosaico policromo figurato</strong>, che raggiunge il proprio apice tra il I secolo a.C. e la prima età imperiale, con pavimenti interamente ricoperti da grandi scene narrative — il celebre mosaico della <strong>Battaglia di Alessandro contro Dario</strong>, dalla Casa del Fauno a Pompei, ne è l'esempio più noto, probabile copia musiva di un originale pittorico ellenistico.</p>
+<p>Ma è proprio in ambiente romano che si sviluppa, accanto a questa tradizione policroma, un filone del tutto originale: il <strong>mosaico bianco e nero</strong>, impiegato anche per grandi ambienti come le terme. Tra il I e il II secolo d.C. le raffigurazioni si fanno sempre più <strong>sintetiche e stilizzate</strong>, e a questo nuovo gusto per l'astrazione corrisponde, sul piano cromatico, un progressivo alleggerimento della tavolozza che porta alla diffusione sempre più ampia del bianco e nero — non solo nei motivi geometrici, ma anche nelle scene figurate. Gli esempi più celebri di questa fase si trovano a <strong>Ostia antica</strong>, ma il gusto si diffonde in tutto il territorio dell'impero, allontanando visibilmente l'immagine musiva dalla resa naturalistica in favore di una stilizzazione più marcatamente decorativa.</p>
+
+</div>
+<div class="tab-panel">
+
+<p>La scelta della tecnica non era mai casuale, ma seguiva una precisa <strong>gerarchia sociale e funzionale</strong> degli spazi. Nelle sale di rappresentanza delle grandi domus, dove il padrone di casa riceveva ospiti e clienti, si sceglieva l'<strong>opus sectile a grande modulo</strong> o il <strong>vermiculatum policromo</strong> con soggetti figurati elaborati — persone, animali, scene complesse. Negli edifici più nobili, l'opus sectile veniva impiegato anche a <strong>piccolo modulo</strong>, quasi a imitare una tarsia marmorea di gioielleria. Nei corridoi, nei portici e negli ambienti di servizio riservati al personale, bastava invece il più economico <strong>tessellatum bianco e nero</strong> a motivi geometrici.</p>
+<p>A eseguire questi pavimenti erano artigiani specializzati, i <strong>tessellarii</strong>, mentre un tocco di curiosità va riservato a un genere particolare di mosaico pavimentale nato per i triclini: l'<strong>asàroton</strong> ("il non spazzato"), che fingeva illusionisticamente un pavimento cosparso dei resti di un banchetto — bucce, lische, gusci — un piccolo scherzo visivo di raffinato gusto ellenistico che i romani fecero proprio con evidente compiacimento.</p>
+
+</div>
+</div>
+    </div></div>
+  </div>
+
+  <div class="site" id="mosaico-parietale" data-name="mosaico parietale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Mosaico parietale</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Un'invenzione romana: nascita nei ninfei</button>
+  <button class="tab" onclick="switchTab(this)">Il materiale che cambia: pasta vitrea, conchiglie, pomice</button>
+  <button class="tab" onclick="switchTab(this)">Esempi celebri a Pompei ed Ercolano</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>A differenza del mosaico pavimentale, di lunga tradizione greca ed ellenistica, il <strong>mosaico parietale</strong> è una vera e propria <strong>invenzione romana</strong>, nata verso la fine dell'età repubblicana, nel I secolo a.C. Le sue origini si legano ai <strong>ninfei</strong>: grotte artificiali o scavate nella roccia, dedicate alle ninfe, alle Muse o a Pan, costruite attorno a una sorgente o a una fontana nei giardini delle ville più ricche. La presenza costante dell'acqua rendeva necessario un rivestimento <strong>resistente all'umidità</strong> anche sulle pareti — una necessità pratica che, cercando una soluzione, finisce per generare un genere artistico del tutto nuovo.</p>
+<p>Non a caso, il termine stesso "mosaico" nasce da questo contesto: le decorazioni dei ninfei, consacrati alle Muse, venivano chiamate <strong>opus musivum</strong> — "opera delle Muse" — da cui deriva l'italiano "mosaico". A Pompei ed Ercolano la tecnica si diffuse anche nelle <strong>esedre</strong>, grandi nicchie semicircolari o poligonali spesso ornate da fontane, diventando particolarmente di moda in <strong>età neroniana</strong>.</p>
+</div>
+<div class="tab-panel">
+<p>Se il mosaico pavimentale doveva innanzitutto resistere al calpestio, quello parietale rispondeva a un'esigenza opposta: <strong>catturare la luce e brillare</strong>, specialmente a contatto con l'acqua che ne esaltava colori e trasparenze. Da qui la scelta di materiali diversi da quelli usati a terra: al posto della pietra e del marmo, predominano la <strong>pasta vitrea</strong> policroma e il <strong>blu egizio</strong>, capaci di restituire tonalità sature e luminose impossibili da ottenere con le sole tessere lapidee.</p>
+<p>Le fasi più antiche di questa tecnica — le cosiddette "Grotte delle Muse" di fine età repubblicana — non usavano ancora affatto il vetro: erano rivestite quasi esclusivamente con <strong>conchiglie</strong> (soprattutto gusci di <em>cardium edule</em> e del murice spinoso), frammenti di <strong>calcare</strong>, <strong>pietra pomice</strong> dalla superficie ruvida, e piccole tessere di blu egiziano, il tutto allettato in un intonaco molto tenace. Solo verso la metà del I secolo a.C. si diffonde l'uso sistematico delle <strong>tessere vitree</strong>, dando origine all'opus musivum parietale propriamente detto. Le paste vitree erano materiali preziosi e costosi — al punto che, fuori dal contesto architettonico, se ne facevano perfino <strong>collane</strong> legate con l'oro.</p>
+</div>
+<div class="tab-panel">
+<p>Tra gli esempi meglio conservati, la <strong>Casa della Fontana Grande</strong> e la <strong>Casa della Fontana Piccola</strong> a Pompei conservano ninfei interi rivestiti di mosaici a pasta vitrea policroma intrecciati a conchiglie, con motivi geometrici, floreali e maschere teatrali al centro delle nicchie. Il <strong>mosaico di Nettuno e Anfitrite</strong>, nella omonima casa a Ercolano, e quello di <strong>Venere</strong> nella Casa dell'Orso a Pompei condividono una particolarità comune — l'inserimento di conchiglie vere, a richiamare visivamente il tema marino delle scene raffigurate.</p>
+<p>Un caso a parte, per fama e complessità, è il grande <strong>Mosaico nilotico di Palestrina</strong>, nel Tempio della Fortuna Primigenia (I secolo a.C.): pur trattandosi di un mosaico pavimentale e non parietale, condivide con questo filone l'uso scenografico dell'acqua — era infatti concepito per essere ammirato attraverso un velo d'acqua che ne ravvivava i colori, in un affascinante racconto per immagini della vita lungo il Nilo, tra scene di caccia, pesca, riti e banchetti.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  <div class="site" id="evoluzione-tecnica-e-cromatica" data-name="evoluzione tecnica e cromatica">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Evoluzione tecnica e cromatica</span>
+      <span class="chev">&rsaquo;</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner narrative">
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(this)">Il precursore: opus signinum</button>
+  <button class="tab" onclick="switchTab(this)">Dalla policromia ellenistica alla sintesi bianco-nero romana</button>
+  <button class="tab" onclick="switchTab(this)">IV-V secolo: verso l'astrazione geometrica tardoantica</button>
+</div>
+<div class="tab-panels">
+<div class="tab-panel active">
+<p>Prima ancora dei veri e propri mosaici a tessere, la pavimentazione romana conosce una tecnica precorritrice: l'<strong>opus signinum</strong>, il "cocciopesto" — una malta di calce mescolata a frammenti tritati di tegole e laterizi, che prende il nome dalla città di <strong>Signia</strong> (l'odierna Segni, nel Lazio), da cui proveniva l'argilla rossa impiegata nella sua composizione. Nato per ragioni pratiche — è impermeabile, e per questo ideale in ambienti umidi come terme, cisterne e acquedotti — l'opus signinum raggiunge la sua massima diffusione tra il II e il I secolo a.C., quando comincia ad arricchirsi di <strong>piccole tessere litiche bianche</strong>, distanziate tra loro a formare semplici motivi geometrici — un procedimento chiamato anche "a battuto".</p>
+<p>È un passaggio tutt'altro che marginale: proprio questi disegni lineari punteggiati, ottenuti con tessere sparse su un fondo di cocciopesto, costituiscono il <strong>primo nucleo del repertorio geometrico</strong> che confluirà, in età successiva, nella grande tradizione del mosaico bicromo bianco e nero — quella più autenticamente romana, distinta dal filone policromo di importazione ellenistica.</p>
+</div>
+<div class="tab-panel">
+<p>Come abbiamo visto affrontando il mosaico pavimentale e quello parietale, l'arco cronologico dell'arte musiva romana racconta una parabola coerente. Nella fase più antica, tra il I secolo a.C. e la prima età imperiale, domina l'eredità <strong>ellenistica</strong>: composizioni policrome, spesso figurate, con <strong>emblemata</strong> in opus vermiculatum di raffinatezza quasi pittorica, realizzati da maestranze che portano con sé anche le iconografie greche — colombe che si abbeverano, paesaggi nilotici, scene mitologiche.</p>
+<p>Con il pieno affermarsi di un gusto più propriamente romano, tra il I e il II secolo d.C., il linguaggio si fa progressivamente più <strong>sintetico e stilizzato</strong>: un percorso che, sul piano cromatico, coincide con l'ascesa del <strong>bianco e nero</strong> come linguaggio dominante — non solo nei motivi geometrici, ma anche nella resa delle figure, ormai sempre più lontane dall'illusionismo naturalistico ellenistico e sempre più vicine a un'astrazione decorativa di segno inconfondibilmente romano.</p>
+</div>
+<div class="tab-panel">
+<p>Nel corso del IV secolo, pur restando in uso la diversificazione delle tipologie musive in base alla funzione e al pregio degli ambienti, il repertorio figurativo di origine ellenistica ha ormai lasciato il posto a forme espressive <strong>pienamente romane</strong>, capaci di documentare con notevole realismo e intenso cromatismo i costumi e la vita sociale del tardo impero. Contemporaneamente, il mosaico pavimentale di questa fase finale tende sempre più a <strong>limitarsi a combinazioni geometriche e floreali stilizzate</strong>, un'evoluzione che anticipa — e in parte prepara il terreno — al linguaggio ornamentale che il mosaico erediterà nella tarda antichità e nell'arte paleocristiana e bizantina, quando il mosaico, ormai trasferito prevalentemente sulle pareti e sulle volte delle basiliche, diventerà il grande veicolo dell'iconografia religiosa cristiana.</p>
+</div>
+</div>
+
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun risultato.</p>
+</main>
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const buttons = Array.from(btn.parentElement.children).filter(el => el.classList.contains('tab'));
+  const idx = buttons.indexOf(btn);
+  buttons.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  const panels = Array.from(panelsWrap.children).filter(el => el.classList.contains('tab-panel'));
+  panels.forEach((p,i) => p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
