@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palazzo di Domiziano — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="palatino.html">← Colle Palatino</a>
+
+<header>
+  <h1>Palazzo di Domiziano</h1>
+  <div class="greek-title">Colle Palatino</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un settore del palazzo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e curiosità sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Storia</button>
+        <button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p>L'imperatore Domiziano (81-96 d.C.), ultimo della dinastia flavia, volle lasciare sul Palatino un segno inconfondibile del suo potere. Affidò all'architetto Rabirio il progetto di un complesso unitario che riunisse in sé la residenza privata, gli ambienti pubblici e gli spazi cerimoniali. I lavori iniziarono subito dopo la sua ascesa al trono nell'81 d.C., ma il palazzo fu completato e inaugurato solo nel 92 d.C. — non va quindi confusa la data di inizio dei lavori con quella, più tarda, dell'inaugurazione vera e propria. Da allora divenne la sede ufficiale degli imperatori successivi e fissò per secoli l'immagine stessa della reggia imperiale.</p>
+<p><strong>Significato storico.</strong> Con il Palazzo di Domiziano il Palatino divenne definitivamente il cuore del potere imperiale. Se la casa di Augusto aveva inaugurato questa tradizione, la residenza di Domiziano la portò a compimento, trasformando l'intera collina in un unico immenso palazzo dinastico. Nei secoli successivi gli imperatori continuarono a viverci e a modificarlo, ma fu Domiziano a stabilire il modello che rimase fino alla caduta dell'impero.</p></div>
+        <div class="tab-panel"><p>Il Palazzo di Domiziano occupava un'area vastissima del Palatino, articolandosi in due sezioni principali: la Domus Flavia, destinata alla vita pubblica e alle cerimonie ufficiali, e la Domus Augustana, riservata alla vita privata dell'imperatore e della corte — a cui si aggiungeva, sul lato orientale, lo Stadio Palatino.</p>
+<p>La Domus Flavia comprendeva la grande Aula Regia, una sala di ricevimento di dimensioni monumentali, la basilica usata per udienze e processi, e il triclinio imperiale, che poteva ospitare banchetti sontuosi in ambienti decorati con marmi policromi e fontane scenografiche. Al centro vi era un ampio peristilio con giardini e vasche, che conferiva respiro e solennità all'intero complesso. La Domus Augustana, invece, si articolava in una serie di appartamenti privati disposti su più livelli, con cortili interni, ambienti di servizio e spazi di rappresentanza più raccolti. Affacciandosi verso sud, dominava il Circo Massimo, permettendo all'imperatore di assistere alle corse direttamente dalle sue logge.</p>
+<p><strong>Funzioni.</strong> Il palazzo univa in modo unico la vita privata e quella pubblica dell'imperatore. Qui si svolgevano le udienze ufficiali, i banchetti solenni e le cerimonie di corte, ma allo stesso tempo l'imperatore e la sua famiglia vivevano negli appartamenti privati della Domus Augustana. L'architettura era concepita per rappresentare visivamente la centralità dell'imperatore: chi entrava nella Domus Flavia percepiva immediatamente la grandiosità del potere imperiale.</p></div>
+        <div class="tab-panel"><ul>
+<li>Il palazzo di Domiziano era così vasto che i suoi resti si confondono ancora oggi con quelli delle fasi successive. Nel Medioevo, parte delle sue strutture fu trasformata in orti e vigne, mentre in età moderna i Farnese vi costruirono i celebri Orti Farnesiani.</li>
+<li>Ancora oggi, passeggiando sul Palatino, si percepisce l'imponenza del progetto: le terrazze, le esedre e le scale monumentali restituiscono l'immagine di una reggia che dominava non solo la città, ma l'intero impero.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="settori-del-palazzo">
+  <h2 class="group-title">Settori del palazzo<span class="group-count">4</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="domus-flavia" data-name="domus flavia">
+    <button class="site-head" onclick="location.href='domus-flavia.html'">
+      <span class="site-name">Domus Flavia</span>
+      <span class="chev">→</span>
+    </button>
+  </div>
+
+  <div class="site" id="domus-augustana" data-name="domus augustana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus Augustana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Domus Augustana fu costruita per volontà di Domiziano (81-96 d.C.) come ala privata del suo grande palazzo sul Palatino, seconda parte a essere realizzata dopo la Domus Flavia, di cui occupa la metà orientale. Se la Domus Flavia era destinata a rappresentare la faccia pubblica e cerimoniale del potere, la Domus Augustana era invece concepita come residenza personale dell'imperatore e del suo entourage. Anche in questo caso l'architetto Rabirio progettò uno spazio che univa lusso, funzionalità e scenografia.</p>
+<p><strong>Significato storico.</strong> La Domus Augustana completava il progetto di Domiziano di trasformare il Palatino in un'unica reggia imperiale integrata. Per la prima volta, la collina non era solo un luogo di cerimonie o di culto, ma un palazzo continuo che univa il pubblico e il privato. Questo modello sarebbe stato seguito dagli imperatori successivi e consolidò l'idea che il Palatino fosse, a tutti gli effetti, la sede ufficiale del potere imperiale.</p></div><div class="tab-panel"><p>La Domus Augustana occupava i terrazzamenti meridionali del Palatino, affacciati sul Circo Massimo, sviluppandosi su due livelli per seguire il naturale dislivello della collina — la vista sul Foro Romano, spesso associata genericamente al Palatino, appartiene invece al lato opposto del colle, quello della Domus Tiberiana e degli Orti Farnesiani, già raccontati in questa guida.</p>
+<p>Il livello superiore si organizzava attorno a un peristilio con vasche d'acqua, circondato da ambienti residenziali e sale di rappresentanza più raccolte rispetto alla Domus Flavia. Il livello inferiore, visibile oggi solo dall'alto, ospitava invece un cortile quadrato un tempo circondato da un portico a due piani: al centro campeggiava una grande fontana decorata a motivo di "pelte" (scudi a forma di mezzaluna, tipici delle Amazzoni), oggi ripristinata. Sul lato nord del cortile si aprivano due grandi sale ottagonali coperte a volta, mentre a sud una grande esedra costituiva la vera e propria facciata del palazzo verso il Circo Massimo.</p>
+<p>Gli interni erano decorati con marmi policromi, affreschi e mosaici, segno del lusso imperiale, ma con un carattere più intimo e meno imponente rispetto alle sale cerimoniali della Domus Flavia. La disposizione degli spazi rifletteva l'idea di un palazzo "totale", in cui vita privata e potere politico si fondevano.</p><p><strong>Funzioni.</strong> La Domus Augustana era la vera residenza privata dell'imperatore. Qui viveva la famiglia imperiale, si svolgeva la vita quotidiana della corte, e l'imperatore poteva esercitare il potere in una dimensione più riservata. Era anche il luogo delle udienze più ristrette e degli incontri personali con dignitari o amici fidati. Allo stesso tempo, grazie alle logge affacciate sul Circo Massimo, l'imperatore poteva assistere agli spettacoli e alle corse, mostrandosi al popolo da una posizione privilegiata.</p></div><div class="tab-panel"><ul>
+<li>Oggi i resti della Domus Augustana sono tra i più suggestivi del Palatino: camminando tra i cortili, le terrazze e i giardini ricostruiti, si percepisce ancora il rapporto stretto tra la residenza e il paesaggio circostante.</li>
+<li>In età moderna, le sue rovine furono in parte trasformate in giardini rinascimentali e solo con gli scavi ottocenteschi tornarono a rivelare l'antico splendore.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="stadio-palatino" data-name="stadio palatino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Stadio Palatino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Lo Stadio Palatino fu costruito per volontà di Domiziano (81-96 d.C.), nell'ambito della grande riorganizzazione architettonica della collina realizzata dal suo architetto Rabirio: fu l'ultima parte del complesso a essere edificata, dopo la Domus Flavia e la Domus Augustana. Collocato sul lato orientale del Palatino, a un livello più basso di circa dieci metri rispetto alla Domus Flavia-Augustana a cui è addossato, lo stadio completava il vasto complesso residenziale imperiale. La sua funzione esatta resta ancora oggi oggetto di discussione tra gli studiosi.</p>
+<p><strong>Significato storico.</strong> Lo Stadio Palatino sottolinea l'ambizione di Domiziano di trasformare la sua residenza in un microcosmo autosufficiente, che includeva non solo gli ambienti pubblici e privati, ma anche spazi per il loisir, l'otium e il culto dell'imperatore. La sua forma, ispirata al circo, suggerisce l'idea di un potere che controlla e replica in scala ridotta gli spettacoli cittadini, portandoli all'interno della sfera privata imperiale.</p></div><div class="tab-panel"><p>Lo stadio presenta la tipica pianta allungata e rettangolare con l'estremità sud-occidentale semicircolare, lunga circa 160 metri e larga 48, molto simile a quella di un circo in miniatura. Le gradinate, oggi scomparse, erano disposte lungo i lati e potevano accogliere spettatori scelti, probabilmente membri della corte e ospiti imperiali.</p>
+<p>Al centro vi era un'ampia arena erbosa, circondata da un portico colonnato su almeno tre lati, che dava al complesso un aspetto solenne e scenografico. Sul lato orientale si apriva un grande padiglione absidato con copertura a calotta: interpretato in passato come tribuna d'onore dell'imperatore, gli studi più recenti lo considerano piuttosto un ninfeo o un triclinio estivo, da cui godere della vista sul giardino sottostante. I materiali utilizzati erano quelli tipici dell'età flavia — mattoni rivestiti da marmi pregiati e decorazioni di stucchi — ma la struttura fu ampiamente restaurata nei secoli successivi, prima da Adriano (che intervenne sui portici) e poi, in modo ancora più esteso, da Settimio Severo, che rinnovò radicalmente la decorazione dell'esedra orientale con raffinate pitture e un mosaico pavimentale bianco e nero.</p></div><div class="tab-panel"><p>La destinazione originaria dello Stadio Palatino è dibattuta. Alcuni lo interpretano come una vera palestra per esercizi ginnico-atletici, coerente con la passione di Domiziano per lo sport greco, che lo portò anche a costruire lo stadio in Campo Marzio (l'attuale piazza Navona). Altri studiosi lo vedono invece come un giardino monumentale, un <em>viridarium</em> o <em>hippodromus</em> decorato da aiuole, statue e fontane, destinato alle passeggiate dell'imperatore e della corte, sul modello di quelli descritti da Plinio il Giovane nelle ville private del suo tempo. Negli Atti dei Martiri, a proposito di san Sebastiano, si menziona un "Hippodromus Palatii" che alcuni studiosi identificano con questo stadio, anche se l'identificazione resta discussa e non unanimemente accettata.</p>
+<p>In epoca tardoantica, forse sotto il re ostrogoto Teodorico (fine V - inizio VI secolo), fu inserito nella metà meridionale dell'arena un piccolo recinto di forma ovale, di funzione incerta — forse un anfiteatro in miniatura, anche se l'ipotesi di un suo utilizzo per i combattimenti gladiatori appare improbabile, dato che questo tipo di spettacoli era già stato abolito da tempo. Il recinto resta ancora oggi leggibile sul terreno. Ancora oggi la struttura è tra le più riconoscibili del Palatino, tanto che molti visitatori lo confondono con un vero circo, ignorando la sua probabile funzione di giardino privato all'interno della residenza imperiale.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="casa-dei-grifi" data-name="casa dei grifi">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Casa dei Grifi</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Casa dei Grifi è un'abitazione privata su due piani risalente al tardo periodo repubblicano, costruita probabilmente già nella prima metà del II secolo a.C., con decorazioni rifatte alla fine del II e inizio del I secolo a.C. È situata sul colle Palatino, precisamente sotto l'ala settentrionale del Palazzo di Domiziano, dove oggi si colloca il Larario — la stessa area già segnalata nella scheda della Basilica della Domus Flavia. L'edificio fu riportato alla luce solo nel 1912-1915, negli scavi condotti da Giacomo Boni, e fu quasi completamente "inghiottito" dalle fondazioni delle residenze imperiali di Nerone e Domiziano: alcune sue stanze restano comunque visibili e conservano affreschi, mosaici e pavimenti che la rendono l'esempio meglio conservato di casa repubblicana su quel colle.</p>
+<p>L'identità del proprietario originario resta ignota, ma nel corso degli studi sono stati proposti diversi nomi illustri della Roma repubblicana: da Catilina a Quinto Ortensio Ortalo, da Quinto Cecilio Metello Celere alla gens Fabia, in particolare Numerio Fabio Pittore — nessuna di queste attribuzioni, però, è mai stata dimostrata con certezza.</p></div><div class="tab-panel"><p>La casa non era enorme — più che una villa era una dimora di élite urbana: su due piani, costruita inizialmente in opera incerta, poi integrata con rifacimenti in opera quasi reticolata. Le stanze principali erano al piano terra, alcune scavate parzialmente nella roccia tufacea; il piano superiore, meno visibile, era disposto attorno a un atrio con impluvio in peperino.</p>
+<p>Le decorazioni pittoriche sono particolarmente significative. Alcune stanze hanno pitture di secondo stile iniziale, con elementi architettonici illusionistici (colonnati, podi, elementi dipinti che imitano pietre dure), cornici, dentelli e motivi vegetali. Nella stanza rettangolare principale, il pavimento presenta uno degli esempi più antichi di <em>opus scutulatum</em> — un motivo decorativo a cubi prospettici, realizzato con palombino bianco, calcare marnoso verde e ardesia nera, incorniciato in marmo rosso antico — a Roma, che crea una sorta di effetto visivo di profondità. Le pareti sono decorate con pitture che imitano marmi preziosi, pannelli decorativi e motivi architettonici, ma senza le vedute paesaggistiche che si vedono più tardi. Nella decorazione compare anche lo stucco in rilievo — una lunetta con due grifi alati affrontati, di profilo, davanti a un rigoglioso cespo d'acanto — da cui la casa prende il nome.</p></div><div class="tab-panel"><ul>
+<li>Il pavimento con i cubi prospettici (opus scutulatum) fu per molto tempo considerato un caso rarissimo a Roma; è particolarmente interessante perché mostra una fase di transizione tra decorazioni che imitano elementi architettonici veri, uso di materiali di colore contrastante, effetti visivi di profondità, ma ancora senza paesaggi elaborati.</li>
+<li>Parte delle decorazioni pittoriche sono state distaccate e sono oggi conservate nell'Antiquarium del Palatino, per preservarle dall'umidità e dal degrado.</li>
+<li>Dopo un accurato restauro — comprensivo di rilievi fotogrammetrici 3D — la Casa dei Grifi ha riaperto al pubblico nel gennaio 2026, con una modalità di visita del tutto nuova: un percorso in diretta streaming in tempo reale, pensato proprio per rendere accessibili ambienti sotterranei altrimenti difficili da raggiungere per i visitatori.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>

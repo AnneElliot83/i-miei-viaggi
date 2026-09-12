@@ -2155,5 +2155,143 @@ const deepIndex = [
     "file": "oppio.html",
     "id": "sette-sale",
     "context": "Roma — Oppio"
+  },
+  {
+    "name": "Arti minori e decorative",
+    "file": "arte-minori-decorative.html",
+    "id": null,
+    "context": "Roma — Arte e Architettura Romana"
+  },
+  {
+    "name": "Glittica",
+    "file": "arte-minori-decorative.html",
+    "id": "glittica",
+    "context": "Roma — Arti minori e decorative"
+  },
+  {
+    "name": "Oreficeria",
+    "file": "arte-minori-decorative.html",
+    "id": "oreficeria",
+    "context": "Roma — Arti minori e decorative"
+  },
+  {
+    "name": "Vetro",
+    "file": "arte-minori-decorative.html",
+    "id": "vetro",
+    "context": "Roma — Arti minori e decorative"
+  },
+  {
+    "name": "Argenteria",
+    "file": "arte-minori-decorative.html",
+    "id": "argenteria",
+    "context": "Roma — Arti minori e decorative"
+  },
+  {
+    "name": "Palatino",
+    "file": "palatino.html",
+    "id": null,
+    "context": "Roma — I Colli di Roma"
+  },
+  {
+    "name": "Capanne del Palatino",
+    "file": "palatino.html",
+    "id": "capanne-del-palatino",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Tempio della Magna Mater",
+    "file": "palatino.html",
+    "id": "tempio-della-magna-mater",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Casa di Augusto",
+    "file": "palatino.html",
+    "id": "casa-di-augusto",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Casa di Livia",
+    "file": "palatino.html",
+    "id": "casa-di-livia",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Tempio di Apollo Palatino",
+    "file": "palatino.html",
+    "id": "tempio-di-apollo-palatino",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Domus Tiberiana",
+    "file": "palatino.html",
+    "id": "domus-tiberiana",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Domus Transitoria",
+    "file": "palatino.html",
+    "id": "domus-transitoria",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Domus Severiana",
+    "file": "palatino.html",
+    "id": "domus-severiana",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Septizodium",
+    "file": "palatino.html",
+    "id": "septizodium",
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Palazzo di Domiziano",
+    "file": "palazzo-di-domiziano.html",
+    "id": null,
+    "context": "Roma — Palatino"
+  },
+  {
+    "name": "Domus Augustana",
+    "file": "palazzo-di-domiziano.html",
+    "id": "domus-augustana",
+    "context": "Roma — Palazzo di Domiziano"
+  },
+  {
+    "name": "Stadio Palatino",
+    "file": "palazzo-di-domiziano.html",
+    "id": "stadio-palatino",
+    "context": "Roma — Palazzo di Domiziano"
+  },
+  {
+    "name": "Casa dei Grifi",
+    "file": "palazzo-di-domiziano.html",
+    "id": "casa-dei-grifi",
+    "context": "Roma — Palazzo di Domiziano"
+  },
+  {
+    "name": "Domus Flavia",
+    "file": "domus-flavia.html",
+    "id": null,
+    "context": "Roma — Palazzo di Domiziano"
+  },
+  {
+    "name": "Aula Regia",
+    "file": "domus-flavia.html",
+    "id": "aula-regia",
+    "context": "Roma — Domus Flavia"
+  },
+  {
+    "name": "Basilica della Domus Flavia",
+    "file": "domus-flavia.html",
+    "id": "basilica-della-domus-flavia",
+    "context": "Roma — Domus Flavia"
+  },
+  {
+    "name": "Triclinio Imperiale",
+    "file": "domus-flavia.html",
+    "id": "triclinio-imperiale",
+    "context": "Roma — Domus Flavia"
   }
 ];

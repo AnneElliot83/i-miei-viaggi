@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Domus Flavia — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="palazzo-di-domiziano.html">← Palazzo di Domiziano</a>
+
+<header>
+  <h1>Domus Flavia</h1>
+  <div class="greek-title">Palazzo di Domiziano · Palatino</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un ambiente...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e curiosità sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Storia</button>
+        <button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p>La Domus Flavia fu realizzata dall'imperatore Domiziano tra l'81 e il 92 d.C. come sezione pubblica del suo immenso palazzo sul Palatino. Affidata all'architetto Rabirio, questa parte della residenza era destinata a esprimere il volto ufficiale dell'impero, quello della maestà, della giustizia e della magnificenza. Qui l'imperatore riceveva ambasciatori, teneva udienze e celebrava cerimonie solenni: un vero teatro del potere.</p>
+<p><strong>Significato storico.</strong> La Domus Flavia fu la vera vetrina del potere flavio. Non era un semplice palazzo, ma un complesso cerimoniale studiato per affermare la centralità dell'imperatore in ogni aspetto della vita politica e sociale. La monumentalità degli spazi e la ricchezza decorativa trasmettevano l'idea di un potere assoluto, ordinato e sacralizzato. In questo senso, la Domus Flavia completava il processo iniziato con la casa di Augusto: da residenza privata a palazzo dinastico, simbolo tangibile della nuova monarchia imperiale.</p></div>
+        <div class="tab-panel"><p>La Domus Flavia era organizzata intorno a un grande peristilio rettangolare con giardini e una fontana ottagonale scenografica, attorno al quale si aprivano gli ambienti principali: a nord l'Aula Regia, a ovest la Basilica, a sud il grande triclinio imperiale, la cosiddetta Coenatio Iovis, affacciato sul peristilio stesso e, oltre un portico più arretrato, sulla vista del Circo Massimo in lontananza.</p>
+<p>L'uso di materiali pregiati — marmi provenienti da tutto l'impero, stucchi dorati, colonnati monumentali — trasformava ogni sala in un manifesto della potenza romana. L'architettura era studiata per guidare il visitatore in un percorso graduale, culminante nell'incontro con l'imperatore. Ciascuno dei tre grandi ambienti — Aula Regia, Basilica e Triclinio — ha una propria scheda dedicata qui accanto.</p></div>
+        <div class="tab-panel"><ul>
+<li>Alcuni studiosi ritengono che le sale della Domus Flavia fossero dotate di effetti scenografici d'acqua, come giochi di fontane e vasche riflettenti, che accentuavano lo splendore dei banchetti e delle cerimonie.</li>
+<li>Oggi restano visibili i resti delle grandi sale e del peristilio, che ancora impressionano per la loro scala e impostazione.</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="ambienti-della-domus-flavia">
+  <h2 class="group-title">Ambienti della Domus Flavia<span class="group-count">3</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="aula-regia" data-name="aula regia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Aula Regia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>L'Aula Regia fu progettata dall'architetto Rabirio e costruita sotto Domiziano (81-96 d.C.) come parte integrante della Domus Flavia, la sezione pubblica del palazzo imperiale. Questo ambiente era destinato a incarnare visivamente la maestà dell'imperatore: il nome stesso, <em>regia</em>, richiama la regalità e l'autorità assoluta. Non si trattava di una semplice sala di ricevimento, ma di uno spazio studiato per impressionare e intimorire chi vi entrava.</p>
+<p><strong>Funzioni.</strong> L'Aula Regia era il cuore cerimoniale del palazzo. Qui l'imperatore riceveva ambasciatori stranieri, senatori, generali e delegazioni da ogni parte dell'impero. Ogni udienza si trasformava in uno spettacolo di potere: lo spazio immenso, i materiali preziosi, la posizione elevata dell'imperatore creavano un senso di distanza e di autorità quasi divina. Era anche il luogo in cui si svolgevano cerimonie solenni, forse giuramenti o proclamazioni ufficiali, che richiedevano un contesto scenografico di eccezionale solennità.</p>
+<p><strong>Significato storico.</strong> L'Aula Regia esprimeva in architettura il concetto di monarchia imperiale assoluta. Non era più la residenza di un <em>princeps civium</em> come voleva apparire Augusto, ma la reggia di un sovrano che si mostrava come figura sacra, distante e intangibile. La sua monumentalità anticipava le grandi sale di rappresentanza dei palazzi imperiali tardoantichi e, più tardi, dei palazzi bizantini e medievali.</p></div><div class="tab-panel"><p>L'Aula Regia era un'aula colossale, di pianta rettangolare (circa 41 x 34 metri), che raggiungeva i 31,67 metri di altezza. Le pareti sui lati lunghi erano scandite da sei nicchie mistilinee per lato, incorniciate da colonnine di porfido e inserite in un colonnato su alto podio, con colonne in giallo antico e pavonazzetto e capitelli in marmo bianco. All'interno di ciascuna nicchia si ergevano statue colossali in marmo verde, alte fino a 3,9 metri, in uno stile che è stato definito il "barocco flavio": due di esse raffiguravano Ercole e Bacco. Furono scoperte negli scavi del XVIII secolo e si trovano oggi al Museo Archeologico Nazionale di Parma.</p>
+<p>Sul fondo si apriva un'abside monumentale, probabilmente sede del trono imperiale, che accentuava la centralità visiva e simbolica dell'imperatore. La copertura, forse lignea o a volta, contribuiva a dare un'acustica solenne, mentre la luce filtrava in modo calibrato dalle aperture superiori, attraverso un probabile secondo e forse terzo ordine di aperture, creando effetti scenografici che accentuavano il senso di sacralità. Tutto era studiato per comunicare l'idea che l'imperatore fosse al centro del cosmo politico e religioso.</p></div><div class="tab-panel"><ul>
+<li>Oggi dell'Aula Regia restano le poderose murature e parte delle absidi, che permettono ancora di immaginare l'effetto originario; un'iscrizione ricorda lo scavo che la riportò alla luce nel 1726.</li>
+<li>Chi entrava in quell'aula aveva la sensazione di trovarsi in un tempio del potere, più che in una sala di palazzo — un'impressione rafforzata proprio dalle statue colossali di divinità che occhieggiavano dalle pareti, a sottolineare l'identificazione dell'imperatore con il pantheon romano.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="basilica-della-domus-flavia" data-name="basilica della domus flavia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Basilica della Domus Flavia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Basilica della Domus Flavia fu costruita per volontà di Domiziano (81-96 d.C.) come parte della sezione pubblica del suo palazzo. Il termine <em>basilica</em> richiamava gli edifici civili repubblicani e imperiali, destinati alla giustizia e agli affari pubblici, ma qui assumeva una dimensione nuova: diventava la sala dove l'imperatore esercitava direttamente le sue prerogative, incarnando la suprema autorità.</p>
+<p><strong>Funzioni.</strong> La Basilica era destinata alle udienze giudiziarie e alle cerimonie ufficiali in cui l'imperatore svolgeva il ruolo di supremo arbitro della giustizia. Non era solo uno spazio amministrativo, ma un luogo in cui si manifestava la nuova forma di potere: la giustizia non era più esercitata da magistrati repubblicani, bensì direttamente dal sovrano.</p>
+<p><strong>Significato storico.</strong> La Basilica della Domus Flavia sanciva il passaggio da una gestione collegiale del potere a una giustizia centralizzata nell'imperatore. In questo senso, era uno strumento di propaganda architettonica: lo spazio stesso comunicava l'idea che l'imperatore fosse garante e custode dell'ordine universale.</p></div><div class="tab-panel"><p>L'aula aveva una pianta rettangolare, divisa in tre navate da colonnati imponenti, con un'abside monumentale sul fondo, delimitata da una balaustra marmorea. Lì probabilmente si collocava il trono imperiale, in posizione analoga a quella del magistrato o del giudice nelle basiliche civili. Le pareti erano rivestite di marmi pregiati e arricchite da statue, in linea con la sontuosità della Domus Flavia.</p></div><div class="tab-panel"><ul>
+<li>Proprio sotto il livello pavimentale della Basilica, gli scavi archeologici hanno riportato alla luce una sala absidata più antica, l'Aula Isiaca — la stessa già incontrata nella scheda della Domus Transitoria — decorata da pitture di soggetto sacro legate al culto egizio di Iside, forse fatta realizzare da Caligola.</li>
+<li>Ancora più sotto, nello stesso settore, è stata rinvenuta la Casa dei Grifi, una domus repubblicana di fine II secolo a.C.: uno strato di storia sotto l'altro, proprio nel punto in cui l'imperatore amministrava la giustizia dell'intero impero.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="triclinio-imperiale" data-name="triclinio imperiale">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Triclinio Imperiale</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Le fonti antiche lo chiamavano <strong>Coenatio Iovis</strong>, "la sala da pranzo di Giove" — un nome che già da solo dichiara l'ambizione dell'imperatore di presentarsi a tavola quasi come un dio.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il triclinio della Domus Flavia era la grande sala da banchetto del palazzo di Domiziano. In età romana il banchetto (<em>convivium</em>) aveva un valore politico e sociale altissimo: non era un semplice pasto, ma un'occasione di rappresentanza, di propaganda e di celebrazione.</p>
+<p><strong>Funzioni.</strong> Il triclinio era il cuore della vita conviviale della corte. Qui si tenevano banchetti solenni in occasione di feste dinastiche, celebrazioni di vittorie o anniversari. Gli spettacoli, i canti e le danze che accompagnavano i convivi rendevano questi momenti occasioni di esaltazione del potere imperiale.</p>
+<p><strong>Significato storico.</strong> Il triclinio imperiale rappresentava il lato "conviviale" della propaganda: mentre l'Aula Regia e la Basilica mostravano l'imperatore come sovrano e giudice, qui egli appariva come padrone generoso e garante della prosperità. Il lusso e la raffinatezza degli ambienti erano strumenti per rafforzare la legittimità del suo potere e per stupire gli ospiti stranieri.</p></div><div class="tab-panel"><p>Il triclinio imperiale si trovava sul lato meridionale del palazzo, poco più piccolo dell'Aula Regia e alto circa 29,60 metri. Si affacciava direttamente sul grande peristilio centrale della Domus Flavia, affiancato da due sale minori con fontane ovali — di cui una, quella occidentale, si è conservata, mentre oltre un portico più arretrato la vista si apriva infine sul Circo Massimo in lontananza.</p>
+<p>La sala era absidata, con pavimento in opus sectile marmoreo poggiante su un sistema di riscaldamento a ipocausto — camere sotterranee in cui circolava aria calda — che permetteva di scaldare l'ambiente dal basso nei mesi più freddi. Il primo ordine interno era scandito da alte colonne in granito rosa con capitelli corinzi, il secondo da paraste in marmo bianco. Gli ospiti cenavano sdraiati su triclini disposti in modo da avere sempre come punto focale la figura dell'imperatore, seduto nell'esedra di fondo: la disposizione architettonica era studiata per esaltare il ruolo centrale del padrone di casa, trasformando ogni banchetto in una cerimonia.</p></div><div class="tab-panel"><ul>
+<li>Alcune fonti riportano che Domiziano fosse particolarmente attento alla scenografia dei banchetti. Non è improbabile che durante i convivi venissero usati giochi d'acqua o macchinari scenici per stupire i partecipanti — un lato spettacolare che anticipa in parte le atmosfere della Domus Aurea di Nerone, ma calato in un contesto più ufficiale e cerimoniale.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>

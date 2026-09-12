@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palatino — I Miei Viaggi</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#faf8f2;
+    --bg-panel:#ffffff;
+    --line:#e3ddd0;
+    --text:#20232a;
+    --text-soft:#5c6069;
+    --accent:#8a5a1f;
+    --accent-soft:#f5ece0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Public Sans', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  a{color:inherit;}
+  .back{
+    display:block;
+    text-align:center;
+    font-size:0.85rem;
+    padding:14px 0 0;
+    color:var(--text-soft);
+    text-decoration:none;
+  }
+  .back:hover{color:var(--text);}
+  header{
+    padding:20px 24px 26px;
+    text-align:center;
+    border-bottom:1px solid var(--line);
+  }
+  header h1{
+    font-family:'Playfair Display', serif;
+    font-weight:700;
+    font-size:2.6rem;
+    margin:0 0 2px;
+    color:#1f2318;
+  }
+  header .greek-title{
+    font-style:italic;
+    color:var(--text-soft);
+    font-size:1.1rem;
+  }
+  .search-wrap{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:0 20px;
+  }
+  #search{
+    width:100%;
+    padding:13px 18px;
+    font-family:'Public Sans', sans-serif;
+    font-size:1.05rem;
+    border:1px solid var(--line);
+    border-radius:8px;
+    background:var(--bg-panel);
+    color:var(--text);
+    outline:none;
+  }
+  #search:focus{border-color:#c9c3b8;}
+
+  .pills{
+    max-width:900px;
+    margin:18px auto 0;
+    padding:0 20px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    justify-content:center;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+  .pill{
+    font-size:0.82rem;
+    padding:6px 13px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    text-decoration:none;
+    color:var(--text-soft);
+    background:var(--bg-panel);
+    white-space:nowrap;
+  }
+  .pill:hover{border-color:var(--accent);color:var(--text);}
+
+  main{
+    max-width:800px;
+    margin:0 auto;
+    padding:10px 20px 80px;
+  }
+
+  .intro{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    margin-bottom:14px;
+    overflow:hidden;
+  }
+  .intro-head{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    font-family:'Playfair Display', serif;
+    font-size:1.15rem;
+    font-weight:600;
+    color:#1f2318;
+  }
+  .intro-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+    padding:0 18px;
+  }
+  .intro.open .intro-body{
+    max-height:4000px;
+    padding:0 18px 18px;
+  }
+  .intro.open .chev, .site.open .chev{ transform:rotate(90deg); }
+  .intro-body p, .intro-body li{ margin:0 0 10px; font-size:0.98rem; }
+  .intro-body p:last-child{ margin-bottom:0; }
+
+  .group{ margin:34px 0 0; scroll-margin-top:78px; }
+  .group-title{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.4rem;
+    color:#1f2318;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .group-count{
+    font-size:0.8rem;
+    font-style:italic;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+  }
+
+  .sites-list{ display:flex; flex-direction:column; gap:8px; }
+  .site{
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:8px;
+    overflow:hidden;
+    scroll-margin-top:78px;
+  }
+  .site-head{
+    width:100%;
+    background:none;
+    border:none;
+    padding:13px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    cursor:pointer;
+    text-align:left;
+    font-family:'Public Sans', sans-serif;
+  }
+  .site-name{
+    font-family:'Playfair Display', serif;
+    font-weight:600;
+    font-size:1.12rem;
+    color:#1f2318;
+    display:flex;
+    flex-direction:column;
+  }
+  .site-greek{
+    font-style:italic;
+    font-size:0.78rem;
+    color:var(--text-soft);
+    font-family:'Public Sans', sans-serif;
+    margin-top:1px;
+  }
+  .chev{
+    color:var(--text-soft);
+    font-size:1.3rem;
+    transition:transform 0.2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .site-body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height 0.25s ease;
+  }
+  .site.open .site-body{ max-height:6000px; }
+  .site-body-inner{ padding:0 16px 16px; }
+  .etym{
+    font-style:italic;
+    font-size:0.88rem;
+    color:var(--text-soft);
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px dashed var(--line);
+  }
+
+  .tabs{
+    display:flex;
+    gap:4px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:14px;
+    flex-wrap:wrap;
+  }
+  .tab{
+    background:none;
+    border:none;
+    border-bottom:2px solid transparent;
+    padding:8px 4px 9px;
+    margin-right:14px;
+    font-family:'Public Sans', sans-serif;
+    font-weight:500;
+    font-size:0.92rem;
+    color:var(--text-soft);
+    cursor:pointer;
+  }
+  .tab.active{
+    color:#1f2318;
+    border-bottom-color:var(--accent);
+    font-weight:600;
+  }
+  .tab-panel{ display:none; }
+  .tab-panel.active{ display:block; }
+  .tab-panel p, .tab-panel li{ margin:0 0 10px; font-size:0.98rem; }
+  .tab-panel p:last-child{ margin-bottom:0; }
+
+  .note{
+    text-align:center;
+    color:var(--text-soft);
+    font-style:italic;
+    font-size:0.85rem;
+    margin:0 0 8px;
+  }
+
+  .back-to-top{
+    position:fixed;
+    bottom:22px;
+    right:18px;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:var(--bg-panel);
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    font-size:1.3rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(61,56,48,0.12);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.2s ease;
+    z-index:20;
+  }
+  .back-to-top.visible{
+    opacity:1;
+    pointer-events:auto;
+  }
+</style>
+</head>
+<body>
+
+<a class="back" href="colli-di-roma.html">← I Colli di Roma</a>
+
+<header>
+  <h1>Palatino</h1>
+  <div class="greek-title">Colle di Roma</div>
+</header>
+
+<div class="search-wrap">
+  <input type="text" id="search" placeholder="Cerca un luogo...">
+</div>
+
+<main>
+  <p class="note">Tocca un titolo per aprire la scheda. Storia, arte e leggenda sono già dentro — niente da cercare altrove.</p>
+
+  <div class="intro">
+    <button class="intro-head" onclick="toggleIntro(this)">Introduzione <span class="chev">›</span></button>
+    <div class="intro-body">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this)">Quadro storico generale</button>
+        <button class="tab" onclick="switchTab(this)">Architettura e monumenti</button>
+        <button class="tab" onclick="switchTab(this)">Curiosità</button>
+      </div>
+      <div class="tab-panels">
+        <div class="tab-panel active"><p><strong>Etimologia e significato.</strong> Il nome Palatino (<em>Palatium</em>) ha origini incerte. Una tradizione lo lega alla dea Pales, protettrice dei pastori, cui erano dedicate le feste delle Palilia, che si celebravano proprio qui. Altri studiosi fanno risalire il termine a una radice indoeuropea legata a "altura" o "recinto". Dal Palatino deriva il termine <em>palatium</em>, da cui provengono le parole moderne "palazzo", <em>palais</em>, <em>palace</em>, <em>palacio</em>: un'eredità linguistica che riflette il ruolo del colle come sede del potere imperiale.</p>
+<p><strong>Il Palatino arcaico.</strong> Il Palatino è il cuore più antico di Roma. Qui, già nel IX-VIII secolo a.C., sorsero capanne di pastori latini, i cui resti sono ancora visibili presso la cosiddetta "capanna di Romolo". Secondo la leggenda, fu proprio sul Palatino che Romolo tracciò il solco del pomerio nel 753 a.C., fondando la città. La tradizione collegava il colle alla Lupa Capitolina e alla grotta del Lupercale, luogo in cui Romolo e Remo sarebbero stati allattati. In età arcaica, il Palatino ospitava santuari di divinità agresti e protettive, tra cui quello della dea Pales e piccoli altari domestici, testimoniando la natura "sacra e fondativa" del colle.</p>
+<p><strong>Il Palatino repubblicano.</strong> Con la crescita di Roma, il Palatino divenne una delle zone residenziali più prestigiose della città. Qui sorsero le domus aristocratiche, spesso dotate di decorazioni raffinate e affacci panoramici sul Foro Romano. Celebre è la Casa dei Grifi, che conserva affreschi straordinari in stile pompeiano, testimonianza del lusso delle élite repubblicane. Sul colle si innalzarono anche importanti templi, come quello della Magna Mater (Cibele), introdotto nel 204 a.C. dopo la seconda guerra punica, che rafforzò il carattere religioso del Palatino. La fama del colle come quartiere d'élite fece sì che molti politici e uomini di potere, tra cui Cicerone, avessero qui la loro residenza.</p>
+<p><strong>Il Palatino imperiale.</strong> Con l'avvento del principato di Augusto, il Palatino assunse un ruolo nuovo e decisivo: divenne la residenza ufficiale degli imperatori. Augusto vi costruì la Casa di Augusto, accanto alla Casa di Livia, conservando una certa sobrietà ma arricchendo il colle di un fortissimo valore simbolico. Il Palatino diventava così il cuore del potere, associato alle origini leggendarie della città e al fondatore Romolo. Nerone trasformò radicalmente la zona con la Domus Transitoria e poi con la Domus Aurea, che inglobava parte del colle, creando un paesaggio artificiale di portici, laghi e padiglioni. Domiziano, nel I secolo d.C., ricostruì e ampliò gli spazi con la grandiosa Domus Flavia (funzioni pubbliche) e la Domus Augustana (residenza privata), oltre allo Stadio Palatino, che completava la scenografia imperiale. I Severi arricchirono ulteriormente il complesso con la Domus Severiana e il monumentale Septizodium. L'intero colle divenne così una cittadella imperiale, simbolo stesso dell'autorità di Roma.</p>
+<p><strong>Funzioni.</strong> Il Palatino assunse tre funzioni principali nel corso della storia: sacro, luogo della fondazione mitica e dei culti arcaici; residenziale, sede delle domus aristocratiche e poi delle residenze imperiali; politico e simbolico, cuore del potere, da cui il termine <em>palatium</em> passò a indicare il "palazzo" come sede del sovrano.</p>
+<p><strong>Significato storico.</strong> Il Palatino riassume la storia stessa di Roma: dal villaggio pastorale delle origini, alla residenza dell'aristocrazia repubblicana, fino alla cittadella imperiale che diede forma alla capitale del mondo antico. È il colle che più di ogni altro rappresenta la continuità e la stratificazione della città, intrecciando mito, religione, politica e architettura.</p></div>
+        <div class="tab-panel"><p>Il colle si sviluppò per fasi successive, ciascuna corrispondente a un momento diverso del potere romano:</p>
+<ul>
+<li><strong>Capanne del Palatino</strong>, il nucleo abitativo più antico, IX-VIII secolo a.C.</li>
+<li><strong>Tempio della Magna Mater</strong>, il grande santuario di Cibele, 204 a.C.</li>
+<li><strong>Casa di Augusto</strong> e <strong>Casa di Livia</strong>, la residenza del primo imperatore.</li>
+<li><strong>Tempio di Apollo Palatino</strong>, collegato direttamente alla residenza di Augusto.</li>
+<li><strong>Domus Tiberiana</strong>, costruita da Tiberio sul lato occidentale del colle.</li>
+<li><strong>Domus Transitoria</strong>, il primo grande progetto neroniano, poi distrutto dall'incendio del 64 d.C.</li>
+<li><strong>Palazzo di Domiziano</strong> (Domus Flavia e Domus Augustana), con lo Stadio Palatino annesso.</li>
+<li><strong>Domus Severiana</strong>, l'ultimo grande ampliamento imperiale del colle.</li>
+</ul>
+<p>Una precisazione terminologica utile: nonostante il nome, la <strong>Domus Augustana</strong> non è la casa di Augusto — è la residenza privata di Domiziano, che ne prese il nome usando "Augustus" come titolo imperiale generico ("la casa dell'Augusto", cioè del sovrano regnante), non come riferimento al primo imperatore in persona. La vera casa del primo Augusto, ben distinta e più sobria, è quella indicata come Domus Augusti o Casa di Augusto.</p></div>
+        <div class="tab-panel"><ul>
+<li>La capanna di Romolo, ricostruita più volte, fu conservata come reliquia per secoli, a dimostrazione di quanto fosse sentito il legame con le origini mitiche.</li>
+<li>La posizione dominante del colle sul Foro Romano fece del Palatino un palcoscenico naturale del potere: ogni imperatore che vi costruiva lasciava un segno della propria autorità.</li>
+<li>In età rinascimentale e barocca, il colle fu trasformato in giardino e residenza cardinalizia, perdendo l'aspetto antico ma mantenendo il suo fascino di "luogo fondatore".</li>
+</ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="groups">
+    
+<section class="group" id="monumenti-e-luoghi">
+  <h2 class="group-title">Monumenti e luoghi<span class="group-count">10</span></h2>
+  <div class="sites-list">
+    
+  <div class="site" id="capanne-del-palatino" data-name="capanne del palatino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Capanne del Palatino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p>Sul colle Palatino, cuore delle origini di Roma, gli scavi archeologici hanno riportato alla luce resti di abitazioni arcaiche che risalgono all'VIII secolo a.C. Queste capanne rappresentano una delle testimonianze più dirette dei primi villaggi che diedero vita alla città e sono tradizionalmente collegate al mito della "casa di Romolo".</p>
+<p><strong>Gli scavi archeologici.</strong> Le prime tracce vennero individuate nel 1907, quando l'archeologo Giacomo Boni estese le sue indagini dal Foro Romano al Palatino; lo scavo che riportò definitivamente alla luce le capanne fu però condotto solo nel 1946-1948 da Salvatore Maria Puglisi, nell'area del Germalo prospiciente il Tempio della Magna Mater. Gli archeologi individuarono tracce di buche di palo e di focolari, appartenenti a capanne di forma perlopiù ovale o rettangolare. Questi resti, datati all'VIII secolo a.C., coincidono con l'epoca tradizionale della fondazione di Roma (753 a.C.), rendendo affascinante il collegamento tra mito e realtà storica.</p>
+<p><strong>La vita nei primi villaggi.</strong> Le capanne erano costruite con materiali semplici: pali di legno per la struttura, pareti in argilla e tetti in paglia. Ospitavano nuclei familiari ristretti, che vivevano di agricoltura, allevamento e scambi con i villaggi vicini. La loro posizione sul Palatino non era casuale: da lì si dominava il Tevere e il guado che collegava le due sponde, un punto strategico per controllare traffici e commerci.</p>
+<p><strong>Il significato storico e simbolico.</strong> Le capanne del Palatino dimostrano che Roma non nacque come città già imponente, ma come un insieme di piccoli villaggi. L'unione di queste comunità segnò la nascita dell'Urbe. Oggi le tracce visibili sono modeste, ma hanno un valore enorme: rappresentano il punto di incontro tra la leggenda della fondazione e le reali radici archeologiche di Roma.</p></div><div class="tab-panel"><p>Le capanne si trovavano nell'angolo sud-occidentale del colle, sul cosiddetto Germalo (o Cermalo), il versante che degrada verso il Circo Massimo, nei pressi delle Scalae Caci. Le fondazioni erano ricavate direttamente nella roccia tufacea, livellata e circondata da un piccolo canale di scolo per l'acqua piovana; nel fondo venivano poi scavati i fori per i pali di legno — generalmente sei — che sostenevano la struttura, di forma non dissimile da quella tramandata dalle urne cinerarie "a capanna" tipiche della civiltà laziale del tempo.</p>
+<p><strong>La "Casa di Romolo".</strong> Tra le capanne rinvenute sul Palatino, una in particolare fu venerata dai Romani come la Capanna di Romolo (<em>Casa Romuli</em> o <em>tugurium Romuli</em>). In età repubblicana e imperiale, veniva periodicamente restaurata con materiali poveri, proprio per conservarne l'aspetto arcaico: le fonti ricordano un incendio che la danneggiò nel 38 a.C., durante una cerimonia, e un altro nel 12 a.C., ma il piccolo santuario sembra essere sopravvissuto, sempre rinnovato, fino al IV secolo d.C. Per i Romani, quella capanna era un simbolo di umiltà e semplicità, memoria delle origini modeste di una città che poi sarebbe diventata padrona del mondo.</p></div><div class="tab-panel"><p>Attorno alla Casa di Romolo circolava anche una leggenda legata agli alberi sacri del luogo, tramandata da Plutarco nella sua Vita di Romolo. Si racconta che, per dimostrare la propria forza durante la fondazione della città, Romolo avesse scagliato un'asta dalla cima dell'Aventino: il colpo fu talmente potente che la punta si conficcò profondamente nel terreno, proprio nei pressi di quella che sarebbe poi diventata l'area delle capanne palatine. Dall'asta, rimasta piantata nel suolo, germogliò un corniolo sacro, che i Romani conservarono e venerarono per secoli come reliquia vivente legata al fondatore — un albero che, come la capanna stessa, univa il mito delle origini alla realtà tangibile del luogo.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tempio-della-magna-mater" data-name="tempio della magna mater">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio della Magna Mater</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Leggenda</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il culto della Magna Mater, identificata con la dea frigia Cibele, fu introdotto a Roma il 4 aprile del 204 a.C., durante la seconda guerra punica. In quel momento critico, i Libri Sibillini furono consultati e rivelarono che la vittoria contro Annibale sarebbe giunta se il "pietroso simulacro della Madre degli Dèi" fosse stato portato a Roma. L'ambasceria romana si recò a Pessinunte, in Asia Minore, e ottenne la pietra nera che rappresentava la dea, alloggiata temporaneamente nel Tempio della Vittoria sul Palatino. Poco dopo, l'11 aprile del 191 a.C., venne dedicato — a costruzione conclusa — il Tempio della Magna Mater, proprio nel cuore simbolico della città: per la prima volta una divinità straniera veniva accolta non nella periferica Aventino, ma sul Palatino, all'interno del pomerio stesso.</p>
+<p>Il tempio bruciò due volte nella sua storia: la prima nel 111 a.C., quando fu restaurato da un Cecilio Metello (probabilmente il console Gaio Cecilio Metello Caprario), e la seconda nel 3 d.C., quando fu Augusto in persona a farlo ricostruire — un intervento coerente con la sua residenza proprio accanto al tempio, sullo stesso colle.</p></div><div class="tab-panel"><p>Il tempio sorgeva sul lato sud-ovest del Palatino, affacciato verso il Circo Massimo, tra la Domus Tiberiana e la Casa Romuli. Era un edificio prostilo esastilo (con sei colonne sulla fronte) di ordine corinzio, lungo circa 33 metri e largo 17, con un alto podio preceduto da un'ampia gradinata che occupava l'intera larghezza della facciata. Il podio oggi superstite, in blocchi irregolari di tufo e peperino, risale nella sua parte più antica alla ricostruzione successiva all'incendio dell'111 a.C.; le colonne corinzie e i frammenti del frontone, invece, appartengono al restauro augusteo del 3 d.C.</p>
+<p>All'interno si custodiva la pietra nera di Cibele, considerata la manifestazione terrena della dea e annoverata tra i sette <em>pignora imperii</em>, i pegni sacri che garantivano la sopravvivenza di Roma, insieme alle immagini della Magna Mater seduta in trono con il leone accanto, secondo l'iconografia tipica.</p></div><div class="tab-panel"><p>Il trasporto della pietra sacra da Ostia a Roma, risalendo il Tevere, non fu privo di intoppi: secondo la tradizione, la nave che la trasportava si incagliò improvvisamente in una secca del fiume, e nessuno sforzo riusciva a rimetterla in movimento. Un oracolo rivelò che solo una donna casta avrebbe potuto liberarla. Fu allora che una matrona romana di nome Claudia Quinta, accusata ingiustamente di condotta immorale, si fece avanti: legata la propria cintura alla prua della nave, la tirò da sola fino a riva, dimostrando così pubblicamente, con quel prodigio, la propria innocenza e purezza. L'episodio, tramandato tra gli altri da Ovidio nei Fasti, divenne uno dei racconti più amati legati all'arrivo della dea a Roma.</p>
+<p>Legata al tempio era anche l'istituzione dei <strong>Ludi Megalenses</strong>, i giochi scenici celebrati ogni anno dal 4 al 10 aprile in onore della dea — per cui scrissero alcune delle loro migliori commedie Plauto e Terenzio — conclusi l'11 aprile con il <em>dies natalis</em> del tempio, festeggiato con l'offerta rituale del <em>moretum</em>, una focaccia di erbe, formaggio, sale, olio e aceto.</p></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="casa-di-augusto" data-name="casa di augusto">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Casa di Augusto</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La casa non nacque, come talvolta si racconta, dopo la vittoria su Marco Antonio e Cleopatra ad Azio (31 a.C.): Ottaviano viveva già sul Palatino, dove tra l'altro era nato nel 63 a.C., e acquisì per confisca la modesta casa dell'oratore Quinto Ortensio Ortalo già nel 42 a.C., ampliandola poi con l'acquisto di altre abitazioni vicine intorno al 36 a.C. — subito dopo la vittoria navale di Nauloco contro Sesto Pompeo — anni prima ancora di ricevere il titolo di "Augusto" nel 27 a.C. Fu una scelta di continuità con le origini della città, e non un gesto compiuto da imperatore già affermato: collocarsi nel cuore delle origini di Roma, vicino alle capanne di Romolo e al Lupercale, per presentarsi come un novello fondatore.</p>
+<p>La sua casa privata divenne presto anche luogo ufficiale del potere, legando indissolubilmente la figura dell'imperatore al colle: da quel momento, tutti i successori avrebbero scelto di abitare qui, trasformando progressivamente la collina in un unico palazzo dinastico.</p></div><div class="tab-panel"><p>La Domus Augusti si sviluppava in una serie di ambienti organizzati intorno a cortili e giardini, con una parte pubblica destinata alle funzioni ufficiali e una privata riservata alla famiglia. Gli interni erano decorati da splendidi affreschi di secondo stile pompeiano, con prospettive illusionistiche, colonne dipinte e paesaggi fantastici. Non era una residenza immensa, ma raffinata e ricca di simboli: vi sorgeva, ad esempio, un sacrario domestico con l'ara dedicata ad Apollo, divinità protettrice di Augusto — un legame che sfocerà pochi anni dopo nella costruzione del grande Tempio di Apollo Palatino, direttamente collegato alla residenza.</p>
+<p><strong>Funzioni.</strong> La casa di Augusto fu al tempo stesso residenza privata e sede del potere imperiale nascente. Le stanze accoglievano ambasciatori e delegazioni, e il princeps vi prendeva decisioni politiche fondamentali. La scelta di vivere sul Palatino ribadiva l'idea che Augusto fosse il nuovo fondatore della città, un novello Romolo.</p>
+<p><strong>Significato storico.</strong> La Domus Augusti inaugurò la tradizione del Palatino come sede del potere imperiale. La semplicità della dimora augustea, in contrasto con la monumentalità delle residenze successive, esprimeva la volontà del primo imperatore di presentarsi come <em>princeps civium</em>, il "primo tra i cittadini".</p></div><div class="tab-panel"><ul>
+<li>Secondo Svetonio, Augusto dormì nella stessa camera da letto per più di quarant'anni, anche d'inverno, pur ritenendo il clima invernale di Roma poco adatto alla sua salute; quando desiderava lavorare in solitudine, si ritirava in uno studiolo al piano superiore che chiamava scherzosamente la sua "Siracusa".</li>
+<li>Quando la casa fu distrutta da un incendio e si dovette ricostruire, veterani, tribù e cittadini di ogni classe sociale offrirono spontaneamente somme di denaro per aiutare l'imperatore: Augusto, sempre secondo Svetonio, accettò da ciascuno non più di un denario, a riprova della sobrietà con cui amava presentarsi in pubblico.</li>
+<li>Gli scavi hanno restituito alcuni degli affreschi più belli dell'arte romana, oggi visibili nei percorsi di visita — tra cui la celebre "Stanza delle Maschere" — che con i loro colori vivaci e le illusioni prospettiche trasportano ancora lo spettatore nel clima culturale raffinato della Roma augustea.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="casa-di-livia" data-name="casa di livia">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Casa di Livia</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Accanto alla Domus Augusti sorge la cosiddetta Casa di Livia, attribuita alla moglie di Augusto. In realtà non sappiamo con certezza se appartenesse proprio a lei, ma la tradizione e le fonti antiche la collegano alla figura della potente imperatrice, che visse a lungo sul Palatino anche dopo la morte del marito.</p>
+<p>Le sue parti più antiche risalgono in realtà al 75-50 a.C., ben prima quindi del matrimonio tra Livia e Augusto: si trattava originariamente di un'abitazione repubblicana indipendente, forse appartenuta alla famiglia di Catulo, in seguito inglobata nel più ampio complesso della Casa di Augusto e ristrutturata intorno al 30 a.C. con la ricca decorazione pittorica ancora oggi visibile — probabilmente in quell'occasione trasformata in un appartamento riservato a Livia.</p></div><div class="tab-panel"><p>La Casa di Livia è un esempio straordinario di residenza aristocratica tardo-repubblicana, con ambienti disposti attorno a un atrio centrale. Non era enorme, ma possedeva decorazioni di altissimo livello. Gli affreschi, oggi tra i meglio conservati dell'epoca augustea, appartengono al secondo stile nella sua fase più matura e raffigurano architetture finte, giardini, ghirlande e motivi vegetali che creano l'illusione di spazi aperti.</p>
+<p><strong>Funzioni.</strong> Era una dimora privata, destinata a ospitare la vita familiare della coppia imperiale. Proprio la sua dimensione raccolta contrasta con l'idea di palazzo imperiale monumentale che si svilupperà nei secoli successivi. Livia, donna di grande influenza politica, trovava qui il luogo della sua vita domestica e della gestione familiare.</p>
+<p><strong>Significato storico.</strong> La Casa di Livia rappresenta il volto privato della dinastia giulio-claudia. Accanto alla Domus Augusti, completava l'immagine di una coppia imperiale che voleva radicarsi nel cuore di Roma, senza ostentazioni eccessive ma con un forte messaggio politico: il potere imperiale nasceva nel luogo stesso delle origini della città.</p></div><div class="tab-panel"><ul>
+<li>L'attribuzione a Livia si basa su una prova concreta: durante gli scavi ottocenteschi del 1869, condotti dall'archeologo Pietro Rosa per conto di Napoleone III, venne alla luce nel tablino una fistula plumbea — una conduttura di piombo per l'acqua — con inciso il nome "Iulia Aug(usta)", il titolo onorifico che Livia ricevette proprio dopo la morte di Augusto nel 14 d.C. Va detto, per completezza, che quello stesso nome potrebbe teoricamente riferirsi anche a un'altra Giulia della famiglia imperiale: la certezza assoluta, in casi come questo, resta impossibile.</li>
+<li>La casa conserva alcuni degli affreschi più famosi di Roma antica, come quelli con ghirlande di fiori e frutti che scendono da eleganti candelabri dipinti, interpretati come simboli di fecondità e prosperità legati al ruolo di Livia. Sono tra le opere pittoriche più raffinate giunte fino a noi e costituiscono una tappa imprescindibile nella visita al Palatino.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="tempio-di-apollo-palatino" data-name="tempio di apollo palatino">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Tempio di Apollo Palatino</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il tempio fu promesso da Ottaviano dopo la vittoria nella battaglia di Nauloco contro Sesto Pompeo (36 a.C.) e inaugurato solennemente il 9 ottobre del 28 a.C., pochi anni prima che assumesse il titolo di Augusto. L'edificio venne costruito proprio accanto alla Domus Augusti, come segno della protezione personale di Apollo sul princeps, e sorse esattamente nel punto in cui, all'interno della proprietà di Augusto, era caduto un fulmine — un evento interpretato secondo la tradizione romana come un segno divino inequivocabile, che indicò il luogo stesso della costruzione.</p>
+<p>La scelta della divinità non era casuale: Apollo era il dio della luce, della musica, della poesia e della profezia, ma anche il vendicatore e il garante dell'ordine morale. Augusto volle così presentarsi come sovrano illuminato, protetto da un dio che incarnava equilibrio e civiltà.</p>
+<p><strong>Funzioni.</strong> Il tempio era innanzitutto un santuario dedicato ad Apollo, ma aveva anche un forte valore politico. Qui vennero depositati i Libri Sibillini, trasferiti per ordine di Augusto dal tempio di Giove Capitolino, custoditi nella base stessa del gruppo di statue di culto — a sottolineare la centralità religiosa del Palatino e il legame diretto tra Augusto e la volontà divina. Il complesso divenne inoltre sede di manifestazioni culturali e letterarie: poeti come Virgilio, Orazio e Properzio celebrarono Apollo Palatino nelle loro opere, identificando il tempio come il fulcro della nuova età aurea voluta dal princeps.</p>
+<p><strong>Significato storico.</strong> Il Tempio di Apollo Palatino segnava la trasformazione definitiva del Palatino in cuore politico e religioso dell'impero. Collocato accanto alla casa privata di Augusto, creava un legame senza precedenti tra la sfera domestica e quella sacra, presentando l'imperatore come figura mediatrice tra uomini e dèi.</p></div><div class="tab-panel"><p>Il Tempio di Apollo Palatino sorgeva su un alto podio — in blocchi di tufo rivestiti di travertino — in posizione dominante su una terrazza artificiale di circa 70 per 30 metri. L'alzato vero e proprio era invece realizzato in blocchi di marmo lunense, bianchissimo, proveniente dalle cave di Luni (l'odierna Carrara): uno dei primi grandi impieghi di questo materiale a Roma. Era un tempio periptero sine postico, cioè circondato da colonne solo su tre lati, con facciata corinzia. Le porte, rivestite d'avorio, erano decorate con due scene mitologico-storiche: la cacciata dei Galli dal santuario di Delfi nel 279 a.C. — un evento storico riletto in chiave leggendaria — e la strage dei Niobidi, i figli di Niobe uccisi da Apollo e Diana per punire l'orgoglio della madre. La cella custodiva le statue di culto di Apollo (opera dello scultore greco Skopas), Diana (di Timoteo) e Latona (di Kefisodoto), rafforzando il legame con la triade divina cara al dio.</p>
+<p>Il tempio era circondato da un portico, il celebre <strong>Portico delle Danaidi</strong>, con colonne in marmo giallo antico proveniente dalle cave numidiche, tra le quali erano collocate le statue delle cinquanta figlie di Danao — punite per aver ucciso i loro mariti nella notte di nozze, simbolo di hybris femminile contrapposta alla disciplina augustea — insieme all'effigie del padre Danao con la spada sguainata e alle statue equestri dei loro cugini, i figli di Egitto. Accanto al tempio sorgeva anche una biblioteca, divisa in una sezione greca e una latina, che completava il complesso trasformandolo in un vero centro culturale — poi ricostruita in età domizianea insieme al resto del palazzo imperiale. Davanti al tempio, un altare era affiancato dalle celebri sculture della Mandria di Mirone e da una statua di Apollo in marmo greco.</p></div><div class="tab-panel"><ul>
+<li>Dell'edificio restano oggi solo poche tracce, ma la sua memoria è rimasta vivissima nelle fonti. La collocazione dei Libri Sibillini nel tempio ne fece uno dei luoghi più sacri di Roma: consultati nei momenti di crisi, rafforzavano l'idea che la nuova età augustea fosse guidata direttamente dal volere divino.</li>
+<li>Nella cella si custodiva anche una ricca collezione di gemme e sigilli, oltre a ottanta tripodi d'oro: furono realizzati fondendo le numerose statue d'argento che raffiguravano Augusto, che i cittadini romani avevano fatto erigere spontaneamente in giro per la città — un gesto con cui l'imperatore trasformò un eccesso di adulazione personale in un'offerta collettiva al dio, rafforzando ulteriormente la propria immagine di sovrano modesto.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="domus-tiberiana" data-name="domus tiberiana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus Tiberiana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Domus Tiberiana prende il nome dall'imperatore Tiberio (14-37 d.C.), successore di Augusto, che per primo volle dotarsi di una residenza monumentale sul Palatino — forse proprio nel luogo dove sorgeva la casa paterna della sua famiglia. Diversamente dal suo predecessore, che aveva scelto una casa relativamente sobria, Tiberio costruì un complesso più vasto e articolato, estendendo l'area palatina destinata all'imperatore.</p>
+<p>Nei secoli successivi la domus venne ampliata e restaurata da altri imperatori: Caligola la estese verso il Foro, Domiziano, Adriano e Settimio Severo la restaurarono e ingrandirono ulteriormente. Divenne in seguito la residenza preferita degli imperatori Antonini, che vi ospitarono anche una biblioteca e l'archivio imperiale, andati distrutti in un incendio sotto Commodo. Fu Caligola, per un singolare scherzo del destino, a trovarvi la morte: venne assassinato nel 41 d.C. proprio in un criptoportico della sua stessa Domus.</p></div><div class="tab-panel"><p>La Domus Tiberiana si trovava sul lato nord-ovest del Palatino, affacciata sul Foro Romano. L'edificio occupava una vasta terrazza artificiale sostenuta da poderosi muraglioni in opera laterizia e peperino, creando un effetto scenografico imponente visibile da tutta la valle. L'assetto originario era probabilmente sobrio, con cortili, peristili e ambienti residenziali, ma le successive ricostruzioni ne accrebbero la monumentalità, con marmi, stucchi, giardini terrazzati e logge panoramiche.</p>
+<p>Il lato orientale della domus è delimitato dal celebre <strong>Criptoportico neroniano</strong>, un corridoio semi-sotterraneo lungo circa 130 metri, costruito sotto Nerone per collegare le varie zone del palazzo imperiale: conserva ancora pavimenti a mosaico e tracce della raffinata decorazione in stucco della volta, con motivi vegetali e amorini.</p></div><div class="tab-panel"><ul>
+<li>Nel Medioevo la Domus Tiberiana fu riutilizzata come fortilizio dalla famiglia Frangipane, che sfruttò i suoi poderosi muraglioni per controllare l'accesso al Foro Romano; nell'VIII secolo aveva già ospitato come residenza anche papa Giovanni VII.</li>
+<li>Nel 1542 il cardinale Alessandro Farnese, nipote di papa Paolo III, acquistò le rovine della domus, le riempì di terra e incaricò l'architetto Jacopo Barozzi da Vignola di progettarvi un giardino: nacquero così i celebri <strong>Orti Farnesiani</strong>, tra i primi grandi giardini panoramici d'Europa, ancora oggi in gran parte visitabili sopra i resti del palazzo imperiale.</li>
+<li>Oggi la Domus Tiberiana è in fase di valorizzazione e restauro: una parte è stata recentemente riaperta al pubblico, restituendo ai visitatori la possibilità di camminare negli spazi della prima grande reggia imperiale di Roma.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="domus-transitoria" data-name="domus transitoria">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus Transitoria</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Domus Transitoria fu voluta dall'imperatore Nerone (54-68 d.C.) come residenza che collegasse i suoi possedimenti sparsi tra il Palatino e l'Esquilino. Il nome "transitoria" deriva proprio dalla funzione di "passaggio": un palazzo che univa diverse parti della città in un unico complesso monumentale. Fu costruita intorno al 60 d.C., ma venne distrutta nel grande incendio di Roma del 64, lo stesso che diede a Nerone l'occasione di concepire la Domus Aurea al suo posto — come racconta Svetonio, che ricorda come Nerone avesse fatto costruire per sé una casa che dal Palatino arrivava fino all'Esquilino, chiamandola dapprima "Transitoria", per poi ribattezzarla "Aurea" una volta ricostruita dopo l'incendio.</p>
+<p><strong>Significato storico.</strong> La Domus Transitoria fu il primo tentativo di Nerone di dare una forma architettonica al suo sogno di un palazzo imperiale universale. Anche se distrutta dall'incendio, rappresentò il passo preliminare verso la realizzazione della Domus Aurea, che avrebbe incarnato in scala ancora più grandiosa la stessa idea: la città piegata al volere dell'imperatore, trasformata in un'estensione della sua residenza.</p></div><div class="tab-panel"><p>La Domus Transitoria era un progetto ambizioso, che integrava edifici già esistenti con nuove strutture. Le fonti parlano di una residenza lussuosa, decorata con marmi policromi, stucchi dorati e affreschi raffinati, con rivestimenti in porfido e alabastro, materiali costosissimi e simbolo di potere assoluto. La pianta del complesso non è ricostruibile con precisione, ma sappiamo che comprendeva ambienti di rappresentanza, sale da banchetto e giardini collegati da portici — una commistione di architettura e paesaggio che sarà poi tipica della Domus Aurea.</p>
+<p>Il suo ambiente più celebre è un raffinato ninfeo, concepito come una scenografica <em>frons scaenae</em> teatrale, con piccole nicchie ornate da colonnine in marmo policromo da cui un tempo zampillava l'acqua in sincronia con una cascata. Di fronte si trova il triclinio, circondato da colonne di porfido, dove Nerone amava sdraiarsi tra i suoi ospiti. Questo ninfeo — riscoperto nel Settecento dai Farnese — fu a lungo chiamato erroneamente "Bagni di Livia", per via di una fistula di piombo con il nome di Augusto trovata sul posto e fraintesa; non va invece confuso con il celebre Ninfeo di Polifemo, che appartiene alla diversa e più tarda Domus Aurea sul colle Oppio. Nelle immediate vicinanze si trova comunque l'Aula Isiaca, un ambiente augusteo più antico (30-25 a.C.) inglobato nella stessa area, che conserva affreschi con il mito di Polifemo e Galatea e quello di Io sorvegliata da Argo — quest'ultimo probabilmente all'origine della confusione con il ninfeo neroniano.</p></div><div class="tab-panel"><ul>
+<li>Gli scavi hanno restituito ambienti sotterranei, in parte visitabili, dove si conservano resti di pavimenti in opus sectile e affreschi di altissima qualità, attribuiti alla stessa scuola pittorica che decorò le altre residenze neroniane — tra questi, il pavimento della grande aula a tre navate sotto la Casina Farnese è considerato uno degli esemplari più raffinati di sectilia pavimenta giunti dall'antichità romana.</li>
+<li>Nel Seicento parte degli ambienti fu inglobata negli Orti Farnesiani, e solo negli scavi e restauri più recenti — che ne hanno permesso la riapertura al pubblico — è stato possibile ricostruire la complessità del complesso, anche grazie a installazioni multimediali e ricostruzioni in realtà virtuale degli ambienti originari.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="palazzo-di-domiziano" data-name="palazzo di domiziano">
+    <button class="site-head" onclick="location.href='palazzo-di-domiziano.html'">
+      <span class="site-name">Palazzo di Domiziano</span>
+      <span class="chev">→</span>
+    </button>
+  </div>
+
+  <div class="site" id="domus-severiana" data-name="domus severiana">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Domus Severiana</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>La Domus Severiana fu edificata all'inizio del III secolo d.C. per volere dell'imperatore Settimio Severo (193-211 d.C.). Egli, proveniente da Leptis Magna in Africa, volle rafforzare la presenza della sua dinastia a Roma attraverso un ampliamento spettacolare del palazzo imperiale. L'intervento si collocava in continuità con le residenze flavie e domizianee, ma con un'impronta scenografica più marcata, che sottolineava il legame tra l'imperatore e gli spettacoli del Circo Massimo.</p>
+<p><strong>Significato storico.</strong> Con la Domus Severiana si completa la trasformazione del Palatino in un palazzo imperiale unitario, che ormai occupava tutta la collina. Non era più una somma di residenze aggiunte nel tempo, ma una reggia integrata, simbolo della centralità assoluta dell'imperatore. Questo ampliamento sancì anche l'ultima grande stagione edilizia del Palatino: dopo la dinastia severiana, nessun imperatore avrebbe più realizzato interventi di simile portata.</p></div><div class="tab-panel"><p>La Domus Severiana si estendeva sul lato meridionale e orientale del Palatino, creando una nuova terrazza artificiale che ampliava enormemente la superficie abitabile. Le strutture, ancora oggi visibili come poderosi muraglioni in laterizio, si affacciavano direttamente sul Circo Massimo, formando una facciata monumentale che impressionava chiunque entrasse a Roma da sud.</p>
+<p>Il complesso comprendeva ambienti residenziali, logge panoramiche e giardini, con un'articolazione su più livelli. Uno degli elementi più noti è il vicino Stadio Palatino, già costruito da Domiziano ma restaurato e rinnovato nell'assetto severiano — come già raccontato nella sua scheda dedicata. Probabilmente vi erano anche ambienti termali privati (le Terme Severiane), segno della raffinatezza della vita di corte.</p>
+<p><strong>Funzioni.</strong> La Domus Severiana era destinata principalmente alla vita privata e cerimoniale dell'imperatore e della sua corte. Le grandi logge che affacciavano sul Circo Massimo permettevano all'imperatore di assistere alle corse e agli spettacoli da una posizione privilegiata, consolidando così il suo legame con il popolo romano. Allo stesso tempo, la monumentalità delle nuove strutture comunicava potere e continuità dinastica, in un momento in cui l'impero era attraversato da tensioni militari e politiche.</p></div><div class="tab-panel"><ul>
+<li>Le strutture severiane sono tra le più imponenti ancora visibili: i muraglioni in laterizio danno bene l'idea della monumentalità che voleva Settimio Severo.</li>
+<li>Alcuni studiosi ritengono che il complesso includesse un sistema scenografico di giardini e ninfei, con terrazze ornate di statue e fontane.</li>
+<li>Nel Medioevo le rovine della Domus Severiana furono trasformate in vigne e fortificazioni, ma la mole degli edifici era tale da condizionare sempre la fisionomia del colle.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  <div class="site" id="septizodium" data-name="septizodium">
+    <button class="site-head" onclick="toggleSite(this)">
+      <span class="site-name">Septizodium</span>
+      <span class="chev">›</span>
+    </button>
+    <div class="site-body"><div class="site-body-inner">
+      <div class="etym">Conosciuto anche come Settizonio o Settizodio, e in forme medievali come Septifolium o Septemsoliis, il nome resta di etimologia incerta: forse da <em>septem zodia</em> ("sette segni zodiacali"), forse legato al numero dei piani, forse a un più generico modello di ninfeo monumentale attestato anche in iscrizioni africane.</div>
+      <div class="tabs"><button class="tab active" onclick="switchTab(this)">Storia</button><button class="tab" onclick="switchTab(this)">Arte &amp; Architettura</button><button class="tab" onclick="switchTab(this)">Curiosità</button></div><div class="tab-panels"><div class="tab-panel active"><p>Il Septizodium fu costruito dall'imperatore Settimio Severo nel 203 d.C., nello stesso periodo in cui ampliava la residenza imperiale con la Domus Severiana, di cui costituiva la facciata monumentale sul lato rivolto verso la via Appia. Non era un edificio residenziale, ma un monumento scenografico, concepito come una grandiosa facciata di benvenuto per chi giungeva a Roma dalla via Appia. Settimio Severo, africano di origine (nato a Leptis Magna), volle creare un'opera che riempisse di meraviglia i viaggiatori in arrivo dall'Africa, richiamando anche l'architettura monumentale della sua terra d'origine.</p>
+<p><strong>Significato storico.</strong> Il Septizodium è uno dei migliori esempi di architettura "scenografica" dell'età severiana. Non aveva una funzione pratica, ma serviva a mettere in scena il potere, trasformando l'ingresso meridionale di Roma in un grande palcoscenico. Questo approccio, molto caro a Settimio Severo, richiamava i modelli urbani di Leptis Magna e altre città africane, dove le facciate monumentali erano parte integrante del paesaggio urbano.</p></div><div class="tab-panel"><p>Il Septizodium era una facciata monumentale a più piani, lunga circa 90 metri e alta all'incirca 38, articolata in tre ordini sovrapposti di colonne e nicchie, decorate con statue di divinità — nonostante il nome suggerisca un legame col numero sette, su tutte le raffigurazioni antiche e rinascimentali del monumento, comprese le più antiche, se ne vedono soltanto tre.</p>
+<p>Non era quindi un edificio pratico o abitabile, ma un gigantesco frontescena urbano, costruito in laterizio e rivestito di marmi e decorazioni scultoree. Funzionava come un sipario architettonico, destinato a impressionare i visitatori con la grandiosità dell'impero — segnando al tempo stesso il punto di raccordo tra il Palatino e il Circo Massimo, integrando la residenza imperiale con uno degli spazi più popolari e affollati di Roma.</p></div><div class="tab-panel"><ul>
+<li>Il Septizodium sopravvisse in parte fino al Rinascimento, quando divenne una delle rovine più ammirate di Roma — nel Medioevo, inglobato nelle fortificazioni della potente famiglia Frangipane (la stessa già incontrata alla Domus Tiberiana), era conosciuto anche come "Scuola di Virgilio": la tradizione popolare voleva che qui fossero state fondate le sette arti liberali del Trivio e del Quadrivio, in un'ulteriore reinterpretazione legata al ricorrente numero sette.</li>
+<li>Nell'inverno del 1588-89 papa Sisto V ne fece demolire ciò che restava, per mano del suo architetto Domenico Fontana, riutilizzandone i pregiati materiali in numerosi cantieri della città: tra questi, le fondamenta dell'obelisco di piazza del Popolo, il restauro della Colonna Antonina (compresa la base della statua di San Paolo che la corona), le tombe di Sisto V e di Pio V in Santa Maria Maggiore, il portale del Palazzo della Cancelleria, e la facciata nord di San Giovanni in Laterano con il relativo cortile e la scalinata.</li>
+<li>Oggi, purtroppo, del monumento non resta quasi nulla se non le fondazioni e qualche traccia nel selciato, ma la sua fama era tale che molti viaggiatori medievali e rinascimentali lo ricordarono nelle loro descrizioni di Roma, e la sua immagine sopravvive in numerose vedute e incisioni dell'epoca.</li>
+</ul></div></div>
+    </div></div>
+  </div>
+
+  </div>
+</section>
+  </div>
+
+  <p class="note" id="no-results" style="display:none;">Nessun luogo trovato.</p>
+</main>
+
+
+<script>
+function toggleIntro(btn){
+  btn.parentElement.classList.toggle('open');
+}
+function toggleSite(headEl){
+  headEl.parentElement.classList.toggle('open');
+}
+function switchTab(btn){
+  const idx = Array.from(btn.parentElement.children).indexOf(btn);
+  btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const panelsWrap = btn.parentElement.nextElementSibling;
+  panelsWrap.querySelectorAll('.tab-panel').forEach((p,i)=>p.classList.toggle('active', i===idx));
+}
+
+const searchInput = document.getElementById('search');
+const allGroups = Array.from(document.querySelectorAll('.group'));
+
+searchInput.addEventListener('input', () => {
+  const f = searchInput.value.trim().toLowerCase();
+  let anyVisible = false;
+  allGroups.forEach(group => {
+    let groupHasVisible = false;
+    group.querySelectorAll('.site').forEach(site => {
+      const match = !f || site.dataset.name.includes(f);
+      site.style.display = match ? '' : 'none';
+      if (match) { groupHasVisible = true; anyVisible = true; }
+      if (f && match) site.classList.add('open'); else if (f) site.classList.remove('open');
+    });
+    group.style.display = groupHasVisible ? '' : 'none';
+  });
+  document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+});
+
+
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  backToTop.classList.toggle('visible', window.scrollY > 400);
+});
+
+// Se si arriva da un link con #, apri e scrolla alla voce giusta
+if (location.hash) {
+  const target = document.querySelector(location.hash);
+  if (target && target.classList.contains('site')) {
+    target.classList.add('open');
+    setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 150);
+  }
+}
+
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+
+<button class="back-to-top" id="backToTop" aria-label="Torna su" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+</body>
+</html>
