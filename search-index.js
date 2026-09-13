@@ -2329,5 +2329,227 @@ const deepIndex = [
     "file": "san-pietro-storia.html",
     "id": "vii-eta-contemporanea",
     "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "Lessico ed etimologia",
+    "file": "arte-grecia.html",
+    "id": "lessico-ed-etimologia",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Gli ordini architettonici",
+    "file": "arte-grecia.html",
+    "id": "gli-ordini-architettonici",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Le piante dei templi",
+    "file": "arte-grecia.html",
+    "id": "le-piante-dei-templi",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Evoluzione storica dell'architettura templare",
+    "file": "arte-grecia.html",
+    "id": "evoluzione-storica-dell-architettura-templare",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Altre tipologie edilizie",
+    "file": "arte-grecia.html",
+    "id": "altre-tipologie-edilizie",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Scultura",
+    "file": "arte-grecia.html",
+    "id": "scultura",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "I monumenti del viaggio",
+    "file": "arte-grecia.html",
+    "id": "i-monumenti-del-viaggio",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "Glossario",
+    "file": "arte-grecia.html",
+    "id": "glossario",
+    "context": "Arte Greca"
+  },
+  {
+    "name": "1. La Borgogna celtica (fino al I sec. a.C.)",
+    "file": "borgogna-storia.html",
+    "id": "1-la-borgogna-celtica-fino-al-i-sec-a-c",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "2. La Borgogna gallo-romana (I-V sec. d.C.)",
+    "file": "borgogna-storia.html",
+    "id": "2-la-borgogna-gallo-romana-i-v-sec-d-c",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "3. I Burgundi e i Merovingi (V-VIII sec.)",
+    "file": "borgogna-storia.html",
+    "id": "3-i-burgundi-e-i-merovingi-v-viii-sec",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "4. La Borgogna carolingia (IX-X sec.)",
+    "file": "borgogna-storia.html",
+    "id": "4-la-borgogna-carolingia-ix-x-sec",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "5. La grande Borgogna medievale (XI-XIII sec.)",
+    "file": "borgogna-storia.html",
+    "id": "5-la-grande-borgogna-medievale-xi-xiii-sec",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "6. La grande Borgogna ducale (1363-1477)",
+    "file": "borgogna-storia.html",
+    "id": "6-la-grande-borgogna-ducale-1363-1477",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "7. La Borgogna francese (dal 1477 a oggi)",
+    "file": "borgogna-storia.html",
+    "id": "7-la-borgogna-francese-dal-1477-a-oggi",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "Il filo conduttore",
+    "file": "borgogna-storia.html",
+    "id": "il-filo-conduttore",
+    "context": "La Borgogna in sette epoche"
+  },
+  {
+    "name": "Cluny: la nascita del primo grande ordine monastico",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "cluny-la-nascita-del-primo-grande-ordine-monastico",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "La vita interna clunyacense",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "la-vita-interna-clunyacense",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "Cîteaux: la riforma cistercense",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "citeaux-la-riforma-cistercense",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "La Carta Caritatis: la struttura federale",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "la-carta-caritatis-la-struttura-federale",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "I contrasti con Cluny",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "i-contrasti-con-cluny",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "Le regole architettoniche cistercensi",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "le-regole-architettoniche-cistercensi",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "La parabola successiva",
+    "file": "borgogna-cluny-citeaux.html",
+    "id": "la-parabola-successiva",
+    "context": "Cluny e Cîteaux"
+  },
+  {
+    "name": "Il contesto",
+    "file": "borgogna-romanico.html",
+    "id": "il-contesto",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "Le fasi",
+    "file": "borgogna-romanico.html",
+    "id": "le-fasi",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "I caratteri del secondo stile clunyacense",
+    "file": "borgogna-romanico.html",
+    "id": "i-caratteri-del-secondo-stile-clunyacense",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "La scultura",
+    "file": "borgogna-romanico.html",
+    "id": "la-scultura",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "Il contrappunto cistercense",
+    "file": "borgogna-romanico.html",
+    "id": "il-contrappunto-cistercense",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "Il declino e l'eredità",
+    "file": "borgogna-romanico.html",
+    "id": "il-declino-e-l-eredita",
+    "context": "Il romanico borgognone"
+  },
+  {
+    "name": "L'idea",
+    "file": "borgogna-climats.html",
+    "id": "l-idea",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "L'origine: i monaci",
+    "file": "borgogna-climats.html",
+    "id": "l-origine-i-monaci",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "La piramide delle classificazioni",
+    "file": "borgogna-climats.html",
+    "id": "la-piramide-delle-classificazioni",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "La frammentazione",
+    "file": "borgogna-climats.html",
+    "id": "la-frammentazione",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "La geografia: la Côte d'Or",
+    "file": "borgogna-climats.html",
+    "id": "la-geografia-la-cote-d-or",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "Cosa vedrete sul campo",
+    "file": "borgogna-climats.html",
+    "id": "cosa-vedrete-sul-campo",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "Beaune e l'Hôtel-Dieu",
+    "file": "borgogna-climats.html",
+    "id": "beaune-e-l-hotel-dieu",
+    "context": "I Climats di Borgogna"
+  },
+  {
+    "name": "L'eredità mondiale",
+    "file": "borgogna-climats.html",
+    "id": "l-eredita-mondiale",
+    "context": "I Climats di Borgogna"
   }
 ];
