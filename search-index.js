@@ -1587,12 +1587,6 @@ const deepIndex = [
     "context": "Borgogna — Approfondimento"
   },
   {
-    "name": "Storia di San Pietro",
-    "file": "san-pietro-storia.html",
-    "id": null,
-    "context": "San Pietro in Vaticano"
-  },
-  {
     "name": "Obelisco Vaticano",
     "file": "vaticano-approfondimenti.html",
     "id": "obelisco-vaticano",
@@ -2293,5 +2287,47 @@ const deepIndex = [
     "file": "domus-flavia.html",
     "id": "triclinio-imperiale",
     "context": "Roma — Domus Flavia"
+  },
+  {
+    "name": "I. Origini e Fase Romana",
+    "file": "san-pietro-storia.html",
+    "id": "i-origini-e-fase-romana",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "II. Età Tardoantica",
+    "file": "san-pietro-storia.html",
+    "id": "ii-eta-tardoantica",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "III. Medioevo",
+    "file": "san-pietro-storia.html",
+    "id": "iii-medioevo",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "IV. Rinascimento",
+    "file": "san-pietro-storia.html",
+    "id": "iv-rinascimento",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "V. Barocco",
+    "file": "san-pietro-storia.html",
+    "id": "v-barocco",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "VI. Età Moderna",
+    "file": "san-pietro-storia.html",
+    "id": "vi-eta-moderna",
+    "context": "San Pietro in Vaticano"
+  },
+  {
+    "name": "VII. Età Contemporanea",
+    "file": "san-pietro-storia.html",
+    "id": "vii-eta-contemporanea",
+    "context": "San Pietro in Vaticano"
   }
 ];
